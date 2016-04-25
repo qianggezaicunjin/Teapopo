@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.teapopo.life.viewModel.PostViewModel" />
+    </data>
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view_article"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/cardMarginVertical"
+        android:layout_marginLeft="@dimen/cardMarginHorizontal"
+        android:layout_marginRight="@dimen/cardMarginHorizontal"
+        android:layout_marginTop="@dimen/cardMarginVertical"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        app:cardPreventCornerOverlap="false"
+        app:contentPadding="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/ll_rv_item_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_user"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.getUserName}" />
+
+                    <TextView
+                        android:id="@+id/tv_articleTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.getPublishTime}"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_focus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_articleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.getArticleContent}"/>
+
+            <com.teapopo.life.view.customView.NoScrollGridView
+                android:id="@+id/gv_articleImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:horizontalSpacing="2.5dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="2.5dp" />
+
+            <LinearLayout
+                android:id="@+id/ll_rv_item_tag"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/icTag_size"
+                    android:layout_height="@dimen/icTag_size"
+                    android:background="@drawable/tag" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_rv_item_likeAndcomment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_likeornot"
+                    android:layout_width="@dimen/iclike_size"
+                    android:layout_height="@dimen/iclike_size"
+                    android:background="@drawable/dislike" />
+
+                <TextView
+                    android:id="@+id/tv_likecount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.getLikeCount}" />
+
+                <ImageView
+                    android:id="@+id/img_comment"
+                    android:layout_width="@dimen/icComment_size"
+                    android:layout_height="@dimen/icComment_size"
+                    android:background="@drawable/comment" />
+
+                <TextView
+                    android:id="@+id/tv_commentcount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.getCommentCount}" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</layout>
