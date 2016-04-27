@@ -4,7 +4,7 @@
 <data>
   <variable
       name="topArticle"
-      type="com.teapopo.life.model.TopNews"/>
+      type="com.teapopo.life.model.toparticle.TopArticle"/>
 </data>
 
     <android.support.v7.widget.CardView

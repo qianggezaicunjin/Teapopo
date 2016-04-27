@@ -17,6 +17,7 @@ import com.teapopo.life.data.DataManager;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.DialogFactory;
+import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.RecyclerViewAdapter;
 
 import butterknife.Bind;
@@ -29,13 +30,12 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/7 0007.
  */
-public class RecyclerViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RecyclerViewFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_widget)
     SwipeRefreshLayout mSwipeRefreshWidget;
 
-    private View mContentView;
     private int mPage=0;//当前的页码
     private int mPages;//总共有多少页
     private int mLastVisibleItem;//RecyclerView当前最后可见item的位置
@@ -59,21 +59,20 @@ public class RecyclerViewFragment extends Fragment implements SwipeRefreshLayout
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(mContentView==null){
-            mContentView = inflater.inflate(R.layout.fragment_recyclerview, container, false);
-        }
-        ViewGroup parent = (ViewGroup) container.getParent();
-        if(parent != null){
-            parent.removeView(mContentView);
-        }
-        ButterKnife.bind(this, mContentView);
-        setupRecyclerView();
-        loadContentsIfNetworkConnected();
-        return mContentView;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public View getmContentView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_recyclerview,container,false);
+    }
 
+    @Override
+    public void setUpView() {
+        setupRecyclerView();
+        loadContentsIfNetworkConnected();
+    }
 
 
     private void loadContentsIfNetworkConnected() {
@@ -124,7 +123,6 @@ public class RecyclerViewFragment extends Fragment implements SwipeRefreshLayout
     public void onDestroy() {
         super.onDestroy();
         mSubscriptions.unsubscribe();
-        ButterKnife.unbind(this);
     }
 
     private void setupRecyclerView() {

@@ -1,14 +1,33 @@
 package com.teapopo.life.view.activity;
 
 import android.app.FragmentManager;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import com.teapopo.life.MyApplication;
+import com.teapopo.life.injection.component.ApplicationComponent;
 
 /**
  * Created by Administrator on 2016/4/7 0007.
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
+    public ApplicationComponent getAppComponent(){
+        return MyApplication.get(this).getComponent();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        onCreateBinding();
+    }
+
+    /**
+     * 初始化数据绑定以及依赖注入
+     */
+    public abstract void onCreateBinding();
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){

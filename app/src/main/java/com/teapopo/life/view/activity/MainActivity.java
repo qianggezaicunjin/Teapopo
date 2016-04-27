@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 import com.teapopo.life.R;
+import com.teapopo.life.injection.component.DaggerMainActivityComponent;
+import com.teapopo.life.injection.component.MainActivityComponent;
+import com.teapopo.life.injection.module.ActivityModule;
+import com.teapopo.life.injection.module.MainActivityModule;
 import com.teapopo.life.view.fragment.Home.HomeFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
 
@@ -21,19 +25,29 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity {
+
+    private MainActivityComponent mMainActivityComponent;
     @Bind(android.R.id.tabhost)
-     FragmentTabHost mTabHost;
+    FragmentTabHost mTabHost;
     @DrawableRes
-    private int[] mImages= {R.drawable.icon_home_unchecked,
+    private int[] mImages = {R.drawable.icon_home_unchecked,
             R.drawable.icon_teacup_unchecked,
             R.drawable.icon_welfare_unchecked,
             R.drawable.icon_user_unchecked
     };
 
-
-    public static Intent getStartIntent(Context context){
-        return  new Intent(context,MainActivity.class);
+    /**
+     * 通过MainActivityComponent获得依赖的对象
+     * @return
+     */
+    public MainActivityComponent getMainActivityComponent() {
+        return mMainActivityComponent;
     }
+
+    public static Intent getStartIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +57,21 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onCreateBinding() {
+        mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(getAppComponent())
+                .activityModule(new ActivityModule(this))
+                .mainActivityModule(new MainActivityModule())
+                .build();
+        mMainActivityComponent.inject(this);
+    }
+
     private void setUpTabHost() {
-        mTabHost.setup(this, getSupportFragmentManager(),R.id.tab_content);
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.tab_content);
         mTabHost.getTabWidget().setDividerDrawable(null); // 去掉分割线
 
-
-
         for (int i = 0; i < mImages.length; i++) {
-            switch (mImages[i]){
+            switch (mImages[i]) {
                 case R.drawable.icon_home_unchecked:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec = mTabHost.newTabSpec("首页").setIndicator(getImageView(i));
@@ -109,6 +130,6 @@ public class MainActivity extends BaseActivity {
 //            return true;
 //        }
 //
-       return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
 import com.teapopo.life.model.PostKeyValue;
@@ -18,6 +19,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import rx.Observable;
 import rx.Scheduler;
+import timber.log.Timber;
 
 /**
  * Created by Administrator on 2016/4/7 0007.
@@ -60,6 +62,7 @@ public class DataManager {
      * @return
      */
    public Observable<Recommend> getRecommendArticle(int p){
+
        return mNetWorkService.getRecommendArticle(p);
    }
 
