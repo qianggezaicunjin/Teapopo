@@ -13,6 +13,7 @@ import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
 import com.teapopo.life.model.event.LoginClickEvent;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
+import com.teapopo.life.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by louiszgm on 2016/4/15 0015.
  * 用户的手机登陆以及注册
  */
-public class UserSignInUpFragment extends Fragment {
+public class UserSignInUpFragment extends BaseFragment {
 
     @Bind(R.id.tabs_sign_in_up)
     TabLayout mTabLayout;
@@ -42,20 +43,17 @@ public class UserSignInUpFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mViewContent == null) {
-            mViewContent = inflater.inflate(R.layout.fragment_user_sign_in_up, container, false);
-        }
-        // 缓存View判断是否含有parent, 如果有需要从parent删除, 否则发生已有parent的错误.
-        parent = (ViewGroup) mViewContent.getParent();
-        if (parent != null) {
-            parent.removeView(mViewContent);
-        }
-        ButterKnife.bind(this, mViewContent);
+    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_user_sign_in_up,container,false);
+        ButterKnife.bind(this,view);
+        return view;
+    }
+
+    @Override
+    public void setUpView() {
         setupTabLayout();
-        return mViewContent;
     }
 
 

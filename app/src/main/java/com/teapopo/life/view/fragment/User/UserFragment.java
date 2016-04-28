@@ -17,6 +17,7 @@ import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.model.event.LoginClickEvent;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
+import com.teapopo.life.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/4/18 0018.
  */
-public class UserFragment extends Fragment  {
+public class UserFragment extends BaseFragment {
     @Bind(R.id.toolbar_user)
     Toolbar mToolBar;
     @Bind(R.id.viewPager_user)
@@ -64,22 +65,17 @@ public class UserFragment extends Fragment  {
         mSubscriptions.add(msgcontentEvent.connect());
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(mViewContent==null){
-            mViewContent=inflater.inflate(R.layout.fragment_user,container,false);
-        }
-        ViewGroup viewGroup= (ViewGroup) container.getParent();
-        if(viewGroup!=null){
-            viewGroup.removeView(mViewContent);
-        }
-        ButterKnife.bind(this, mViewContent);
+    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view=inflater.inflate(R.layout.fragment_user,container,false);
+        ButterKnife.bind(this,view);
+        return view;
+    }
+
+    @Override
+    public void setUpView() {
         setupToolBar();
         setupViewPager();
-
-
-        return mViewContent;
     }
 
     private void setupViewPager() {

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.teapopo.life.R;
+import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -76,7 +77,7 @@ public class MaterialViewPagerFragment extends Fragment {
 //                    case 1:
 //                        return
                     default:
-                            return RecyclerViewFragment.newInstance();
+                            return RecommendArticleFragment.newInstance();
                 }
 
             }

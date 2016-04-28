@@ -1,9 +1,8 @@
-package com.teapopo.life.view.fragment;
+package com.teapopo.life.view.fragment.Home;
 
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,8 +16,8 @@ import com.teapopo.life.data.DataManager;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.DialogFactory;
-import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.RecyclerViewAdapter;
+import com.teapopo.life.view.fragment.BaseFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +29,7 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/7 0007.
  */
-public class RecyclerViewFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class RecommendArticleFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.recyclerView)
     RecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_widget)
@@ -44,8 +43,8 @@ public class RecyclerViewFragment extends BaseFragment implements SwipeRefreshLa
     private DataManager mDataManager;
     private CompositeSubscription mSubscriptions;
 
-    public static RecyclerViewFragment newInstance() {
-        return new RecyclerViewFragment();
+    public static RecommendArticleFragment newInstance() {
+        return new RecommendArticleFragment();
     }
 
     @Override
@@ -57,15 +56,11 @@ public class RecyclerViewFragment extends BaseFragment implements SwipeRefreshLa
 
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
-
     @Override
     public View getmContentView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_recyclerview,container,false);
+        View view = inflater.inflate(R.layout.fragment_recyclerview,container,false);
+        ButterKnife.bind(this,view);
+        return view;
     }
 
     @Override

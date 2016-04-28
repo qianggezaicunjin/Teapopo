@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSignSelectorBinding;
+import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.UserViewModel;
 
 import butterknife.Bind;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by louiszgm on 2016/4/18 0018.
  */
-public class SignSelectorFragment extends Fragment {
+public class SignSelectorFragment extends BaseFragment {
     private View mContentView;
     private FragmentSignSelectorBinding mFragmentSignSelectorBinding;
     @Bind(R.id.btn_sign_selector)
@@ -33,22 +34,15 @@ public class SignSelectorFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_sign_selector, container, false);
+        return view;
+    }
 
+    @Override
+    public void setUpView() {
 
-        if (mContentView == null) {
-            mContentView = inflater.inflate(R.layout.fragment_sign_selector, container, false);
-            mFragmentSignSelectorBinding = FragmentSignSelectorBinding.bind(mContentView);
-            mFragmentSignSelectorBinding.setUserViewModel(new UserViewModel(getActivity()));
-        }
-        ViewGroup parent = (ViewGroup) container.getParent();
-        if (parent != null) {
-            parent.removeView(mContentView);
-        }
-        ButterKnife.bind(this, mContentView);
-        return mContentView;
     }
 
     @Override

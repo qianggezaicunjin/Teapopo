@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.R;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
-import com.teapopo.life.view.fragment.RecyclerViewFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +86,7 @@ public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         mTabLayout.addTab(mTabLayout.newTab().setText(titles.get(1)));
 
         List<Fragment> fragmentList = new ArrayList<>();
-        RecyclerViewFragment recommendArticleFragment=RecyclerViewFragment.newInstance();
+        RecommendArticleFragment recommendArticleFragment= RecommendArticleFragment.newInstance();
         LikeArticleFragment likeArticleFragment=LikeArticleFragment.newInstance();
         fragmentList.add(recommendArticleFragment);
         fragmentList.add(likeArticleFragment);

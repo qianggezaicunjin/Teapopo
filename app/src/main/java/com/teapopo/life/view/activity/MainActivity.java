@@ -66,6 +66,7 @@ public class MainActivity extends BaseActivity {
         mMainActivityComponent.inject(this);
     }
 
+
     private void setUpTabHost() {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.tab_content);
         mTabHost.getTabWidget().setDividerDrawable(null); // 去掉分割线

@@ -29,7 +29,7 @@ public abstract class BaseFragment extends Fragment{
         if(parent!=null){
             parent.removeView(mContentView);
         }
-        ButterKnife.bind(this,mContentView);
+
         setUpView();
         return mContentView;
     }
@@ -37,7 +37,6 @@ public abstract class BaseFragment extends Fragment{
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ButterKnife.unbind(this);
     }
 
     /**

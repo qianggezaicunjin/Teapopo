@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
+import com.teapopo.life.view.fragment.BaseFragment;
 
 import butterknife.ButterKnife;
 
@@ -15,9 +16,9 @@ import butterknife.ButterKnife;
  * Created by louiszgm on 2016/4/18 0018.
  * 用户注册
  */
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends BaseFragment {
 
-    private View mViewContent;
+
     public static SignUpFragment newInstance(){
         return new SignUpFragment();
     }
@@ -27,17 +28,16 @@ public class SignUpFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(mViewContent==null){
-            mViewContent=inflater.inflate(R.layout.fragment_signup,container,false);
-        }
-        ViewGroup parent= (ViewGroup) container.getParent();
-        if (parent!=null){
-            parent.removeView(mViewContent);
-        }
-        ButterKnife.bind(this, mViewContent);
-        return mViewContent;
+    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_signup,container,false);
+        ButterKnife.bind(this,view);
+        return view;
+    }
+
+    @Override
+    public void setUpView() {
+
     }
 }
