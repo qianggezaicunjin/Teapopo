@@ -16,6 +16,7 @@ public class BaseRecyclerViewAdapter  <T, VH extends RecyclerView.ViewHolder> ex
 
     public Context mContext;
     public List<T> data = new ArrayList<>();
+
     public final LayoutInflater layoutInflater;
 
     public OnItemClickListener onItemClickListener;

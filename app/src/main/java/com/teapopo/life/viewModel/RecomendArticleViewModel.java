@@ -13,12 +13,12 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class PostViewModel extends BaseObservable {
+public class RecomendArticleViewModel extends BaseObservable {
     private Context mContext;
     private RecommendArticle mPost;
     private RecommendData mData;
 
-    public PostViewModel(Context context, RecommendArticle post,RecommendData data) {
+    public RecomendArticleViewModel(Context context, RecommendArticle post, RecommendData data) {
 
         this.mContext = context;
         this.mPost = post;

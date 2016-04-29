@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.teapopo.life.viewModel.PostViewModel" />
+            name="recommendArticle"
+            type="com.teapopo.life.model.recommendarticle.RecommendArticle" />
     </data>
 
 
@@ -50,13 +50,13 @@
                         android:id="@+id/tv_userName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.getUserName}" />
+                        android:text="@{recommendArticle.nickname}" />
 
                     <TextView
                         android:id="@+id/tv_articleTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{viewModel.getPublishTime}"/>
+                        android:text="用户名"/>
                 </LinearLayout>
 
                 <Button
@@ -72,7 +72,7 @@
                 android:id="@+id/tv_articleContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.getArticleContent}"/>
+                android:text="@{recommendArticle.excerpt}"/>
 
             <com.teapopo.life.view.customView.NoScrollGridView
                 android:id="@+id/gv_articleImage"
@@ -112,7 +112,7 @@
                     android:id="@+id/tv_likecount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.getLikeCount}" />
+                    android:text="@{recommendArticle.like_num}" />
 
                 <ImageView
                     android:id="@+id/img_comment"
@@ -124,7 +124,7 @@
                     android:id="@+id/tv_commentcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.getCommentCount}" />
+                    android:text="@{recommendArticle.comment_num}" />
 
             </LinearLayout>
         </LinearLayout>

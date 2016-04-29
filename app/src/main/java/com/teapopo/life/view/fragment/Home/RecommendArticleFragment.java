@@ -13,16 +13,25 @@ import android.view.ViewGroup;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
 import com.teapopo.life.data.DataManager;
+import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
+import com.teapopo.life.model.recommendarticle.ArticleImage;
 import com.teapopo.life.model.recommendarticle.Recommend;
+import com.teapopo.life.model.recommendarticle.RecommendArticle;
+import com.teapopo.life.model.recommendarticle.RecommendData;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.DialogFactory;
-import com.teapopo.life.view.adapter.recyclerview.RecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -39,7 +48,7 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
     private int mPages;//总共有多少页
     private int mLastVisibleItem;//RecyclerView当前最后可见item的位置
     private boolean mIsLoading=false;//是否正在加载
-    private RecyclerViewAdapter mAdapter;
+    private RecommendArticleAdapter mAdapter;
     private DataManager mDataManager;
     private CompositeSubscription mSubscriptions;
 
@@ -52,7 +61,7 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
         super.onCreate(savedInstanceState);
         mSubscriptions = new CompositeSubscription();
         mDataManager = MyApplication.get(getActivity()).getComponent().dataManager();
-        mAdapter = new RecyclerViewAdapter(getActivity());
+        mAdapter = new RecommendArticleAdapter(getActivity(),new ArrayList<RecommendArticle>());
 
     }
 
@@ -79,9 +88,26 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
     private void getContents() {
         Timber.d("当前的页码为:%d",mPage);
         mSubscriptions.add(mDataManager.getRecommendArticle(mPage+1)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.io())
+                        .map(new Func1<Recommend, List<RecommendArticle>>() {
+
+                            @Override
+                            public List<RecommendArticle> call(Recommend recommend) {
+                               List<RecommendArticle> lists=recommend.data.recommendArticles;
+
+                                for(int i=0;i<lists.size();i++){
+                                    RecommendArticle article = lists.get(i);
+                                    article.articleImage = getAriticleImage(article,recommend.data);
+                                    article.nickname = getArticleAuthorInfo(article,recommend.data).nickname;
+                                    article.avatarUrl = getArticleAuthorInfo(article,recommend.data).avatarUrl;
+                                    lists.set(lists.indexOf(article),article);
+                                }
+                                return lists;
+                            }
+                        })
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(mDataManager.getScheduler())
-                        .subscribe(new Subscriber<Recommend>() {
+                        .subscribe(new Subscriber<List<RecommendArticle>>() {
                             @Override
                             public void onCompleted() {
                                 boolean isMainThread= Looper.myLooper() == Looper.getMainLooper();
@@ -95,6 +121,7 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
 
                             @Override
                             public void onError(Throwable e) {
+
                                 Timber.e("There was a problem loading the article " + e);
                                 DialogFactory.createSimpleOkErrorDialog(
                                         getActivity(),
@@ -103,17 +130,52 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
                             }
 
                             @Override
-                            public void onNext(Recommend recommend) {
+                            public void onNext(List<RecommendArticle> articles) {
 
-                                mAdapter.addItem(recommend.data);
-                                mPage= recommend.page;
-                                mPages=recommend.pages;
+                                if(mAdapter==null){
+                                    mAdapter = new RecommendArticleAdapter(getActivity(),articles);
+                                }else {
+                                    mAdapter.addItem(articles);
+                                }
 
                             }
                         })
         );
     }
 
+    /**
+     * 获得文章的图片
+     * @param article
+     * @param data
+     * @return
+     */
+    private ArticleImage getAriticleImage(RecommendArticle article, RecommendData data) {
+            String articleId=article.articleId;
+        for(int i=0;i<data.articleImages.size();i++){
+            String id = data.articleImages.get(i).articleId;
+            if(articleId.equals(id)){
+                return data.articleImages.get(i);
+            }
+        }
+        return  null;
+    }
+
+    /**
+     * 获取文章的作者信息
+     * @param article
+     * @param data
+     * @return
+     */
+    private ArticleAuthorInfo getArticleAuthorInfo(RecommendArticle article, RecommendData data){
+        String authorId=article.member_id;
+        for(int i=0;i<data.articleAuthorInfos.size();i++){
+            String id = data.articleAuthorInfos.get(i).authorId;
+            if(authorId.equals(id)){
+                return data.articleAuthorInfos.get(i);
+            }
+        }
+        return null;
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -124,7 +186,6 @@ public class RecommendArticleFragment extends BaseFragment implements SwipeRefre
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter.setItems(null);
         mRecyclerView.setAdapter(mAdapter);
 
         //设置SwipeRefreshLayout
