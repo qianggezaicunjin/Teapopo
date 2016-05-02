@@ -3,64 +3,66 @@ package com.teapopo.life.viewModel;
 import android.content.Context;
 import android.databinding.BaseObservable;
 
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
 import com.teapopo.life.model.recommendarticle.RecommendArticle;
+import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.recommendarticle.RecommendData;
 import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
+import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
+import com.teapopo.life.view.customView.RequestView;
 
 import java.util.List;
+import java.util.Timer;
+
+import javax.inject.Inject;
+
+import timber.log.Timber;
 
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseObservable {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel implements RequestView<BaseEntity> {
     private Context mContext;
-    private RecommendArticle mPost;
-    private RecommendData mData;
 
-    public RecomendArticleViewModel(Context context, RecommendArticle post, RecommendData data) {
+    private RecommendArticleAdapter mAdapter;
 
+    private RecommendArticleModel mRecommendArticleModel;
+
+    @Inject
+    public RecomendArticleViewModel(Context context,RecommendArticleModel recommendArticleModel){
         this.mContext = context;
-        this.mPost = post;
-        this.mData = data;
+        this.mRecommendArticleModel = recommendArticleModel;
+
+        mAdapter = new RecommendArticleAdapter(context,getData());
+
+        mRecommendArticleModel.setView(this);
     }
 
-
-    public String getLikeCount(){
-        return String.valueOf(mPost.like_num);
+    @Override
+    public void onRequestFinished() {
+        super.onRequestFinished();
+        Timber.d("请求服务器获取推荐文章列表成功");
     }
 
-    public String getCommentCount(){
-        return String.valueOf(mPost.comment_num);
+    @Override
+    public void onRequestSuccess(List list) {
+        super.onRequestSuccess(list);
     }
 
-    public String getArticleContent(){
-        return  mPost.excerpt;
+    @Override
+    public void requestData() {
+        super.requestData();
+        mRecommendArticleModel.getContents();
     }
 
-    public String getPublishTime(){
-        return DataUtils.getStrTime(String.valueOf(mPost.publish_time));
-    }
-
-    public String getUserName() {
-        if (getMember() != null) {
-            return getMember().nickname;
-        }
-        return "无名";
-    }
-
-    public ArticleAuthorInfo getMember() {
-        String id = mPost.member_id;
-        if (mData != null) {
-            List<ArticleAuthorInfo> members = mData.articleAuthorInfos;
-            for (int i = 0; i < members.size(); i++) {
-                ArticleAuthorInfo member = members.get(i);
-                if (member.authorId.equals(id)) {
-                    return member;
-                }
+    public OnPageListener getOnPageListener() {
+        return new OnPageListener() {
+            @Override
+            public void onPage() {
+                requestData();
             }
-        }
-        return null;
+        };
     }
-
 }

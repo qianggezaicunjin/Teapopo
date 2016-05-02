@@ -2,6 +2,7 @@ package com.teapopo.life.model.recommendarticle;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.teapopo.life.model.BaseEntity;
 
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by louiszgm on 2016/4/23.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class RecommendArticle {
+public class RecommendArticle extends BaseEntity{
 
     public String browse_num;
 
