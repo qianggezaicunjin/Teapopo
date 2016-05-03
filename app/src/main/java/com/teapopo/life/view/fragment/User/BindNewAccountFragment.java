@@ -28,7 +28,12 @@ public class BindNewAccountFragment extends BaseFragment {
     }
 
     @Override
-    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreateBinding(LayoutInflater inflater) {
+
+    }
+
+    @Override
+    public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bindnewaccount,container,false);
         ButterKnife.bind(this,view);
         return view;

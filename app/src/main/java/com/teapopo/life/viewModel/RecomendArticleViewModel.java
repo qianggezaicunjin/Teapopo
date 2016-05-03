@@ -23,10 +23,10 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel implements RequestView<BaseEntity> {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<BaseEntity> {
     private Context mContext;
 
-    private RecommendArticleAdapter mAdapter;
+    public RecommendArticleAdapter mAdapter;
 
     private RecommendArticleModel mRecommendArticleModel;
 
@@ -38,12 +38,15 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel implements R
         mAdapter = new RecommendArticleAdapter(context,getData());
 
         mRecommendArticleModel.setView(this);
+        requestData();
     }
 
+    public RecommendArticleAdapter getAdapter(){
+        return mAdapter;
+    }
     @Override
     public void onRequestFinished() {
         super.onRequestFinished();
-        Timber.d("请求服务器获取推荐文章列表成功");
     }
 
     @Override

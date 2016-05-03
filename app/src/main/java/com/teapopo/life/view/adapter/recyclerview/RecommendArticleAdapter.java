@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.recommendarticle.ArticleImage;
 import com.teapopo.life.model.recommendarticle.RecommendArticle;
 import com.teapopo.life.model.recommendarticle.RecommendData;
@@ -27,7 +28,7 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/7 0007.
  */
-public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<RecommendArticle, RecommendArticleAdapter.RecommendArticleViewHolder> {
+public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity, RecommendArticleAdapter.RecommendArticleViewHolder> {
 
 
     private RecommendData mContents;
@@ -39,7 +40,7 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<RecommendAr
     static final int TYPE_CELL = 1;
     static final int TYPE_FOOTER=2;
 
-    public RecommendArticleAdapter(Context context,List<RecommendArticle> data) {
+    public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
         super(context,data);
         this.mContext=context;
         this.mImages = new ArrayList<>();
@@ -102,7 +103,7 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<RecommendAr
                 break;
             case TYPE_CELL:
                     //这里实际的文章所在的位置=position-1,减去头布局
-                      RecommendArticle post=data.get(position-1);
+                      RecommendArticle post= (RecommendArticle) data.get(position-1);
                       mImageUrls=post.articleImage.articleImageUrls;
                       holder.setArticle(post);
                     ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;

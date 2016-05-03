@@ -2,6 +2,7 @@ package com.teapopo.life.injection.component;
 
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.MainActivityModule;
+import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.activity.MainActivity;
 
@@ -16,5 +17,5 @@ public interface MainActivityComponent {
 
     void inject(MainActivity mainActivity);
 
-    RecommendArticleFragmentComponent recommendArticleFragment();
+    RecommendArticleFragmentComponent recommendArticleFragment(RecommendArticleFragmentModule recommendArticleFragmentModule);
 }

@@ -9,6 +9,8 @@ import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by louiszgm-pc on 2016/5/2.
  */
@@ -17,14 +19,16 @@ public class DBRecyclerView {
 
     public static int HIDE_FOOTER = 1;
 
-    @BindingAdapter({"adapter"})
+    @BindingAdapter({"bind:adapter"})
     public static void bindAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
+        Timber.d("设置recyclerview的adapter");
         recyclerView.setAdapter(adapter);
         recyclerView.setPageFooter(R.layout.layout_loading_footer);
     }
 
-    @BindingAdapter({"data"})
+    @BindingAdapter({"bind:data"})
     public static void bindData(SuperRecyclerView recyclerView, List<BaseEntity> data) {
+        Timber.d("recyclerview的数据集改变");
         recyclerView.notifyDataSetChanged();
         recyclerView.setIsLoading(false);
     }

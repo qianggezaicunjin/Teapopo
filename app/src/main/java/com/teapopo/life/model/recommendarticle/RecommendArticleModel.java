@@ -21,7 +21,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm-pc on 2016/5/2.
  */
-public class RecommendArticleModel {
+public class RecommendArticleModel  {
     private DataManager mDataManager;
     private Context mContext;
     private int mPage = 0;
@@ -38,7 +38,9 @@ public class RecommendArticleModel {
     public void getContents(){
         getContents(mPage);
     }
+
     public void getContents(int page) {
+        Timber.d("请求第几页数据%d",page);
         mDataManager.getRecommendArticle(page+1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())

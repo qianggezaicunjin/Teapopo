@@ -28,9 +28,14 @@ public class SignUpFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onCreateBinding(LayoutInflater inflater) {
+
+    }
+
 
     @Override
-    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_signup,container,false);
         ButterKnife.bind(this,view);
         return view;

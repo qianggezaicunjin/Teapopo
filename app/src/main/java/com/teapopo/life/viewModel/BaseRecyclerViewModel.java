@@ -8,6 +8,8 @@ import com.teapopo.life.BR;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by louiszgm-pc on 2016/5/2.
  */
@@ -63,6 +65,8 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
         }
 
         data.addAll(list);
+        Timber.d("请求服务器成功后的data大小为:%d",data.size());
+
         notifyPropertyChanged(BR.data);
     }
 }

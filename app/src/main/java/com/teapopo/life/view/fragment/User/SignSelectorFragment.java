@@ -35,7 +35,12 @@ public class SignSelectorFragment extends BaseFragment {
     }
 
     @Override
-    public View getmContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreateBinding(LayoutInflater inflater) {
+
+    }
+
+    @Override
+    public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_selector, container, false);
         return view;
     }

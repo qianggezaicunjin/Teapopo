@@ -11,9 +11,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:adapter="@{recommendArticleViewModel.mAdapter}"
+        app:data="@{recommendArticleViewModel.data}"
+        app:onPageListener="@{recommendArticleViewModel.getOnPageListener()}"
+        />
 </android.support.v4.widget.SwipeRefreshLayout>
  </layout>

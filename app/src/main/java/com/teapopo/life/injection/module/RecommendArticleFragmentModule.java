@@ -1,6 +1,9 @@
 package com.teapopo.life.injection.module;
 
+import android.content.Context;
+
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
@@ -12,10 +15,15 @@ import dagger.Provides;
  */
 @Module
 public class RecommendArticleFragmentModule {
+    private Context mContext;
+
+    public RecommendArticleFragmentModule(Context context){
+        this.mContext = context;
+    }
 
     @Provides
     @PerActivity
     RecomendArticleViewModel provideRecommendArticleViewModel(){
-        return new RecomendArticleViewModel();
+        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext));
     }
 }

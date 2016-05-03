@@ -1,7 +1,7 @@
 package com.teapopo.life.view.fragment.Home;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,30 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
-import com.teapopo.life.data.DataManager;
-import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
-import com.teapopo.life.model.recommendarticle.ArticleImage;
-import com.teapopo.life.model.recommendarticle.Recommend;
-import com.teapopo.life.model.recommendarticle.RecommendArticle;
-import com.teapopo.life.model.recommendarticle.RecommendData;
-import com.teapopo.life.util.DataUtils;
-import com.teapopo.life.util.DialogFactory;
+import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
+import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
 import com.teapopo.life.view.activity.MainActivity;
-import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -47,7 +34,8 @@ public class RecommendArticleFragment extends BaseFragment {
     SwipeRefreshLayout mSwipeRefreshWidget;
 
     private CompositeSubscription mSubscriptions;
-    private RecomendArticleViewModel mRecomendArticleViewModel;
+    @Inject
+    RecomendArticleViewModel mRecomendArticleViewModel;
 
     public static RecommendArticleFragment newInstance() {
         return new RecommendArticleFragment();
@@ -57,18 +45,26 @@ public class RecommendArticleFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSubscriptions = new CompositeSubscription();
-        if(getActivity() instanceof MainActivity){
-
-        }
     }
-
     @Override
-    public View getmContentView(LayoutInflater inflater,@Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recyclerview,container,false);
+    public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_recommendarticle,container,false);
         ButterKnife.bind(this,view);
         return view;
     }
-
+    @Override
+    public void onCreateBinding(LayoutInflater inflater) {
+        if(getActivity() instanceof MainActivity){
+            ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(getActivity())).inject(this);
+        }
+        if(mRecomendArticleViewModel!=null){
+            Timber.d("viewmodel不为空");
+        }else {
+            Timber.d("viewmodel为空");
+        }
+        FragmentRecommendarticleBinding binding = FragmentRecommendarticleBinding.inflate(inflater);
+        binding.setRecommendArticleViewModel(mRecomendArticleViewModel);
+    }
     @Override
     public void setUpView() {
         setupRecyclerView();
