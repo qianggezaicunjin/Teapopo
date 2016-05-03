@@ -35,14 +35,12 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     private List<RecommendArticle> mPosts;//文章列表
     private List<ArticleImage> mImages;//一篇文章对应的图片的列表
     private List<String> mImageUrls;
-    private Context mContext;
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
     static final int TYPE_FOOTER=2;
 
     public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
         super(context,data);
-        this.mContext=context;
         this.mImages = new ArrayList<>();
     }
 

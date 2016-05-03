@@ -26,7 +26,7 @@ import timber.log.Timber;
 public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<BaseEntity> {
     private Context mContext;
 
-    public RecommendArticleAdapter mAdapter;
+    private RecommendArticleAdapter mAdapter;
 
     private RecommendArticleModel mRecommendArticleModel;
 
@@ -34,10 +34,10 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public RecomendArticleViewModel(Context context,RecommendArticleModel recommendArticleModel){
         this.mContext = context;
         this.mRecommendArticleModel = recommendArticleModel;
-
+        mRecommendArticleModel.setView(this);
         mAdapter = new RecommendArticleAdapter(context,getData());
 
-        mRecommendArticleModel.setView(this);
+
         requestData();
     }
 

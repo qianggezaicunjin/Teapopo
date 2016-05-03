@@ -14,6 +14,7 @@ import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
 import com.teapopo.life.view.activity.MainActivity;
+import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
@@ -29,7 +30,7 @@ import timber.log.Timber;
  */
 public class RecommendArticleFragment extends BaseFragment {
     @Bind(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    SuperRecyclerView mRecyclerView;
     @Bind(R.id.swipe_refresh_widget)
     SwipeRefreshLayout mSwipeRefreshWidget;
 
@@ -80,9 +81,7 @@ public class RecommendArticleFragment extends BaseFragment {
     }
 
     private void setupRecyclerView() {
-        final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+
 
         //设置SwipeRefreshLayout
         // 这句话是为了，第一次进入页面的时候显示加载进度条
