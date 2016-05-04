@@ -20,7 +20,7 @@ public class DBRecyclerView {
     public static int HIDE_FOOTER = 1;
 
     @BindingAdapter({"adapter"})
-    public static void bindAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
+    public static void setAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
         Timber.d("设置recyclerview的adapter");
         recyclerView.setAdapter(adapter);
         recyclerView.setPageFooter(R.layout.layout_loading_footer);

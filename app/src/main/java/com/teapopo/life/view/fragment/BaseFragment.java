@@ -27,11 +27,11 @@ public abstract class BaseFragment extends Fragment{
         if(parent!=null){
             parent.removeView(mContentView);
         }
-        onCreateBinding(inflater);
+        onCreateBinding(mContentView);
         setUpView();
         return mContentView;
     }
-    public abstract void onCreateBinding(LayoutInflater inflater);
+    public abstract void onCreateBinding(View contentView);
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -12,7 +12,7 @@
     android:layout_height="match_parent">
 
     <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_recommendarticle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:adapter="@{recommendArticleViewModel.getAdapter()}"

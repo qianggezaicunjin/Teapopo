@@ -44,7 +44,7 @@ public class UserSignInUpFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreateBinding(LayoutInflater inflater) {
+    public void onCreateBinding(View contentview) {
 
     }
 

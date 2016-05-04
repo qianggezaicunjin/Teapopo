@@ -35,7 +35,7 @@ public class SignSelectorFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreateBinding(LayoutInflater inflater) {
+    public void onCreateBinding(View contentview) {
 
     }
 
