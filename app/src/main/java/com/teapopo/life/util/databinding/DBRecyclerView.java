@@ -5,6 +5,7 @@ import android.databinding.BindingAdapter;
 import com.teapopo.life.R;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.customView.RecyclerView.OnTopPageListener;
 import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
 import java.util.List;
@@ -21,16 +22,10 @@ public class DBRecyclerView {
 
     @BindingAdapter({"adapter"})
     public static void setAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
-        Timber.d("设置recyclerview的adapter");
-        if(adapter.data.size()>0){
-            Timber.d("adapter数据集不为0");
-        }
         recyclerView.setAdapter(adapter);
     }
-
     @BindingAdapter({"data"})
     public static void bindData(SuperRecyclerView recyclerView, List<BaseEntity> data) {
-        Timber.d("recyclerview的数据集改变");
         recyclerView.notifyDataSetChanged();
         recyclerView.setIsLoading(false);
     }

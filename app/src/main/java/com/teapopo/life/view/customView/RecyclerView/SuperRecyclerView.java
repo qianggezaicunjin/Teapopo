@@ -11,9 +11,6 @@ import android.view.View;
 
 import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.recyclerview.DecorateRecyclerViewAdapter;
-import com.teapopo.life.view.customView.LinearRecyclerView;
-
-import timber.log.Timber;
 
 /**
  * A super recycler view that has implemented paging at bottom, paging at top, adding header and adding footer.

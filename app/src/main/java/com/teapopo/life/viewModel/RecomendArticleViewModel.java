@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
@@ -11,6 +12,7 @@ import com.teapopo.life.model.recommendarticle.RecommendData;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
+import com.teapopo.life.view.customView.RecyclerView.OnTopPageListener;
 import com.teapopo.life.view.customView.RequestView;
 
 import java.util.List;
@@ -49,11 +51,20 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         mRecommendArticleModel.getContents();
     }
 
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener(){
+        return new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Timber.d("onRefresh");
+                getData().clear();
+                requestData();
+            }
+        };
+    }
     public OnPageListener getOnPageListener() {
         return new OnPageListener() {
             @Override
             public void onPage() {
-                Timber.d("OnPageListener");
                 requestData();
             }
         };

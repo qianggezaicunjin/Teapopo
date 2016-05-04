@@ -1,4 +1,4 @@
-package com.teapopo.life.view.customView;
+package com.teapopo.life.view.customView.RecyclerView;
 
 /**
  * Created by louiszgm-pc on 2016/5/2.

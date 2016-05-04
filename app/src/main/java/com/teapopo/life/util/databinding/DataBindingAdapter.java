@@ -13,4 +13,8 @@ public class DataBindingAdapter {
     public static void isLoading(SwipeRefreshLayout swipeRefreshLayout, boolean isLoading) {
         swipeRefreshLayout.setRefreshing(isLoading);
     }
+    @BindingAdapter({"onRefreshListener"})
+    public static void setsetOnRefreshListener(SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener listener){
+        swipeRefreshLayout.setOnRefreshListener(listener);
+    }
 }
