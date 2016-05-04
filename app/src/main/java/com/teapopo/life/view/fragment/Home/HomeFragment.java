@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.R;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
+import com.teapopo.life.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
  * Created by louiszgm on 2016/4/12 0012.
  * 首页
  */
-public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickListener {
+public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClickListener {
     @Bind(R.id.toolbar_home)
     Toolbar mToolbar;
     @Bind(R.id.tabs)
@@ -45,21 +46,21 @@ public class HomeFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (mViewContent == null) {
-            mViewContent = inflater.inflate(R.layout.fragment_home, container, false);
-        }
-        // 缓存View判断是否含有parent, 如果有需要从parent删除, 否则发生已有parent的错误.
-        ViewGroup parent = (ViewGroup) mViewContent.getParent();
-        if (parent != null) {
+    public void onCreateBinding() {
 
-            parent.removeView(mViewContent);
-        }
-        ButterKnife.bind(this, mViewContent);
+    }
+
+    @Override
+    public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home,container,false);
+        ButterKnife.bind(this,view);
+        return view;
+    }
+
+    @Override
+    public void setUpView() {
         setupAppBar();
-        return mViewContent;
     }
 
     /**

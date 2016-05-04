@@ -3,7 +3,6 @@ package com.teapopo.life.view.fragment.User;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -66,7 +65,7 @@ public class UserFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreateBinding(View contentview) {
+    public void onCreateBinding() {
 
     }
 

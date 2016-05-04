@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
-import com.teapopo.life.model.event.LoginClickEvent;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 
@@ -44,7 +42,7 @@ public class UserSignInUpFragment extends BaseFragment {
     }
 
     @Override
-    public void onCreateBinding(View contentview) {
+    public void onCreateBinding() {
 
     }
 

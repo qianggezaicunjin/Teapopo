@@ -22,8 +22,10 @@ public class DBRecyclerView {
     @BindingAdapter({"adapter"})
     public static void setAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
         Timber.d("设置recyclerview的adapter");
+        if(adapter.data.size()>0){
+            Timber.d("adapter数据集不为0");
+        }
         recyclerView.setAdapter(adapter);
-        recyclerView.setPageFooter(R.layout.layout_loading_footer);
     }
 
     @BindingAdapter({"data"})
@@ -31,11 +33,6 @@ public class DBRecyclerView {
         Timber.d("recyclerview的数据集改变");
         recyclerView.notifyDataSetChanged();
         recyclerView.setIsLoading(false);
-    }
-
-    @BindingAdapter({"isLoading"})
-    public static void isLoading(SuperRecyclerView recyclerView, boolean isLoading) {
-        recyclerView.setIsLoading(isLoading);
     }
 
     @BindingAdapter({"footerStatus"})

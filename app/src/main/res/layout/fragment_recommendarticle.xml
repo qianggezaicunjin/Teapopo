@@ -9,7 +9,9 @@
 <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/swipe_refresh_widget"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:isLoading="@{recommendArticleViewModel.loading}"
+    >
 
     <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
         android:id="@+id/rv_recommendarticle"
@@ -17,7 +19,7 @@
         android:layout_height="match_parent"
         app:adapter="@{recommendArticleViewModel.getAdapter()}"
         app:data="@{recommendArticleViewModel.data}"
-        app:onPageListener="@{recommendArticleViewModel.getOnPageListener()}"
+        app:onPageListener="@{recommendArticleViewModel.onPageListener}"
         />
 </android.support.v4.widget.SwipeRefreshLayout>
  </layout>

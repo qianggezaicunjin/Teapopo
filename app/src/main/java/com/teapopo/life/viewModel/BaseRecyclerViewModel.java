@@ -63,10 +63,7 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
         } else {
             footerStatus = DBRecyclerView.SHOW_FOOTER;
         }
-
         data.addAll(list);
-        Timber.d("请求服务器成功后的data大小为:%d",data.size());
-
         notifyPropertyChanged(BR.data);
     }
 }

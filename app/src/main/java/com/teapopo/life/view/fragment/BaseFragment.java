@@ -15,6 +15,7 @@ public abstract class BaseFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        onCreateBinding();
     }
 
     @Nullable
@@ -27,11 +28,10 @@ public abstract class BaseFragment extends Fragment{
         if(parent!=null){
             parent.removeView(mContentView);
         }
-        onCreateBinding(mContentView);
         setUpView();
         return mContentView;
     }
-    public abstract void onCreateBinding(View contentView);
+    public abstract void onCreateBinding();
     @Override
     public void onDestroy() {
         super.onDestroy();

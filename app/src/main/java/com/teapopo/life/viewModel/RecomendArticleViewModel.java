@@ -36,22 +36,11 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
         mAdapter = new RecommendArticleAdapter(context,getData());
-
-
         requestData();
     }
 
     public RecommendArticleAdapter getAdapter(){
         return mAdapter;
-    }
-    @Override
-    public void onRequestFinished() {
-        super.onRequestFinished();
-    }
-
-    @Override
-    public void onRequestSuccess(List list) {
-        super.onRequestSuccess(list);
     }
 
     @Override
@@ -64,6 +53,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         return new OnPageListener() {
             @Override
             public void onPage() {
+                Timber.d("OnPageListener");
                 requestData();
             }
         };
