@@ -33,7 +33,7 @@ public class TopArticleFragment extends BaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentToparticleBinding binding = FragmentToparticleBinding.inflate(inflater);
-        binding.ivPic.setBackground(getResources().getDrawable(R.mipmap.splash));
+
         return binding.getRoot();
     }
 
