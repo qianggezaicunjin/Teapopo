@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * A RecyclerView.Adapter that allows for headers and footers as well.
  * <p/>
@@ -165,7 +167,9 @@ public class DecorateRecyclerViewAdapter<T extends RecyclerView.Adapter> extends
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+
         if (isHeader(viewType)) {
+            Timber.d("DecorateAdapter  header");
             int whichHeader = Math.abs(viewType - HEADER_VIEW_TYPE);
             View headerView = mHeaders.get(whichHeader);
             return new RecyclerView.ViewHolder(headerView) {

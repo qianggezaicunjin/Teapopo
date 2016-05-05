@@ -30,14 +30,8 @@ import timber.log.Timber;
  */
 public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity, RecommendArticleAdapter.RecommendArticleViewHolder> {
 
-
-    private RecommendData mContents;
-    private List<RecommendArticle> mPosts;//文章列表
     private List<ArticleImage> mImages;//一篇文章对应的图片的列表
     private List<String> mImageUrls;
-    static final int TYPE_HEADER = 0;
-    static final int TYPE_CELL = 1;
-    static final int TYPE_FOOTER=2;
 
     public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
         super(context,data);
@@ -45,75 +39,28 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     }
 
     @Override
-    public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return TYPE_HEADER;
-            default:
-                return TYPE_CELL;
-        }
-    }
-
-    public void addItem(List<RecommendArticle> articles){
-          if(articles!=null){
-              for(int i=0;i<articles.size();i++){
-                  RecommendArticle article=articles.get(i);
-                  if(!data.contains(article)){
-                      data.add(article);
-                      mImages.add(article.articleImage);
-                      notifyItemInserted(data.size());
-                  }else {
-                      data.set(data.indexOf(article),article);
-                      mImages.set(mImages.indexOf(article.articleImage),article.articleImage);
-                      notifyItemChanged(data.indexOf(article));
-                  }
-              }
-          }
-    }
-    @Override
     public int getItemCount() {
-        //返回的item总数=文章列表个数+头布局;
-        return data.size()+1;
+        return data.size();
     }
 
     @Override
     public RecommendArticleAdapter.RecommendArticleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-
-        switch (viewType) {
-            case TYPE_HEADER: {
-                return  RecommendArticleViewHolder.createViewHolder(ItemRecyclerviewHeaderBinding.inflate(layoutInflater));
-            }
-            case TYPE_CELL: {
-                return RecommendArticleViewHolder.createViewHolder(ItemRecyclerviewArticleBinding.inflate(layoutInflater));
-            }
-        }
-        return null;
+        return RecommendArticleViewHolder.createViewHolder(ItemRecyclerviewArticleBinding.inflate(layoutInflater));
     }
 
 
     @Override
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
-        switch (getItemViewType(position)) {
-            case TYPE_HEADER:
-
-                break;
-            case TYPE_CELL:
-                    //这里实际的文章所在的位置=position-1,减去头布局
-                      RecommendArticle post= (RecommendArticle) data.get(position-1);
-                      mImageUrls=post.articleImage.articleImageUrls;
-                      holder.setArticle(post);
-                    ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
-                    if(mImageUrls!=null){
-                        NoScrollGridAdapter adapter=new NoScrollGridAdapter(mContext,mImageUrls);
-                        binding.gvArticleImage.setAdapter(adapter);
-                    }else {
-                        binding.gvArticleImage.setVisibility(View.GONE);
-                    }
-
-
-                break;
+        RecommendArticle post= (RecommendArticle) data.get(position);
+        mImageUrls=post.articleImage.articleImageUrls;
+        holder.setArticle(post);
+        ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
+        if(mImageUrls!=null){
+            NoScrollGridAdapter adapter=new NoScrollGridAdapter(mContext,mImageUrls);
+            binding.gvArticleImage.setAdapter(adapter);
+        }else {
+            binding.gvArticleImage.setVisibility(View.GONE);
         }
     }
     public static class RecommendArticleViewHolder extends RecyclerView.ViewHolder{
@@ -126,7 +73,6 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
             super(view);
             itemView.setTag(binding);
         }
-
         public void setArticle(RecommendArticle recommendArticle){
             ItemRecyclerviewArticleBinding binding= (ItemRecyclerviewArticleBinding) itemView.getTag();
             mBinding = binding;
