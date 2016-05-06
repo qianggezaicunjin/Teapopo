@@ -1,6 +1,8 @@
 package com.teapopo.life.util.databinding;
 
 import android.databinding.BindingAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -25,18 +27,11 @@ public class DBRecyclerView {
     @BindingAdapter({"adapter"})
     public static void setAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
         recyclerView.setAdapter(adapter);
-
     }
     @BindingAdapter({"data"})
     public static void bindData(SuperRecyclerView recyclerView, List<BaseEntity> data) {
         recyclerView.notifyDataSetChanged();
         recyclerView.setIsLoading(false);
-    }
-    @BindingAdapter({"headers"})
-    public static void setHeader(SuperRecyclerView recyclerView, View headers) {
-        if(headers!=null){
-           recyclerView.addHeader(headers);
-        }
     }
     @BindingAdapter({"footerStatus"})
     public static void footerStatus(SuperRecyclerView recyclerView, int footerStatus) {

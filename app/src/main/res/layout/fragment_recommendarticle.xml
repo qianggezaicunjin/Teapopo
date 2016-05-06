@@ -20,7 +20,6 @@
                 android:layout_height="match_parent"
                 app:adapter="@{recommendArticleViewModel.getAdapter()}"
                 app:onPageListener="@{recommendArticleViewModel.onPageListener}"
-                app:headers="@{recommendArticleViewModel.getHeaders()}"
                 app:data="@{recommendArticleViewModel.data}"
                 />
         </android.support.v4.widget.SwipeRefreshLayout>

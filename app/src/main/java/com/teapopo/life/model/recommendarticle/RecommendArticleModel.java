@@ -6,6 +6,7 @@ import android.os.Looper;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.DataManager;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.util.DialogFactory;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.customView.RequestView;
@@ -20,19 +21,12 @@ import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/2.
+ *
  */
-public class RecommendArticleModel  {
-    private DataManager mDataManager;
-    private Context mContext;
+public class RecommendArticleModel  extends BaseModel{
     private int mPage = 0;
-    private RequestView mRequestView;
     public RecommendArticleModel(Context context){
-        this.mContext = context;
-        mDataManager = MyApplication.get(mContext).getComponent().dataManager();
-    }
-
-    public void setView(RequestView<BaseEntity> requestView) {
-        this.mRequestView = requestView;
+        super(context);
     }
 
     public void getContents(){
@@ -43,7 +37,7 @@ public class RecommendArticleModel  {
         Timber.d("请求第几页数据%d",page);
         mDataManager.getRecommendArticle(page+1)
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
+                .observeOn(mDataManager.getScheduler())
                 .map(new Func1<Recommend, List<RecommendArticle>>() {
 
                     @Override

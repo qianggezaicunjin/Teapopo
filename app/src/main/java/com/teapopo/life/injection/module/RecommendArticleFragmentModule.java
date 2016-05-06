@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
+import com.teapopo.life.model.toparticle.TopArticleModel;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
@@ -24,6 +25,6 @@ public class RecommendArticleFragmentModule {
     @Provides
     @PerActivity
     RecomendArticleViewModel provideRecommendArticleViewModel(){
-        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext));
+        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext),new TopArticleModel(mContext));
     }
 }

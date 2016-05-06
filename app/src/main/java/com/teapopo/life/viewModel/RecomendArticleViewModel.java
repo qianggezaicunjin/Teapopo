@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.HeaderLogoBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
@@ -17,6 +19,8 @@ import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
 import com.teapopo.life.model.recommendarticle.RecommendArticle;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.recommendarticle.RecommendData;
+import com.teapopo.life.model.toparticle.TopArticle;
+import com.teapopo.life.model.toparticle.TopArticleModel;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
@@ -38,48 +42,71 @@ import timber.log.Timber;
  */
 public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<BaseEntity> {
     private Context mContext;
+    private RecommendArticleAdapter mAdapter;//文章内容的adapter
 
-    private RecommendArticleAdapter mAdapter;
-
+    private TabFragmentAdapter tabFragmentAdapter;//顶部文章轮播viewpager的adapter
     private RecommendArticleModel mRecommendArticleModel;
+    private TopArticleModel mTopArticleModel;
 
+    @Bindable
+    public List<Fragment> fragments = new ArrayList<>();
+    @Bindable
+    public List<String> titles = new ArrayList<>();
     @Inject
-    public RecomendArticleViewModel(Context context,RecommendArticleModel recommendArticleModel){
+    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel){
         this.mContext = context;
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
-
+        this.mTopArticleModel = topArticleModel;
+        mTopArticleModel.setView(this);
+        mAdapter = new RecommendArticleAdapter(mContext,getData());
+        tabFragmentAdapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
+        requestData();
+        mTopArticleModel.getContens("index");
     }
 
     public RecommendArticleAdapter getAdapter(){
-        mAdapter = new RecommendArticleAdapter(mContext,getData());
-        requestData();
         return mAdapter;
     }
 
+    public TabFragmentAdapter getTabFragmentAdapter(){
+        return tabFragmentAdapter;
+    }
+
+    public List<Fragment> getFragments(){
+        return fragments;
+    }
+    public void setFragments(List<Fragment> fragmentList){
+        this.fragments = fragmentList;
+    }
+    public List<String> getTitles(){
+        return titles;
+    }
+    public void setTitles(List<String> stringList){
+        this.titles = stringList;
+    }
     @Override
     public void requestData() {
         super.requestData();
         mRecommendArticleModel.getContents();
+
     }
 
-    /**
-     * Recyclerview 添加头布局
-     * @return
-     */
-    public View getHeaders(){
-        List<View> headers = new ArrayList<View>();
-        ItemRecyclerviewHeaderBinding binding=ItemRecyclerviewHeaderBinding.inflate(LayoutInflater.from(mContext));
-        List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new TopArticleFragment());
-        List<String> titles = new ArrayList<>();
-        titles.add("头部轮播文章");
-        TabFragmentAdapter adapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
-        binding.viewpagerToparticle.setAdapter(adapter);
-        binding.indicatorCircleViewpager.setViewPager(binding.viewpagerToparticle);
-
-        return binding.getRoot();
+    @Override
+    public void onRequestSuccess(List<BaseEntity> list) {
+        super.onRequestSuccess(list);
+        //如果数据源是头部轮播文章
+        if (list.get(0) instanceof TopArticle){
+            for(int i = 0;i<list.size();i++){
+                TopArticle topArticle = (TopArticle) list.get(i);
+               fragments.add(TopArticleFragment.newInstance(topArticle));
+                titles.add(topArticle.title);
+            }
+            notifyPropertyChanged(BR.fragments);
+            notifyPropertyChanged(BR.titles);
+        }
     }
+
     /**
      * 首页面的下拉刷新监听器
      * @return

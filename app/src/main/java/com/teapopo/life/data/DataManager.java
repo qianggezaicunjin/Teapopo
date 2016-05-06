@@ -42,6 +42,7 @@ public class DataManager {
                        Scheduler subscribeScheduler) {
         mNetWorkService = watchTowerService;
         mSubscribeScheduler = subscribeScheduler;
+
     }
 
     protected void injectDependencies(Context context) {

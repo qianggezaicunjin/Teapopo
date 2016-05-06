@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <data>
+        <variable
+            name="recommendArticleViewModel"
+            type="com.teapopo.life.viewModel.RecomendArticleViewModel"/>
+    </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,10 +28,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v4.view.ViewPager
+                <com.teapopo.life.view.customView.HackyViewPager
                     android:id="@+id/viewpager_toparticle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:adapter="@{recommendArticleViewModel.getTabFragmentAdapter()}"
+                    app:fragments="@{recommendArticleViewModel.fragments}"
+                    app:titles="@{recommendArticleViewModel.titles}"/>
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator_circle_viewpager"

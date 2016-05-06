@@ -24,6 +24,7 @@ public class HackyViewPager extends ViewPager {
 	private static final String TAG = "HackyViewPager";
 
 	private boolean mScrollable=true;
+	private boolean mIsCostTheEvent = false;
 	public HackyViewPager(Context context) {
 		super(context);
 	}
@@ -31,6 +32,9 @@ public class HackyViewPager extends ViewPager {
 	public HackyViewPager(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+
+
 
 	@Override
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -49,13 +53,19 @@ public class HackyViewPager extends ViewPager {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		if (!mScrollable) {
-			return false;
+		if(mIsCostTheEvent){
+			return true;
+		}else {
+			if (!mScrollable) {
+				return false;
+			}
 		}
 		return super.onTouchEvent(ev);
 	}
 
-
+	public void  notifyDataSetChanged(){
+		this.getAdapter().notifyDataSetChanged();
+	}
 	public boolean isScrollble() {
 		return mScrollable;
 	}
@@ -68,4 +78,7 @@ public class HackyViewPager extends ViewPager {
 		this.mScrollable = scrollble;
 	}
 
+	public void setIsCostTheEvent(boolean isCostTheEvent){
+		this.mIsCostTheEvent = isCostTheEvent;
+	}
 }

@@ -3,6 +3,9 @@ package com.teapopo.life.viewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
+import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.recommendarticle.RecommendArticle;
+import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.databinding.DBRecyclerView;
 import com.teapopo.life.BR;
 import java.util.ArrayList;
@@ -58,12 +61,10 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
     }
 
     public void onRequestSuccess(List<T> list) {
-        if (list.size() < 20) {
-            footerStatus = DBRecyclerView.HIDE_FOOTER;
-        } else {
-            footerStatus = DBRecyclerView.SHOW_FOOTER;
+        //如果数据源是文章列表内容
+        if(list.get(0) instanceof RecommendArticle){
+            data.addAll(list);
+            notifyPropertyChanged(BR.data);
         }
-        data.addAll(list);
-        notifyPropertyChanged(BR.data);
     }
 }
