@@ -13,6 +13,7 @@ import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
 import com.teapopo.life.injection.component.RecommendArticleFragmentComponent;
 import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
+import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.event.DataEvent;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.view.activity.MainActivity;
@@ -61,10 +62,18 @@ public class RecommendArticleFragment extends BaseFragment {
             observable.subscribe(new Action1<Object>() {
                 @Override
                 public void call(Object o) {
-                    if(o instanceof DataEvent){
-                        binding.rvRecommendarticle.addHeader(headerBinding.getRoot());
-//                        headerBinding.indicatorCircleViewpager.setViewPager(headerBinding.viewpagerToparticle);
-                    }
+                        if(o instanceof DataEvent){
+                            binding.rvRecommendarticle.addHeader(headerBinding.getRoot());
+                        }
+                    else if(o instanceof AddHeaderEvent){
+                            Timber.d("收到AddHeaderEvent");
+                            headerBinding.indicatorCircleViewpager.setViewPager(headerBinding.viewpagerToparticle);
+                            headerBinding.viewpagerToparticle.setCurrentItem(1);
+                        }
+
+
+
+
                 }
             });
 
@@ -77,6 +86,7 @@ public class RecommendArticleFragment extends BaseFragment {
         headerBinding = ItemRecyclerviewHeaderBinding.inflate(inflater);
         binding.setRecommendArticleViewModel(mRecomendArticleViewModel);
         headerBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
+
         return binding.getRoot();
     }
     @Override

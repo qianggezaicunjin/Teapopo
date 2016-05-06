@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 
+import com.teapopo.life.MyApplication;
+import com.teapopo.life.data.rx.RxBus;
+import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
@@ -30,10 +33,15 @@ public class DataBindingAdapter {
         Timber.d("setViewPagerAdapter");
         viewPager.setIsCostTheEvent(true);
         viewPager.setAdapter(adapter);
+
     }
     @BindingAdapter({"fragments","titles"})
     public static void setViewPagerData(HackyViewPager viewPager, List<Fragment> fragments,List<String> titles) {
         Timber.d("setViewPagerData");
         viewPager.notifyDataSetChanged();
+        if(fragments.size()>0){
+            RxBus rxBus = MyApplication.get(viewPager.getContext()).getComponent().rxbus();
+            rxBus.postEvent(new AddHeaderEvent());
+        }
     }
 }

@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.teapopo.life.BR;
+import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
+import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.HeaderLogoBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
 import com.teapopo.life.model.BaseEntity;
@@ -48,19 +50,25 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     private RecommendArticleModel mRecommendArticleModel;
     private TopArticleModel mTopArticleModel;
 
+
     @Bindable
     public List<Fragment> fragments = new ArrayList<>();
     @Bindable
     public List<String> titles = new ArrayList<>();
     @Inject
     public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel){
+
         this.mContext = context;
+
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
+
         this.mTopArticleModel = topArticleModel;
         mTopArticleModel.setView(this);
+
         mAdapter = new RecommendArticleAdapter(mContext,getData());
         tabFragmentAdapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
+
         requestData();
         mTopArticleModel.getContens("index");
     }

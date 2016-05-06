@@ -72,4 +72,6 @@ public interface NetWorkService {
      */
     @POST("members/bind")
     Call<Void> bindAccount(@Body RequestBody requestBody);
+
+
 }
