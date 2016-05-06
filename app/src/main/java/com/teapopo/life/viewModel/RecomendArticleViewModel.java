@@ -1,39 +1,22 @@
 package com.teapopo.life.viewModel;
 
 import android.content.Context;
-import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.teapopo.life.BR;
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.R;
-import com.teapopo.life.data.rx.RxBus;
-import com.teapopo.life.databinding.HeaderLogoBinding;
-import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.recommendarticle.ArticleAuthorInfo;
-import com.teapopo.life.model.recommendarticle.RecommendArticle;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
-import com.teapopo.life.model.recommendarticle.RecommendData;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.model.toparticle.TopArticleModel;
-import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
+import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
-import com.teapopo.life.view.customView.RecyclerView.OnTopPageListener;
 import com.teapopo.life.view.customView.RequestView;
-import com.teapopo.life.view.fragment.Home.TopArticleFragment;
-
+import com.teapopo.life.BR;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 import javax.inject.Inject;
 
@@ -44,9 +27,11 @@ import timber.log.Timber;
  */
 public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<BaseEntity> {
     private Context mContext;
-    private RecommendArticleAdapter mAdapter;//文章内容的adapter
 
+    private RecommendArticleAdapter mAdapter;//文章内容的adapter
     private TabFragmentAdapter tabFragmentAdapter;//顶部文章轮播viewpager的adapter
+    private TopArticleAdapter topArticleAdapter;
+
     private RecommendArticleModel mRecommendArticleModel;
     private TopArticleModel mTopArticleModel;
 
@@ -55,6 +40,8 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public List<Fragment> fragments = new ArrayList<>();
     @Bindable
     public List<String> titles = new ArrayList<>();
+    @Bindable
+    public List<BaseEntity> articles = new ArrayList<>();
     @Inject
     public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel){
 
@@ -67,12 +54,15 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         mTopArticleModel.setView(this);
 
         mAdapter = new RecommendArticleAdapter(mContext,getData());
-        tabFragmentAdapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
-
+//        tabFragmentAdapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
+        topArticleAdapter = new TopArticleAdapter(mContext,articles);
         requestData();
         mTopArticleModel.getContens("index");
     }
 
+    public TopArticleAdapter getTopArticleAdapter(){
+        return topArticleAdapter;
+    }
     public RecommendArticleAdapter getAdapter(){
         return mAdapter;
     }
@@ -81,6 +71,12 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         return tabFragmentAdapter;
     }
 
+    public List<BaseEntity> getArticles(){
+        return articles;
+    }
+    public void setArticles(List<BaseEntity> articles){
+        this.articles = articles;
+    }
     public List<Fragment> getFragments(){
         return fragments;
     }
@@ -105,13 +101,15 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         super.onRequestSuccess(list);
         //如果数据源是头部轮播文章
         if (list.get(0) instanceof TopArticle){
-            for(int i = 0;i<list.size();i++){
-                TopArticle topArticle = (TopArticle) list.get(i);
-               fragments.add(TopArticleFragment.newInstance(topArticle));
-                titles.add(topArticle.title);
-            }
-            notifyPropertyChanged(BR.fragments);
-            notifyPropertyChanged(BR.titles);
+//            for(int i = 0;i<list.size();i++){
+//                TopArticle topArticle = (TopArticle) list.get(i);
+//               fragments.add(TopArticleFragment.newInstance(topArticle));
+//                titles.add(topArticle.title);
+//            }
+//            notifyPropertyChanged(BR.fragments);
+//            notifyPropertyChanged(BR.titles);
+            articles.addAll(list);
+            notifyPropertyChanged(BR.articles);
         }
     }
 

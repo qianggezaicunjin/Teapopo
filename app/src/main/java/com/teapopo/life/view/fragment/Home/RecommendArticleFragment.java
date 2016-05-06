@@ -23,6 +23,8 @@ import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -48,6 +50,7 @@ public class RecommendArticleFragment extends BaseFragment {
     private FragmentRecommendarticleBinding binding;//文章列表内容的binding对象
     private ItemRecyclerviewHeaderBinding headerBinding;//顶部轮播图片的binding对象
 
+    Timer timer = new Timer();
 
     public static RecommendArticleFragment newInstance() {
         return new RecommendArticleFragment();
@@ -64,16 +67,12 @@ public class RecommendArticleFragment extends BaseFragment {
                 public void call(Object o) {
                         if(o instanceof DataEvent){
                             binding.rvRecommendarticle.addHeader(headerBinding.getRoot());
+                            headerBinding.viewpagerToparticle.setIsCostTheEvent(true);
                         }
                     else if(o instanceof AddHeaderEvent){
                             Timber.d("收到AddHeaderEvent");
-                            headerBinding.indicatorCircleViewpager.setViewPager(headerBinding.viewpagerToparticle);
-                            headerBinding.viewpagerToparticle.setCurrentItem(1);
+//                            headerBinding.indicatorCircleViewpager.setViewPager();
                         }
-
-
-
-
                 }
             });
 

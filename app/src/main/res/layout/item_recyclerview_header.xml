@@ -32,9 +32,8 @@
                     android:id="@+id/viewpager_toparticle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:adapter="@{recommendArticleViewModel.getTabFragmentAdapter()}"
-                    app:fragments="@{recommendArticleViewModel.fragments}"
-                    app:titles="@{recommendArticleViewModel.titles}"/>
+                    app:adapter="@{recommendArticleViewModel.getTopArticleAdapter()}"
+                    app:articles="@{recommendArticleViewModel.articles}"/>
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator_circle_viewpager"
