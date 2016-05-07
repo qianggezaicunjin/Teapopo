@@ -35,6 +35,7 @@ public class MyApplication extends Application {
         DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder() //
                 .showImageForEmptyUri(R.drawable.dislike) //
                 .showImageOnFail(R.drawable.dislike) //
+                .showImageOnLoading(R.drawable.dislike)
                 .cacheInMemory(true) //
                 .cacheOnDisk(true) //
                 .build();//

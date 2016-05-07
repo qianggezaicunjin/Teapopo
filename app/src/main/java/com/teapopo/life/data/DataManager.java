@@ -8,6 +8,8 @@ import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
 import com.teapopo.life.model.PostKeyValue;
+import com.teapopo.life.model.category.Category;
+import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.model.toparticle.TopArticle;
 
@@ -67,6 +69,13 @@ public class DataManager {
        return mNetWorkService.getRecommendArticle(p);
    }
 
+    /**
+     * 返回推荐文章列表页面的类别标签
+     * @return
+     */
+    public Observable<CategoryList> getCategorys(){
+        return mNetWorkService.getCategory();
+    }
     /**
      * 获取每个模块的头部轮播的文章
      * @param classify 每个模块的标识分类 index,welfare,faxian,xinzi

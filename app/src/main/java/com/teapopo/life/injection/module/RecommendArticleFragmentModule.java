@@ -3,6 +3,7 @@ package com.teapopo.life.injection.module;
 import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.model.category.CategoryModel;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticleModel;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
@@ -25,6 +26,6 @@ public class RecommendArticleFragmentModule {
     @Provides
     @PerActivity
     RecomendArticleViewModel provideRecommendArticleViewModel(){
-        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext),new TopArticleModel(mContext));
+        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext),new TopArticleModel(mContext),new CategoryModel(mContext));
     }
 }

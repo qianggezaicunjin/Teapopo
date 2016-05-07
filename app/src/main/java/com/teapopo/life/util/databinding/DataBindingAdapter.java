@@ -6,7 +6,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
+import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.model.BaseEntity;
@@ -22,6 +25,11 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/4.
  */
 public class DataBindingAdapter {
+
+    @BindingAdapter({"imageUrl"})
+    public static void loadImage(ImageView iv, String imageUrl) {
+        ImageLoader.getInstance().displayImage(imageUrl,iv);
+    }
     @BindingAdapter({"isLoading"})
     public static void isLoading(SwipeRefreshLayout swipeRefreshLayout, boolean isLoading) {
         swipeRefreshLayout.setRefreshing(isLoading);
@@ -36,18 +44,9 @@ public class DataBindingAdapter {
         viewPager.setAdapter(adapter);
 
     }
-    @BindingAdapter({"fragments","titles"})
-    public static void setViewPagerData(HackyViewPager viewPager, List<Fragment> fragments,List<String> titles) {
-        Timber.d("setViewPagerData");
-        viewPager.notifyDataSetChanged();
-        if(fragments.size()>0){
-            RxBus rxBus = MyApplication.get(viewPager.getContext()).getComponent().rxbus();
-            rxBus.postEvent(new AddHeaderEvent());
-        }
-    }
     @BindingAdapter({"articles"})
     public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> articles) {
-        Timber.d("setViewPagerData");
+        Timber.d("notifyDataSetChanged articles");
         viewPager.notifyDataSetChanged();
         if(articles.size()>0){
             RxBus rxBus = MyApplication.get(viewPager.getContext()).getComponent().rxbus();

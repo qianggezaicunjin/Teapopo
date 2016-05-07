@@ -63,6 +63,7 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
     public void onRequestSuccess(List<T> list) {
         //如果数据源是文章列表内容
         if(list.get(0) instanceof RecommendArticle){
+            Timber.d("onRequestSuccess  RecommendArticle");
             data.addAll(list);
             notifyPropertyChanged(BR.data);
         }

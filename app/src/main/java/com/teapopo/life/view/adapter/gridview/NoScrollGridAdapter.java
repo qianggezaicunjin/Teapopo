@@ -21,16 +21,9 @@ public class NoScrollGridAdapter extends BaseAdapter {
     /** 图片Url集合 */
     private List<String> imageUrls;
 
-    DisplayImageOptions mOptions;
-
     public NoScrollGridAdapter(Context ctx, List<String> urls) {
         this.ctx = ctx;
         this.imageUrls = urls;
-        mOptions = new DisplayImageOptions.Builder()//
-                .cacheInMemory(true)//
-                .cacheOnDisk(true)//
-                .bitmapConfig(Bitmap.Config.RGB_565)//
-                .build();
     }
 
     @Override
@@ -56,7 +49,7 @@ public class NoScrollGridAdapter extends BaseAdapter {
         View view = View.inflate(ctx, R.layout.item_gridview_articleimage, null);
         RecyclableImageView imageView= (RecyclableImageView) view.findViewById(R.id.recyclableIv_articleimage);
         String url= NetWorkService.IMAGE_ENDPOINT+imageUrls.get(position)+NetWorkService.IMAGE_EXT;
-        ImageLoader.getInstance().displayImage(url, imageView, mOptions);
+        ImageLoader.getInstance().displayImage(url, imageView);
 
         return imageView;
     }

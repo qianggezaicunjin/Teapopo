@@ -37,7 +37,6 @@ public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClic
     ViewPager mViewPager;
 
 
-    private View mViewContent; // 缓存视图内容
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }

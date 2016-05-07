@@ -1,8 +1,11 @@
 package com.teapopo.life.model.recommendarticle;
 
+import android.databinding.BindingConversion;
+
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.util.DataUtils;
 
 import java.util.List;
 
@@ -31,6 +34,10 @@ public class RecommendArticle extends BaseEntity{
 
     public long publish_time;
 
+    @BindingConversion
+    public static String getTime(long time){
+        return DataUtils.getStrTime(String.valueOf(time));
+    }
     public String title;
    //下面是增加的属性
    public ArticleImage articleImage;//文章的图片url

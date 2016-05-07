@@ -25,15 +25,10 @@ public class TopArticleAdapter extends PagerAdapter {
     List<BaseEntity> articles;
     List<View> mViews = new ArrayList<>();
     private Context mContext;
-    DisplayImageOptions mOptions;
+
     public TopArticleAdapter(Context context,List<BaseEntity> topArticles){
         this.articles = topArticles;
         this.mContext = context;
-        mOptions = new DisplayImageOptions.Builder()//
-                .cacheInMemory(true)//
-                .cacheOnDisk(true)//
-                .bitmapConfig(Bitmap.Config.RGB_565)//
-                .build();
     }
     @Override
     public int getCount() {
@@ -53,7 +48,7 @@ public class TopArticleAdapter extends PagerAdapter {
         FragmentToparticleBinding binding = FragmentToparticleBinding.inflate(LayoutInflater.from(mContext));
         TopArticle topArticle = (TopArticle) articles.get(position%articles.size());
         String url= NetWorkService.IMAGE_ENDPOINT+topArticle.topImageUrl+NetWorkService.IMAGE_EXT;
-        ImageLoader.getInstance().displayImage(url, binding.ivPic, mOptions);
+        ImageLoader.getInstance().displayImage(url, binding.ivPic);
         container.addView(binding.getRoot());
         mViews.add(binding.getRoot());
         return binding.getRoot();

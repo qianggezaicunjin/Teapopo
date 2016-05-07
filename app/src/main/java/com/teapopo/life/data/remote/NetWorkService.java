@@ -1,6 +1,8 @@
 package com.teapopo.life.data.remote;
 
 
+import com.teapopo.life.model.category.Category;
+import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.model.toparticle.TopArticle;
 
@@ -31,13 +33,24 @@ public interface NetWorkService {
     Observable<Recommend> getRecommendArticle(@Query("p") int page );
 
     /**
+     *
+     * 返回推荐文章列表页面的类别标签
+     * 参数
+     * p: 页码
+     * r: 行数
+     * 不带参数时，默认返回8条记录
+     */
+    @GET("terms/list")
+    Observable<CategoryList> getCategory();
+
+
+    /**
      * 返回每个版块头部轮播的文章
      * 参数
      * classify:  分类 index,welfare,faxian,xinzi
      */
     @GET("category/slide")
     Observable<List<TopArticle>> getTopArticle(@Query("classify") String classify );
-
     /**
      * 绑定社交账号
      * 建立新帐号

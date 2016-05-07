@@ -2,39 +2,32 @@ package com.teapopo.life.view.fragment.Home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
-import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
+
+
+import com.teapopo.life.databinding.ItemHomeCategoryBinding;
+import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.injection.component.RecommendArticleFragmentComponent;
 import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
 import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.event.DataEvent;
-import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.view.activity.MainActivity;
-import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.observables.ConnectableObservable;
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 /**
@@ -48,9 +41,8 @@ public class RecommendArticleFragment extends BaseFragment {
     RxBus mRxBus;
     private RecommendArticleFragmentComponent mComponent;
     private FragmentRecommendarticleBinding binding;//文章列表内容的binding对象
-    private ItemRecyclerviewHeaderBinding headerBinding;//顶部轮播图片的binding对象
-
-    Timer timer = new Timer();
+    private ItemRecyclerviewToparticleBinding toparticleBinding;//顶部轮播图片的binding对象
+    private ItemHomeCategoryBinding categoryBinding;
 
     public static RecommendArticleFragment newInstance() {
         return new RecommendArticleFragment();
@@ -66,12 +58,15 @@ public class RecommendArticleFragment extends BaseFragment {
                 @Override
                 public void call(Object o) {
                         if(o instanceof DataEvent){
-                            binding.rvRecommendarticle.addHeader(headerBinding.getRoot());
-                            headerBinding.viewpagerToparticle.setIsCostTheEvent(true);
+                            binding.rvRecommendarticle.addHeader(toparticleBinding.getRoot());
+                            toparticleBinding.viewpagerToparticle.setIsCostTheEvent(true);
+
+                            binding.rvRecommendarticle.addHeader(categoryBinding.getRoot());
+
                         }
                     else if(o instanceof AddHeaderEvent){
                             Timber.d("收到AddHeaderEvent");
-//                            headerBinding.indicatorCircleViewpager.setViewPager();
+                            toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
                         }
                 }
             });
@@ -82,9 +77,14 @@ public class RecommendArticleFragment extends BaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRecommendarticleBinding.inflate(inflater);
-        headerBinding = ItemRecyclerviewHeaderBinding.inflate(inflater);
+        toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(inflater);
+        categoryBinding = ItemHomeCategoryBinding.inflate(inflater);
+
+        categoryBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
+
         binding.setRecommendArticleViewModel(mRecomendArticleViewModel);
-        headerBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
+        toparticleBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
+        categoryBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
 
         return binding.getRoot();
     }

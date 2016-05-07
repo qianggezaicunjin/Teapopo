@@ -6,9 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.category.Category;
+import com.teapopo.life.model.category.CategoryModel;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.model.toparticle.TopArticleModel;
+import com.teapopo.life.view.adapter.recyclerview.CategoryAdapter;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
@@ -29,21 +32,18 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     private Context mContext;
 
     private RecommendArticleAdapter mAdapter;//文章内容的adapter
-    private TabFragmentAdapter tabFragmentAdapter;//顶部文章轮播viewpager的adapter
-    private TopArticleAdapter topArticleAdapter;
-
+    private TopArticleAdapter topArticleAdapter;//顶部文章轮播viewpager的adapter
+    private CategoryAdapter categoryAdapter;
     private RecommendArticleModel mRecommendArticleModel;
     private TopArticleModel mTopArticleModel;
+    private CategoryModel mCategoryModel;
 
-
-    @Bindable
-    public List<Fragment> fragments = new ArrayList<>();
-    @Bindable
-    public List<String> titles = new ArrayList<>();
     @Bindable
     public List<BaseEntity> articles = new ArrayList<>();
+    @Bindable
+    public List<BaseEntity> categories = new ArrayList<>();
     @Inject
-    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel){
+    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel,CategoryModel categoryModel){
 
         this.mContext = context;
 
@@ -53,9 +53,13 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         this.mTopArticleModel = topArticleModel;
         mTopArticleModel.setView(this);
 
+        this.mCategoryModel = categoryModel;
+        mCategoryModel.setView(this);
+
         mAdapter = new RecommendArticleAdapter(mContext,getData());
-//        tabFragmentAdapter = new TabFragmentAdapter(((AppCompatActivity)mContext).getSupportFragmentManager(),fragments,titles);
         topArticleAdapter = new TopArticleAdapter(mContext,articles);
+        categoryAdapter = new CategoryAdapter(mContext,categories);
+
         requestData();
         mTopArticleModel.getContens("index");
     }
@@ -66,34 +70,28 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public RecommendArticleAdapter getAdapter(){
         return mAdapter;
     }
-
-    public TabFragmentAdapter getTabFragmentAdapter(){
-        return tabFragmentAdapter;
+    public CategoryAdapter getCategoryAdapter(){
+        return categoryAdapter;
     }
 
+    public List<BaseEntity> getCategories(){
+        return categories;
+    }
+    public void setCategories(List<BaseEntity> categories){
+        this.categories = categories;
+    }
     public List<BaseEntity> getArticles(){
         return articles;
     }
     public void setArticles(List<BaseEntity> articles){
         this.articles = articles;
     }
-    public List<Fragment> getFragments(){
-        return fragments;
-    }
-    public void setFragments(List<Fragment> fragmentList){
-        this.fragments = fragmentList;
-    }
-    public List<String> getTitles(){
-        return titles;
-    }
-    public void setTitles(List<String> stringList){
-        this.titles = stringList;
-    }
+
     @Override
     public void requestData() {
         super.requestData();
         mRecommendArticleModel.getContents();
-
+        mCategoryModel.getContents();
     }
 
     @Override
@@ -101,15 +99,15 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         super.onRequestSuccess(list);
         //如果数据源是头部轮播文章
         if (list.get(0) instanceof TopArticle){
-//            for(int i = 0;i<list.size();i++){
-//                TopArticle topArticle = (TopArticle) list.get(i);
-//               fragments.add(TopArticleFragment.newInstance(topArticle));
-//                titles.add(topArticle.title);
-//            }
-//            notifyPropertyChanged(BR.fragments);
-//            notifyPropertyChanged(BR.titles);
+            Timber.d("onRequestSuccess  TopArticle");
             articles.addAll(list);
             notifyPropertyChanged(BR.articles);
+        }
+        //如果数据源是分类标签
+        if(list.get(0) instanceof Category){
+            Timber.d("onRequestSuccess  Category");
+            categories.addAll(list);
+            notifyPropertyChanged(BR.data);
         }
     }
 

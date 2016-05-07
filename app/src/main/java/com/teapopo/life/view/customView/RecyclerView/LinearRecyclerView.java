@@ -29,10 +29,18 @@ public class LinearRecyclerView extends RecyclerView {
     private OnScrollPositionListener onScrollPositionListener;
     private OnScrollListener onScrollListener;
 
+    private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
     public void setOnScrollPositionListener(OnScrollPositionListener listener) {
         onScrollPositionListener = listener;
     }
 
+    /**
+     * 设置LinearLayoutManager的orientation
+     * 不设置默认为vertical
+     */
+    public void setOrientation(int orientation){
+        mLinearLayoutManager.setOrientation(orientation);
+    }
     public void setOnScrollListener(OnScrollListener listener) {
         onScrollListener = listener;
     }
@@ -53,7 +61,7 @@ public class LinearRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        setLayoutManager(new LinearLayoutManager(getContext()));
+        setLayoutManager(mLinearLayoutManager);
         addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

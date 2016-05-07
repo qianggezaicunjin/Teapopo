@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="recommendArticle"
             type="com.teapopo.life.model.recommendarticle.RecommendArticle" />
@@ -56,7 +55,7 @@
                         android:id="@+id/tv_articleTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="用户名"/>
+                        android:text="@{recommendArticle.publish_time}"/>
                 </LinearLayout>
 
                 <Button

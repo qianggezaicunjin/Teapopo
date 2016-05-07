@@ -2,6 +2,7 @@ package com.teapopo.life.injection.module;
 
 import android.app.Application;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.teapopo.life.data.DataManager;
 import com.teapopo.life.data.rx.RxBus;
 
@@ -38,5 +39,11 @@ public class ApplicationModule {
     @Singleton
     RxBus provideRxBus(){
         return RxBus.getInstance();
+    }
+
+    @Provides
+    @Singleton
+    DisplayImageOptions provideDisplayImageOptions(){
+        return null;
     }
 }

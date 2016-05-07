@@ -8,20 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
-import com.teapopo.life.databinding.ItemRecyclerviewHeaderBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.recommendarticle.ArticleImage;
 import com.teapopo.life.model.recommendarticle.RecommendArticle;
-import com.teapopo.life.model.recommendarticle.RecommendData;
 import com.teapopo.life.view.activity.ImagePagerActivity;
 import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
-import com.teapopo.life.viewModel.RecomendArticleViewModel;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 
 
