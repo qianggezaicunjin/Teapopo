@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 
 import java.util.List;
@@ -22,6 +23,9 @@ public class TopArticle extends BaseEntity implements Parcelable{
     @JsonField(name = "wap_link")
     public String contentUrl;
 
+    public String getImageUrl(){
+        return NetWorkService.IMAGE_ENDPOINT+contentUrl+NetWorkService.IMAGE_EXT;
+    }
     @Override
     public int describeContents() {
         return 0;

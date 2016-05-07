@@ -47,8 +47,7 @@ public class TopArticleAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         FragmentToparticleBinding binding = FragmentToparticleBinding.inflate(LayoutInflater.from(mContext));
         TopArticle topArticle = (TopArticle) articles.get(position%articles.size());
-        String url= NetWorkService.IMAGE_ENDPOINT+topArticle.topImageUrl+NetWorkService.IMAGE_EXT;
-        ImageLoader.getInstance().displayImage(url, binding.ivPic);
+       binding.setTopArticle(topArticle);
         container.addView(binding.getRoot());
         mViews.add(binding.getRoot());
         return binding.getRoot();
