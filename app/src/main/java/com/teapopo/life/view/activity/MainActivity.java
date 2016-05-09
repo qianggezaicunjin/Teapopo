@@ -30,10 +30,10 @@ public class MainActivity extends BaseActivity {
     @Bind(android.R.id.tabhost)
     FragmentTabHost mTabHost;
     @DrawableRes
-    private int[] mImages = {R.drawable.icon_home_unchecked,
-            R.drawable.icon_teacup_unchecked,
-            R.drawable.icon_welfare_unchecked,
-            R.drawable.icon_user_unchecked
+    private int[] mImages = {R.drawable.selector_home,
+            R.drawable.icon_teacup,
+            R.drawable.icon_welfare,
+            R.drawable.icon_user
     };
 
     /**
@@ -73,25 +73,25 @@ public class MainActivity extends BaseActivity {
 
         for (int i = 0; i < mImages.length; i++) {
             switch (mImages[i]) {
-                case R.drawable.icon_home_unchecked:
+                case R.drawable.selector_home:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec = mTabHost.newTabSpec("首页").setIndicator(getImageView(i));
                     // 添加Fragment
                     mTabHost.addTab(tabSpec, HomeFragment.class, null);
                     break;
-                case R.drawable.icon_teacup_unchecked:
+                case R.drawable.icon_teacup:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("新滋").setIndicator(getImageView(i));
                     // 添加Fragment
                     mTabHost.addTab(tabSpec1, HomeFragment.class, null);
                     break;
-                case R.drawable.icon_welfare_unchecked:
+                case R.drawable.icon_welfare:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("福利社").setIndicator(getImageView(i));
                     // 添加Fragment
                     mTabHost.addTab(tabSpec2, HomeFragment.class, null);
                     break;
-                case R.drawable.icon_user_unchecked:
+                case R.drawable.icon_user:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("我的").setIndicator(getImageView(i));
                     // 添加Fragment

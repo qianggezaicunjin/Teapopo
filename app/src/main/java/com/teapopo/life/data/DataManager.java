@@ -4,8 +4,11 @@ import android.content.Context;
 
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.data.rx.RxBus;
+import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
+import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
 import com.teapopo.life.model.PostKeyValue;
 import com.teapopo.life.model.category.Category;
@@ -32,6 +35,8 @@ public class DataManager {
     @Inject
     protected Scheduler mSubscribeScheduler;
 
+    @Inject
+    PersistentCookieStore mPersistentCookieStore;
     public DataManager(Context context) {
         injectDependencies(context);
     }
@@ -48,11 +53,18 @@ public class DataManager {
     }
 
     protected void injectDependencies(Context context) {
-        DaggerDataManagerComponent.builder()
-                .applicationComponent(MyApplication.get(context).getComponent())
-                .dataManagerModule(new DataManagerModule())
-                .build()
-                .inject(this);
+        ApplicationComponent component = MyApplication.get(context).getComponent();
+        mPersistentCookieStore = component.cookies();
+         DataManagerComponent dataManagerComponent = DaggerDataManagerComponent.builder()
+                .applicationComponent(component)
+                .dataManagerModule(new DataManagerModule(mPersistentCookieStore))
+                .build();
+               dataManagerComponent .inject(this);
+         if (mPersistentCookieStore == null){
+             Timber.d("cookie为空啊");
+         }else {
+             Timber.d("cookie不为空啊");
+         }
     }
 
     public Scheduler getScheduler() {

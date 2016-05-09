@@ -7,6 +7,7 @@ package com.teapopo.life.injection.component;
 import android.app.Application;
 
 import com.teapopo.life.data.DataManager;
+import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.injection.module.ApplicationModule;
 import com.teapopo.life.view.activity.MainActivity;
@@ -24,4 +25,5 @@ public interface ApplicationComponent {
     Application application();
     DataManager dataManager();
     RxBus rxbus();
+    PersistentCookieStore cookies();
 }

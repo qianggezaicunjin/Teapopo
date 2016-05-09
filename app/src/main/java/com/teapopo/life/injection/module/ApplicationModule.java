@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.teapopo.life.data.DataManager;
+import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.data.rx.RxBus;
 
 import javax.inject.Singleton;
@@ -43,7 +44,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    DisplayImageOptions provideDisplayImageOptions(){
-        return null;
+    PersistentCookieStore provideCookie(){
+        return new PersistentCookieStore(mApplication);
     }
 }
