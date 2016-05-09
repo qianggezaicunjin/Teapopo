@@ -18,15 +18,15 @@ import rx.schedulers.Schedulers;
  */
 @Module
 public class DataManagerModule {
-   PersistentCookieStore mPersistentCookieStore;
-    public DataManagerModule(PersistentCookieStore persistentCookieStore){
-        this.mPersistentCookieStore = persistentCookieStore;
+   Context mContext;
+    public DataManagerModule(Context context){
+        this.mContext = context;
     }
 
     @Provides
     @PerDataManager
     NetWorkService provideNetWorkService(){
-        return new RetrofitHelper(mPersistentCookieStore).netWorkService();
+        return new RetrofitHelper(mContext).netWorkService();
     }
 
     @Provides

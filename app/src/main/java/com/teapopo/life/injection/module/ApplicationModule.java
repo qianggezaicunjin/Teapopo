@@ -42,9 +42,4 @@ public class ApplicationModule {
         return RxBus.getInstance();
     }
 
-    @Provides
-    @Singleton
-    PersistentCookieStore provideCookie(){
-        return new PersistentCookieStore(mApplication);
-    }
 }

@@ -25,5 +25,5 @@ public interface ApplicationComponent {
     Application application();
     DataManager dataManager();
     RxBus rxbus();
-    PersistentCookieStore cookies();
+
 }

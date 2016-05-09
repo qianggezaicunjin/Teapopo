@@ -35,8 +35,7 @@ public class DataManager {
     @Inject
     protected Scheduler mSubscribeScheduler;
 
-    @Inject
-    PersistentCookieStore mPersistentCookieStore;
+
     public DataManager(Context context) {
         injectDependencies(context);
     }
@@ -53,18 +52,12 @@ public class DataManager {
     }
 
     protected void injectDependencies(Context context) {
-        ApplicationComponent component = MyApplication.get(context).getComponent();
-        mPersistentCookieStore = component.cookies();
          DataManagerComponent dataManagerComponent = DaggerDataManagerComponent.builder()
-                .applicationComponent(component)
-                .dataManagerModule(new DataManagerModule(mPersistentCookieStore))
+                .applicationComponent(MyApplication.get(context).getComponent())
+                .dataManagerModule(new DataManagerModule(context))
                 .build();
                dataManagerComponent .inject(this);
-         if (mPersistentCookieStore == null){
-             Timber.d("cookie为空啊");
-         }else {
-             Timber.d("cookie不为空啊");
-         }
+
     }
 
     public Scheduler getScheduler() {

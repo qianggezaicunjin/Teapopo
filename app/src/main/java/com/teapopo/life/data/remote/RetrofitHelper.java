@@ -21,9 +21,9 @@ import timber.log.Timber;
  * Created by Administrator on 2016/4/7 0007.
  */
 public class RetrofitHelper {
-    PersistentCookieStore mPersistentCookieStore;
-    public RetrofitHelper(PersistentCookieStore persistentCookieStore){
-        mPersistentCookieStore = persistentCookieStore;
+    public Context mContext;
+    public RetrofitHelper(Context context){
+        this.mContext = context;
     }
     public  NetWorkService netWorkService(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -44,20 +44,20 @@ public class RetrofitHelper {
     }
 
     private class CookiesManager implements CookieJar{
-
+        PersistentCookieStore persistentCookieStore = new PersistentCookieStore(mContext);
         @Override
         public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
             if (cookies != null && cookies.size() > 0) {
                 for (Cookie item : cookies) {
                     Timber.d("保存的cookie为:%s,网址为:%s",cookies.toString(),url.toString());
-                    mPersistentCookieStore.add(url, item);
+                    persistentCookieStore.add(url, item);
                 }
             }
         }
 
         @Override
         public List<Cookie> loadForRequest(HttpUrl url) {
-            List<Cookie> cookies = mPersistentCookieStore.get(url);
+            List<Cookie> cookies = persistentCookieStore.get(url);
             Timber.d("用cookies去请求的url为:%s,cookie为:%s",url.toString(),cookies.toString());
             return cookies;
         }
