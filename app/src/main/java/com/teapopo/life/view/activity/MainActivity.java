@@ -3,6 +3,7 @@ package com.teapopo.life.view.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.FragmentTabHost;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 import com.teapopo.life.R;
+import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.injection.component.DaggerMainActivityComponent;
 import com.teapopo.life.injection.component.MainActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
@@ -22,6 +24,7 @@ import com.teapopo.life.view.fragment.User.UserFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 public class MainActivity extends BaseActivity {
@@ -92,6 +95,7 @@ public class MainActivity extends BaseActivity {
                     mTabHost.addTab(tabSpec2, HomeFragment.class, null);
                     break;
                 case R.drawable.icon_user:
+
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("我的").setIndicator(getImageView(i));
                     // 添加Fragment
@@ -99,7 +103,7 @@ public class MainActivity extends BaseActivity {
                     break;
             }
             // 设置Tab按钮的背景
-            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.blue);
+//            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.blue);
         }
     }
 
@@ -109,6 +113,16 @@ public class MainActivity extends BaseActivity {
         View view = getLayoutInflater().inflate(R.layout.tab_fragmenttabhost, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_iv_image);
         imageView.setImageResource(mImages[index]);
+        if(index==3){
+
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Timber.d("onClick");
+                    startActivity(LogInAndOutActivity.getStartIntent(getApplicationContext()));
+                }
+            });
+        }
         return view;
     }
 

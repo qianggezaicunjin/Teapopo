@@ -18,14 +18,14 @@
     android:id="@+id/btn_sign_selector"
     android:layout_width="100dp"
     android:layout_height="wrap_content"
-    android:text="@string/login_byphone"
+    android:text="1111"
     android:layout_gravity="center_horizontal"
     android:onClick="@{userViewModel.onClickPhoneLogin}"
     />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_otherway"
+        android:text="11111"
         android:layout_gravity="center_horizontal"/>
 
     <LinearLayout

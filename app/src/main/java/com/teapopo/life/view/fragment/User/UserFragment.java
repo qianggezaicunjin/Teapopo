@@ -48,6 +48,7 @@ public class UserFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("UserFragment onCreate");
         mRxBus= MyApplication.get(getActivity()).getComponent().rxbus();
         mSubscriptions=new CompositeSubscription();
 

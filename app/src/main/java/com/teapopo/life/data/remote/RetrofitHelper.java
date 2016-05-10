@@ -58,7 +58,7 @@ public class RetrofitHelper {
         @Override
         public List<Cookie> loadForRequest(HttpUrl url) {
             List<Cookie> cookies = persistentCookieStore.get(url);
-            Timber.d("用cookies去请求的url为:%s,cookie为:%s",url.toString(),cookies.toString());
+            Timber.d("用cookies去请求的url为:%s,cookie为:%s",url.host(),cookies.toString());
             return cookies;
         }
     }

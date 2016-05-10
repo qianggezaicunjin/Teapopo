@@ -35,7 +35,8 @@
         <activity android:name=".view.activity.ImagePagerActivity" >
         </activity>
         <activity android:name=".view.activity.ThirdRegisterActivity"/>
-
+        <activity android:name=".view.activity.LogInAndOutActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <!-- mob分享 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

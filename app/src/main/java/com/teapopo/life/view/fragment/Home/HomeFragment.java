@@ -74,6 +74,7 @@ public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClic
 //        toolbar.setLogo(R.drawable.ic_launcher);
         mToolbar.setNavigationIcon(R.drawable.search);
 
+
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setOnMenuItemClickListener(this);
 

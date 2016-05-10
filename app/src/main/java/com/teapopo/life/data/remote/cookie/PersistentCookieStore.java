@@ -2,6 +2,7 @@ package com.teapopo.life.data.remote.cookie;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.TimedMetaData;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/9.
@@ -32,7 +34,7 @@ public class PersistentCookieStore {
 
 
     public PersistentCookieStore(Context context) {
-        cookiePrefs = context.getSharedPreferences(COOKIE_PREFS, 0);
+        cookiePrefs = context.getSharedPreferences(COOKIE_PREFS, Context.MODE_PRIVATE);
         cookies = new HashMap<>();
 
         //将持久化的cookies缓存到内存中 即map cookies
@@ -60,7 +62,7 @@ public class PersistentCookieStore {
 
     public void add(HttpUrl url, Cookie cookie) {
         String name = getCookieToken(cookie);
-
+        Timber.d("cookie的name为:%s",name);
         //将cookies缓存到内存中 如果缓存过期 就重置此cookie
         if (!cookie.persistent()) {
             if (!cookies.containsKey(url.host())) {
