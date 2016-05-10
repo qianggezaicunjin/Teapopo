@@ -19,6 +19,9 @@
     <string name="login_weibo">新浪微博登录</string>
 
     <string name="fast_signup">快速注册</string>
+    <string name="phone_num">请输入手机号</string>
+    <string name="verificationcode">请输入验证码</string>
+    <string name="send_verificationcode">发送验证码</string>
     <!-- Dialog strings -->
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Oops</string>

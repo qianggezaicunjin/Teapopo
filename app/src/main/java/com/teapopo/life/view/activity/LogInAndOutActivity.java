@@ -26,9 +26,9 @@ public class LogInAndOutActivity extends BaseActivity implements Toolbar.OnMenuI
     }
     @Override
     public void onCreateBinding() {
-        setContentView(R.layout.activity_sign_in_out);
-        ButterKnife.bind(this);
-        setUpAppBar();
+        setContentView(R.layout.fragment_fast_signup);
+//        ButterKnife.bind(this);
+//        setUpAppBar();
     }
 
     private void setUpAppBar() {

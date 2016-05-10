@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_size">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_et_loginout"
+        android:padding="@dimen/padding_size">
+
+        <View
+            android:id="@+id/line_fast_signup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_indicator_line_width"
+            android:layout_below="@+id/et_phonenum"
+            android:background="@drawable/line" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/line_fast_signup"
+            android:text="@string/send_verificationcode"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/padding_size"
+            android:textColor="@color/green"
+            android:background="@drawable/background_txt_verificationcode"/>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_verificationcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line_fast_signup"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/verificationcode"
+                android:textColorHint="@color/gray_light" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_phonenum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+           >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/phone_num"
+                android:textColorHint="@color/gray_light" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_btn_login"
+        android:text="@string/login"
+        android:textColor="@android:color/white" />
+    </LinearLayout>
