@@ -2,14 +2,18 @@ package com.teapopo.life.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.teapopo.life.R;
+import com.teapopo.life.model.user.LoginModel;
+import com.teapopo.life.model.user.UserInfoModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,14 +25,17 @@ import timber.log.Timber;
 public class LogInAndOutActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
     @Bind(R.id.toolbar_sign_in_out)
     Toolbar mToolbar;
+    @Bind(R.id.btn_login)
+    Button mBtn_login;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, LogInAndOutActivity.class);
     }
     @Override
     public void onCreateBinding() {
-        setContentView(R.layout.fragment_fast_signup);
-//        ButterKnife.bind(this);
-//        setUpAppBar();
+        setContentView(R.layout.activity_sign_in_out);
+        ButterKnife.bind(this);
+        setUpAppBar();
+        mBtn_login.setOnClickListener(this);
     }
 
     private void setUpAppBar() {
@@ -49,6 +56,10 @@ public class LogInAndOutActivity extends BaseActivity implements Toolbar.OnMenuI
 
     @Override
     public void onClick(View v) {
+        LoginModel loginModel = new LoginModel(this);
+        loginModel.login();
 
+//        UserInfoModel model = new UserInfoModel(this);
+//        model.getUserInfo();
     }
 }

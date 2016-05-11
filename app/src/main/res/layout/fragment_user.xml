@@ -1,32 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_base"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_user"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="300dp"
+        android:background="@drawable/user_center_bg">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_user"
+        <ImageView
+            android:id="@+id/iv_user_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@drawable/icon_msg" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleiv_user_icon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_below="@+id/iv_user_msg"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/splash"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/circleiv_user_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="fdsfdsaafsaffdsafsaf sf" />
+
+        <TextView
+            android:id="@+id/tv_signature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nickname"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:hint="dsadf ddfsasaf" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="?attr/colorPrimary">
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/user_center_bg_bottom"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="@string/titile_login" />
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/icon_tiezi" />
 
-    <com.teapopo.life.view.customView.HackyViewPager
-        android:id="@+id/viewPager_user"
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/icon_guanzhu" />
+
+            <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:drawableBottom="@drawable/icon_fans" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</android.support.design.widget.CoordinatorLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:divider="@drawable/line"
+        android:showDividers="middle"
+        android:padding="@dimen/padding_size">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_pinglun_full"
+            android:drawableStart="@drawable/icon_pinglun_full"
+            android:drawableRight="@drawable/icon_forward"
+            android:drawableEnd="@drawable/icon_forward"
+            android:drawablePadding="@dimen/padding_size"
+            android:text="dfsafa"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_zan_full"
+            android:drawableStart="@drawable/icon_zan_full"
+            android:drawableRight="@drawable/icon_forward"
+            android:drawableEnd="@drawable/icon_forward"
+            android:drawablePadding="@dimen/padding_size"
+            android:text="dfsafa"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_xinyuandan"
+            android:drawableStart="@drawable/icon_xinyuandan"
+            android:drawableRight="@drawable/icon_forward"
+            android:drawableEnd="@drawable/icon_forward"
+            android:drawablePadding="@dimen/padding_size"
+            android:text="dfsafa"/>
+    </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp">
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp">
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

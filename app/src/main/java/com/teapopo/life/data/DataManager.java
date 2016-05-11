@@ -10,6 +10,7 @@ import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
+import com.teapopo.life.model.ErroInfo;
 import com.teapopo.life.model.PostKeyValue;
 import com.teapopo.life.model.category.Category;
 import com.teapopo.life.model.category.CategoryList;
@@ -106,5 +107,31 @@ public class DataManager {
 
         }
         return mNetWorkService.bindNewAccount(builder.build());
+    }
+    /**
+     * 登录接口
+     * @param params
+     * @return
+     */
+    public Observable<ErroInfo> login(List<PostKeyValue> params){
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        if(params!=null){
+            for (int i=0;i<params.size();i++){
+                PostKeyValue content= params.get(i);
+
+                builder.addFormDataPart(content.getKey(), content.getValue());
+            }
+
+        }
+        return mNetWorkService.login(builder.build());
+    }
+
+    /**
+     * 获取用户个人信息
+     * @return
+     */
+    public Call<Void> getUserInfo(){
+        return mNetWorkService.getUserInfo();
     }
 }

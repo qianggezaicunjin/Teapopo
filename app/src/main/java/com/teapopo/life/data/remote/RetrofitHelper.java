@@ -27,7 +27,7 @@ public class RetrofitHelper {
     }
     public  NetWorkService netWorkService(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .cookieJar(new CookiesManager())

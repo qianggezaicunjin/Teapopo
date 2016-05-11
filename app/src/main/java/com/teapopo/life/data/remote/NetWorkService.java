@@ -1,6 +1,7 @@
 package com.teapopo.life.data.remote;
 
 
+import com.teapopo.life.model.ErroInfo;
 import com.teapopo.life.model.category.Category;
 import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.recommendarticle.Recommend;
@@ -51,6 +52,17 @@ public interface NetWorkService {
      */
     @GET("category/slide")
     Observable<List<TopArticle>> getTopArticle(@Query("classify") String classify );
+
+    /**
+     * 登录
+     * @param requestBody
+     * @return
+     */
+    @POST("members/login")
+    Observable<ErroInfo> login(@Body RequestBody requestBody);
+
+    @GET("members/self")
+    Call<Void> getUserInfo();
     /**
      * 绑定社交账号
      * 建立新帐号

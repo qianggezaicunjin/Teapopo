@@ -113,16 +113,16 @@ public class MainActivity extends BaseActivity {
         View view = getLayoutInflater().inflate(R.layout.tab_fragmenttabhost, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_iv_image);
         imageView.setImageResource(mImages[index]);
-        if(index==3){
-
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Timber.d("onClick");
-                    startActivity(LogInAndOutActivity.getStartIntent(getApplicationContext()));
-                }
-            });
-        }
+//        if(index==3){
+//
+//            imageView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Timber.d("onClick");
+//                    startActivity(LogInAndOutActivity.getStartIntent(getApplicationContext()));
+//                }
+//            });
+//        }
         return view;
     }
 

@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.teapopo.life.R;
-import com.teapopo.life.model.UserInfo;
 import com.teapopo.life.util.sharesdk.OnLoginListener;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.fragment.User.BindAccountFragment;
@@ -33,7 +32,7 @@ public class ThirdRegisterActivity extends AppCompatActivity {
 
     private OnLoginListener mRegisterListener;
     private Platform mPlatform;
-    private UserInfo userInfo = new UserInfo();
+
 
     @Bind(R.id.tabs_third_register)
      TabLayout mTabaLayout;

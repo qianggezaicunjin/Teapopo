@@ -72,7 +72,7 @@ public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClic
 //        toolbar.setTitle("废墟的树");
 //        toolbar.setSubtitle("CSDN");
 //        toolbar.setLogo(R.drawable.ic_launcher);
-        mToolbar.setNavigationIcon(R.drawable.search);
+        mToolbar.setNavigationIcon(R.drawable.icon_search);
 
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -73,11 +73,13 @@ dependencies {
     compile 'com.bluelinelabs:logansquare:1.3.6'
     //底部导航
     compile 'com.roughike:bottom-bar:1.3.3'
+    //圆角imageview
+    compile 'de.hdodenhof:circleimageview:2.0.0'
     // from github :florent37/MaterialViewPager
     compile('com.github.florent37:materialviewpager:1.1.3@aar') {
         transitive = true
     }
-    //okhttp3 cookie持久化
+
 
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
