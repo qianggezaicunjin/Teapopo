@@ -10,4 +10,10 @@
     <dimen name="icTag_size">15dp</dimen>
 
     <dimen name="padding_size">10dp</dimen>
+    
+    <!--用户信息模块相关-->
+    <dimen name="userinfo_firstpart">200dp</dimen>
+    <dimen name="userinfo_secondpart">300dp</dimen>
+    <dimen name="userinfo_thirdpart">100dp</dimen>
+    <dimen name="default_list_textsize">20sp</dimen>
 </resources>

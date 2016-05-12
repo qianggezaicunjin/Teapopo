@@ -1,5 +1,6 @@
 package com.teapopo.life.view.fragment.User;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -35,7 +36,7 @@ public class UserFragment extends BaseFragment {
 
     @Override
     public void onCreateBinding() {
-
+        Timber.d("Oncreate");
     }
 
     @Override
@@ -48,4 +49,24 @@ public class UserFragment extends BaseFragment {
     public void setUpView() {
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("OnResume");
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Timber.d("onAttach");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Timber.d("onDeatach");
+    }
+
 }

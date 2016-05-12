@@ -22,6 +22,16 @@
     <string name="phone_num">请输入手机号</string>
     <string name="verificationcode">请输入验证码</string>
     <string name="send_verificationcode">发送验证码</string>
+
+    <string name="userinfo_pinglun">我的评论</string>
+    <string name="userinfo_like">我的喜欢</string>
+    <string name="userinfo_xinyuandan">我的心愿单</string>
+    <string name="userinfo_order">我的订单</string>
+    <string name="userinfo_jifen">我的积分</string>
+    <string name="userinfo_youhuiquan">我的优惠券</string>
+    <string name="userinfo_location">收货地址</string>
+    <string name="userinfo_setting">设置</string>
+    <string name="userinfo_exit">退出登录</string>
     <!-- Dialog strings -->
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Oops</string>

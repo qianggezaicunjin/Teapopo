@@ -100,10 +100,18 @@ public class MainActivity extends BaseActivity {
                     TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("我的").setIndicator(getImageView(i));
                     // 添加Fragment
                     mTabHost.addTab(tabSpec3, UserFragment.class, null);
+
                     break;
             }
             // 设置Tab按钮的背景
 //            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.blue);
+            mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+                @Override
+                public void onTabChanged(String tabId) {
+
+                }
+            });
+
         }
     }
 
@@ -113,16 +121,6 @@ public class MainActivity extends BaseActivity {
         View view = getLayoutInflater().inflate(R.layout.tab_fragmenttabhost, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_iv_image);
         imageView.setImageResource(mImages[index]);
-//        if(index==3){
-//
-//            imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Timber.d("onClick");
-//                    startActivity(LogInAndOutActivity.getStartIntent(getApplicationContext()));
-//                }
-//            });
-//        }
         return view;
     }
 
