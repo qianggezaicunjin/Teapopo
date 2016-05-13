@@ -14,10 +14,13 @@ import android.view.ViewGroup;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
+import com.teapopo.life.databinding.FragmentUserBinding;
 import com.teapopo.life.model.event.LoginClickEvent;
+import com.teapopo.life.model.user.UserInfoModel;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.viewModel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +44,10 @@ public class UserFragment extends BaseFragment {
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_user,container,false);
-        return view;
+        FragmentUserBinding binding = FragmentUserBinding.inflate(inflater);
+        UserViewModel viewModel = new UserViewModel(new UserInfoModel(getActivity()));
+        binding.setUserViewModel(viewModel);
+        return binding.getRoot();
     }
 
     @Override

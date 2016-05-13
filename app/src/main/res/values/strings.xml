@@ -32,6 +32,8 @@
     <string name="userinfo_location">收货地址</string>
     <string name="userinfo_setting">设置</string>
     <string name="userinfo_exit">退出登录</string>
+
+    <string name="login_tips">未登录,请先登录。</string>
     <!-- Dialog strings -->
     <string name="dialog_action_ok">OK</string>
     <string name="dialog_error_title">Oops</string>

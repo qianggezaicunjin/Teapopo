@@ -1,6 +1,7 @@
 package com.teapopo.life.model.user;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.ErroInfo;
@@ -48,6 +49,8 @@ public class LoginModel extends BaseModel {
                     @Override
                     public void onNext(ErroInfo erroInfo) {
                         Timber.d("登录返回的信息为:%s",erroInfo.errmsg);
+                        SharedPreferences preferences = mContext.getSharedPreferences("ErroInfo",0);
+
                     }
                 });
     }

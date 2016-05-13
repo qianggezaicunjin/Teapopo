@@ -48,7 +48,8 @@
                     android:layout_below="@+id/circleiv_user_icon"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="fdsfdsaafsaffdsafsaf sf" />
+                    android:hint="@string/login_tips"
+                    android:text="@{userViewModel.getNickName()}" />
 
                 <TextView
                     android:id="@+id/tv_signature"
@@ -57,7 +58,8 @@
                     android:layout_below="@+id/tv_nickname"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:hint="dsadf ddfsasaf" />
+                    android:hint="@string/login_tips"
+                    android:text="@{userViewModel.getSignature()}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

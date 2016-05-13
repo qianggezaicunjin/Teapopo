@@ -6,6 +6,7 @@ import com.teapopo.life.model.category.Category;
 import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.model.toparticle.TopArticle;
+import com.teapopo.life.model.user.UserInfo;
 
 import java.util.List;
 
