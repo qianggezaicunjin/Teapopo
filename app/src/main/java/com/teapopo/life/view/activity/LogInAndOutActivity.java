@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.teapopo.life.R;
 import com.teapopo.life.model.user.LoginModel;
 import com.teapopo.life.model.user.UserInfoModel;
+import com.teapopo.life.view.customView.swipeback.SwipeBackLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,11 +23,12 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/10.
  */
-public class LogInAndOutActivity extends BaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
+public class LogInAndOutActivity extends SwipeBackBaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
     @Bind(R.id.toolbar_sign_in_out)
     Toolbar mToolbar;
     @Bind(R.id.btn_login)
     Button mBtn_login;
+
     public static Intent getStartIntent(Context context) {
         return new Intent(context, LogInAndOutActivity.class);
     }
@@ -47,6 +49,7 @@ public class LogInAndOutActivity extends BaseActivity implements Toolbar.OnMenuI
     public boolean onMenuItemClick(MenuItem item) {
         return false;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

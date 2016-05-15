@@ -43,7 +43,8 @@ public class RetrofitHelper {
         Cache cache = new Cache(httpCacheDirectory, 10 * 1024 * 1024);
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .addInterceptor(new CacheInterceptor())
+//                .addNetworkInterceptor(new CacheInterceptor())
+//                .cache(cache)
                 .cookieJar(new CookiesManager())
                 .build();
 
