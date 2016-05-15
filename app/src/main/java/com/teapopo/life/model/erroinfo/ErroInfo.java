@@ -1,6 +1,16 @@
-package com.teapopo.life.model;
+package com.teapopo.life.model.erroinfo;
+
+import android.util.Log;
 
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.teapopo.life.model.BaseEntity;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.Locale;
+
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/11.
@@ -10,4 +20,5 @@ public class ErroInfo extends BaseEntity {
     public String errcode;
 
     public String errmsg;
+
 }

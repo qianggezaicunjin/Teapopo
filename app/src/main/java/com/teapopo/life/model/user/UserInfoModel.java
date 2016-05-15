@@ -2,6 +2,7 @@ package com.teapopo.life.model.user;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,17 +22,23 @@ public class UserInfoModel extends BaseModel {
     }
 
     public void getUserInfo(){
-        Call<Void> call = mDataManager.getUserInfo();
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+        Observable<JsonObject> observable = mDataManager.getUserInfo();
+        observable.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+                        Timber.d("获取个人信息:%s",jsonObject.toString());
+                    }
+                });
     }
 }

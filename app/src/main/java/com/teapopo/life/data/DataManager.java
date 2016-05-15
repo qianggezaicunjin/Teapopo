@@ -2,23 +2,23 @@ package com.teapopo.life.data;
 
 import android.content.Context;
 
+
+import com.google.gson.JsonObject;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
-import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
-import com.teapopo.life.data.rx.RxBus;
-import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
-import com.teapopo.life.model.ErroInfo;
+import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.model.PostKeyValue;
-import com.teapopo.life.model.category.Category;
 import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.model.toparticle.TopArticle;
-import com.teapopo.life.model.user.UserInfo;
+
+
 
 import java.util.List;
+
 
 import javax.inject.Inject;
 
@@ -26,7 +26,6 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import rx.Observable;
 import rx.Scheduler;
-import timber.log.Timber;
 
 /**
  * Created by Administrator on 2016/4/7 0007.
@@ -132,7 +131,7 @@ public class DataManager {
      * 获取用户个人信息
      * @return
      */
-    public Call<Void> getUserInfo(){
+    public Observable<JsonObject> getUserInfo(){
         return mNetWorkService.getUserInfo();
     }
 }

@@ -1,12 +1,13 @@
 package com.teapopo.life.data.remote;
 
 
-import com.teapopo.life.model.ErroInfo;
-import com.teapopo.life.model.category.Category;
+import com.google.gson.JsonObject;
 import com.teapopo.life.model.category.CategoryList;
+import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.model.recommendarticle.Recommend;
 import com.teapopo.life.model.toparticle.TopArticle;
-import com.teapopo.life.model.user.UserInfo;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public interface NetWorkService {
     Observable<ErroInfo> login(@Body RequestBody requestBody);
 
     @GET("members/self")
-    Call<Void> getUserInfo();
+    Observable<JsonObject> getUserInfo();
     /**
      * 绑定社交账号
      * 建立新帐号

@@ -78,10 +78,7 @@ public class PersistentCookieStore {
         //讲cookies持久化到本地
         SharedPreferences.Editor prefsWriter = cookiePrefs.edit();
         prefsWriter.putString(url.host(), TextUtils.join(",", cookies.get(url.host()).keySet()));
-        Timber.d("cookie序列化前:%s",cookie.toString());
         prefsWriter.putString(name, encodeCookie(new SerializableOkHttpCookies(cookie)));
-        Timber.d("cookie序列化后:%s",new SerializableOkHttpCookies(cookie));
-        Timber.d("cookie encode后:%s",encodeCookie(new SerializableOkHttpCookies(cookie)));
         prefsWriter.apply();
     }
 
