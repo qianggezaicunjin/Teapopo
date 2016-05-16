@@ -53,6 +53,7 @@ public class RecommendArticleFragment extends BaseFragment {
         if(getActivity() instanceof MainActivity){
             mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(getActivity()));
             mComponent.inject(this);
+
             ConnectableObservable<Object> observable = mRxBus.toObservable().publish();
             observable.subscribe(new Action1<Object>() {
                 @Override

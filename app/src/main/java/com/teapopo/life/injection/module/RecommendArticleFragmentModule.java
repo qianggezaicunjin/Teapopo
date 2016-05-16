@@ -23,9 +23,26 @@ public class RecommendArticleFragmentModule {
         this.mContext = context;
     }
 
+
     @Provides
     @PerActivity
-    RecomendArticleViewModel provideRecommendArticleViewModel(){
-        return new RecomendArticleViewModel(mContext,new RecommendArticleModel(mContext),new TopArticleModel(mContext),new CategoryModel(mContext));
+    RecomendArticleViewModel provideRecommendArticleViewModel(RecommendArticleModel recommendArticleModel,TopArticleModel topArticleModel,CategoryModel categoryModel){
+        return new RecomendArticleViewModel(mContext,recommendArticleModel,topArticleModel,categoryModel);
+    }
+
+    @Provides
+    @PerActivity
+    RecommendArticleModel provideRecommendArticleModel(){
+        return new RecommendArticleModel(mContext);
+    }
+    @Provides
+    @PerActivity
+    TopArticleModel provideTopArticleModel(){
+        return new TopArticleModel(mContext);
+    }
+    @Provides
+    @PerActivity
+    CategoryModel provideCategoryModel(){
+        return new CategoryModel(mContext);
     }
 }

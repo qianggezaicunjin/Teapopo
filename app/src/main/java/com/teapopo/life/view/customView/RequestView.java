@@ -1,5 +1,7 @@
 package com.teapopo.life.view.customView;
 
+import com.teapopo.life.model.BaseEntity;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,8 @@ public interface RequestView<T> {
 
     void onRequestFinished();
 
-    void onRequestSuccess(List<T> list);
+    void onRequestSuccess(T data);
 
+
+    void onRequestErroInfo(String erroinfo);
 }

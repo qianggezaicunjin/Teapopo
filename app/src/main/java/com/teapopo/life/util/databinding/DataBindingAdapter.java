@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.MyApplication;
@@ -28,6 +29,7 @@ public class DataBindingAdapter {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
+        Timber.d("loadImage");
         ImageLoader.getInstance().displayImage(imageUrl,iv);
     }
     @BindingAdapter({"isLoading"})

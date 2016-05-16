@@ -33,9 +33,9 @@ public class LoginModel extends BaseModel {
         params.add(new PostKeyValue("use_sms","0"));
         params.add(new PostKeyValue("login_name","13798969669"));
         params.add(new PostKeyValue("password","42418909"));
-        Observable<JsonObject> observable = mDataManager.login(params);
+        Observable<ErroInfo> observable = mDataManager.login(params);
         observable.subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<JsonObject>() {
+                .subscribe(new Subscriber<ErroInfo>() {
                     @Override
                     public void onCompleted() {
 
@@ -47,7 +47,7 @@ public class LoginModel extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(JsonObject erroInfo) {
+                    public void onNext(ErroInfo erroInfo) {
                         Timber.d("登录返回的信息为:%s",erroInfo.toString());
                         SharedPreferences preferences = mContext.getSharedPreferences("LoginInfo",0);
 

@@ -61,8 +61,5 @@ public class LogInAndOutActivity extends SwipeBackBaseActivity implements Toolba
     public void onClick(View v) {
         LoginModel loginModel = new LoginModel(this);
         loginModel.login();
-
-        UserInfoModel model = new UserInfoModel(this);
-        model.getUserInfo();
     }
 }

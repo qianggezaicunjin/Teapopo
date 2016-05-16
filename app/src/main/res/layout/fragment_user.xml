@@ -37,7 +37,7 @@
                     android:layout_height="96dp"
                     android:layout_below="@+id/iv_user_msg"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/splash"
+                    app:imageUrl="@{userViewModel.getAvatarUrl()}"
                     app:civ_border_color="#FF000000"
                     app:civ_border_width="2dp" />
 
@@ -73,21 +73,27 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/icon_tiezi" />
+                        android:drawableBottom="@drawable/icon_tiezi"
+                        android:text="@{userViewModel.getTieZiCount()}"
+                        android:hint=" "/>
 
                     <TextView
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/icon_guanzhu" />
+                        android:drawableBottom="@drawable/icon_guanzhu"
+                        android:text="@{userViewModel.getFocusCount()}"
+                        android:hint=" "/>
 
                     <TextView
                         android:layout_width="0dip"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
-                        android:drawableBottom="@drawable/icon_fans" />
+                        android:drawableBottom="@drawable/icon_fans"
+                        android:text="@{userViewModel.getFansCount()}"
+                        android:hint=" "/>
 
 
                 </LinearLayout>

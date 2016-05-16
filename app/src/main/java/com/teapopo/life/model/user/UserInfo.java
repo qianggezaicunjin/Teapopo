@@ -12,29 +12,29 @@ import com.teapopo.life.model.BaseEntity;
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public class UserInfo extends BaseEntity {
 
-    public  ObservableField<String> avatar = new ObservableField<>();
+    public  String avatar;
 
     public String city;
 
-    public  ObservableField<String> fans_num = new ObservableField<>();
+    public  String fans_num;
 
     public String id;
 
-    public  ObservableField<String> nickname = new ObservableField<>();
+    public String nickname;
 
     public String points;
 
-    public  ObservableField<String> posts_num = new ObservableField<>();
+    public String posts_num;
 
     public String province;
 
     public String sex;
 
-    public  ObservableField<String> signature = new ObservableField<>();
+    public  String signature;
 
     public String subscribe;
 
-    public  ObservableField<String> subscribe_num = new ObservableField<>();
+    public  String subscribe_num;
 
     public String title;
 }

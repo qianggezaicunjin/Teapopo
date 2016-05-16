@@ -15,8 +15,12 @@ import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentUserBinding;
+import com.teapopo.life.injection.component.UserFragmentComponent;
+import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
+import com.teapopo.life.injection.module.UserFragmentModule;
 import com.teapopo.life.model.event.LoginClickEvent;
 import com.teapopo.life.model.user.UserInfoModel;
+import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.fragment.BaseFragment;
@@ -24,6 +28,8 @@ import com.teapopo.life.viewModel.UserViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,16 +43,22 @@ import timber.log.Timber;
  */
 public class UserFragment extends BaseFragment {
 
+    private UserFragmentComponent mComponent;
+
+    @Inject
+     UserViewModel mViewModel;
     @Override
     public void onCreateBinding() {
         Timber.d("Oncreate");
+        if(getActivity() instanceof MainActivity){
+            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().userFragment(new UserFragmentModule(getActivity()));
+            mComponent.inject(this);}
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentUserBinding binding = FragmentUserBinding.inflate(inflater);
-        UserViewModel viewModel = new UserViewModel(new UserInfoModel(getActivity()));
-        binding.setUserViewModel(viewModel);
+        binding.setUserViewModel(mViewModel);
         return binding.getRoot();
     }
 

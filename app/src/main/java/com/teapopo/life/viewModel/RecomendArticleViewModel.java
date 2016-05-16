@@ -28,7 +28,7 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<BaseEntity> {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<List<BaseEntity>> {
     private Context mContext;
 
     private RecommendArticleAdapter mAdapter;//文章内容的adapter
@@ -42,7 +42,8 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public List<BaseEntity> articles = new ArrayList<>();
     @Bindable
     public List<BaseEntity> categories = new ArrayList<>();
-    @Inject
+
+
     public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel, TopArticleModel topArticleModel,CategoryModel categoryModel){
 
         this.mContext = context;
@@ -109,6 +110,11 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
             categories.addAll(list);
             notifyPropertyChanged(BR.data);
         }
+    }
+
+    @Override
+    public void onRequestErroInfo(String erroinfo) {
+
     }
 
     /**

@@ -21,7 +21,7 @@ public class BaseModel {
         mRxBus = MyApplication.get(mContext).getComponent().rxbus();
     }
 
-    public void setView(RequestView<BaseEntity> requestView) {
+    public void setView(RequestView requestView) {
         this.mRequestView = requestView;
     }
 }
