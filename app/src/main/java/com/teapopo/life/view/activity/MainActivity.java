@@ -104,17 +104,7 @@ public class MainActivity extends BaseActivity {
             }
             // 设置Tab按钮的背景
 //            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.blue);
-
         }
-
-        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-                if(tabId.equals("我的")){
-                   startActivity( LogInAndOutActivity.getStartIntent(getApplicationContext()));
-                }
-            }
-        });
     }
 
     // 获得图片资源

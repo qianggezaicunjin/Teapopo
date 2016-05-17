@@ -37,7 +37,7 @@
                     android:layout_height="96dp"
                     android:layout_below="@+id/iv_user_msg"
                     android:layout_centerHorizontal="true"
-                    app:imageUrl="@{userViewModel.getAvatarUrl()}"
+                    app:imageUrl="@{userViewModel.avatarUrl}"
                     app:civ_border_color="#FF000000"
                     app:civ_border_width="2dp" />
 
@@ -49,7 +49,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/login_tips"
-                    android:text="@{userViewModel.getNickName()}" />
+                    android:textColor="@color/white"
+                    android:text="@{userViewModel.nickName}" />
 
                 <TextView
                     android:id="@+id/tv_signature"
@@ -59,7 +60,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/login_tips"
-                    android:text="@{userViewModel.getSignature()}" />
+                    android:textColor="@color/white"
+                    android:text="@{userViewModel.signature}" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,7 +76,9 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/icon_tiezi"
-                        android:text="@{userViewModel.getTieZiCount()}"
+                        android:text="@{userViewModel.postCount}"
+                        android:gravity="center"
+                        android:textColor="@color/white"
                         android:hint=" "/>
 
                     <TextView
@@ -83,7 +87,9 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/icon_guanzhu"
-                        android:text="@{userViewModel.getFocusCount()}"
+                        android:text="@{userViewModel.focusCount}"
+                        android:gravity="center"
+                        android:textColor="@color/white"
                         android:hint=" "/>
 
                     <TextView
@@ -92,7 +98,9 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
                         android:drawableBottom="@drawable/icon_fans"
-                        android:text="@{userViewModel.getFansCount()}"
+                        android:text="@{userViewModel.fansCount}"
+                        android:gravity="center"
+                        android:textColor="@color/white"
                         android:hint=" "/>
 
 

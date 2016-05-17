@@ -7,6 +7,7 @@ import android.databinding.Bindable;
 
 import com.teapopo.life.BR;
 import com.teapopo.life.MyApplication;
+import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.erroinfo.ErroInfo;
@@ -30,6 +31,19 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
     private UserInfo mUserInfo = new UserInfo();
     private Context mContext;
 
+    //以下是个人信息的数据项
+    @Bindable
+    public String nickName;
+    @Bindable
+    public String signature;
+    @Bindable
+    public String avatarUrl;
+    @Bindable
+    public String postCount;
+    @Bindable
+    public String focusCount;
+    @Bindable
+    public String fansCount;
     @Inject
     public UserViewModel (Context context,UserInfoModel userInfoModel){
         this.mContext = context;
@@ -37,33 +51,6 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
         this.mUserInfoModel.setView(this);
         mUserInfoModel.getUserInfo();
     }
-    @Bindable
-    public String getNickName(){
-        Timber.d("getNickName");
-        return  this.mUserInfo.nickname;
-    }
-
-    @Bindable
-    public String getSignature(){
-        return this.mUserInfo.signature;
-    }
-    @Bindable
-    public String getAvatarUrl(){
-        return this.mUserInfo.avatar;
-    }
-    @Bindable
-    public String getTieZiCount(){
-        return this.mUserInfo.posts_num;
-    }
-    @Bindable
-    public String getFocusCount(){
-        return this.mUserInfo.subscribe_num;
-    }
-    @Bindable
-    public String getFansCount(){
-        return this.mUserInfo.fans_num;
-    }
-
     @Override
     public void onRequestFinished() {
 
@@ -71,11 +58,19 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
 
     @Override
     public void onRequestSuccess(BaseEntity data) {
-        this.mUserInfo = ((UserInfo)data);
-        Timber.d("nickname为%s",this.mUserInfo.nickname);
-        Timber.d("signature为%s",this.mUserInfo.signature);
+        UserInfo userInfo = ((UserInfo)data);
+        this.nickName = userInfo.nickname;
+        this.signature = userInfo.signature;
+        this.avatarUrl = NetWorkService.IMAGE_ENDPOINT+userInfo.avatar+NetWorkService.IMAGE_EXT;
+        this.focusCount = userInfo.subscribe_num;
+        this.postCount = userInfo.posts_num;
+        this.fansCount = userInfo.fans_num;
+        notifyPropertyChanged(BR.nickName);
         notifyPropertyChanged(BR.signature);
         notifyPropertyChanged(BR.avatarUrl);
+        notifyPropertyChanged(BR.focusCount);
+        notifyPropertyChanged(BR.postCount);
+        notifyPropertyChanged(BR.fansCount);
     }
 
     @Override
