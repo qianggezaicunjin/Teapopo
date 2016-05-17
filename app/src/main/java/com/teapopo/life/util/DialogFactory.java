@@ -30,4 +30,13 @@ public class DialogFactory {
         return rateDialog;
     }
 
+    public static Dialog createSureOrNotDialog(Context context, String message, DialogInterface.OnClickListener onClickListener){
+        AlertDialog dialog = new AlertDialog.Builder(context).create();
+        dialog.setTitle("提示消息");
+        dialog.setMessage(message);
+        dialog.setButton(AlertDialog.BUTTON_POSITIVE,"确定",onClickListener);
+        dialog.setButton(AlertDialog.BUTTON_NEGATIVE,"取消",onClickListener);
+        return dialog;
+    }
+
 }

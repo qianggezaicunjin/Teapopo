@@ -6,8 +6,7 @@ import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.category.CategoryModel;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticleModel;
-import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
-import com.teapopo.life.viewModel.RecomendArticleViewModel;
+import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import dagger.Module;
 import dagger.Provides;

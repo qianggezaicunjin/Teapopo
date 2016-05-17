@@ -34,6 +34,7 @@ public class PersistentCookieStore {
 
 
     public PersistentCookieStore(Context context) {
+        Timber.d("初始化PersistentCookieStore");
         cookiePrefs = context.getSharedPreferences(COOKIE_PREFS, Context.MODE_PRIVATE);
         cookies = new HashMap<>();
 
@@ -42,6 +43,7 @@ public class PersistentCookieStore {
         for (Map.Entry<String, ?> entry : prefsMap.entrySet()) {
             String[] cookieNames = TextUtils.split((String) entry.getValue(), ",");
             for (String name : cookieNames) {
+                Timber.d("name为%s",name);
                 String encodedCookie = cookiePrefs.getString(name, null);
                 if (encodedCookie != null) {
                     Cookie decodedCookie = decodeCookie(encodedCookie);

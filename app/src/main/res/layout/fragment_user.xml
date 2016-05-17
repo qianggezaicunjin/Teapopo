@@ -5,7 +5,7 @@
 <data>
     <variable
         name="userViewModel"
-        type="com.teapopo.life.viewModel.UserViewModel" />
+        type="com.teapopo.life.viewModel.userCenter.UserViewModel" />
 </data>
     <ScrollView
         android:layout_width="wrap_content"
@@ -32,20 +32,21 @@
                     android:src="@drawable/icon_msg" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/circleiv_user_icon"
+                    android:id="@+id/circleiv_userinfo_icon"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
                     android:layout_below="@+id/iv_user_msg"
                     android:layout_centerHorizontal="true"
                     app:imageUrl="@{userViewModel.avatarUrl}"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_color="@color/gray_light"
+                    app:civ_border_width="2dp"
+                    android:onClick="@{userViewModel.getOnClickListener()}"/>
 
                 <TextView
                     android:id="@+id/tv_nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/circleiv_user_icon"
+                    android:layout_below="@+id/circleiv_userinfo_icon"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/login_tips"
@@ -118,7 +119,7 @@
                     android:orientation="vertical"
                     android:padding="@dimen/padding_size"
                     >
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -129,12 +130,14 @@
                         android:drawableStart="@drawable/icon_pinglun_full"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_pinglun" />
+                        android:text="@string/userinfo_pinglun"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -145,12 +148,14 @@
                         android:drawableStart="@drawable/icon_zan_full"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_like" />
+                        android:text="@string/userinfo_like"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -161,7 +166,9 @@
                         android:drawableStart="@drawable/icon_xinyuandan"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_xinyuandan" />
+                        android:text="@string/userinfo_xinyuandan"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -177,7 +184,7 @@
                     android:padding="@dimen/padding_size"
                    >
 
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -188,12 +195,14 @@
                         android:drawableStart="@drawable/icon_dingdan"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_order" />
+                        android:text="@string/userinfo_order"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -204,12 +213,14 @@
                         android:drawableStart="@drawable/icon_jifen"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_jifen" />
+                        android:text="@string/userinfo_jifen"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -220,12 +231,14 @@
                         android:drawableStart="@drawable/icon_youhuiquan"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_youhuiquan" />
+                        android:text="@string/userinfo_youhuiquan"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -236,7 +249,9 @@
                         android:drawableStart="@drawable/icon_location"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_location" />
+                        android:text="@string/userinfo_location"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
@@ -253,7 +268,8 @@
                     android:padding="@dimen/padding_size"
                    >
 
-                    <TextView
+                    <Button
+                        android:id="@+id/btn_userinfo_setting"
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -264,12 +280,15 @@
                         android:drawableStart="@drawable/icon_shezhi"
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
-                        android:text="@string/userinfo_setting" />
+                        android:text="@string/userinfo_setting"
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="3dp"
                         android:background="@drawable/line"/>
-                    <TextView
+                    <Button
+                        android:id="@+id/btn_userinfo_exit"
                         android:layout_width="match_parent"
                         android:layout_height="0dip"
                         android:layout_weight="1"
@@ -281,7 +300,8 @@
                         android:gravity="center_vertical"
                         android:textSize="@dimen/default_list_textsize"
                         android:text="@string/userinfo_exit"
-                        android:background="?android:selectableItemBackground"/>
+                        android:background="?android:selectableItemBackground"
+                        android:onClick="@{userViewModel.getOnClickListener()}"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

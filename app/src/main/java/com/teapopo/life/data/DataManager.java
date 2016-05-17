@@ -6,6 +6,7 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
@@ -54,7 +55,7 @@ public class DataManager {
 
     protected void injectDependencies(Context context) {
          DataManagerComponent dataManagerComponent = DaggerDataManagerComponent.builder()
-                .applicationComponent(MyApplication.get(context).getComponent())
+                .applicationComponent(ComponentHolder.getAppComponent())
                 .dataManagerModule(new DataManagerModule(context))
                 .build();
                dataManagerComponent .inject(this);

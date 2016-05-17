@@ -2,7 +2,6 @@ package com.teapopo.life.view.fragment.Home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +19,7 @@ import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.event.DataEvent;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
-import com.teapopo.life.viewModel.RecomendArticleViewModel;
-
-import java.util.Timer;
+import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import javax.inject.Inject;
 

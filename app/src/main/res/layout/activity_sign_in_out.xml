@@ -1,135 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_sign_in_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_sign_in_out"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/login"
-                android:textColor="@color/white"/>
-        </android.support.v7.widget.Toolbar>
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
+ <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="@dimen/padding_size">
+     tools:context=".view.activity.SignInAndOutActivity">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar_sign_in_out"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/background_et_loginout"
-            android:padding="@dimen/padding_size">
+            android:fitsSystemWindows="true">
 
-            <ImageView
-                android:id="@+id/iv_login_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_customer" />
-
-            <ImageView
-                android:id="@+id/iv_login_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line"
-                android:layout_centerVertical="true"
-                android:background="@drawable/icon_password" />
-
-            <View
-                android:id="@+id/line"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_sign_in_out"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/default_line_indicator_line_width"
-                android:layout_below="@+id/iv_login_username"
-                android:background="@drawable/line" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary">
 
-            <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/line"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/iv_login_password">
-
-                <EditText
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/login_password"
-                    android:textColorHint="@color/gray_light" />
-            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                    android:layout_gravity="center"
+                    android:text="@string/login"
+                    android:textColor="@color/white" />
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
-            <com.wrapp.floatlabelededittext.FloatLabeledEditText
-                android:id="@+id/et_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/line"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/iv_login_username">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/login_account_number"
-                    android:textColorHint="@color/gray_light" />
-            </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        </RelativeLayout>
-
-        <Button
-            android:id="@+id/btn_login"
+        <FrameLayout
+            android:id="@+id/framelayout_sign_in_out"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/background_btn_login"
-            android:text="@string/login"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:gravity="center"
-            android:text="@string/login_others"
-            android:textColor="@color/gray_light" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/background_btn_weibologin"
-            android:drawableLeft="@drawable/icon_weibo"
-            android:text="@string/login_weibo"
-            android:textColor="@color/white" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:background="@drawable/background_btn_qqlogin"
-            android:drawableLeft="@drawable/icon_qq"
-            android:text="@string/login_qq"
-            android:textColor="@color/white" />
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
-</LinearLayout>

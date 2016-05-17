@@ -1,56 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:float="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_size">
 
-        <EditText
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_et_loginout"
+        android:padding="@dimen/padding_size">
+
+        <ImageView
+            android:id="@+id/iv_login_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_customer" />
+
+        <ImageView
+            android:id="@+id/iv_login_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_password" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_line_indicator_line_width"
+            android:layout_below="@+id/iv_login_username"
+            android:background="@drawable/line" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="This is the hint" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            android:layout_below="@+id/line"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@+id/iv_login_password">
 
-    <!-- add some padding -->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        float:fletPadding="10dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/login_password"
+                android:textColorHint="@color/gray_light" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
-        <EditText
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            android:layout_above="@+id/line"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@+id/iv_login_username">
 
-    <!-- password input -->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/login_account_number"
+                android:textColorHint="@color/gray_light" />
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        float:fletPaddingBottom="10dp">
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_btn_login"
+        android:text="@string/login"
+        android:textColor="@android:color/white" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-    <!-- change color of hint text-->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        float:fletPaddingBottom="10dp"
-        float:fletTextAppearance="@style/floatlabelededittext">
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:text="@string/login_others"
+        android:textColor="@color/gray_light" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Styled Hint"
-            android:inputType="textPassword" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_btn_weibologin"
+        android:drawableLeft="@drawable/icon_weibo"
+        android:text="@string/login_weibo"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/background_btn_qqlogin"
+        android:drawableLeft="@drawable/icon_qq"
+        android:text="@string/login_qq"
+        android:textColor="@color/white" />
+
+
 </LinearLayout>

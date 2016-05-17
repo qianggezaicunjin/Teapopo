@@ -3,12 +3,8 @@ package com.teapopo.life.injection.module;
 import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
-import com.teapopo.life.model.category.CategoryModel;
-import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
-import com.teapopo.life.model.toparticle.TopArticleModel;
 import com.teapopo.life.model.user.UserInfoModel;
-import com.teapopo.life.viewModel.RecomendArticleViewModel;
-import com.teapopo.life.viewModel.UserViewModel;
+import com.teapopo.life.viewModel.userCenter.UserViewModel;
 
 import dagger.Module;
 import dagger.Provides;

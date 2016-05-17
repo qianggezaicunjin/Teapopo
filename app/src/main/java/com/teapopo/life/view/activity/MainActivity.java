@@ -15,6 +15,7 @@ import android.widget.TabHost;
 
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
+import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerMainActivityComponent;
 import com.teapopo.life.injection.component.MainActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onCreateBinding() {
-        mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(getAppComponent())
+        mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(ComponentHolder.getAppComponent())
                 .activityModule(new ActivityModule(this))
                 .mainActivityModule(new MainActivityModule())
                 .build();

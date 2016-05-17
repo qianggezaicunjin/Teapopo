@@ -1,4 +1,4 @@
-package com.teapopo.life.viewModel;
+package com.teapopo.life.viewModel.home;
 
 import android.content.Context;
 import android.databinding.Bindable;
@@ -18,6 +18,8 @@ import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.BR;
+import com.teapopo.life.viewModel.BaseRecyclerViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 

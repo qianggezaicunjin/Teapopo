@@ -17,9 +17,6 @@ import timber.log.Timber;
  * Created by Administrator on 2016/4/7 0007.
  */
 public abstract class SwipeBackBaseActivity extends SwipeBackActivity {
-    public ApplicationComponent getAppComponent(){
-        return MyApplication.get(this).getComponent();
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

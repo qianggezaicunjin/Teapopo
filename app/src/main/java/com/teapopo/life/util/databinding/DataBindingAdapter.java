@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.rx.RxBus;
+import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -29,7 +30,6 @@ public class DataBindingAdapter {
 
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
-        Timber.d("loadImage");
         ImageLoader.getInstance().displayImage(imageUrl,iv);
     }
     @BindingAdapter({"isLoading"})
@@ -51,7 +51,7 @@ public class DataBindingAdapter {
         Timber.d("notifyDataSetChanged articles");
         viewPager.notifyDataSetChanged();
         if(articles.size()>0){
-            RxBus rxBus = MyApplication.get(viewPager.getContext()).getComponent().rxbus();
+            RxBus rxBus = ComponentHolder.getAppComponent().rxbus();
             rxBus.postEvent(new AddHeaderEvent());
         }
     }

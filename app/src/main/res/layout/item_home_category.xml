@@ -4,7 +4,7 @@
     <data>
         <variable
             name="recommendArticleViewModel"
-            type="com.teapopo.life.viewModel.RecomendArticleViewModel"/>
+            type="com.teapopo.life.viewModel.home.RecomendArticleViewModel"/>
     </data>
 <LinearLayout
     android:orientation="vertical"
