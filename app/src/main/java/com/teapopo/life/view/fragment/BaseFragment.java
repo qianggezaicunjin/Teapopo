@@ -9,10 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by louiszgm on 2016/4/19 0019.
  */
-public abstract class BaseFragment extends Fragment{
+public abstract class BaseFragment extends SupportFragment{
    private View mContentView;
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -36,7 +36,7 @@
         </activity>
         <activity android:name=".view.activity.ThirdRegisterActivity"/>
         <activity android:name=".view.activity.SignInAndOutActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
         <!-- mob分享 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

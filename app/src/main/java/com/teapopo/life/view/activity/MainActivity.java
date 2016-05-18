@@ -61,6 +61,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected int setContainerId() {
+        return 0;
+    }
+
+    @Override
     public void onCreateBinding() {
         mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(ComponentHolder.getAppComponent())
                 .activityModule(new ActivityModule(this))

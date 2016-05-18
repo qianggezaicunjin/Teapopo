@@ -6,11 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.injection.component.ApplicationComponent;
-import com.teapopo.life.view.customView.swipeback.SwipeBackActivity;
-import com.teapopo.life.view.customView.swipeback.SwipeBackLayout;
 
+import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 import timber.log.Timber;
 
 /**

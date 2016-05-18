@@ -21,8 +21,7 @@ import butterknife.ButterKnife;
 public class SignInAndOutActivity extends SwipeBackBaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
     @Bind(R.id.toolbar_sign_in_out)
     Toolbar mToolbar;
-    @Bind(R.id.btn_login)
-    Button mBtn_login;
+
 
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SignInAndOutActivity.class);
@@ -32,9 +31,8 @@ public class SignInAndOutActivity extends SwipeBackBaseActivity implements Toolb
         setContentView(R.layout.activity_sign_in_out);
         ButterKnife.bind(this);
         setUpAppBar();
-        getSupportFragmentManager().beginTransaction().add(R.id.framelayout_sign_in_out,new SignInFragment(),"signInFragment").commit();
 
-        mBtn_login.setOnClickListener(this);
+        start(SignInFragment.newInstances());
     }
 
     private void setUpAppBar() {
@@ -58,5 +56,10 @@ public class SignInAndOutActivity extends SwipeBackBaseActivity implements Toolb
     public void onClick(View v) {
         LoginModel loginModel = new LoginModel(this);
         loginModel.login();
+    }
+
+    @Override
+    protected int setContainerId() {
+        return R.id.framelayout_sign_in_out;
     }
 }

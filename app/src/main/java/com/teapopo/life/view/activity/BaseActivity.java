@@ -7,19 +7,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.injection.component.ApplicationComponent;
-import com.teapopo.life.view.customView.swipeback.SwipeBackActivity;
-import com.teapopo.life.view.customView.swipeback.SwipeBackLayout;
 
 import java.sql.Time;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
  * Created by Administrator on 2016/4/7 0007.
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends SupportActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
