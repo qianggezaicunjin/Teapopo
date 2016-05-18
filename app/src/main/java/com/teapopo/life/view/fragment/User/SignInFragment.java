@@ -2,35 +2,34 @@ package com.teapopo.life.view.fragment.User;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
-import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
+import com.teapopo.life.viewModel.ToolBarViewModel;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * Created by louiszgm on 2016/4/18 0018.
  * 用户登陆
  */
-public class SignInFragment extends BaseFragment {
-
-
+public class SignInFragment extends SwipeBackBaseFragment {
+    @Bind(R.id.toolbar)
+    Toolbar mToolBar;
 
     public static SignInFragment newInstances(){
         return  new SignInFragment();
     }
 
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onCreateBinding() {
+    public void onCreateBinding(Bundle savedInstanceState) {
 
     }
 
@@ -43,8 +42,9 @@ public class SignInFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
-
+        mToolBar.inflateMenu(R.menu.menu_fast_signup);
+        ToolBarViewModel toolBarViewModel = new ToolBarViewModel(_mActivity);
+        setUpToolBar(mToolBar).setToolBarViewModel(toolBarViewModel);
     }
-
 
 }

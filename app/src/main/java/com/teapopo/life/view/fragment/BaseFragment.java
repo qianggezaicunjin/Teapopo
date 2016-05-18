@@ -5,9 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.teapopo.life.databinding.ToolbarBinding;
 
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
@@ -34,11 +37,17 @@ public abstract class BaseFragment extends SupportFragment{
             parent.removeView(mContentView);
         }
         setUpView();
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
         return mContentView;
     }
     public abstract void onCreateBinding();
+
+    public ToolbarBinding setUpToolBar(Toolbar toolBar){
+        if(toolBar!=null){
+            ToolbarBinding binding = ToolbarBinding.bind(toolBar);
+            return binding;
+        }
+        return null;
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -29,7 +29,7 @@ public class CategoryModel extends BaseModel {
                 .subscribe(new Subscriber<CategoryList>() {
                     @Override
                     public void onCompleted() {
-                        mRequestView.onRequestFinished();
+
                     }
 
                     @Override

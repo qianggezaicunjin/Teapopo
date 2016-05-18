@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="toolBarViewModel"
+            type="com.teapopo.life.viewModel.ToolBarViewModel"/>
+    </data>
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    app:onMenuItemClick="@{toolBarViewModel.getlis()}"
+    app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/login"
+        android:textAppearance="@style/Toolbar_TextAppearance_White"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示栈视图"
+            android:onClick="@{toolBarViewModel.getClick()}"/>
+    </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+    </layout>

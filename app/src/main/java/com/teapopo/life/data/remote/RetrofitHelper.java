@@ -1,10 +1,8 @@
 package com.teapopo.life.data.remote;
 
 import android.content.Context;
-import android.databinding.ObservableField;
 
 import com.github.aurae.retrofit2.LoganSquareConverterFactory;
-import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.injection.component.ComponentHolder;
@@ -127,19 +125,24 @@ public class RetrofitHelper {
         public List<Cookie> loadForRequest( HttpUrl url) {
 
             RxBus rxBus = ComponentHolder.getAppComponent().rxbus();
-            ConnectableObservable<Object> observable = rxBus.toObservable().publish();
-            observable.filter(new Func1<Object, Boolean>() {
-                @Override
-                public Boolean call(Object o) {
-                    return o instanceof LogOutEvent;
-                }
-            }).doOnNext(new Action1<Object>() {
-                @Override
-                public void call(Object o) {
-                    persistentCookieStore.removeAll();
-                }
-            }).subscribe();
-            observable.connect();
+            rxBus.toObserverable(LogOutEvent.class)
+                    .subscribe(new Subscriber<LogOutEvent>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(LogOutEvent logOutEvent) {
+                            persistentCookieStore.removeAll();
+                        }
+                    });
+
             List<Cookie> cookies = persistentCookieStore.get(url);
             Timber.d("用cookies去请求的url为:%s,cookie为:%s",url.toString(),cookies.toString());
             return cookies;

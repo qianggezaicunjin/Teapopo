@@ -16,14 +16,13 @@ import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.injection.component.RecommendArticleFragmentComponent;
 import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
 import com.teapopo.life.model.event.AddHeaderEvent;
-import com.teapopo.life.model.event.DataEvent;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import javax.inject.Inject;
 
-import rx.functions.Action1;
+import rx.Subscriber;
 import rx.observables.ConnectableObservable;
 import timber.log.Timber;
 
@@ -50,30 +49,33 @@ public class RecommendArticleFragment extends BaseFragment {
         if(getActivity() instanceof MainActivity){
             mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(getActivity()));
             mComponent.inject(this);
+            mRxBus.toObserverable(AddHeaderEvent.class)
+                    .subscribe(new Subscriber<AddHeaderEvent>() {
+                        @Override
+                        public void onCompleted() {
 
-            ConnectableObservable<Object> observable = mRxBus.toObservable().publish();
-            observable.subscribe(new Action1<Object>() {
-                @Override
-                public void call(Object o) {
-                        if(o instanceof DataEvent){
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                                Timber.d(e.toString());
+                        }
+
+                        @Override
+                        public void onNext(AddHeaderEvent addHeaderEvent) {
+                            Timber.d("收到添加头布局的事件");
                             binding.rvRecommendarticle.addHeader(toparticleBinding.getRoot());
+                            //这个是为了解决Viewpager嵌套viewpager的事件冲突
                             toparticleBinding.viewpagerToparticle.setIsCostTheEvent(true);
-
-                            binding.rvRecommendarticle.addHeader(categoryBinding.getRoot());
-
-                        }
-                    else if(o instanceof AddHeaderEvent){
-                            Timber.d("收到AddHeaderEvent");
                             toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
+                            binding.rvRecommendarticle.addHeader(categoryBinding.getRoot());
                         }
-                }
-            });
-
-            observable.connect();
+                    });
         }
     }
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("getContentView");
         binding = FragmentRecommendarticleBinding.inflate(inflater);
         toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(inflater);
         categoryBinding = ItemHomeCategoryBinding.inflate(inflater);
@@ -94,6 +96,5 @@ public class RecommendArticleFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mComponent = null;
     }
 }

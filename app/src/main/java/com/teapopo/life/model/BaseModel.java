@@ -2,7 +2,6 @@ package com.teapopo.life.model;
 
 import android.content.Context;
 
-import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.DataManager;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.injection.component.ComponentHolder;

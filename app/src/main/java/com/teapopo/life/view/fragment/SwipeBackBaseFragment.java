@@ -1,12 +1,14 @@
-package com.teapopo.life.view.fragment.User;
+package com.teapopo.life.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.repacked.antlr.v4.Tool;
+import com.teapopo.life.databinding.ToolbarBinding;
 
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
@@ -14,11 +16,13 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
  * Created by louiszgm on 2016/5/18.
  */
 public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
+
     private View mContentView;
+    private Toolbar mToolBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onCreateBinding();
+        onCreateBinding(savedInstanceState);
     }
 
     @Nullable
@@ -31,17 +35,19 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
         if(parent!=null){
             parent.removeView(mContentView);
         }
+//        setUpToolBar(mToolBar);
         setUpView();
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(false);
         return attachToSwipeBack(mContentView);
     }
-    public abstract void onCreateBinding();
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+    public abstract void onCreateBinding(Bundle savedInstanceState);
 
+    public ToolbarBinding setUpToolBar(Toolbar toolBar){
+        if(toolBar!=null){
+            ToolbarBinding binding = ToolbarBinding.bind(toolBar);
+            return binding;
+        }
+        return null;
+    }
     /**
      * 设置fragment的内容视图
      * @param inflater
@@ -53,4 +59,5 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
      * 初始化需要用的
      */
     public abstract void setUpView();
+
 }

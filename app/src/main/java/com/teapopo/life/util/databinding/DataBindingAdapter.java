@@ -1,23 +1,14 @@
 package com.teapopo.life.util.databinding;
 
 import android.databinding.BindingAdapter;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
+import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.data.rx.RxBus;
-import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.view.customView.HackyViewPager;
-import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
 import java.util.List;
 
@@ -28,6 +19,10 @@ import timber.log.Timber;
  */
 public class DataBindingAdapter {
 
+    @BindingAdapter({"onMenuItemClick"})
+    public static void onMenuItemClick(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
+        toolbar.setOnMenuItemClickListener(listener);
+    }
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
         ImageLoader.getInstance().displayImage(imageUrl,iv);
@@ -46,13 +41,13 @@ public class DataBindingAdapter {
         viewPager.setAdapter(adapter);
 
     }
-    @BindingAdapter({"articles"})
+    @BindingAdapter({"data"})
     public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> articles) {
-        Timber.d("notifyDataSetChanged articles");
+        Timber.d("notifyDataSetChanged viewPager");
         viewPager.notifyDataSetChanged();
-        if(articles.size()>0){
-            RxBus rxBus = ComponentHolder.getAppComponent().rxbus();
-            rxBus.postEvent(new AddHeaderEvent());
-        }
+//        if(articles.size()>0){
+//            RxBus rxBus = ComponentHolder.getAppComponent().rxbus();
+//            rxBus.postEvent(new AddHeaderEvent());
+//        }
     }
 }

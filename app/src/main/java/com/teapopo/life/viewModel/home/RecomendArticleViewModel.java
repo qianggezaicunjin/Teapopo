@@ -65,6 +65,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
         requestData();
         mTopArticleModel.getContens("index");
+        categoryModel.getContents();
     }
 
     public TopArticleAdapter getTopArticleAdapter(){
@@ -77,24 +78,10 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         return categoryAdapter;
     }
 
-    public List<BaseEntity> getCategories(){
-        return categories;
-    }
-    public void setCategories(List<BaseEntity> categories){
-        this.categories = categories;
-    }
-    public List<BaseEntity> getArticles(){
-        return articles;
-    }
-    public void setArticles(List<BaseEntity> articles){
-        this.articles = articles;
-    }
-
     @Override
     public void requestData() {
         super.requestData();
         mRecommendArticleModel.getContents();
-        mCategoryModel.getContents();
     }
 
     @Override
@@ -110,7 +97,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         if(list.get(0) instanceof Category){
             Timber.d("onRequestSuccess  Category");
             categories.addAll(list);
-            notifyPropertyChanged(BR.data);
+            notifyPropertyChanged(BR.categories);
         }
     }
 
@@ -128,7 +115,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
             @Override
             public void onRefresh() {
                 Timber.d("onRefresh");
-                getData().clear();
+                data.clear();
                 requestData();
             }
         };

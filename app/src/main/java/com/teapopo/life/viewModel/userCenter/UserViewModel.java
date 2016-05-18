@@ -126,7 +126,7 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
                     switch (which){
                         case AlertDialog.BUTTON_POSITIVE:
                             //发送用户注销的事件
-                            ComponentHolder.getAppComponent().rxbus().postEvent(new LogOutEvent());
+                            ComponentHolder.getAppComponent().rxbus().post(new LogOutEvent());
                             requestData();
                             break;
                     }

@@ -33,7 +33,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:adapter="@{recommendArticleViewModel.getTopArticleAdapter()}"
-                    app:articles="@{recommendArticleViewModel.articles}"/>
+                    app:data="@{recommendArticleViewModel.articles}"/>
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator_circle_viewpager"

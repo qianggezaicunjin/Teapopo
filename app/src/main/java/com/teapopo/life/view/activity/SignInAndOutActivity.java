@@ -18,9 +18,7 @@ import butterknife.ButterKnife;
 /**
  * Created by louiszgm on 2016/5/10.
  */
-public class SignInAndOutActivity extends SwipeBackBaseActivity implements Toolbar.OnMenuItemClickListener, View.OnClickListener {
-    @Bind(R.id.toolbar_sign_in_out)
-    Toolbar mToolbar;
+public class SignInAndOutActivity extends SwipeBackBaseActivity  {
 
 
     public static Intent getStartIntent(Context context) {
@@ -30,33 +28,9 @@ public class SignInAndOutActivity extends SwipeBackBaseActivity implements Toolb
     public void onCreateBinding() {
         setContentView(R.layout.activity_sign_in_out);
         ButterKnife.bind(this);
-        setUpAppBar();
-
         start(SignInFragment.newInstances());
     }
 
-    private void setUpAppBar() {
-        this.setSupportActionBar(mToolbar);
-        mToolbar.setOnMenuItemClickListener(this);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return false;
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_fast_signup,menu);
-        return true;
-    }
-
-    @Override
-    public void onClick(View v) {
-        LoginModel loginModel = new LoginModel(this);
-        loginModel.login();
-    }
 
     @Override
     protected int setContainerId() {

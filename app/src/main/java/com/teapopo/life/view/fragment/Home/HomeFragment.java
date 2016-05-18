@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import com.teapopo.life.R;
 import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.viewModel.ToolBarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by louiszgm on 2016/4/12 0012.
  * 首页
  */
-public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClickListener {
+public class HomeFragment extends BaseFragment {
     @Bind(R.id.toolbar_home)
     Toolbar mToolbar;
     @Bind(R.id.tabs)
@@ -66,17 +67,7 @@ public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClic
      * 设置首页的顶部
      */
     private void setupAppBar() {
-        //设置标题栏
-        ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setTitle("废墟的树");
-//        toolbar.setSubtitle("CSDN");
-//        toolbar.setLogo(R.drawable.ic_launcher);
         mToolbar.setNavigationIcon(R.drawable.icon_search);
-
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mToolbar.setOnMenuItemClickListener(this);
 
         //设置滑动标签页
         List<String> titles=new ArrayList<>();
@@ -99,15 +90,4 @@ public class HomeFragment extends BaseFragment implements Toolbar.OnMenuItemClic
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_main, menu);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        return false;
-    }
 }

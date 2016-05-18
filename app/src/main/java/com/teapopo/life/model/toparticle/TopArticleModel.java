@@ -7,6 +7,7 @@ import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.DataManager;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.event.DataEvent;
 import com.teapopo.life.view.customView.RequestView;
 
@@ -35,12 +36,12 @@ public class TopArticleModel extends BaseModel{
                     .subscribe(new Subscriber<List<TopArticle>>() {
                         @Override
                         public void onCompleted() {
-                            mRxBus.postEvent(new DataEvent());
+                            mRxBus.post(new AddHeaderEvent());
                         }
 
                         @Override
                         public void onError(Throwable e) {
-
+                            Timber.e(e.toString());
                         }
 
                         @Override
