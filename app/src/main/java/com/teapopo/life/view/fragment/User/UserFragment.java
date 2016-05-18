@@ -15,6 +15,7 @@ import com.teapopo.life.viewModel.userCenter.UserViewModel;
 
 import javax.inject.Inject;
 
+import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 import timber.log.Timber;
 
 /**

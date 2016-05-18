@@ -1,22 +1,20 @@
-package com.teapopo.life.view.fragment;
+package com.teapopo.life.view.fragment.User;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
 /**
- * Created by louiszgm on 2016/4/19 0019.
+ * Created by louiszgm on 2016/5/18.
  */
-public abstract class BaseFragment extends SupportFragment{
-   private View mContentView;
+public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
+    private View mContentView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,7 @@ public abstract class BaseFragment extends SupportFragment{
         setUpView();
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false);
-        return mContentView;
+        return attachToSwipeBack(mContentView);
     }
     public abstract void onCreateBinding();
     @Override

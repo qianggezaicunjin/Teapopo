@@ -11,13 +11,16 @@ import me.yokeyword.fragmentation_swipeback.SwipeBackActivity;
 import timber.log.Timber;
 
 /**
- * Created by Administrator on 2016/4/7 0007.
+ * 具有滑动返回功能的activity
+ * 默认是向右滑动返回
+ * 可通过getSwipeBackLayout()设置滑动的方向以及是否开启滑动返回功能
  */
 public abstract class SwipeBackBaseActivity extends SwipeBackActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         //设置actionBar不显示原有的title
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

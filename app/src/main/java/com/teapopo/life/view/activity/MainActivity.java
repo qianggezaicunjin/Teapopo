@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends SwipeBackBaseActivity {
 
     private MainActivityComponent mMainActivityComponent;
     @Bind(android.R.id.tabhost)
@@ -67,6 +67,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onCreateBinding() {
+        //关闭滑动返回的功能
+        getSwipeBackLayout().setEnableGesture(false);
         mMainActivityComponent = DaggerMainActivityComponent.builder().applicationComponent(ComponentHolder.getAppComponent())
                 .activityModule(new ActivityModule(this))
                 .mainActivityModule(new MainActivityModule())
