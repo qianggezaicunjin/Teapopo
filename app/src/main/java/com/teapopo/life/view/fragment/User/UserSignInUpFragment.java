@@ -64,7 +64,7 @@ public class UserSignInUpFragment extends BaseFragment {
 
         List<Fragment> fragmentList=new ArrayList<>();
         fragmentList.add(SignInFragment.newInstances());
-        fragmentList.add(SignUpFragment.newInstance());
+        fragmentList.add(SignUpVertifyCodeFragment.newInstance());
         List<String> titleList=new ArrayList<>();
         titleList.add("会员登陆");
         titleList.add("会员注册");

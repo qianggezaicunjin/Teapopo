@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="signUpViewModel"
+            type="com.teapopo.life.viewModel.userCenter.SignUpViewModel"/>
+    </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_size">
+
+        <include layout="@layout/toolbar" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/background_et_loginout"
+            android:padding="@dimen/padding_size">
+
+            <View
+                android:id="@+id/line_sigup_userinfo_1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_indicator_line_width"
+                android:layout_below="@+id/et_nickname"
+                android:background="@drawable/line" />
+            <View
+                android:id="@+id/line_sigup_userinfo_2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_line_indicator_line_width"
+                android:layout_below="@+id/et_loginpassword"
+                android:background="@drawable/line" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_loginpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_sigup_userinfo_1"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/loginpassword"
+                    android:maxLines="1"
+                    android:textColorHint="@color/gray_light" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_surepassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line_sigup_userinfo_2"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/surepassword"
+                    android:maxLines="1"
+                    android:textColorHint="@color/gray_light" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/et_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/nickname"
+                    android:maxLines="1"
+                    android:textColorHint="@color/gray_light" />
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/background_btn_login"
+            android:text="@string/signup"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</layout>

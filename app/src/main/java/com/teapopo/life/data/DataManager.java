@@ -135,4 +135,23 @@ public class DataManager {
     public Observable<JsonObject> getUserInfo(){
         return mNetWorkService.getUserInfo();
     }
+
+    /**
+     * 获取短信验证码
+     * @param phonenumber
+     * @return
+     */
+    public Observable<JsonObject> getSmsVertify(String phonenumber,String temp_id){
+            return mNetWorkService.getSmsVertify(phonenumber,temp_id);
+    }
+
+    /**
+     * 验证手机是否被注册过
+     * @param phonenum
+     * @param vertifycode
+     * @return
+     */
+    public Observable<JsonObject> vertifyPhone(String phonenum,String vertifycode){
+        return mNetWorkService.vertifyPhone(phonenum,vertifycode);
+    }
 }

@@ -24,6 +24,7 @@ import javax.inject.Inject;
 
 import rx.Subscriber;
 import rx.observables.ConnectableObservable;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -40,6 +41,7 @@ public class RecommendArticleFragment extends BaseFragment {
     private ItemRecyclerviewToparticleBinding toparticleBinding;//顶部轮播图片的binding对象
     private ItemHomeCategoryBinding categoryBinding;
 
+    private View mTopArticle;
     public static RecommendArticleFragment newInstance() {
         return new RecommendArticleFragment();
     }
@@ -50,6 +52,7 @@ public class RecommendArticleFragment extends BaseFragment {
             mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(getActivity()));
             mComponent.inject(this);
             mRxBus.toObserverable(AddHeaderEvent.class)
+                    .observeOn(Schedulers.io())
                     .subscribe(new Subscriber<AddHeaderEvent>() {
                         @Override
                         public void onCompleted() {
@@ -64,7 +67,7 @@ public class RecommendArticleFragment extends BaseFragment {
                         @Override
                         public void onNext(AddHeaderEvent addHeaderEvent) {
                             Timber.d("收到添加头布局的事件");
-                            binding.rvRecommendarticle.addHeader(toparticleBinding.getRoot());
+                            binding.rvRecommendarticle.addHeader(mTopArticle);
                             //这个是为了解决Viewpager嵌套viewpager的事件冲突
                             toparticleBinding.viewpagerToparticle.setIsCostTheEvent(true);
                             toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
@@ -80,6 +83,7 @@ public class RecommendArticleFragment extends BaseFragment {
         toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(inflater);
         categoryBinding = ItemHomeCategoryBinding.inflate(inflater);
 
+        mTopArticle = toparticleBinding.getRoot();
         categoryBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
 
         binding.setRecommendArticleViewModel(mRecomendArticleViewModel);

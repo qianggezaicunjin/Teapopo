@@ -14,6 +14,8 @@ import java.util.List;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -100,5 +102,10 @@ public interface NetWorkService {
     @POST("members/bind")
     Call<Void> bindAccount(@Body RequestBody requestBody);
 
+    @GET("members/verify_sms?no_verify=1")
+    Observable<JsonObject> getSmsVertify(@Query("phone") String phonenumber,@Query("temp_id") String forwhat);
 
+    @FormUrlEncoded
+    @POST("members/check_phone")
+    Observable<JsonObject> vertifyPhone(@Field("phone") String phonenum,@Field("verify")String vertifycode);
 }

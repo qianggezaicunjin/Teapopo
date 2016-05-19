@@ -5,7 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.teapopo.life.view.fragment.User.SignUpFragment;
+import com.teapopo.life.view.fragment.User.SignUpVertifyCodeFragment;
 
 import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
@@ -25,7 +25,7 @@ public class ToolBarViewModel {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 Timber.d("ToolBar菜单被点击啦");
-                mContext.start(SignUpFragment.newInstance());
+                mContext.start(SignUpVertifyCodeFragment.newInstance());
                 return true;
             }
         };

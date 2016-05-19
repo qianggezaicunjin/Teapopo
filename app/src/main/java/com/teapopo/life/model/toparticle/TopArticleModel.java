@@ -32,7 +32,7 @@ public class TopArticleModel extends BaseModel{
     public void getContens(String classify){
         Observable<List<TopArticle>> observable = mDataManager.getTopArticle(classify);
         observable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(mDataManager.getScheduler())
                     .subscribe(new Subscriber<List<TopArticle>>() {
                         @Override
                         public void onCompleted() {

@@ -51,7 +51,7 @@ public class NoScrollGridAdapter extends BaseAdapter {
         String url= NetWorkService.IMAGE_ENDPOINT+imageUrls.get(position)+NetWorkService.IMAGE_EXT;
         ImageLoader.getInstance().displayImage(url, imageView);
 
-        return imageView;
+        return view;
     }
 
 }
