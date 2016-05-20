@@ -122,15 +122,8 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     @Override
     public void onRequestSuccess(ViewModelAction data) {
         Timber.d("onRequestSuccess");
-        switch (data.action){
-            case SignUpModel.GetVertifyCodeAction:
-                doGetCodeSuccess();
-                break;
-            case SignUpModel.VertifyPhoneAction:
-                doVertifySuccess();
-                break;
+
         }
-    }
 
     @Override
     public void onRequestErroInfo(String erroinfo) {

@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class DataUtils {
 
@@ -29,5 +30,18 @@ public class DataUtils {
         re_StrTime = sdf.format(new Date(lcc_time * 1000L));
 
         return re_StrTime;
+    }
+
+    public static String getUUID(){
+        // 创建 GUID 对象
+        UUID uuid = UUID.randomUUID();
+        // 得到对象产生的ID
+        String uuidstring = uuid.toString();
+        // 转换为大写
+        uuidstring = uuidstring.toUpperCase();
+        // 替换 -
+        uuidstring = uuidstring.replaceAll("-", "");
+
+        return  uuidstring;
     }
 }

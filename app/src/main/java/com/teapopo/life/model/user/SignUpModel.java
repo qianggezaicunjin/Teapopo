@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ViewModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
@@ -17,8 +18,8 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/19.
  */
 public class SignUpModel extends BaseModel {
-    public static final int GetVertifyCodeAction = 0;
-    public static final int VertifyPhoneAction = 1;
+    public static final Action GetVertifyCodeAction = Action.GetVertifyCodeAction;
+    public static final Action VertifyPhoneAction = Action.VertifyPhoneAction;
 
     public SignUpModel(Context context) {
         super(context);
@@ -34,7 +35,7 @@ public class SignUpModel extends BaseModel {
                     @Override
                     public void _onNext(Object o) {
                         Timber.d("请求服务器成功");
-                        ViewModelAction<String> action = new ViewModelAction<String>();
+                        ViewModelAction<Action> action = new ViewModelAction<Action>();
                         action.action = GetVertifyCodeAction;
                         mRequestView.onRequestSuccess(action);
                     }
@@ -55,7 +56,7 @@ public class SignUpModel extends BaseModel {
                 .subscribe(new RxSubscriber<Object>() {
                     @Override
                     public void _onNext(Object o) {
-                        ViewModelAction<String> action = new ViewModelAction<String>();
+                        ViewModelAction<Action> action = new ViewModelAction<Action>();
                         action.action = VertifyPhoneAction;
                         mRequestView.onRequestSuccess(action);
                     }

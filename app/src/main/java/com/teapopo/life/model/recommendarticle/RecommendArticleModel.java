@@ -7,6 +7,7 @@ import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.DataManager;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.DialogFactory;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.customView.RequestView;
@@ -24,6 +25,7 @@ import timber.log.Timber;
  *
  */
 public class RecommendArticleModel  extends BaseModel{
+
     private int mPage = 0;
     public RecommendArticleModel(Context context){
         super(context);

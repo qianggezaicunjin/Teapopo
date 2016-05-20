@@ -22,6 +22,8 @@ import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.MainActivityModule;
 import com.teapopo.life.view.fragment.Home.HomeFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
+import com.teapopo.life.view.fragment.welfare.WelFareFragment;
+import com.teapopo.life.view.fragment.xinzi.XinZiFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -92,16 +94,15 @@ public class MainActivity extends SwipeBackBaseActivity {
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("新滋").setIndicator(getImageView(i));
                     // 添加Fragment
-                    mTabHost.addTab(tabSpec1, HomeFragment.class, null);
+                    mTabHost.addTab(tabSpec1, XinZiFragment.class, null);
                     break;
                 case R.drawable.icon_welfare:
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("福利社").setIndicator(getImageView(i));
                     // 添加Fragment
-                    mTabHost.addTab(tabSpec2, HomeFragment.class, null);
+                    mTabHost.addTab(tabSpec2, WelFareFragment.class, null);
                     break;
                 case R.drawable.icon_user:
-
                     // Tab按钮添加文字和图片
                     TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("我的").setIndicator(getImageView(i));
                     // 添加Fragment
