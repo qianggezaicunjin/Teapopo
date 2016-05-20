@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-     tools:context=".view.activity.SignInAndOutActivity">
+     tools:context=".view.activity.SignInAndUpActivity">
         <FrameLayout
             android:id="@+id/framelayout_sign_in_out"
             android:layout_width="match_parent"

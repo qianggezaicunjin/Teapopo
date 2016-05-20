@@ -13,8 +13,8 @@ import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 
 import com.teapopo.life.databinding.ItemHomeCategoryBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
-import com.teapopo.life.injection.component.RecommendArticleFragmentComponent;
-import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
+import com.teapopo.life.injection.component.fragment.RecommendArticleFragmentComponent;
+import com.teapopo.life.injection.module.fragment.RecommendArticleFragmentModule;
 import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
@@ -23,7 +23,6 @@ import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 import javax.inject.Inject;
 
 import rx.Subscriber;
-import rx.observables.ConnectableObservable;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -49,7 +48,7 @@ public class RecommendArticleFragment extends BaseFragment {
     @Override
     public void onCreateBinding() {
         if(getActivity() instanceof MainActivity){
-            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(getActivity()));
+            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule());
             mComponent.inject(this);
             mRxBus.toObserverable(AddHeaderEvent.class)
                     .observeOn(Schedulers.io())

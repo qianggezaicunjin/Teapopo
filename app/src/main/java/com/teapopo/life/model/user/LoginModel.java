@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.model.PostKeyValue;
+import com.teapopo.life.util.rx.RxResultHelper;
+import com.teapopo.life.util.rx.RxSubscriber;
 
 import org.json.JSONObject;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -33,24 +36,19 @@ public class LoginModel extends BaseModel {
         params.add(new PostKeyValue("use_sms","0"));
         params.add(new PostKeyValue("login_name","13798969669"));
         params.add(new PostKeyValue("password","42418909"));
-        Observable<ErroInfo> observable = mDataManager.login(params);
+        Observable<JsonObject> observable = mDataManager.login(params);
         observable.subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<ErroInfo>() {
+                    .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.handleResult())
+                .subscribe(new RxSubscriber<Object>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void _onNext(Object o) {
+                        //TODO:对结果进行相关的逻辑处理
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Timber.d(e.toString());
-                    }
-
-                    @Override
-                    public void onNext(ErroInfo erroInfo) {
-                        Timber.d("登录返回的信息为:%s",erroInfo.toString());
-                        SharedPreferences preferences = mContext.getSharedPreferences("LoginInfo",0);
-
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }

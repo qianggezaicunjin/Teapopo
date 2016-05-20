@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentUserBinding;
-import com.teapopo.life.injection.component.UserFragmentComponent;
-import com.teapopo.life.injection.module.UserFragmentModule;
+import com.teapopo.life.injection.component.fragment.UserFragmentComponent;
+import com.teapopo.life.injection.module.fragment.UserFragmentModule;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.userCenter.UserViewModel;
 
 import javax.inject.Inject;
 
-import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 import timber.log.Timber;
 
 /**

@@ -114,7 +114,7 @@ public class DataManager {
      * @param params
      * @return
      */
-    public Observable<ErroInfo> login(List<PostKeyValue> params){
+    public Observable<JsonObject> login(List<PostKeyValue> params){
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
         if(params!=null){

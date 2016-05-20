@@ -1,4 +1,4 @@
-package com.teapopo.life.injection.module;
+package com.teapopo.life.injection.module.fragment;
 
 import android.content.Context;
 

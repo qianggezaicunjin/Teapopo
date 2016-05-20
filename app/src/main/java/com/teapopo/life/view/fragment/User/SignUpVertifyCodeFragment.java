@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
 import com.teapopo.life.model.user.SignUpModel;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
-import com.teapopo.life.viewModel.userCenter.SignUpViewModel;
+import com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel;
 
 /**
  * Created by louiszgm on 2016/4/18 0018.
@@ -37,7 +37,7 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentSignupVertifycodeBinding.inflate(inflater);
-        SignUpViewModel viewModel = new SignUpViewModel(_mActivity,binding,new SignUpModel(_mActivity));
+        SignUpVertifyCodeViewModel viewModel = new SignUpVertifyCodeViewModel(_mActivity,binding,new SignUpModel(_mActivity));
         binding.setSignUpViewModel(viewModel);
         return binding.getRoot();
     }

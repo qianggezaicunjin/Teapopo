@@ -11,24 +11,32 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.user.SignUpModel;
+import com.teapopo.life.util.Constans.ViewModelAction;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.SnackbarFactory;
 import com.teapopo.life.view.customView.CountDownTimer;
 import com.teapopo.life.view.customView.RequestView;
+import com.teapopo.life.view.fragment.User.SignUpUserInfoFragment;
+import com.teapopo.life.view.fragment.User.SignUpVertifyCodeFragment;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/19.
  */
-public class SignUpViewModel extends BaseObservable implements RequestView<String> {
+public class SignUpVertifyCodeViewModel extends BaseObservable implements RequestView<ViewModelAction> {
+
     private FragmentSignupVertifycodeBinding mBinding;
     private SignUpModel mSignUpModel;
     private Context mContext;
     @Bindable
     public String leftTime;
-    public SignUpViewModel(Context context,FragmentSignupVertifycodeBinding binding, SignUpModel signUpModel){
+    private CountDownTimer mCountDownTimer;
+
+    public SignUpVertifyCodeViewModel(Context context, FragmentSignupVertifycodeBinding binding, SignUpModel signUpModel){
         mContext = context;
         mBinding = binding;
         mSignUpModel = signUpModel;
@@ -58,30 +66,53 @@ public class SignUpViewModel extends BaseObservable implements RequestView<Strin
         if(TextUtils.isEmpty(phonenum)||TextUtils.isEmpty(vertifycode)){
             CustomToast.makeText(mContext,"所填信息不能为空", Toast.LENGTH_SHORT).show();
         }else {
+            //设置按钮状态为loading
             mBinding.btnSignupNextstep.setMode(ActionProcessButton.Mode.ENDLESS);
             mBinding.btnSignupNextstep.setProgress(50);
             mSignUpModel.vertifyPhone(phonenum,vertifycode);
         }
     }
+    private void doVertifySuccess(){
+        mBinding.btnSignupNextstep.setProgress(100);
+        ((SupportActivity)mContext).popTo(SignUpVertifyCodeFragment.class, false, new Runnable() {
+            @Override
+            public void run() {
 
+            }
+        });
+        if(mCountDownTimer.isRunning){
+            mCountDownTimer.cancel();
+        }
+    }
     //获取验证码
     private void doGetCode() {
+        String phonenum = mBinding.etPhonenum.getEditText().getText().toString();
+        if (TextUtils.isEmpty(phonenum)){
+                CustomToast.makeText(mContext,"手机号不能为空!",Toast.LENGTH_SHORT).show();
+        }else {
+            mSignUpModel.getVertifyCode(phonenum);
+        }
 
-        CountDownTimer c = new CountDownTimer(1000*60,1000) {
+    }
+    //获取验证码成功，更新视图
+    private void doGetCodeSuccess(){
+        mCountDownTimer = new CountDownTimer(1000*60,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                leftTime = millisUntilFinished/1000+"秒后重新获取";
+
+                leftTime = millisUntilFinished/1000+"后重新获取验证码";
+                Timber.d(leftTime);
                 notifyPropertyChanged(BR.leftTime);
             }
 
             @Override
             public void onFinish() {
-                leftTime = "点击重新发送";
+                leftTime = "重新获取验证码";
                 notifyPropertyChanged(BR.leftTime);
             }
-        };
-        c.start();
+        }.start();
     }
+
 
     @Override
     public void onRequestFinished() {
@@ -89,9 +120,16 @@ public class SignUpViewModel extends BaseObservable implements RequestView<Strin
     }
 
     @Override
-    public void onRequestSuccess(String data) {
-        Timber.d(data);
-        mBinding.btnSignupNextstep.setProgress(100);
+    public void onRequestSuccess(ViewModelAction data) {
+        Timber.d("onRequestSuccess");
+        switch (data.action){
+            case SignUpModel.GetVertifyCodeAction:
+                doGetCodeSuccess();
+                break;
+            case SignUpModel.VertifyPhoneAction:
+                doVertifySuccess();
+                break;
+        }
     }
 
     @Override

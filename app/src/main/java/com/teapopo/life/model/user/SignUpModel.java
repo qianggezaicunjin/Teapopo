@@ -3,14 +3,13 @@ package com.teapopo.life.model.user;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.teapopo.life.data.ServerException;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.Constans.ViewModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
+import com.teapopo.life.util.rx.RxSubscriber;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -18,22 +17,34 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/19.
  */
 public class SignUpModel extends BaseModel {
+    public static final int GetVertifyCodeAction = 0;
+    public static final int VertifyPhoneAction = 1;
 
     public SignUpModel(Context context) {
         super(context);
     }
 
     public void getVertifyCode(String phonenum){
-        //55804位短信模板的id
+        //55804为短信模板的id
         Observable<JsonObject> observable = mDataManager.getSmsVertify(phonenum,"55804");
         observable.subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .filter(new Func1<JsonObject, Boolean>() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.handleResult())
+                .subscribe(new RxSubscriber<Object>() {
                     @Override
-                    public Boolean call(JsonObject jsonObject) {
-                        return null;
+                    public void _onNext(Object o) {
+                        Timber.d("请求服务器成功");
+                        ViewModelAction<String> action = new ViewModelAction<String>();
+                        action.action = GetVertifyCodeAction;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
+
     }
     //验证该手机号码是否存在
     public void vertifyPhone(String phonenum,String vertifycode){
@@ -41,22 +52,17 @@ public class SignUpModel extends BaseModel {
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxResultHelper.handleResult())
-                .subscribe(new Subscriber<Object>() {
+                .subscribe(new RxSubscriber<Object>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void _onNext(Object o) {
+                        ViewModelAction<String> action = new ViewModelAction<String>();
+                        action.action = VertifyPhoneAction;
+                        mRequestView.onRequestSuccess(action);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        if(e instanceof ServerException){
-                            mRequestView.onRequestErroInfo(e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onNext(Object object) {
-                        Timber.d("onNext");
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }

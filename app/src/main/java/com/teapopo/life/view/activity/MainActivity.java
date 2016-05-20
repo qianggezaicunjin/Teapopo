@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 import com.teapopo.life.R;
-import com.teapopo.life.data.remote.cookie.PersistentCookieStore;
 import com.teapopo.life.injection.component.ComponentHolder;
+
 import com.teapopo.life.injection.component.DaggerMainActivityComponent;
 import com.teapopo.life.injection.component.MainActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
@@ -25,7 +25,6 @@ import com.teapopo.life.view.fragment.User.UserFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 
 public class MainActivity extends SwipeBackBaseActivity {

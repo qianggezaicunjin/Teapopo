@@ -32,7 +32,7 @@
         <activity android:name=".view.activity.ImagePagerActivity" >
         </activity>
         <activity android:name=".view.activity.ThirdRegisterActivity"/>
-        <activity android:name=".view.activity.SignInAndOutActivity"
+        <activity android:name=".view.activity.SignInAndUpActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
         <!-- mob分享 -->
         <activity

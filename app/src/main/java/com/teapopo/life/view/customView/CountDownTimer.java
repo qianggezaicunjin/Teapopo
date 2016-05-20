@@ -22,7 +22,8 @@ public abstract class CountDownTimer {
 
     // 停止时间
     private long mStopTimeInFuture;
-
+    //判断任务是否正在执行
+    public boolean isRunning;
     /**
      * @param millisInFuture The number of millis in the future from the call
      *   to {@link #start()} until the countdown is done and {@link #onFinish()}
@@ -41,6 +42,7 @@ public abstract class CountDownTimer {
      取消到timer
      */
     public final void cancel() {
+        isRunning = false;
         mHandler.removeMessages(MSG);
     }
 
@@ -49,6 +51,7 @@ public abstract class CountDownTimer {
      开始
      */
     public synchronized final CountDownTimer start() {
+        isRunning = true;
         if (mMillisInFuture <= 0) {
             onFinish();
             return this;
@@ -86,6 +89,7 @@ public abstract class CountDownTimer {
                 final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
                 // 小于等于 0 ，回调 onFinish
                 if (millisLeft <= 0) {
+                    isRunning = false;
                     onFinish();
                 } else if (millisLeft < mCountdownInterval) { // 小于计时间隔 ，delayed 一个消息
                     // no tick, just delay until done

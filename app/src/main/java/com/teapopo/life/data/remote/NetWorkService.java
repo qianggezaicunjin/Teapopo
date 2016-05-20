@@ -63,7 +63,7 @@ public interface NetWorkService {
      * @return
      */
     @POST("members/login")
-    Observable<ErroInfo> login(@Body RequestBody requestBody);
+    Observable<JsonObject> login(@Body RequestBody requestBody);
 
     @GET("members/self")
     Observable<JsonObject> getUserInfo();

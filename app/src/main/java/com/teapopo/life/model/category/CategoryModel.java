@@ -3,6 +3,7 @@ package com.teapopo.life.model.category;
 import android.content.Context;
 
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.sql.Time;
 import java.util.List;
@@ -26,21 +27,16 @@ public class CategoryModel extends BaseModel {
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
-                .subscribe(new Subscriber<CategoryList>() {
+                .subscribe(new RxSubscriber<CategoryList>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void _onNext(CategoryList categoryList) {
+                        Timber.d("返回的Category的个数为:%d",categoryList.data.categoryList.size());
+                        mRequestView.onRequestSuccess(categoryList.data.categoryList);
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        Timber.e(e.toString());
-                    }
-
-                    @Override
-                    public void onNext(CategoryList categories) {
-                        Timber.d("返回的Category的个数为:%d",categories.data.categoryList.size());
-                        mRequestView.onRequestSuccess(categories.data.categoryList);
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }

@@ -18,11 +18,11 @@ import timber.log.Timber;
  */
 public class MyApplication extends Application {
     ApplicationComponent mApplicationComponent;
-
+    private static  Context mContext;
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mContext = this;
         initialImageLoader();
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
@@ -50,7 +50,9 @@ public class MyApplication extends Application {
                 .build();
         ImageLoader.getInstance().init(config);
     }
-
+    public static Context getInstance(){
+        return mContext;
+    }
 //    public static MyApplication get(Context context){
 //        return (MyApplication) context.getApplicationContext();
 //    }

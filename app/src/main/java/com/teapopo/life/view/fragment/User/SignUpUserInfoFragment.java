@@ -16,6 +16,9 @@ public class SignUpUserInfoFragment extends SwipeBackBaseFragment {
 
     private FragmentSignupUserinfoBinding binding;
 
+    public static SignUpUserInfoFragment newInstance(){
+        return new SignUpUserInfoFragment();
+    }
     @Override
     public void onCreateBinding(Bundle savedInstanceState) {
 

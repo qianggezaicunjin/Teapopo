@@ -1,6 +1,6 @@
-package com.teapopo.life.injection.component;
+package com.teapopo.life.injection.component.fragment;
 
-import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
+import com.teapopo.life.injection.module.fragment.RecommendArticleFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 

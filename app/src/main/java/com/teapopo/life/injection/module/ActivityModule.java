@@ -1,6 +1,7 @@
 package com.teapopo.life.injection.module;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.teapopo.life.injection.scope.PerActivity;
@@ -13,14 +14,14 @@ import dagger.Provides;
  */
 @Module
 public class ActivityModule {
-    private final Activity activity;
-    public ActivityModule(Activity activity){
-        this.activity = activity;
+     private Context mContext;
+    public ActivityModule(Context context){
+        this.mContext = context;
     }
 
     @Provides
     @PerActivity
-    public Activity provideActivity(){
-        return activity;
+     Context provideActivity(){
+        return mContext;
     }
 }

@@ -29,11 +29,10 @@ public class RxResultHelper {
                                     if(result.get("errcode").getAsInt()!=0){
                                         Timber.d("errcode不为0");
                                        return Observable.error(new ServerException(result.get("errmsg").getAsString()));
+                                    }else {
+                                        return (Observable<T>) createData(result);
                                     }
                                 }
-                               //// TODO: 2016/5/18 在此处加入处理错误的代码
-                                return Observable.empty();
-
                             }
                         }
 

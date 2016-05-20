@@ -1,9 +1,11 @@
 package com.teapopo.life.injection.component;
 
+import com.teapopo.life.injection.component.fragment.RecommendArticleFragmentComponent;
+import com.teapopo.life.injection.component.fragment.UserFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.MainActivityModule;
-import com.teapopo.life.injection.module.RecommendArticleFragmentModule;
-import com.teapopo.life.injection.module.UserFragmentModule;
+import com.teapopo.life.injection.module.fragment.RecommendArticleFragmentModule;
+import com.teapopo.life.injection.module.fragment.UserFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.activity.MainActivity;
 

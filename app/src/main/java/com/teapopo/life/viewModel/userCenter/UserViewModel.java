@@ -18,7 +18,7 @@ import com.teapopo.life.model.user.UserInfo;
 import com.teapopo.life.model.user.UserInfoModel;
 import com.teapopo.life.util.DialogFactory;
 import com.teapopo.life.util.navigator.Navigator;
-import com.teapopo.life.view.activity.SignInAndOutActivity;
+import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.customView.RequestView;
 
 
@@ -105,7 +105,7 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
                  switch (v.getId()){
                      case R.id.circleiv_userinfo_icon:
                          Timber.d("点击了用户头像");
-                         Navigator.getInstance().start(mContext, SignInAndOutActivity.class);
+                         Navigator.getInstance().start(mContext, SignInAndUpActivity.class);
                          break;
                      case R.id.btn_userinfo_exit:
                          Timber.d("点击了注销按钮");

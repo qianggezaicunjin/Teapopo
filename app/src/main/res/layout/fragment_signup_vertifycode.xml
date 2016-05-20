@@ -6,7 +6,7 @@
     <data>
         <variable
             name="signUpViewModel"
-            type="com.teapopo.life.viewModel.userCenter.SignUpViewModel"/>
+            type="com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel"/>
     </data>
 <LinearLayout
     android:layout_width="match_parent"

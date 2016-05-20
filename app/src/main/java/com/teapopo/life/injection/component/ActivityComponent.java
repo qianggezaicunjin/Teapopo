@@ -1,6 +1,7 @@
 package com.teapopo.life.injection.component;
 
 import android.app.Activity;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.teapopo.life.injection.module.ActivityModule;
@@ -15,5 +16,5 @@ import dagger.Component;
 @Component(modules = {ActivityModule.class})
 public interface ActivityComponent {
 
-    Activity getActivity();
+    Context getContext();
 }
