@@ -14,15 +14,15 @@ import dagger.Provides;
  */
 @Module
 public class UserFragmentModule {
-    private Context mContext;
-
-    public UserFragmentModule(Context context){
-        this.mContext = context;
-    }
 
     @Provides
     @PerActivity
-    UserViewModel provideUserViewModel(){
-        return new UserViewModel(mContext,new UserInfoModel(mContext));
+    UserViewModel provideUserViewModel(Context context,UserInfoModel userInfoModel){
+        return new UserViewModel(context,userInfoModel);
+    }
+    @Provides
+    @PerActivity
+    UserInfoModel provideUserInfoModel(Context context){
+        return new UserInfoModel(context);
     }
 }

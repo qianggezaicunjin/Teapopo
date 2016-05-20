@@ -30,7 +30,7 @@ public class UserFragment extends BaseFragment {
     public void onCreateBinding() {
         Timber.d("Oncreate");
         if(getActivity() instanceof MainActivity){
-            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().userFragment(new UserFragmentModule(getActivity()));
+            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().userFragment(new UserFragmentModule());
             mComponent.inject(this);}
     }
 
