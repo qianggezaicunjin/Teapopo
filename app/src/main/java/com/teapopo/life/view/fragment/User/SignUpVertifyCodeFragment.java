@@ -11,12 +11,13 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
 import com.teapopo.life.injection.component.fragment.SignUpVervifyCodeFragmentComponent;
 import com.teapopo.life.injection.module.fragment.SignUpVertifyCodeFragmentModule;
-import com.teapopo.life.model.user.SignUpModel;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/4/18 0018.
@@ -47,7 +48,12 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
 
     @Override
     public void setUpView() {
-
 //        setUpToolBar(mToolBar).setToolBarViewModel(new ToolBarViewModel(_mActivity));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Timber.d("onSaveInstanceState");
     }
 }

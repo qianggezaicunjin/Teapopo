@@ -28,14 +28,7 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(mContentView == null){
-            mContentView= getContentView(inflater,container,savedInstanceState);
-        }
-        ViewGroup parent= (ViewGroup) container.getParent();
-        if(parent!=null){
-            parent.removeView(mContentView);
-        }
-//        setUpToolBar(mToolBar);
+        mContentView= getContentView(inflater,container,savedInstanceState);
         setUpView();
         return attachToSwipeBack(mContentView);
     }

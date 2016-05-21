@@ -154,4 +154,23 @@ public class DataManager {
     public Observable<JsonObject> vertifyPhone(String phonenum,String vertifycode){
         return mNetWorkService.vertifyPhone(phonenum,vertifycode);
     }
+
+    /**
+     * 注册
+     * @param params
+     * @return
+     */
+    public Observable<JsonObject> regist(List<PostKeyValue> params){
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        if(params!=null){
+            for (int i=0;i<params.size();i++){
+                PostKeyValue content= params.get(i);
+
+                builder.addFormDataPart(content.getKey(), content.getValue());
+            }
+
+        }
+        return mNetWorkService.regist(builder.build());
+    }
 }

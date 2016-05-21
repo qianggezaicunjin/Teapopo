@@ -65,6 +65,14 @@ public interface NetWorkService {
     @POST("members/login")
     Observable<JsonObject> login(@Body RequestBody requestBody);
 
+    /**
+     * 注册
+     * @param requestBody
+     * @return
+     */
+    @POST("members/register")
+    Observable<JsonObject> regist(@Body RequestBody requestBody);
+
     @GET("members/self")
     Observable<JsonObject> getUserInfo();
     /**

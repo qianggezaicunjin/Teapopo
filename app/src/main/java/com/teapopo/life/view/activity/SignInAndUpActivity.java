@@ -15,6 +15,7 @@ import com.teapopo.life.injection.module.SignInAndUpActivityModule;
 import com.teapopo.life.view.fragment.User.SignInFragment;
 
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/10.
@@ -52,5 +53,12 @@ public class SignInAndUpActivity extends SwipeBackBaseActivity  {
     @Override
     protected int setContainerId() {
         return R.id.framelayout_sign_in_out;
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Timber.d("SignInAndUpActivity 的 onSaveInstanceState被调用啦");
     }
 }

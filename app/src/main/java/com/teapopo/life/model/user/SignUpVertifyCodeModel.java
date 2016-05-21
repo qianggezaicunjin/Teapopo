@@ -17,11 +17,9 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/19.
  */
-public class SignUpModel extends BaseModel {
-    public static final Action GetVertifyCodeAction = Action.GetVertifyCodeAction;
-    public static final Action VertifyPhoneAction = Action.VertifyPhoneAction;
+public class SignUpVertifyCodeModel extends BaseModel {
 
-    public SignUpModel(Context context) {
+    public SignUpVertifyCodeModel(Context context) {
         super(context);
     }
 
@@ -36,7 +34,7 @@ public class SignUpModel extends BaseModel {
                     public void _onNext(Object o) {
                         Timber.d("请求服务器成功");
                         ViewModelAction<Action> action = new ViewModelAction<Action>();
-                        action.action = GetVertifyCodeAction;
+                        action.action = Action.SignUpVertifyCodeModel_GetVertifyCode;
                         mRequestView.onRequestSuccess(action);
                     }
 
@@ -56,8 +54,10 @@ public class SignUpModel extends BaseModel {
                 .subscribe(new RxSubscriber<Object>() {
                     @Override
                     public void _onNext(Object o) {
-                        ViewModelAction<Action> action = new ViewModelAction<Action>();
-                        action.action = VertifyPhoneAction;
+
+                        ViewModelAction<Boolean> action = new ViewModelAction<Boolean>();
+                        action.action = Action.SignUpVertifyCodeModel_VertifyPhone;
+                        action.t = ((JsonObject)o).get("exists").getAsBoolean();
                         mRequestView.onRequestSuccess(action);
                     }
 

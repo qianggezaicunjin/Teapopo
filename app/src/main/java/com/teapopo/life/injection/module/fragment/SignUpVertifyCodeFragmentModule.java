@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
 import com.teapopo.life.injection.scope.PerActivity;
-import com.teapopo.life.model.user.SignUpModel;
+import com.teapopo.life.model.user.SignUpVertifyCodeModel;
 import com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel;
 
 import dagger.Module;
@@ -22,12 +22,12 @@ public class SignUpVertifyCodeFragmentModule {
     }
     @PerActivity
     @Provides
-    SignUpVertifyCodeViewModel provideSignUpVertifyCodeViewModel(Context context, SignUpModel model){
+    SignUpVertifyCodeViewModel provideSignUpVertifyCodeViewModel(Context context, SignUpVertifyCodeModel model){
         return new SignUpVertifyCodeViewModel(context,mBinding,model);
     }
     @PerActivity
     @Provides
-    SignUpModel provideSignUpModel(Context context){
-        return new SignUpModel(context);
+    SignUpVertifyCodeModel provideSignUpModel(Context context){
+        return new SignUpVertifyCodeModel(context);
     }
 }

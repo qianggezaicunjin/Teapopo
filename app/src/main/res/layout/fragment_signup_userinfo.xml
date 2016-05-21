@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
 
     <data>
         <variable
-            name="signUpViewModel"
-            type="com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel"/>
+            name="viewmodel"
+            type="com.teapopo.life.viewModel.userCenter.SignUpUserInfoViewModel"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -47,6 +48,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="@string/loginpassword"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColorHint="@color/gray_light" />
             </android.support.design.widget.TextInputLayout>
@@ -63,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="@string/surepassword"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:textColorHint="@color/gray_light" />
             </android.support.design.widget.TextInputLayout>
@@ -77,18 +80,23 @@
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:hint="@string/nickname"
+                    android:inputType="text"
                     android:maxLines="1"
                     android:textColorHint="@color/gray_light" />
             </android.support.design.widget.TextInputLayout>
 
         </RelativeLayout>
 
-        <Button
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/btn_signup_userinfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/background_btn_login"
             android:text="@string/signup"
-            android:textColor="@android:color/white" />
+            android:onClick="@{viewmodel.getClickListener()}"
+            android:textColor="@android:color/white"
+            custom:pb_textComplete="Success"
+            custom:pb_textProgress="@string/loading" />
     </LinearLayout>
 </layout>
