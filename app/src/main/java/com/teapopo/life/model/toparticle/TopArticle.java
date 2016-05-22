@@ -15,7 +15,7 @@ import java.util.List;
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
 public class TopArticle extends BaseEntity implements Parcelable{
-    @JsonField(name = "image")
+    @JsonField(name = "wap_image")
     public String topImageUrl;
 
     public String title;
@@ -23,9 +23,6 @@ public class TopArticle extends BaseEntity implements Parcelable{
     @JsonField(name = "wap_link")
     public String contentUrl;
 
-    public String getImageUrl(){
-        return NetWorkService.IMAGE_ENDPOINT+contentUrl+NetWorkService.IMAGE_EXT;
-    }
     @Override
     public int describeContents() {
         return 0;
@@ -54,4 +51,9 @@ public class TopArticle extends BaseEntity implements Parcelable{
             return new TopArticle[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return topImageUrl+title;
+    }
 }

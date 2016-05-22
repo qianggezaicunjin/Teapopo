@@ -17,6 +17,8 @@ import com.teapopo.life.model.toparticle.TopArticle;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by louiszgm-pc on 2016/5/6.
  */
@@ -46,15 +48,38 @@ public class TopArticleAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         FragmentToparticleBinding binding = FragmentToparticleBinding.inflate(LayoutInflater.from(mContext));
-        TopArticle topArticle = (TopArticle) articles.get(position%articles.size());
-       binding.setTopArticle(topArticle);
-        container.addView(binding.getRoot());
-        mViews.add(binding.getRoot());
+        if(articles.size()!=0){
+            TopArticle topArticle = (TopArticle) articles.get(position%articles.size());
+            binding.setTopArticle(topArticle);
+            container.addView(binding.getRoot());
+            mViews.add(binding.getRoot());
+        }
+
         return binding.getRoot();
+    }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        Timber.d("articles的大小为:%d",articles.size());
+        if(articles.size()!=0){
+            container.removeView(mViews.get(position%articles.size()));
+        }
+    }
+
+    private int mChildCount = 0;
+
+    @Override
+    public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(mViews.get(position%articles.size()));
+    public int getItemPosition(Object object)   {
+        if ( mChildCount > 0) {
+            mChildCount --;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
+
     }
 }

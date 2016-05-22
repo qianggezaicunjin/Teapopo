@@ -7,6 +7,10 @@ public enum Action {
 
     //for SignUpVertifyCodeModel
     SignUpVertifyCodeModel_GetVertifyCode,
-    SignUpVertifyCodeModel_VertifyPhone
+    SignUpVertifyCodeModel_VertifyPhone,
+    //for RecommendArticleModel
+    RecommendArticleModel_GetTopArticle,
+    RecommendArticleModel_GetContents,
+    RecommendArticleModel_GetCategory
 
 }

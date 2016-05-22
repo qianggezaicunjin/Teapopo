@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.recommendarticle.RecommendArticle;
 import com.teapopo.life.model.toparticle.TopArticle;
+import com.teapopo.life.util.Constans.ViewModelAction;
 import com.teapopo.life.util.databinding.DBRecyclerView;
 import com.teapopo.life.BR;
 import java.util.ArrayList;
@@ -56,16 +57,10 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
     }
 
     public void onRequestFinished() {
-        loading = false;
-        notifyPropertyChanged(BR.loading);
+
     }
 
-    public void onRequestSuccess(List<T> list) {
-        //如果数据源是文章列表内容
-        if(list.get(0) instanceof RecommendArticle){
-            Timber.d("onRequestSuccess  RecommendArticle");
-            data.addAll(list);
-            notifyPropertyChanged(BR.data);
-        }
+    public void onRequestSuccess(ViewModelAction data) {
+
     }
 }

@@ -3,6 +3,7 @@ package com.teapopo.life.data;
 import android.content.Context;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
@@ -71,7 +72,7 @@ public class DataManager {
      * @param p 页码
      * @return
      */
-   public Observable<Recommend> getRecommendArticle(int p){
+   public Observable<JsonObject> getRecommendArticle(int p){
 
        return mNetWorkService.getRecommendArticle(p);
    }
@@ -80,7 +81,7 @@ public class DataManager {
      * 返回推荐文章列表页面的类别标签
      * @return
      */
-    public Observable<CategoryList> getCategorys(){
+    public Observable<JsonObject> getCategorys(){
         return mNetWorkService.getCategory();
     }
     /**
@@ -88,7 +89,7 @@ public class DataManager {
      * @param classify 每个模块的标识分类 index,welfare,faxian,xinzi
      * @return
      */
-    public Observable<List<TopArticle>> getTopArticle(String classify){
+    public Observable<JsonArray> getTopArticle(String classify){
         return mNetWorkService.getTopArticle(classify);
     }
     /**

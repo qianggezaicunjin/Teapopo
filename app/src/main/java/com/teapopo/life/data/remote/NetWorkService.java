@@ -1,6 +1,7 @@
 package com.teapopo.life.data.remote;
 
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.erroinfo.ErroInfo;
@@ -35,7 +36,7 @@ public interface NetWorkService {
      * r:  每页行数 默认8
      */
     @GET("posts/recommend?app=1")
-    Observable<Recommend> getRecommendArticle(@Query("p") int page );
+    Observable<JsonObject> getRecommendArticle(@Query("p") int page );
 
     /**
      *
@@ -46,7 +47,7 @@ public interface NetWorkService {
      * 不带参数时，默认返回8条记录
      */
     @GET("terms/list")
-    Observable<CategoryList> getCategory();
+    Observable<JsonObject> getCategory();
 
 
     /**
@@ -55,7 +56,7 @@ public interface NetWorkService {
      * classify:  分类 index,welfare,faxian,xinzi
      */
     @GET("category/slide")
-    Observable<List<TopArticle>> getTopArticle(@Query("classify") String classify );
+    Observable<JsonArray> getTopArticle(@Query("classify") String classify );
 
     /**
      * 登录

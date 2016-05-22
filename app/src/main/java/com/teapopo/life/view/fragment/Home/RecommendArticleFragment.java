@@ -48,47 +48,15 @@ public class RecommendArticleFragment extends BaseFragment {
     @Override
     public void onCreateBinding() {
         if(getActivity() instanceof MainActivity){
-            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule());
+            binding = FragmentRecommendarticleBinding.inflate(LayoutInflater.from(_mActivity));
+            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().recommendArticleFragment(new RecommendArticleFragmentModule(binding));
             mComponent.inject(this);
-            mRxBus.toObserverable(AddHeaderEvent.class)
-                    .observeOn(Schedulers.io())
-                    .subscribe(new Subscriber<AddHeaderEvent>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                                Timber.d(e.toString());
-                        }
-
-                        @Override
-                        public void onNext(AddHeaderEvent addHeaderEvent) {
-                            Timber.d("收到添加头布局的事件");
-                            binding.rvRecommendarticle.addHeader(mTopArticle);
-                            //这个是为了解决Viewpager嵌套viewpager的事件冲突
-                            toparticleBinding.viewpagerToparticle.setIsCostTheEvent(true);
-                            toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
-                            binding.rvRecommendarticle.addHeader(categoryBinding.getRoot());
-                        }
-                    });
         }
     }
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Timber.d("getContentView");
-        binding = FragmentRecommendarticleBinding.inflate(inflater);
-        toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(inflater);
-        categoryBinding = ItemHomeCategoryBinding.inflate(inflater);
-
-        mTopArticle = toparticleBinding.getRoot();
-        categoryBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
-
         binding.setRecommendArticleViewModel(mRecomendArticleViewModel);
-        toparticleBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
-        categoryBinding.setRecommendArticleViewModel(mRecomendArticleViewModel);
-
         return binding.getRoot();
     }
     @Override

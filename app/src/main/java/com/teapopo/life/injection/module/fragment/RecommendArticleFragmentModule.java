@@ -2,10 +2,9 @@ package com.teapopo.life.injection.module.fragment;
 
 import android.content.Context;
 
+import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 import com.teapopo.life.injection.scope.PerActivity;
-import com.teapopo.life.model.category.CategoryModel;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
-import com.teapopo.life.model.toparticle.TopArticleModel;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import dagger.Module;
@@ -16,25 +15,20 @@ import dagger.Provides;
  */
 @Module
 public class RecommendArticleFragmentModule {
+
+    private FragmentRecommendarticleBinding mBinding;
+    public RecommendArticleFragmentModule(FragmentRecommendarticleBinding binding){
+        mBinding = binding;
+    }
     @Provides
     @PerActivity
-    RecomendArticleViewModel provideRecommendArticleViewModel(Context context,RecommendArticleModel recommendArticleModel,TopArticleModel topArticleModel,CategoryModel categoryModel){
-        return new RecomendArticleViewModel(context,recommendArticleModel,topArticleModel,categoryModel);
+    RecomendArticleViewModel provideRecommendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel){
+        return new RecomendArticleViewModel(context,recommendArticleModel,mBinding);
     }
 
     @Provides
     @PerActivity
     RecommendArticleModel provideRecommendArticleModel(Context context){
         return new RecommendArticleModel(context);
-    }
-    @Provides
-    @PerActivity
-    TopArticleModel provideTopArticleModel(Context context){
-        return new TopArticleModel(context);
-    }
-    @Provides
-    @PerActivity
-    CategoryModel provideCategoryModel(Context context){
-        return new CategoryModel(context);
     }
 }
