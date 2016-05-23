@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
+import android.widget.Toast;
 
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
@@ -16,6 +17,7 @@ import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.event.LogOutEvent;
 import com.teapopo.life.model.user.UserInfo;
 import com.teapopo.life.model.user.UserInfoModel;
+import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DialogFactory;
 import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
@@ -70,7 +72,7 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
         mUserInfo = userInfo;
         this.nickName = mUserInfo.nickname;
         this.signature = mUserInfo.signature;
-        this.avatarUrl = NetWorkService.IMAGE_ENDPOINT+mUserInfo.avatar+NetWorkService.IMAGE_EXT;
+        this.avatarUrl = mUserInfo.avatar;
         this.focusCount = mUserInfo.subscribe_num;
         this.postCount = mUserInfo.posts_num;
         this.fansCount = mUserInfo.fans_num;
@@ -84,6 +86,7 @@ public class UserViewModel extends BaseObservable implements RequestView<BaseEnt
 
     @Override
     public void onRequestErroInfo(String errinfo) {
+        CustomToast.makeText(mContext,errinfo, Toast.LENGTH_SHORT).show();
         this.nickName = null;
         this.signature = null;
         this.avatarUrl = null;

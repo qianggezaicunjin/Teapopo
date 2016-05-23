@@ -27,15 +27,16 @@ public class DataBindingAdapter {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
         if(imageUrl!=null){
+            //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
             String tag = imageUrl.substring(0,4);
-            Timber.d("图片地址的tag为:%s",tag);
             if(tag.equals("http")){
                 ImageLoader.getInstance().displayImage(imageUrl,iv);
             }else {
                 String imagurl = NetWorkService.IMAGE_ENDPOINT+imageUrl+NetWorkService.IMAGE_EXT;
-                Timber.d("拼凑的图片地址为:%s",imagurl);
                 ImageLoader.getInstance().displayImage(imagurl,iv);
             }
+        }else {
+            ImageLoader.getInstance().displayImage(imageUrl,iv);
         }
     }
     @BindingAdapter({"isLoading"})

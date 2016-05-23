@@ -1,9 +1,11 @@
 package com.teapopo.life.injection.component;
 
+import com.teapopo.life.injection.component.fragment.SignInFragmentComponent;
 import com.teapopo.life.injection.component.fragment.SignUpUserInfoFragmentComponent;
 import com.teapopo.life.injection.component.fragment.SignUpVervifyCodeFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.SignInAndUpActivityModule;
+import com.teapopo.life.injection.module.fragment.SignInFragmentModule;
 import com.teapopo.life.injection.module.fragment.SignUpUserInfoFragmentModule;
 import com.teapopo.life.injection.module.fragment.SignUpVertifyCodeFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
@@ -23,4 +25,6 @@ public interface SignInAndUpActivityComponent extends ActivityComponent{
     SignUpVervifyCodeFragmentComponent signUpVervifyCodeFragmentComponent(SignUpVertifyCodeFragmentModule module);
 
     SignUpUserInfoFragmentComponent   signUpUserInfoFragmentComponent(SignUpUserInfoFragmentModule module);
+
+    SignInFragmentComponent  signInFragmentComponent(SignInFragmentModule module);
 }

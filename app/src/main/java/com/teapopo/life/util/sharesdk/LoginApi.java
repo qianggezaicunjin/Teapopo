@@ -9,15 +9,22 @@ import android.os.Message;
 import android.widget.Toast;
 
 
+import com.teapopo.life.model.user.CheckOpenIdModel;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.activity.ThirdRegisterActivity;
+import com.teapopo.life.view.customView.RequestView;
+import com.teapopo.life.view.fragment.User.SignUpVertifyCodeFragment;
 
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import me.yokeyword.fragmentation.SupportActivity;
+import timber.log.Timber;
 
-public class LoginApi implements Callback {
+public class LoginApi implements Callback, RequestView {
 	private static final int MSG_AUTH_CANCEL = 1;
 	private static final int MSG_AUTH_ERROR= 2;
 	private static final int MSG_AUTH_COMPLETE = 3;
@@ -25,6 +32,7 @@ public class LoginApi implements Callback {
 	private OnLoginListener loginListener;
 	private String platform;
 	private Context context;
+
 	private Handler handler;
 
 	public LoginApi() {
@@ -109,21 +117,36 @@ public class LoginApi implements Callback {
 				t.printStackTrace();
 			} break;
 			case MSG_AUTH_COMPLETE: {
-				// 成功
+				// 第三方账号登录成功，本地需要校验该第三方账号是否已经被绑定
 				Object[] objs = (Object[]) msg.obj;
 				String plat = (String) objs[0];
+				//用户的基本信息
 				@SuppressWarnings("unchecked")
 				HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
-				if (loginListener!= null && loginListener.onLogin(plat, res)) {
-					ThirdRegisterActivity.setOnLoginListener(loginListener);
-					ThirdRegisterActivity.setPlatform(plat);
-					Intent intent=new Intent(context, ThirdRegisterActivity.class);
-					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					context.startActivity(intent);
-				}
+				Timber.d("第三方登录成功返回的信息为:%s",res.toString());
+				CheckOpenIdModel model = new CheckOpenIdModel(context);
+				model.setView(this);
+				model.check_openid(plat);
+				//如果已经被绑定，则直接登录
+
+				//如果未绑定,则调用注册流程
 			} break;
 		}
 		return false;
 	}
 
+	@Override
+	public void onRequestFinished() {
+
+	}
+
+	@Override
+	public void onRequestSuccess(Object data) {
+
+	}
+
+	@Override
+	public void onRequestErroInfo(String erroinfo) {
+
+	}
 }

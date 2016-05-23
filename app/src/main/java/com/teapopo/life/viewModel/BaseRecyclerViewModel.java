@@ -3,16 +3,11 @@ package com.teapopo.life.viewModel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
-import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.recommendarticle.RecommendArticle;
-import com.teapopo.life.model.toparticle.TopArticle;
-import com.teapopo.life.util.Constans.ViewModelAction;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.databinding.DBRecyclerView;
 import com.teapopo.life.BR;
 import java.util.ArrayList;
 import java.util.List;
-
-import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/2.
@@ -60,7 +55,7 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
 
     }
 
-    public void onRequestSuccess(ViewModelAction data) {
+    public void onRequestSuccess(ModelAction data) {
 
     }
 }

@@ -23,6 +23,7 @@ public class BaseNavigator {
 
     public void start(Context context, Intent intent) {
         if (!(context instanceof Activity)) {
+
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);

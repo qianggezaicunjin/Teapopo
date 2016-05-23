@@ -1,34 +1,24 @@
 package com.teapopo.life.model.recommendarticle;
 
 import android.content.Context;
-import android.os.Looper;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.data.DataManager;
-import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.category.Category;
-import com.teapopo.life.model.category.Category$$JsonObjectMapper;
 import com.teapopo.life.model.category.CategoryList;
 import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.toparticle.TopArticle;
-import com.teapopo.life.model.toparticle.TopArticleList;
 import com.teapopo.life.util.Constans.Action;
-import com.teapopo.life.util.Constans.ViewModelAction;
-import com.teapopo.life.util.DialogFactory;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
-import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
-import com.teapopo.life.view.customView.RequestView;
 
 import java.io.IOException;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -54,7 +44,7 @@ public class RecommendArticleModel  extends BaseModel{
         Observable<JsonObject> observable = mDataManager.getCategorys();
         observable
                 .subscribeOn(Schedulers.io())
-                .observeOn(mDataManager.getScheduler())
+                .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .subscribe(new RxSubscriber<JsonObject>() {
                     @Override
@@ -62,7 +52,7 @@ public class RecommendArticleModel  extends BaseModel{
                         CategoryList categoryList = null;
                         try {
                             categoryList = LoganSquare.parse(jsonObject.toString(),CategoryList.class);
-                            ViewModelAction<List<Category>> action = new ViewModelAction<List<Category>>();
+                            ModelAction<List<Category>> action = new ModelAction<List<Category>>();
                             action.action = Action.RecommendArticleModel_GetCategory;
                             action.t = categoryList.data.categoryList;
                             mRequestView.onRequestSuccess(action);
@@ -89,7 +79,7 @@ public class RecommendArticleModel  extends BaseModel{
                         try {
                             Timber.d("TopArticle的JSONOBJECT为:%s",jsonArray.toString());
                            List<TopArticle> topArticleList = LoganSquare.parseList(jsonArray.toString(),TopArticle.class);
-                            ViewModelAction<List<TopArticle>> action = new ViewModelAction<List<TopArticle>>();
+                            ModelAction<List<TopArticle>> action = new ModelAction<List<TopArticle>>();
                             action.action = Action.RecommendArticleModel_GetTopArticle;
                             action.t = topArticleList;
                             mRequestView.onRequestSuccess(action);
@@ -113,6 +103,7 @@ public class RecommendArticleModel  extends BaseModel{
                 .subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
                 .compose(RxResultHelper.<JsonObject>handleResult())
+                .observeOn(mDataManager.getScheduler())
                 //操作服务器返回来的数据
                 .map(new Func1<JsonObject, List<RecommendArticle>>() {
 
@@ -141,7 +132,7 @@ public class RecommendArticleModel  extends BaseModel{
                 .subscribe(new RxSubscriber<List<RecommendArticle>>() {
                     @Override
                     public void _onNext(List<RecommendArticle> recommendArticles) {
-                        ViewModelAction<List<RecommendArticle>> action = new ViewModelAction<List<RecommendArticle>>();
+                        ModelAction<List<RecommendArticle>> action = new ModelAction<List<RecommendArticle>>();
                         action.action = Action.RecommendArticleModel_GetContents;
                         action.t = recommendArticles;
                         mRequestView.onRequestSuccess(action);

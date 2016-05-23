@@ -7,10 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.teapopo.life.data.remote.NetWorkService;
-import com.teapopo.life.databinding.FragmentToparticleBinding;
+import com.teapopo.life.databinding.ItemViewpagerToparticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.toparticle.TopArticle;
 
@@ -47,7 +44,7 @@ public class TopArticleAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        FragmentToparticleBinding binding = FragmentToparticleBinding.inflate(LayoutInflater.from(mContext));
+        ItemViewpagerToparticleBinding binding = ItemViewpagerToparticleBinding.inflate(LayoutInflater.from(mContext));
         if(articles.size()!=0){
             TopArticle topArticle = (TopArticle) articles.get(position%articles.size());
             binding.setTopArticle(topArticle);
@@ -60,8 +57,10 @@ public class TopArticleAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         Timber.d("articles的大小为:%d",articles.size());
-        if(articles.size()!=0){
+        if(articles.size()!=0&&mViews.size()!=0){
             container.removeView(mViews.get(position%articles.size()));
+        }else {
+            container.removeView((View) object);
         }
     }
 

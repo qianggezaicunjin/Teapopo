@@ -9,9 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
+import com.teapopo.life.databinding.FragmentSigninBinding;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.injection.component.fragment.SignInFragmentComponent;
+import com.teapopo.life.injection.module.fragment.SignInFragmentModule;
+import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.ToolBarViewModel;
+import com.teapopo.life.viewModel.userCenter.SignInViewModel;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,30 +28,37 @@ import butterknife.ButterKnife;
  * 用户登陆
  */
 public class SignInFragment extends SwipeBackBaseFragment {
-    @Bind(R.id.toolbar)
-    Toolbar mToolBar;
 
+    Toolbar mToolBar;
+    @Inject
+     SignInViewModel mViewModel;
+
+    private SignInFragmentComponent mComponent;
+    private FragmentSigninBinding mBinding;
     public static SignInFragment newInstances(){
         return  new SignInFragment();
     }
 
     @Override
     public void onCreateBinding(Bundle savedInstanceState) {
-
+            mBinding = FragmentSigninBinding.inflate(LayoutInflater.from(_mActivity));
+        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInFragmentComponent(new SignInFragmentModule(mBinding));
+        mComponent.inject(this);
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_signin,container,false);
-        ButterKnife.bind(this,view);
-        return view;
+        mBinding.setViewModel(mViewModel);
+        return mBinding.getRoot();
     }
 
     @Override
     public void setUpView() {
+        mToolBar = mBinding.toolbarSignin.toolbar;
         mToolBar.inflateMenu(R.menu.menu_fast_signup);
         ToolBarViewModel toolBarViewModel = new ToolBarViewModel(_mActivity);
-        setUpToolBar(mToolBar).setToolBarViewModel(toolBarViewModel);
+        mBinding.toolbarSignin.setToolBarViewModel(toolBarViewModel);
+//        setUpToolBar(mToolBar).setToolBarViewModel(toolBarViewModel);
     }
 
 }

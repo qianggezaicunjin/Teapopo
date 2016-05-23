@@ -5,7 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.util.Constans.Action;
-import com.teapopo.life.util.Constans.ViewModelAction;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
@@ -33,7 +33,7 @@ public class SignUpVertifyCodeModel extends BaseModel {
                     @Override
                     public void _onNext(Object o) {
                         Timber.d("请求服务器成功");
-                        ViewModelAction<Action> action = new ViewModelAction<Action>();
+                        ModelAction<Action> action = new ModelAction<Action>();
                         action.action = Action.SignUpVertifyCodeModel_GetVertifyCode;
                         mRequestView.onRequestSuccess(action);
                     }
@@ -55,7 +55,7 @@ public class SignUpVertifyCodeModel extends BaseModel {
                     @Override
                     public void _onNext(Object o) {
 
-                        ViewModelAction<Boolean> action = new ViewModelAction<Boolean>();
+                        ModelAction<Boolean> action = new ModelAction<Boolean>();
                         action.action = Action.SignUpVertifyCodeModel_VertifyPhone;
                         action.t = ((JsonObject)o).get("exists").getAsBoolean();
                         mRequestView.onRequestSuccess(action);

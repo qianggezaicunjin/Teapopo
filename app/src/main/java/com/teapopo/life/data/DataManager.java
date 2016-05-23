@@ -174,4 +174,8 @@ public class DataManager {
         }
         return mNetWorkService.regist(builder.build());
     }
+
+    public Observable<JsonObject> check_openid(String openid,String platform){
+            return mNetWorkService.check_openid(openid,platform);
+    }
 }

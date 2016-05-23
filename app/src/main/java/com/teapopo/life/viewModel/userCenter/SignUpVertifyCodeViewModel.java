@@ -3,7 +3,6 @@ package com.teapopo.life.viewModel.userCenter;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -14,7 +13,7 @@ import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
 import com.teapopo.life.model.user.SignUpVertifyCodeModel;
 import com.teapopo.life.util.Constans.Action;
-import com.teapopo.life.util.Constans.ViewModelAction;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.view.customView.CountDownTimer;
 import com.teapopo.life.view.customView.RequestView;
@@ -27,7 +26,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/19.
  */
-public class SignUpVertifyCodeViewModel extends BaseObservable implements RequestView<ViewModelAction> {
+public class SignUpVertifyCodeViewModel extends BaseObservable implements RequestView<ModelAction> {
 
     private FragmentSignupVertifycodeBinding mBinding;
     private SignUpVertifyCodeModel mSignUpVertifyCodeModel;
@@ -125,7 +124,7 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     }
 
     @Override
-    public void onRequestSuccess(ViewModelAction data) {
+    public void onRequestSuccess(ModelAction data) {
         Timber.d("onRequestSuccess");
         Action action = data.action;
         if(action == Action.SignUpVertifyCodeModel_GetVertifyCode){
@@ -135,6 +134,7 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
             if((Boolean) data.t){
                 CustomToast.makeText(mContext,"该手机号已经被注册过了",Toast.LENGTH_SHORT).show();
             }else {
+                //手机号码没有被注册过
                 doVertifySuccess();
             }
         }

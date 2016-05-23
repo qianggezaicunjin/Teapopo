@@ -16,7 +16,7 @@ import com.teapopo.life.model.recommendarticle.RecommendArticle;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
-import com.teapopo.life.util.Constans.ViewModelAction;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.view.adapter.recyclerview.CategoryAdapter;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
@@ -34,10 +34,10 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ViewModelAction> {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
     private FragmentRecommendarticleBinding mBinding;
     private Context mContext;
-
+    private boolean isFirstTime = true;
     private RecommendArticleAdapter mAdapter;//文章内容的adapter
     private TopArticleAdapter topArticleAdapter;//顶部文章轮播viewpager的adapter
     private CategoryAdapter categoryAdapter;
@@ -84,32 +84,37 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     }
 
     @Override
-    public void onRequestSuccess(ViewModelAction data) {
+    public void onRequestSuccess(ModelAction data) {
         super.onRequestSuccess(data);
-        //如果数据源是头部轮播文章
-        if (data.action == Action.RecommendArticleModel_GetTopArticle){
-            Timber.d("onRequestSuccess  TopArticle");
-            //添加头布局，头部轮播的文章和标签的分类
-            addHeader();
-            List<TopArticle> list = (List<TopArticle>)data.t;
-            articles.addAll(list);
-            notifyPropertyChanged(BR.articles);
-        }
-        //如果数据源是分类标签
-        if(data.action == Action.RecommendArticleModel_GetCategory){
-            Timber.d("onRequestSuccess  Category");
-            categories.addAll((List<Category>)data.t);
-            notifyPropertyChanged(BR.categories);
+        synchronized (this){
+            //如果数据源是头部轮播文章
+            if (data.action == Action.RecommendArticleModel_GetTopArticle){
+                Timber.d("onRequestSuccess  TopArticle");
+                List<TopArticle> list = (List<TopArticle>)data.t;
+                articles.addAll(list);
+                notifyPropertyChanged(BR.articles);
+            }
+            //如果数据源是分类标签
+            if(data.action == Action.RecommendArticleModel_GetCategory){
+                Timber.d("onRequestSuccess  Category");
+                categories.addAll((List<Category>)data.t);
+                notifyPropertyChanged(BR.categories);
 
-        }
-        //如果数据源是文章列表内容
-        if(data.action == Action.RecommendArticleModel_GetContents){
-            Timber.d("onRequestSuccess  RecommendArticle");
-            super.data.addAll((List<RecommendArticle>)data.t);
-            notifyPropertyChanged(BR.data);
-            //通知加载文章内容完毕，更新loading状态
-            loading = false;
-            notifyPropertyChanged(BR.loading);
+            }
+            //如果数据源是文章列表内容
+            if(data.action == Action.RecommendArticleModel_GetContents){
+                Timber.d("onRequestSuccess  RecommendArticle");
+                super.data.addAll((List<RecommendArticle>)data.t);
+                notifyPropertyChanged(BR.data);
+                //通知加载文章内容完毕，更新loading状态
+                loading = false;
+                notifyPropertyChanged(BR.loading);
+                //在首次加载文章完成时，添加头部的布局，只添加一次
+                if(isFirstTime){
+                    addHeader();
+                    isFirstTime = false;
+                }
+            }
         }
     }
 

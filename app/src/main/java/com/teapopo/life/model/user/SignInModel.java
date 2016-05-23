@@ -25,8 +25,8 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/11.
  */
-public class LoginModel extends BaseModel {
-    public LoginModel(Context context) {
+public class SignInModel extends BaseModel {
+    public SignInModel(Context context) {
         super(context);
     }
 

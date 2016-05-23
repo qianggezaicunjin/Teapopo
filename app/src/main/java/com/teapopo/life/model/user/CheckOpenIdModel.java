@@ -1,51 +1,40 @@
 package com.teapopo.life.model.user;
 
 import android.content.Context;
+import android.databinding.tool.reflection.SdkUtil;
 
-import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
-import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
 import rx.Observable;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by louiszgm on 2016/5/11.
+ * Created by louiszgm on 2016/5/23.
  */
-public class UserInfoModel extends BaseModel {
-    
-    public UserInfoModel(Context context) {
+public class CheckOpenIdModel extends BaseModel {
+    public CheckOpenIdModel(Context context) {
         super(context);
     }
 
-    public void getUserInfo() {
-        Observable<JsonObject> observable = mDataManager.getUserInfo();
+    public void check_openid(String platform){
+        Platform p = ShareSDK.getPlatform(platform);
+        String openid = p.getDb().getUserId();
+        Timber.d("%s的openid为:%s",platform,openid);
+        Observable<JsonObject> observable = mDataManager.check_openid(openid,platform);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .subscribe(new RxSubscriber<JsonObject>() {
                     @Override
                     public void _onNext(JsonObject jsonObject) {
-                        try {
-                            UserInfo userInfo = LoganSquare.parse(jsonObject.toString(),UserInfo.class);
-                            mRequestView.onRequestSuccess(userInfo);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
                     }
 
                     @Override

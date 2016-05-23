@@ -117,4 +117,14 @@ public interface NetWorkService {
     @FormUrlEncoded
     @POST("members/check_phone")
     Observable<JsonObject> vertifyPhone(@Field("phone") String phonenum,@Field("verify")String vertifycode);
+
+    /**
+     * 检查第三方账号是否已经被绑定
+     * @param openid
+     * @param platform qq,weibo,weixin
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("members/check_openid")
+    Observable<JsonObject> check_openid(@Field("openid") String openid,@Field("classify") String platform);
 }

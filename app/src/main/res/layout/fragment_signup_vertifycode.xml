@@ -8,13 +8,18 @@
             name="signUpViewModel"
             type="com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel"/>
     </data>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <include layout="@layout/toolbar" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="@dimen/padding_size">
 
-    <include layout="@layout/toolbar" />
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -86,4 +91,5 @@
         custom:pb_textComplete="Success"
         custom:pb_textProgress="@string/loading" />
 </LinearLayout>
+    </LinearLayout>
     </layout>
