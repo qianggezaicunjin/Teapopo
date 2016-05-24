@@ -29,6 +29,12 @@ public class SignUpUserInfoFragment extends SwipeBackBaseFragment {
     @Inject
     SignUpUserInfoViewModel mViewModel;
 
+    /**
+     * 在手机获取验证码页面传进来的手机号以及验证码
+     * @param phonenum
+     * @param vertifycode
+     * @return
+     */
     public static SignUpUserInfoFragment newInstance(String phonenum,String vertifycode){
         SignUpUserInfoFragment fragment = new SignUpUserInfoFragment();
         Bundle bundle = new Bundle();

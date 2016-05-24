@@ -30,7 +30,10 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
 
     @Inject
     SignUpVertifyCodeViewModel mViewModel;
+
+
     public static SignUpVertifyCodeFragment newInstance(){
+        ;
         return new SignUpVertifyCodeFragment();
     }
 
@@ -38,10 +41,10 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
     public void onCreateBinding(Bundle savedInstanceState) {
         mBinding = FragmentSignupVertifycodeBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signUpVervifyCodeFragmentComponent(new SignUpVertifyCodeFragmentModule(mBinding));
-        mComponent.inject(this);
     }
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("getContentView");
         mBinding.setSignUpViewModel(mViewModel);
         return mBinding.getRoot();
     }

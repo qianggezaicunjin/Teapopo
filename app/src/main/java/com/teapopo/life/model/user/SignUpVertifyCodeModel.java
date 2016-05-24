@@ -67,4 +67,24 @@ public class SignUpVertifyCodeModel extends BaseModel {
                     }
                 });
     }
+    //绑定第三方账号
+    public void bindAccount(String phonenum,String platform){
+        Observable<JsonObject> observable = mDataManager.bindAccount(platform,phonenum);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction action = new ModelAction();
+                        action.action = Action.SignUpVertifyCodeModel_BindAccount;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
 }

@@ -24,6 +24,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import rx.Observable;
@@ -92,39 +94,30 @@ public class DataManager {
     public Observable<JsonArray> getTopArticle(String classify){
         return mNetWorkService.getTopArticle(classify);
     }
+
     /**
-     * 登陆第三方社交账号之后 绑定新账号
-     * @param params
+     *
+     * @param isVertifyCodeLogin 是否使用短信验证码登录
+     * @param account 用户名/手机号/邮箱
+     * @param passwd  密码/验证码
      * @return
      */
-    public Call<Void> bindNewAccount(List<PostKeyValue> params){
+    public Observable<JsonObject> login(boolean isVertifyCodeLogin,String account,String passwd){
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
-        if(params!=null){
-            for (int i=0;i<params.size();i++){
-               PostKeyValue content= params.get(i);
-
-                builder.addFormDataPart(content.getKey(), content.getValue());
-            }
-
-        }
-        return mNetWorkService.bindNewAccount(builder.build());
-    }
-    /**
-     * 登录接口
-     * @param params
-     * @return
-     */
-    public Observable<JsonObject> login(List<PostKeyValue> params){
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM);
-        if(params!=null){
-            for (int i=0;i<params.size();i++){
-                PostKeyValue content= params.get(i);
-
-                builder.addFormDataPart(content.getKey(), content.getValue());
-            }
-
+//        PostKeyValue no_imagevertify = new PostKeyValue("no_verify","1");
+        builder.addFormDataPart("no_verify","1");
+        if(isVertifyCodeLogin){
+//            PostKeyValue phone_num = new PostKeyValue("phone",account);
+//            PostKeyValue pass_wd = new PostKeyValue("sms_verify",passwd);
+//            PostKeyValue use_sms = new PostKeyValue("use_sms","1");
+            builder.addFormDataPart("phone",account);
+            builder.addFormDataPart("sms_verify",passwd);
+            builder.addFormDataPart("use_sms","1");
+        }else {
+            builder.addFormDataPart("login_name",account);
+            builder.addFormDataPart("password",passwd);
+            builder.addFormDataPart("use_sms","0");
         }
         return mNetWorkService.login(builder.build());
     }
@@ -175,7 +168,29 @@ public class DataManager {
         return mNetWorkService.regist(builder.build());
     }
 
+    /**
+     * 用来检查第三方账号是否已经被绑定过
+     * @param openid
+     * @param platform
+     * @return
+     */
     public Observable<JsonObject> check_openid(String openid,String platform){
             return mNetWorkService.check_openid(openid,platform);
+    }
+
+    /**
+     * 绑定第三方账号
+     * @return
+     */
+    public Observable<JsonObject> bindAccount(String platform,String phone){
+        Platform p = ShareSDK.getPlatform(platform);
+        String openid = p.getDb().getUserId();
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        builder.addFormDataPart("login","1");
+        builder.addFormDataPart("classify",platform.toLowerCase());
+        builder.addFormDataPart("phone",phone);
+        builder.addFormDataPart("openid",openid);
+        return mNetWorkService.bindAccount(builder.build());
     }
 }

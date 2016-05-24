@@ -4,92 +4,97 @@
     xmlns:custom="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="signUpViewModel"
-            type="com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel"/>
+            type="com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel" />
     </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-    <include layout="@layout/toolbar" />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/padding_size">
 
+        <include layout="@layout/toolbar" />
 
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@drawable/background_et_loginout"
-        android:padding="@dimen/padding_size">
-        <View
-            android:id="@+id/line_fast_signup"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/default_line_indicator_line_width"
-            android:layout_below="@+id/et_phonenum"
-            android:background="@drawable/line" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_size">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_verificationcode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/line_fast_signup"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-            <EditText
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/background_et_loginout"
+                android:padding="@dimen/padding_size">
+
+                <View
+                    android:id="@+id/line_fast_signup"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_line_indicator_line_width"
+                    android:layout_below="@+id/et_phonenum"
+                    android:background="@drawable/line" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_verificationcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/line_fast_signup"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/verificationcode"
+                        android:maxLines="1"
+                        android:textColorHint="@color/gray_light" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/et_phonenum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/phone_num"
+                        android:maxLines="1"
+                        android:textColorHint="@color/gray_light" />
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_get_vertifycode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/line_fast_signup"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/background_txt_verificationcode"
+                    android:hint="@string/send_verificationcode"
+                    android:onClick="@{signUpViewModel.getClickListener()}"
+                    android:padding="6dp"
+                    android:text="@{signUpViewModel.leftTime}"
+                    android:textColor="@color/green" />
+            </RelativeLayout>
+
+            <com.dd.processbutton.iml.ActionProcessButton
+                android:id="@+id/btn_signup_nextstep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/verificationcode"
-                android:maxLines="1"
-                android:textColorHint="@color/gray_light" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/et_phonenum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/phone_num"
-                android:maxLines="1"
-                android:textColorHint="@color/gray_light" />
-        </android.support.design.widget.TextInputLayout>
-        <TextView
-            android:id="@+id/tv_get_vertifycode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/line_fast_signup"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/background_txt_verificationcode"
-            android:padding="6dp"
-            android:text="@{signUpViewModel.leftTime}"
-            android:hint="@string/send_verificationcode"
-            android:textColor="@color/green"
-            android:onClick="@{signUpViewModel.getClickListener()}"/>
-    </RelativeLayout>
-
-    <com.dd.processbutton.iml.ActionProcessButton
-        android:id="@+id/btn_signup_nextstep"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:background="@drawable/background_btn_login"
-        android:text="@string/nextstep"
-        android:onClick="@{signUpViewModel.getClickListener()}"
-        android:textColor="@android:color/white"
-        custom:pb_textComplete="Success"
-        custom:pb_textProgress="@string/loading" />
-</LinearLayout>
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:background="@drawable/background_btn_login"
+                android:onClick="@{signUpViewModel.getClickListener()}"
+                android:text="@string/nextstep"
+                android:textColor="@android:color/white"
+                custom:pb_textComplete="Success"
+                custom:pb_textProgress="@string/loading" />
+        </LinearLayout>
     </LinearLayout>
-    </layout>
+</layout>

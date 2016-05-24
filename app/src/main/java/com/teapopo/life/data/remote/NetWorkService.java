@@ -76,27 +76,7 @@ public interface NetWorkService {
 
     @GET("members/self")
     Observable<JsonObject> getUserInfo();
-    /**
-     * 绑定社交账号
-     * 建立新帐号
-     * api/members/register
-     * POST
-     * classify   weixin,qq,weibo
-     * openid   openid or uid
-     * nickname 昵称
-     * sex 1男2女0未知
-     * province 省份名
-     * city 城市名
-     * headimgurl 头像链接
-     * phone 手机号
-     * password 密码
-     * confirm 确认密码
-     * verify 短信验证码
-     * @param requestBody
-     * @return
-     */
-    @POST("members/register")
-    Call<Void> bindNewAccount(@Body RequestBody requestBody);
+
 
     /**
      * 绑定原有帐号
@@ -106,10 +86,9 @@ public interface NetWorkService {
      * login  是否建立登录状态 1是0否
      * openid  openid or uid
      * phone 手机号
-     * password 密码
      */
     @POST("members/bind")
-    Call<Void> bindAccount(@Body RequestBody requestBody);
+    Observable<JsonObject> bindAccount(@Body RequestBody requestBody);
 
     @GET("members/verify_sms?no_verify=1")
     Observable<JsonObject> getSmsVertify(@Query("phone") String phonenumber,@Query("temp_id") String forwhat);
@@ -127,4 +106,5 @@ public interface NetWorkService {
     @FormUrlEncoded
     @POST("members/check_openid")
     Observable<JsonObject> check_openid(@Field("openid") String openid,@Field("classify") String platform);
+
 }

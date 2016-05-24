@@ -8,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.model.PostKeyValue;
+import com.teapopo.life.util.Constans.Action;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
@@ -30,20 +32,25 @@ public class SignInModel extends BaseModel {
         super(context);
     }
 
-    public void login(){
-        List<PostKeyValue>  params = new ArrayList<>();
-        params.add(new PostKeyValue("no_verify","1"));
-        params.add(new PostKeyValue("use_sms","0"));
-        params.add(new PostKeyValue("login_name","13798969669"));
-        params.add(new PostKeyValue("password","42418909"));
-        Observable<JsonObject> observable = mDataManager.login(params);
+    /**
+     *
+     * @param isLoginByVertifyCode 是否使用验证码登录
+     * @param account 手机号/账户名/邮箱
+     * @param passwd  验证码/密码
+     */
+    public void login(boolean isLoginByVertifyCode, final String account, String passwd){
+        Observable<JsonObject> observable = mDataManager.login(isLoginByVertifyCode,account,passwd);
         observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxResultHelper.handleResult())
-                .subscribe(new RxSubscriber<Object>() {
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .subscribe(new RxSubscriber<JsonObject>() {
                     @Override
-                    public void _onNext(Object o) {
+                    public void _onNext(JsonObject o) {
                         //TODO:对结果进行相关的逻辑处理
+                        ModelAction<String> action = new ModelAction<String>();
+                        action.action = Action.SignInModel_Login;
+                        action.t = o.get("errmsg").getAsString();
+                        mRequestView.onRequestSuccess(action);
                     }
 
                     @Override

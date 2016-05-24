@@ -1,18 +1,16 @@
 package com.teapopo.life.util.sharesdk;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Toast;
 
 
+import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLogin;
 import com.teapopo.life.model.user.CheckOpenIdModel;
-import com.teapopo.life.util.navigator.Navigator;
-import com.teapopo.life.view.activity.SignInAndUpActivity;
-import com.teapopo.life.view.activity.ThirdRegisterActivity;
+import com.teapopo.life.util.Constans.Action;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.User.SignUpVertifyCodeFragment;
 
@@ -24,7 +22,7 @@ import cn.sharesdk.framework.ShareSDK;
 import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
-public class LoginApi implements Callback, RequestView {
+public class LoginApi implements Callback, RequestView<ModelAction> {
 	private static final int MSG_AUTH_CANCEL = 1;
 	private static final int MSG_AUTH_ERROR= 2;
 	private static final int MSG_AUTH_COMPLETE = 3;
@@ -34,6 +32,7 @@ public class LoginApi implements Callback, RequestView {
 	private Context context;
 
 	private Handler handler;
+
 
 	public LoginApi() {
 		handler = new Handler(Looper.getMainLooper(), this);
@@ -48,7 +47,8 @@ public class LoginApi implements Callback, RequestView {
 	}
 
 	public void login(Context context) {
-		this.context = context.getApplicationContext();
+//		this.context = context.getApplicationContext();
+		this.context = context;
 		if (platform == null) {
 			return;
 		}
@@ -107,13 +107,13 @@ public class LoginApi implements Callback, RequestView {
 		switch(msg.what) {
 			case MSG_AUTH_CANCEL: {
 				// 取消
-				Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show();
 			} break;
 			case MSG_AUTH_ERROR: {
 				// 失败
 				Throwable t = (Throwable) msg.obj;
 				String text = "caught error: " + t.getMessage();
-				Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+//				Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 				t.printStackTrace();
 			} break;
 			case MSG_AUTH_COMPLETE: {
@@ -124,12 +124,16 @@ public class LoginApi implements Callback, RequestView {
 				@SuppressWarnings("unchecked")
 				HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
 				Timber.d("第三方登录成功返回的信息为:%s",res.toString());
+
+				//将第三方登录成功的平台名字和openid保存在sharedpreference
+				RxSpf_ThirdLogin spf_thirdLogin = RxSpf_ThirdLogin.create(context);
+				spf_thirdLogin.edit()
+						.platform()
+						.put(plat)
+						.apply();
 				CheckOpenIdModel model = new CheckOpenIdModel(context);
 				model.setView(this);
 				model.check_openid(plat);
-				//如果已经被绑定，则直接登录
-
-				//如果未绑定,则调用注册流程
 			} break;
 		}
 		return false;
@@ -141,8 +145,16 @@ public class LoginApi implements Callback, RequestView {
 	}
 
 	@Override
-	public void onRequestSuccess(Object data) {
-
+	public void onRequestSuccess(ModelAction data) {
+		if(data.action == Action.CheckOpenIdModel_Check_OpenId){
+			//如果已经被绑定，则直接登录
+			//如果未绑定,则调用绑定流程
+			if((Boolean) data.t){
+				((SupportActivity)context).finish();
+			}else {
+				((SupportActivity)context).start(SignUpVertifyCodeFragment.newInstance());
+			}
+		}
 	}
 
 	@Override
