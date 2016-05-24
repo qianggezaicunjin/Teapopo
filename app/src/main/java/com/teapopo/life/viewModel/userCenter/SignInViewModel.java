@@ -47,7 +47,7 @@ public class SignInViewModel implements RequestView<ModelAction> {
                         doLogin();
                         break;
                     case R.id.btn_login_qq:
-//                        doThirdLogin(QQ.NAME);
+                        doThirdLogin(QQ.NAME);
                         break;
                     case R.id.btn_login_weibo:
 //                        doThirdLogin(SinaWeibo.NAME);

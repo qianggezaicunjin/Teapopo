@@ -78,7 +78,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/background_txt_verificationcode"
                     android:hint="@string/send_verificationcode"
-                    android:onClick="@{signUpViewModel.getClickListener()}"
+                    android:onClick="@{signUpViewModel.getOClickListener()}"
                     android:padding="6dp"
                     android:text="@{signUpViewModel.leftTime}"
                     android:textColor="@color/green" />
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/background_btn_login"
-                android:onClick="@{signUpViewModel.getClickListener()}"
+                android:onClick="@{signUpViewModel.getOClickListener()}"
                 android:text="@string/nextstep"
                 android:textColor="@android:color/white"
                 custom:pb_textComplete="Success"

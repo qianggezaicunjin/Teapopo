@@ -21,6 +21,7 @@ import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.User.SignInFragment;
 import com.teapopo.life.view.fragment.User.SignUpUserInfoFragment;
 
+import cn.sharesdk.framework.ShareSDK;
 import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
@@ -45,7 +46,7 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
         mSignUpVertifyCodeModel.setView(this);
     }
 
-    public View.OnClickListener getClickListener(){
+    public View.OnClickListener getOClickListener(){
         Timber.d("getClickListener");
         return new View.OnClickListener() {
             @Override
@@ -170,7 +171,9 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
         if(TextUtils.isEmpty(phonenum)||TextUtils.isEmpty(vertifycode)){
             CustomToast.makeText(mContext,"输入内容不能空",Toast.LENGTH_SHORT).show();
         }else {
-            Timber.d("绑定第三方账号");
+            String openid = ShareSDK.getPlatform(platform).getDb().getUserId();
+            Timber.d("绑定第三方账号,电话号码为:%s,平台为:%s,openid为:%s",phonenum,platform,openid);
+
             mSignUpVertifyCodeModel.bindAccount(phonenum,platform);
         }
 

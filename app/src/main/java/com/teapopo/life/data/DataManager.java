@@ -30,6 +30,7 @@ import okhttp3.MultipartBody;
 import retrofit2.Call;
 import rx.Observable;
 import rx.Scheduler;
+import timber.log.Timber;
 
 /**
  * Created by Administrator on 2016/4/7 0007.
@@ -185,6 +186,7 @@ public class DataManager {
     public Observable<JsonObject> bindAccount(String platform,String phone){
         Platform p = ShareSDK.getPlatform(platform);
         String openid = p.getDb().getUserId();
+        Timber.d("绑定的openid为:%s",openid);
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
         builder.addFormDataPart("login","1");
