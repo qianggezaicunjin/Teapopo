@@ -1,10 +1,14 @@
 package com.teapopo.life.data;
 
 import com.google.gson.JsonObject;
+import com.teapopo.life.BuildConfig;
 import com.teapopo.life.data.remote.NetWorkService;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
 import java.net.URISyntaxException;
@@ -13,12 +17,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/25.
  */
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = 21)
 public class DataManagerTest {
-    private String JSON_ROOT_PATH = "/json";
+    private String JSON_ROOT_PATH = "/json/";
     private String jsonFullPath;
     NetWorkService mockNetWorkService;
     @Before
@@ -46,6 +53,10 @@ public class DataManagerTest {
     @Test
     public void getArticleTest()throws Exception{
         retrofit2.Response<JsonObject> response = mockNetWorkService.getArticle("发现").execute();
-        System.out.print(response.toString());
+        JsonObject jsonObject = response.body();
+        JsonObject data = jsonObject.getAsJsonObject("data");
+        JsonObject members = data.getAsJsonObject("members");
+        JsonObject item = members.getAsJsonObject("44252");
+        Timber.d(item.toString());
     }
 }

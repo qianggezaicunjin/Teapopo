@@ -10,6 +10,7 @@ import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import timber.log.Timber;
 
 /**
  * 网络请求的拦截器，用于Mock响应数据
@@ -53,7 +54,9 @@ public class MockInterceptor implements Interceptor {
 
         HttpUrl uri = chain.request().url();
         String path = uri.url().getPath();
-
+        String query = uri.url().getQuery();
+        Timber.d("path为:%s",path);
+        Timber.d("查询的参数为:%s",query);
         if (path.matches("^(/users/)+[^/]*+(/repos)$")) {//匹配/users/{username}/repos
             responseString = getResponseString("users_repos.json");
         } else if (path.matches("^(/users/)+[^/]+(/following)$")) {//匹配/users/{username}/following
@@ -61,14 +64,17 @@ public class MockInterceptor implements Interceptor {
         } else if (path.matches("^(/users/)+[^/]*+$")) {//匹配/users/{username}
             responseString = getResponseString("users.json");
         }
-        else if (path.matches("^(posts/list)")) {//匹配/posts/list
-            responseString = getResponseString("article.json");
+        else if (path.matches("(/api/posts/list)")) {//匹配/posts/list
+            responseString = getResponseString("articleList.json");
         }
+//        responseString = getResponseString("articleList.json");
         return responseString;
     }
 
     private String getResponseString(String fileName) {
-        return FileUtil.readFile(responeJsonPath + fileName, "UTF-8").toString();
+
+        StringBuilder stringBuilder = FileUtil.readFile(responeJsonPath + fileName, "UTF-8");
+        return stringBuilder.toString();
     }
 
 }

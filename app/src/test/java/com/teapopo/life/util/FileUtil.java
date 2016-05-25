@@ -6,12 +6,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import timber.log.Timber;
+
 public class FileUtil {
 
     public static StringBuilder readFile(String filePath, String charsetName) {
         File file = new File(filePath);
         StringBuilder fileContent = new StringBuilder("");
         if (file == null || !file.isFile()) {
+            Timber.d("文件不存在");
             return null;
         }
 
