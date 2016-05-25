@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.PostKeyValue;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
@@ -33,7 +34,7 @@ public class SignUpUserInfoModel extends BaseModel {
                 .subscribe(new RxSubscriber<Object>() {
                     @Override
                     public void _onNext(Object o) {
-
+                        ModelAction action = new ModelAction();
                     }
 
                     @Override

@@ -87,4 +87,32 @@ public class SignUpVertifyCodeModel extends BaseModel {
                     }
                 });
     }
+
+    /**
+     *
+     * @param isLoginByVertifyCode 是否使用验证码登录
+     * @param account 手机号/账户名/邮箱
+     * @param passwd  验证码/密码
+     */
+    public void login(boolean isLoginByVertifyCode, final String account, String passwd){
+        Observable<JsonObject> observable = mDataManager.login(isLoginByVertifyCode,account,passwd);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject o) {
+                        //TODO:对结果进行相关的逻辑处理
+                        ModelAction<String> action = new ModelAction<String>();
+                        action.action = Action.SignUpVertifyCodeModel_Login;
+                        action.t = o.get("errmsg").getAsString();
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
 }

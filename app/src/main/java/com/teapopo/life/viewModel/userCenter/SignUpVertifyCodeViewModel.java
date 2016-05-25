@@ -37,6 +37,8 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     public String leftTime;
     private CountDownTimer mCountDownTimer;
     private RxSpf_ThirdLogin mSpf_thirdLogin;
+    private String mPhonenum;
+    private String mVertifycode;
 
 
     public SignUpVertifyCodeViewModel(Context context, FragmentSignupVertifycodeBinding binding, SignUpVertifyCodeModel signUpVertifyCodeModel){
@@ -47,13 +49,11 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     }
 
     public View.OnClickListener getOClickListener(){
-        Timber.d("getClickListener");
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.tv_get_vertifycode:
-                        Timber.d("获取验证码");
                         doGetCode();
                         break;
                     case R.id.btn_signup_nextstep:
@@ -63,17 +63,61 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
             }
         };
     }
+
+    @Override
+    public void onRequestFinished() {
+
+    }
+
+    @Override
+    public void onRequestSuccess(ModelAction data) {
+        Timber.d("onRequestSuccess");
+        Action action = data.action;
+        if(action == Action.SignUpVertifyCodeModel_GetVertifyCode){
+            doGetCodeSuccess();
+            return;
+        }
+        else if(action == Action.SignUpVertifyCodeModel_VertifyPhone){
+            if((Boolean) data.t){
+                //如果手机号已经被注册过,则直接登录或者是绑定第三方账号
+                mSpf_thirdLogin = RxSpf_ThirdLogin.create(mContext);
+                if(mSpf_thirdLogin.platform().exists()){
+                    //绑定第三方账号
+                    doThirdBind();
+                    return;
+                }else {
+                    //手机验证码登录
+                    loginByVertifyCode();
+                    return;
+                }
+            }else {
+                //手机号码没有被注册过
+                doNextRegist();
+                return;
+            }
+        }
+        //绑定第三方账号成功
+        else if(action == Action.SignUpVertifyCodeModel_BindAccount){
+            doThirdBindSuccess();
+        }
+    }
+
+    @Override
+    public void onRequestErroInfo(String erroinfo) {
+        CustomToast.makeText(mContext,erroinfo,Toast.LENGTH_SHORT).show();
+        mBinding.btnSignupNextstep.setProgress(0);
+    }
     //验证该手机是否被注册
     private void doVertify() {
-        String phonenum = mBinding.etPhonenum.getEditText().getText().toString();
-        String vertifycode = mBinding.etVerificationcode.getEditText().getText().toString();
-        if(TextUtils.isEmpty(phonenum)||TextUtils.isEmpty(vertifycode)){
+        mPhonenum = mBinding.etPhonenum.getEditText().getText().toString();
+        mVertifycode = mBinding.etVerificationcode.getEditText().getText().toString();
+        if(TextUtils.isEmpty(mPhonenum)||TextUtils.isEmpty(mVertifycode)){
             CustomToast.makeText(mContext,"所填信息不能为空", Toast.LENGTH_SHORT).show();
         }else {
             //设置按钮状态为loading
             mBinding.btnSignupNextstep.setMode(ActionProcessButton.Mode.ENDLESS);
             mBinding.btnSignupNextstep.setProgress(50);
-            mSignUpVertifyCodeModel.vertifyPhone(phonenum,vertifycode);
+            mSignUpVertifyCodeModel.vertifyPhone(mPhonenum, mVertifycode);
         }
     }
     //如果该手机号没有被注册，进入下一个注册流程
@@ -123,69 +167,17 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
             }
         }.start();
     }
-
-
-    @Override
-    public void onRequestFinished() {
-
+    private void doThirdBindSuccess() {
+        ((SupportActivity)mContext).finish();
     }
-
-    @Override
-    public void onRequestSuccess(ModelAction data) {
-        Timber.d("onRequestSuccess");
-        Action action = data.action;
-        if(action == Action.SignUpVertifyCodeModel_GetVertifyCode){
-                doGetCodeSuccess();
-                 return;
-            }
-        else if(action == Action.SignUpVertifyCodeModel_VertifyPhone){
-            if((Boolean) data.t){
-                //如果手机号已经被注册过,则直接登录或者是绑定第三方账号
-                mSpf_thirdLogin = RxSpf_ThirdLogin.create(mContext);
-                if(mSpf_thirdLogin.platform().exists()){
-                    //绑定第三方账号
-                    doThirdBind();
-                    return;
-                }else {
-                    //手机验证码登录
-                    loginByVertifyCode();
-                    return;
-                }
-            }else {
-                //手机号码没有被注册过
-                doNextRegist();
-                return;
-            }
-        }
-        //绑定第三方账号成功
-        else if(action == Action.SignUpVertifyCodeModel_BindAccount){
-            ((SupportActivity)mContext).finish();
-        }
-        }
 
 
     private void doThirdBind() {
         String platform = mSpf_thirdLogin.platform().get();
-        String phonenum = mBinding.etPhonenum.getEditText().getText().toString();
-        String vertifycode = mBinding.etVerificationcode.getEditText().getText().toString();
-        if(TextUtils.isEmpty(phonenum)||TextUtils.isEmpty(vertifycode)){
-            CustomToast.makeText(mContext,"输入内容不能空",Toast.LENGTH_SHORT).show();
-        }else {
-            String openid = ShareSDK.getPlatform(platform).getDb().getUserId();
-            Timber.d("绑定第三方账号,电话号码为:%s,平台为:%s,openid为:%s",phonenum,platform,openid);
-
-            mSignUpVertifyCodeModel.bindAccount(phonenum,platform);
-        }
-
+        mSignUpVertifyCodeModel.bindAccount(mPhonenum,platform);
     }
 
     private void loginByVertifyCode() {
-
-    }
-
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-        CustomToast.makeText(mContext,erroinfo,Toast.LENGTH_SHORT).show();
-        mBinding.btnSignupNextstep.setProgress(0);
+        mSignUpVertifyCodeModel.login(true,mPhonenum,mVertifycode);
     }
 }

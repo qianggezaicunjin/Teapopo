@@ -8,7 +8,7 @@ import android.os.Message;
 
 
 import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLogin;
-import com.teapopo.life.model.user.CheckOpenIdModel;
+import com.teapopo.life.model.user.ThirdPlatformModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.customView.RequestView;
@@ -131,7 +131,7 @@ public class LoginApi implements Callback, RequestView<ModelAction> {
 						.platform()
 						.put(plat)
 						.apply();
-				CheckOpenIdModel model = new CheckOpenIdModel(context);
+				ThirdPlatformModel model = new ThirdPlatformModel(context);
 				model.setView(this);
 				model.check_openid(plat);
 			} break;

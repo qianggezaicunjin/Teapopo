@@ -186,7 +186,7 @@ public class DataManager {
     public Observable<JsonObject> bindAccount(String platform,String phone){
         Platform p = ShareSDK.getPlatform(platform);
         String openid = p.getDb().getUserId();
-        Timber.d("绑定的openid为:%s",openid);
+        Timber.d("绑定第三方账号,电话号码为:%s,平台为:%s,openid为:%s",phone,platform,openid);
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
         builder.addFormDataPart("login","1");

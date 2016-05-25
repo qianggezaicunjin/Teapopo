@@ -20,12 +20,13 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/23.
  */
-public class CheckOpenIdModel extends BaseModel {
+public class ThirdPlatformModel extends BaseModel {
 
-    public CheckOpenIdModel(Context context) {
+    public ThirdPlatformModel(Context context) {
         super(context);
     }
 
+    //检查第三方账号是否已经被绑定过
     public void check_openid(String platform){
 
         Platform p = ShareSDK.getPlatform(platform);
