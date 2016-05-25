@@ -44,21 +44,21 @@
 
                 <TextView
                     android:id="@+id/tv_nickname"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/circleiv_userinfo_icon"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/login_tips"
                     android:textColor="@color/white"
+                    android:gravity="center"
                     android:text="@{userViewModel.nickName}" />
 
                 <TextView
                     android:id="@+id/tv_signature"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_nickname"
-                    android:layout_centerHorizontal="true"
+                   android:gravity="center"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:hint="@string/login_tips"
                     android:textColor="@color/white"

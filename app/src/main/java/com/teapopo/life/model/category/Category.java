@@ -2,6 +2,7 @@ package com.teapopo.life.model.category;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.google.gson.JsonArray;
 import com.teapopo.life.model.BaseEntity;
 
 /**

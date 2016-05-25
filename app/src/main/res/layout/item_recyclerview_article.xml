@@ -25,10 +25,11 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="@dimen/padding_size"
             android:orientation="vertical">
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/ll_rv_item_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,13 +37,16 @@
 
                 <ImageView
                     android:id="@+id/img_user"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:imageUrl="@{recommendArticle.getAvatarUrl()}"
                     />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_toRightOf="@id/img_user"
                     android:orientation="vertical">
 
                     <TextView
@@ -60,18 +64,22 @@
 
                 <Button
                     android:id="@+id/btn_focus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentRight="true"
+                    android:gravity="center"
+                    android:text="@string/focus"
+                    android:background="@drawable/background_btn_focus"
                     />
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <TextView
                 android:id="@+id/tv_articleContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{recommendArticle.excerpt}"/>
+
+                android:text="@{recommendArticle.getExcerpt()}"/>
 
             <com.teapopo.life.view.customView.NoScrollGridView
                 android:id="@+id/gv_articleImage"

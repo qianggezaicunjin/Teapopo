@@ -3,14 +3,7 @@ package com.teapopo.life.data.remote;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.teapopo.life.model.category.CategoryList;
-import com.teapopo.life.model.erroinfo.ErroInfo;
-import com.teapopo.life.model.recommendarticle.Recommend;
-import com.teapopo.life.model.toparticle.TopArticle;
 
-import org.json.JSONObject;
-
-import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -107,4 +100,6 @@ public interface NetWorkService {
     @POST("members/check_openid")
     Observable<JsonObject> check_openid(@Field("openid") String openid,@Field("classify") String platform);
 
+    @GET("posts/list")
+    Call<JsonObject> getArticle(@Query("category")String category);
 }

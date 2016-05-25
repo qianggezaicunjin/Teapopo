@@ -76,6 +76,7 @@ public class DataManager {
      * @return
      */
    public Observable<JsonObject> getRecommendArticle(int p){
+        JsonObject jsonObject;
 
        return mNetWorkService.getRecommendArticle(p);
    }
