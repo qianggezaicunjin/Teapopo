@@ -15,9 +15,9 @@ import java.util.List;
 /**
  * Created by louiszgm on 2016/5/7.
  */
-public class CategoryAdapter extends BaseRecyclerViewAdapter<BaseEntity,CategoryAdapter.CategoryViewHolder> {
+public class HotTagsAdapter extends BaseRecyclerViewAdapter<BaseEntity,HotTagsAdapter.CategoryViewHolder> {
 
-    public CategoryAdapter(Context context, List data) {
+    public HotTagsAdapter(Context context, List data) {
         super(context, data);
     }
 
@@ -51,7 +51,7 @@ public class CategoryAdapter extends BaseRecyclerViewAdapter<BaseEntity,Category
         public void setCategory(Tag tag){
             ItemCategoryBinding binding = (ItemCategoryBinding) itemView.getTag();
             mBinding = binding;
-//            binding.setCategory(tag);
+            binding.setTag(tag);
             binding.executePendingBindings();
         }
     }

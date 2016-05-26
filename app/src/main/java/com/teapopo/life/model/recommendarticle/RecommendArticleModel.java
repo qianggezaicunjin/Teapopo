@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.Tag.Tag;
 import com.teapopo.life.model.article.categoryarticle.CategoryArticleModel;
-import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -16,6 +15,7 @@ import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
@@ -34,34 +34,40 @@ public class RecommendArticleModel  extends CategoryArticleModel{
         super(context);
     }
 
-//    //获取分类标签
-//    public void getCategory(){
-//        Observable<JsonObject> observable = mDataManager.getCategorys();
-//        observable
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .compose(RxResultHelper.<JsonObject>handleResult())
-//                .subscribe(new RxSubscriber<JsonObject>() {
-//                    @Override
-//                    public void _onNext(JsonObject jsonObject) {
-//                        CategoryList categoryList = null;
-//                        try {
-//                            categoryList = LoganSquare.parse(jsonObject.toString(),CategoryList.class);
-//                            ModelAction<List<Tag>> action = new ModelAction<List<Tag>>();
-//                            action.action = Action.RecommendArticleModel_GetCategory;
-//                            action.t = categoryList.data.categoryList;
-//                            mRequestView.onRequestSuccess(action);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void _onError(String s) {
-//                        mRequestView.onRequestErroInfo(s);
-//                    }
-//                });
-//    }
+    //获取热门标签
+    public void getHotTags(){
+        Observable<JsonObject> observable = mDataManager.getHotTags();
+        observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(mDataManager.getScheduler())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .flatMap(new Func1<JsonObject, Observable<List<Tag>>>() {
+                    @Override
+                    public Observable<List<Tag>> call(JsonObject jsonObject) {
+                        List<Tag> tagList = new ArrayList<Tag>();
+                        try {
+                            tagList = handleHotTagsJson(jsonObject);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return Observable.just(tagList);
+                    }
+                })
+                .subscribe(new RxSubscriber<List<Tag>>() {
+                    @Override
+                    public void _onNext(List<Tag> tags) {
+                        ModelAction<List<Tag>> action = new ModelAction<List<Tag>>();
+                        action.action = Action.RecommendArticleModel_GetHotTags;
+                        action.t = tags;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
     //获取头部滚动文章
     public void getTopArticle(String classify){
         Observable<JsonArray> observable = mDataManager.getTopArticle(classify);
@@ -90,5 +96,16 @@ public class RecommendArticleModel  extends CategoryArticleModel{
                         mRequestView.onRequestErroInfo(s);
                     }
                 });
+    }
+
+    private List<Tag> handleHotTagsJson(JsonObject jsonObject)throws Exception{
+        List<Tag> tagList = new ArrayList<>();
+        JsonObject data = jsonObject.getAsJsonObject("data");
+        JsonArray  tags = data.getAsJsonArray("terms");
+        for(JsonElement item:tags){
+            Tag tag = LoganSquare.parse(item.toString(),Tag.class);
+            tagList.add(tag);
+        }
+        return tagList;
     }
 }

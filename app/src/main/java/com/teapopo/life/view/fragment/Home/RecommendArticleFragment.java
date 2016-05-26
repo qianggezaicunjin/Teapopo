@@ -9,21 +9,14 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
-
-
-import com.teapopo.life.databinding.ItemHomeCategoryBinding;
-import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.injection.component.fragment.RecommendArticleFragmentComponent;
 import com.teapopo.life.injection.module.fragment.RecommendArticleFragmentModule;
-import com.teapopo.life.model.event.AddHeaderEvent;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import javax.inject.Inject;
 
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -37,8 +30,6 @@ public class RecommendArticleFragment extends BaseFragment {
     RxBus mRxBus;
     private RecommendArticleFragmentComponent mComponent;
     private FragmentRecommendarticleBinding binding;//文章列表内容的binding对象
-    private ItemRecyclerviewToparticleBinding toparticleBinding;//顶部轮播图片的binding对象
-    private ItemHomeCategoryBinding categoryBinding;
 
     private View mTopArticle;
     public static RecommendArticleFragment newInstance() {

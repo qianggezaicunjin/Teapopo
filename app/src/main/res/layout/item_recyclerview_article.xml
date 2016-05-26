@@ -64,12 +64,15 @@
 
                 <Button
                     android:id="@+id/btn_focus"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:gravity="center"
-                    android:text="@string/focus"
-                    android:background="@drawable/background_btn_focus"
+                    android:textAppearance="@style/Button_TextAppearance_focus"
+                    android:layout_centerVertical="true"
+                    android:text="@string/focus"/>
+                    <!--android:background="@drawable/background_btn_focus"-->
                     />
             </RelativeLayout>
 
@@ -81,20 +84,19 @@
 
                 android:text="@{recommendArticle.getExcerpt()}"/>
 
-            <com.teapopo.life.view.customView.NoScrollGridView
-                android:id="@+id/gv_articleImage"
-                android:layout_width="wrap_content"
+            <com.jaeger.ninegridimageview.NineGridImageView
+                android:id="@+id/gv_nineimage"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:horizontalSpacing="2.5dp"
-                android:numColumns="auto_fit"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="2.5dp" />
+                android:layout_width="match_parent"
+                app:imgGap="4dp"
+                app:showStyle="fill"
+                app:singleImgSize="120dp"/>
 
             <LinearLayout
                 android:id="@+id/ll_rv_item_tag"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -107,6 +109,7 @@
                 android:id="@+id/ll_rv_item_likeAndcomment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -119,18 +122,25 @@
                     android:id="@+id/tv_likecount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:textSize="18sp"
                     android:text="@{recommendArticle.like_num}" />
 
                 <ImageView
                     android:id="@+id/img_comment"
                     android:layout_width="@dimen/icComment_size"
                     android:layout_height="@dimen/icComment_size"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:background="@drawable/comment" />
 
                 <TextView
                     android:id="@+id/tv_commentcount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:text="@{recommendArticle.comment_num}" />
 
             </LinearLayout>

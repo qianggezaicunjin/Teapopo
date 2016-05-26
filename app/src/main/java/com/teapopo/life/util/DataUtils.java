@@ -4,7 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class DataUtils {
@@ -13,7 +15,6 @@ public class DataUtils {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getActiveNetworkInfo() != null;
     }
-
 
     /**
      * 时间戳转为月日，时分
@@ -32,16 +33,39 @@ public class DataUtils {
         return re_StrTime;
     }
 
-    public static String getUUID(){
-        // 创建 GUID 对象
-        UUID uuid = UUID.randomUUID();
-        // 得到对象产生的ID
-        String uuidstring = uuid.toString();
-        // 转换为大写
-        uuidstring = uuidstring.toUpperCase();
-        // 替换 -
-        uuidstring = uuidstring.replaceAll("-", "");
+    /**策略
+     * 处理九宫格图片的显示，根据图片的张数显示不同大小
+     * @param imageUrls 图片的个数
+     * @return
+     */
+    public static List<String> dealSizeForNetImageUrl(List<String> imageUrls){
+        List<String> results = new ArrayList<>();
+        int size = results.size();
+        if (size>3){
+            for(String url:imageUrls){
+                results.add(url+"_200*200");
+            }
+        }else if(size==2){
+            for(String url:imageUrls){
+                results.add(url+"_300*300");
+            }
+        }else {
+            results = imageUrls;
+        }
+        return results;
+    }
 
-        return  uuidstring;
+    /**
+     * 根据图片的个数划分列数
+     * @param size
+     * @return
+     */
+    public static int dealImageShowColums(int size){
+        if(size>=5){
+            return 3;
+        }else if(size<5&&size>1){
+            return 2;
+        }
+        return 1;
     }
 }

@@ -51,8 +51,8 @@
                 android:id="@+id/rv_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:adapter="@{recommendArticleViewModel.getCategoryAdapter()}"
-                app:data="@{recommendArticleViewModel.categories}"
+                app:adapter="@{recommendArticleViewModel.getHotTagsAdapter()}"
+                app:data="@{recommendArticleViewModel.tags}"
                 />
 
         </LinearLayout>

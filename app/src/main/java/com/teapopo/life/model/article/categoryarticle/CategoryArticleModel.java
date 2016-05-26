@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
@@ -102,6 +103,7 @@ public class CategoryArticleModel extends BaseModel{
                 JsonArray imageUrlsArray = images.getAsJsonArray(article.articleId);
                 if(imageUrlsArray!=null){
                     List<String> imageUrls = LoganSquare.parseList(imageUrlsArray.toString(),String.class);
+//                    article.imageUrls = DataUtils.dealSizeForNetImageUrl(imageUrls);
                     article.imageUrls = imageUrls;
                 }
             }

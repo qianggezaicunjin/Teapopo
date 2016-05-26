@@ -5,8 +5,8 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <!-- 文章列表中"评论"、"喜欢"、"标签"图标的大小 -->
-    <dimen name="iclike_size">15dp</dimen>
-    <dimen name="icComment_size">15dp</dimen>
+    <dimen name="iclike_size">20dp</dimen>
+    <dimen name="icComment_size">20dp</dimen>
     <dimen name="icTag_size">15dp</dimen>
 
     <dimen name="padding_size">10dp</dimen>

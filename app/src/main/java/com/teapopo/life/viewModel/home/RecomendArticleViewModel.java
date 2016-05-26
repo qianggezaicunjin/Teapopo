@@ -5,10 +5,11 @@ import android.databinding.Bindable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
-import com.teapopo.life.databinding.ItemHomeCategoryBinding;
+import com.teapopo.life.databinding.ItemHomeHottagsBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.Tag.Tag;
@@ -18,7 +19,8 @@ import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
-import com.teapopo.life.view.adapter.recyclerview.CategoryAdapter;
+import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.HotTagsAdapter;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
@@ -34,20 +36,20 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction>,BaseRecyclerViewAdapter.OnItemClickListener {
     private FragmentRecommendarticleBinding mBinding;
     private Context mContext;
     private boolean isFirstTime = true;
     private RecommendArticleAdapter mAdapter;//文章内容的adapter
     private TopArticleAdapter topArticleAdapter;//顶部文章轮播viewpager的adapter
-    private CategoryAdapter categoryAdapter;
+    private HotTagsAdapter hotTagsAdapter;
     private RecommendArticleModel mRecommendArticleModel;
 
 
     @Bindable
     public List<BaseEntity> articles = new ArrayList<>();
     @Bindable
-    public List<BaseEntity> categories = new ArrayList<>();
+    public List<BaseEntity> tags = new ArrayList<>();
 
 
     public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel,FragmentRecommendarticleBinding binding){
@@ -59,10 +61,11 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
         mAdapter = new RecommendArticleAdapter(mContext,getData());
         topArticleAdapter = new TopArticleAdapter(mContext,articles);
-        categoryAdapter = new CategoryAdapter(mContext,categories);
+        hotTagsAdapter = new HotTagsAdapter(mContext, tags);
 
+        mAdapter.setOnItemClickListener(this);
         mRecommendArticleModel.getTopArticle("index");
-//        mRecommendArticleModel.getCategory();
+        mRecommendArticleModel.getHotTags();
         requestData();
 
     }
@@ -73,8 +76,8 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public RecommendArticleAdapter getAdapter(){
         return mAdapter;
     }
-    public CategoryAdapter getCategoryAdapter(){
-        return categoryAdapter;
+    public HotTagsAdapter getHotTagsAdapter(){
+        return hotTagsAdapter;
     }
 
     @Override
@@ -94,11 +97,11 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
                 articles.addAll(list);
                 notifyPropertyChanged(BR.articles);
             }
-            //如果数据源是分类标签
-            if(data.action == Action.RecommendArticleModel_GetCategory){
+            //如果数据源是热门标签
+            if(data.action == Action.RecommendArticleModel_GetHotTags){
                 Timber.d("onRequestSuccess  Tag");
-                categories.addAll((List<Tag>)data.t);
-                notifyPropertyChanged(BR.categories);
+                tags.addAll((List<Tag>)data.t);
+                notifyPropertyChanged(BR.tags);
 
             }
             //如果数据源是文章列表内容
@@ -122,16 +125,13 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     private void addHeader() {
         //头部视图的初始化
         ItemRecyclerviewToparticleBinding toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(LayoutInflater.from(mContext));
-        ItemHomeCategoryBinding categoryBinding = ItemHomeCategoryBinding.inflate(LayoutInflater.from(mContext));
-        categoryBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
+        ItemHomeHottagsBinding hotTagsBinding = ItemHomeHottagsBinding.inflate(LayoutInflater.from(mContext));
+        hotTagsBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
         toparticleBinding.setRecommendArticleViewModel(this);
-        categoryBinding.setRecommendArticleViewModel(this);
+        hotTagsBinding.setRecommendArticleViewModel(this);
         mBinding.rvRecommendarticle.addHeader(toparticleBinding.getRoot());
-        mBinding.rvRecommendarticle.addHeader(categoryBinding.getRoot());
+        mBinding.rvRecommendarticle.addHeader(hotTagsBinding.getRoot());
         toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
-        //填充数据
-//        mRecommendArticleModel.getTopArticle("index");
-//        mRecommendArticleModel.getCategory();
     }
 
     @Override
@@ -165,5 +165,10 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
                 requestData();
             }
         };
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Timber.d("onItemClick的位置为:%s",position);
     }
 }

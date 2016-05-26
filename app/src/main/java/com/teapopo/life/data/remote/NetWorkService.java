@@ -22,14 +22,6 @@ public interface NetWorkService {
     String ENDPOINT = "http://www.teapopo.com/api/";
     String IMAGE_ENDPOINT="http://img.teapopo.com/";
     String IMAGE_EXT=".jpg";
-    /**
-     * 返回推荐的文章.
-     * 参数
-     * p:  页码 默认1
-     * r:  每页行数 默认8
-     */
-    @GET("posts/recommend?app=1")
-    Observable<JsonObject> getRecommendArticle(@Query("p") int page );
 
     /**
      *
@@ -40,7 +32,7 @@ public interface NetWorkService {
      * 不带参数时，默认返回8条记录
      */
     @GET("terms/list")
-    Observable<JsonObject> getCategory();
+    Observable<JsonObject> getHotTags();
 
 
     /**

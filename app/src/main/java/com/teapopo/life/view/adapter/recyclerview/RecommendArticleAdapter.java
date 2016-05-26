@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
+import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
+import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
 
 import java.util.ArrayList;
@@ -49,11 +51,13 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
         mImageUrls=post.imageUrls;
         holder.setArticle(post);
         ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
+//        binding.gvArticleImage.setNumColumns(DataUtils.dealImageShowColums(mImageUrls.size()));
         if(mImageUrls!=null){
-            NoScrollGridAdapter adapter=new NoScrollGridAdapter(mContext,mImageUrls);
-            binding.gvArticleImage.setAdapter(adapter);
+            NineImageGridAdapter<String> adapter = new NineImageGridAdapter<>();
+            binding.gvNineimage.setAdapter(adapter);
+            binding.gvNineimage.setImagesData(mImageUrls);
         }else {
-            binding.gvArticleImage.setVisibility(View.GONE);
+            binding.gvNineimage.setVisibility(View.GONE);
         }
     }
     public static class RecommendArticleViewHolder extends RecyclerView.ViewHolder{

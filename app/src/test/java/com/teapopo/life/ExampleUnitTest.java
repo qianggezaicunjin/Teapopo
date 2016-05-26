@@ -8,8 +8,6 @@ import com.teapopo.life.data.DataManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -17,8 +15,6 @@ import org.robolectric.fakes.RoboSharedPreferences;
 import org.robolectric.shadows.ShadowLog;
 
 import timber.log.Timber;
-
-import static org.junit.Assert.*;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.
@@ -41,7 +37,7 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         RoboSharedPreferences preferences = (RoboSharedPreferences) application
                 .getSharedPreferences("Cookies_Prefs", Context.MODE_PRIVATE);
-        dataManager.getCategorys();
+        dataManager.getHotTags();
         Timber.d("preferences为:%S",preferences.getAll().toString());
     }
 }

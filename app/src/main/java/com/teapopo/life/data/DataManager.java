@@ -64,20 +64,11 @@ public class DataManager {
     }
 
     /**
-     * 请求第几页的推荐文章列表
-     * @param p 页码
+     * 获取热门标签
      * @return
      */
-   public Observable<JsonObject> getRecommendArticle(int p){
-       return mNetWorkService.getRecommendArticle(p);
-   }
-
-    /**
-     * 返回推荐文章列表页面的类别标签
-     * @return
-     */
-    public Observable<JsonObject> getCategorys(){
-        return mNetWorkService.getCategory();
+    public Observable<JsonObject> getHotTags(){
+        return mNetWorkService.getHotTags();
     }
     /**
      * 获取每个模块的头部轮播的文章
