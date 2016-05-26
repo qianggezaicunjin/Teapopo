@@ -52,7 +52,7 @@ public class CategoryArticle extends BaseEntity{
     public String avatarUrl;//文章作者头像的图片url
 
     public String getAvatarUrl(){
-        return NetWorkService.IMAGE_ENDPOINT+avatarUrl+"_70x70"+NetWorkService.IMAGE_EXT;
+        return NetWorkService.IMAGE_ENDPOINT+avatarUrl+"_150x150"+NetWorkService.IMAGE_EXT;
     }
 
     public List<String> tags;//文章的标签

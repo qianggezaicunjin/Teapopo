@@ -55,14 +55,12 @@ public class NoScrollGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageview = (ImageView) View.inflate(ctx, R.layout.item_gridview_articleimage, null);
-//        ImageView imageview= (ImageView) view.findViewById(R.id.recyclableIv_articleimage);
-//        int size1 =  parent.getWidth()/ DataUtils.dealImageShowColums(imageUrls.size());
-//        imageview.setLayoutParams(new LinearLayout.LayoutParams(size1,size1));
-        String url= NetWorkService.IMAGE_ENDPOINT+imageUrls.get(position)+NetWorkService.IMAGE_EXT;
-        Timber.d("容器的宽度为:%d,imageview的宽度为:%d,高度为:%d",parent.getWidth(),imageview.getWidth(),imageview.getHeight());
-        ImageLoader.getInstance().displayImage(url, imageview);
-        return imageview;
+      ImageView imageView = new ImageView(ctx);
+
+        String image = imageUrls.get(position);
+        String url= NetWorkService.IMAGE_ENDPOINT+image+NetWorkService.IMAGE_EXT;
+        ImageLoader.getInstance().displayImage(url, imageView);
+        return imageView;
     }
 
 }

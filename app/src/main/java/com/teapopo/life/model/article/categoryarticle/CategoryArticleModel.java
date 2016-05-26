@@ -103,7 +103,6 @@ public class CategoryArticleModel extends BaseModel{
                 JsonArray imageUrlsArray = images.getAsJsonArray(article.articleId);
                 if(imageUrlsArray!=null){
                     List<String> imageUrls = LoganSquare.parseList(imageUrlsArray.toString(),String.class);
-//                    article.imageUrls = DataUtils.dealSizeForNetImageUrl(imageUrls);
                     article.imageUrls = imageUrls;
                 }
             }

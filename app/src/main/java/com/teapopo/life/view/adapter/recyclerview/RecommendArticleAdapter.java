@@ -18,6 +18,7 @@ import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
 
 
 /**
@@ -48,17 +49,16 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
         CategoryArticle post= (CategoryArticle) data.get(position);
-        mImageUrls=post.imageUrls;
+//        mImageUrls=post.imageUrls;
         holder.setArticle(post);
         ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
-//        binding.gvArticleImage.setNumColumns(DataUtils.dealImageShowColums(mImageUrls.size()));
-        if(mImageUrls!=null){
+//        NoScrollGridAdapter adapter = new NoScrollGridAdapter(mContext,post.imageUrls);
+//        binding.gvImage.setAdapter(adapter);
+
             NineImageGridAdapter<String> adapter = new NineImageGridAdapter<>();
             binding.gvNineimage.setAdapter(adapter);
-            binding.gvNineimage.setImagesData(mImageUrls);
-        }else {
-            binding.gvNineimage.setVisibility(View.GONE);
-        }
+            binding.gvNineimage.setImagesData(post.imageUrls);
+
     }
     public static class RecommendArticleViewHolder extends RecyclerView.ViewHolder{
           ViewDataBinding mBinding;
