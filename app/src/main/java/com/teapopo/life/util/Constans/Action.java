@@ -11,6 +11,8 @@ public enum Action {
     SignUpVertifyCodeModel_Login,
     //for SignUpUserInfoModel
     SignUpUserInfoModel_Regist,
+    //for CategoryArticleModel
+    CategoryArticleModel_GetArticle,
     //for RecommendArticleModel
     RecommendArticleModel_GetTopArticle,
     RecommendArticleModel_GetContents,

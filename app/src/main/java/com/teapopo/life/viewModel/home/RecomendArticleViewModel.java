@@ -11,8 +11,8 @@ import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 import com.teapopo.life.databinding.ItemHomeCategoryBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.category.Category;
-import com.teapopo.life.model.recommendarticle.RecommendArticle;
+import com.teapopo.life.model.Tag.Tag;
+import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
 import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
@@ -62,7 +62,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         categoryAdapter = new CategoryAdapter(mContext,categories);
 
         mRecommendArticleModel.getTopArticle("index");
-        mRecommendArticleModel.getCategory();
+//        mRecommendArticleModel.getCategory();
         requestData();
 
     }
@@ -80,7 +80,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     @Override
     public void requestData() {
         super.requestData();
-        mRecommendArticleModel.getContents();
+        mRecommendArticleModel.getArticle("发现");
     }
 
     @Override
@@ -96,15 +96,16 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
             }
             //如果数据源是分类标签
             if(data.action == Action.RecommendArticleModel_GetCategory){
-                Timber.d("onRequestSuccess  Category");
-                categories.addAll((List<Category>)data.t);
+                Timber.d("onRequestSuccess  Tag");
+                categories.addAll((List<Tag>)data.t);
                 notifyPropertyChanged(BR.categories);
 
             }
             //如果数据源是文章列表内容
-            if(data.action == Action.RecommendArticleModel_GetContents){
+            if(data.action == Action.CategoryArticleModel_GetArticle){
                 Timber.d("onRequestSuccess  RecommendArticle");
-                super.data.addAll((List<RecommendArticle>)data.t);
+                super.data.addAll((List<CategoryArticle>)data.t);
+                Timber.d("文章长度为:%d",super.data.size());
                 notifyPropertyChanged(BR.data);
                 //通知加载文章内容完毕，更新loading状态
                 loading = false;

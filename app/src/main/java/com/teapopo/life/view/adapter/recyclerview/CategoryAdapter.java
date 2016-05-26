@@ -3,13 +3,12 @@ package com.teapopo.life.view.adapter.recyclerview;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemCategoryBinding;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.category.Category;
+import com.teapopo.life.model.Tag.Tag;
 
 import java.util.List;
 
@@ -35,8 +34,8 @@ public class CategoryAdapter extends BaseRecyclerViewAdapter<BaseEntity,Category
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Category category = (Category) data.get(position);
-        holder.setCategory(category);
+        Tag tag = (Tag) data.get(position);
+        holder.setCategory(tag);
     }
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder{
@@ -49,10 +48,10 @@ public class CategoryAdapter extends BaseRecyclerViewAdapter<BaseEntity,Category
             itemView.setTag(binding);
         }
 
-        public void setCategory(Category category){
+        public void setCategory(Tag tag){
             ItemCategoryBinding binding = (ItemCategoryBinding) itemView.getTag();
             mBinding = binding;
-            binding.setCategory(category);
+//            binding.setCategory(tag);
             binding.executePendingBindings();
         }
     }

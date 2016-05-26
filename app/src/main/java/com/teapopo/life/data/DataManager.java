@@ -5,18 +5,12 @@ import android.content.Context;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
-import com.teapopo.life.model.erroinfo.ErroInfo;
 import com.teapopo.life.model.PostKeyValue;
-import com.teapopo.life.model.category.CategoryList;
-import com.teapopo.life.model.recommendarticle.Recommend;
-import com.teapopo.life.model.toparticle.TopArticle;
-
 
 
 import java.util.List;
@@ -27,7 +21,6 @@ import javax.inject.Inject;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import okhttp3.MultipartBody;
-import retrofit2.Call;
 import rx.Observable;
 import rx.Scheduler;
 import timber.log.Timber;
@@ -76,8 +69,6 @@ public class DataManager {
      * @return
      */
    public Observable<JsonObject> getRecommendArticle(int p){
-        JsonObject jsonObject;
-
        return mNetWorkService.getRecommendArticle(p);
    }
 
@@ -195,5 +186,10 @@ public class DataManager {
         builder.addFormDataPart("phone",phone);
         builder.addFormDataPart("openid",openid);
         return mNetWorkService.bindAccount(builder.build());
+    }
+
+
+    public Observable<JsonObject> getCategoryArticle(String category,int page){
+        return mNetWorkService.getCategoryArticle(category,page);
     }
 }

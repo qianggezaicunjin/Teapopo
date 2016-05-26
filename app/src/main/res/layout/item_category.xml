@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="category"
-            type="com.teapopo.life.model.category.Category" />
+            name="tag"
+            type="com.teapopo.life.model.Tag.Tag" />
     </data>
 
     <LinearLayout
@@ -19,14 +19,14 @@
             android:id="@+id/iv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:imageUrl="@{category.coverImage}" />
+            app:imageUrl="@{tag.coverImage}" />
 
         <TextView
             android:id="@+id/tv_categoryname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@{category.name}" />
+            android:text="@{tag.name}" />
 
     </LinearLayout>
 </layout>

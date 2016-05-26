@@ -52,11 +52,11 @@ public class DataManagerTest {
 
     @Test
     public void getArticleTest()throws Exception{
-        retrofit2.Response<JsonObject> response = mockNetWorkService.getArticle("发现").execute();
-        JsonObject jsonObject = response.body();
-        JsonObject data = jsonObject.getAsJsonObject("data");
-        JsonObject members = data.getAsJsonObject("members");
-        JsonObject item = members.getAsJsonObject("44252");
-        Timber.d(item.toString());
+//        retrofit2.Response<JsonObject> response = mockNetWorkService.getArticle("发现").execute();
+//        JsonObject jsonObject = response.body();
+//        JsonObject data = jsonObject.getAsJsonObject("data");
+//        JsonObject members = data.getAsJsonObject("members");
+//        JsonObject item = members.getAsJsonObject("44252");
+//        Timber.d(item.toString());
     }
 }

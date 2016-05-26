@@ -67,12 +67,16 @@ public interface NetWorkService {
     @POST("members/register")
     Observable<JsonObject> regist(@Body RequestBody requestBody);
 
+    /**
+     * 获取个人信息
+     * @return
+     */
     @GET("members/self")
     Observable<JsonObject> getUserInfo();
 
 
     /**
-     * 绑定原有帐号
+     * 绑定
      * api/members/bind
      * POST
      * classify  weixin,qq,weibo
@@ -83,15 +87,27 @@ public interface NetWorkService {
     @POST("members/bind")
     Observable<JsonObject> bindAccount(@Body RequestBody requestBody);
 
+    /**
+     * 发送短信验证码
+     * @param phonenumber
+     * @param forwhat
+     * @return
+     */
     @GET("members/verify_sms?no_verify=1")
     Observable<JsonObject> getSmsVertify(@Query("phone") String phonenumber,@Query("temp_id") String forwhat);
 
+    /**
+     * 验证手机号
+     * @param phonenum
+     * @param vertifycode
+     * @return
+     */
     @FormUrlEncoded
     @POST("members/check_phone")
     Observable<JsonObject> vertifyPhone(@Field("phone") String phonenum,@Field("verify")String vertifycode);
 
     /**
-     * 检查第三方账号是否已经被绑定
+     * 验证openid
      * @param openid
      * @param platform qq,weibo,weixin
      * @return
@@ -100,6 +116,11 @@ public interface NetWorkService {
     @POST("members/check_openid")
     Observable<JsonObject> check_openid(@Field("openid") String openid,@Field("classify") String platform);
 
-    @GET("posts/list")
-    Call<JsonObject> getArticle(@Query("category")String category);
+    /**
+     * 文章列表
+     * @param category  参数为: 发现/新滋
+     * @return
+     */
+    @GET("posts/list?all=1")
+    Observable<JsonObject> getCategoryArticle(@Query("category")String category,@Query("p")int page);
 }

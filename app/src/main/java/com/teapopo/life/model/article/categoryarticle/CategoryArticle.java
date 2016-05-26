@@ -1,4 +1,4 @@
-package com.teapopo.life.model.recommendarticle;
+package com.teapopo.life.model.article.categoryarticle;
 
 import android.databinding.BindingConversion;
 
@@ -11,11 +11,10 @@ import com.teapopo.life.util.DataUtils;
 import java.util.List;
 
 /**
- * Created by louiszgm on 2016/4/23.
+ * Created by louiszgm on 2016/5/26.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class RecommendArticle extends BaseEntity{
-
+public class CategoryArticle extends BaseEntity{
     public String browse_num;
 
     public String collect_num;
@@ -45,8 +44,8 @@ public class RecommendArticle extends BaseEntity{
 
     public String title;
 
-   //下面是增加的属性
-   public ArticleImage articleImage;//文章的图片url
+    //下面是增加的属性
+    public List<String> imageUrls;//文章的图片url
 
     public String nickname;//文章作者的昵称
 
@@ -55,8 +54,6 @@ public class RecommendArticle extends BaseEntity{
     public String getAvatarUrl(){
         return NetWorkService.IMAGE_ENDPOINT+avatarUrl+"_70x70"+NetWorkService.IMAGE_EXT;
     }
-    @Override
-    public String toString() {
-        return "文章的图片为:"+articleImage.articleImageUrls.size()+"作者昵称为:"+nickname+"头像url为:"+avatarUrl+"文章ID为:"+articleId;
-    }
+
+    public List<String> tags;//文章的标签
 }

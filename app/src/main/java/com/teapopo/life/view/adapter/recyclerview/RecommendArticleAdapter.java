@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.recommendarticle.ArticleImage;
-import com.teapopo.life.model.recommendarticle.RecommendArticle;
+import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
 import com.teapopo.life.view.activity.ImagePagerActivity;
 import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
 
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity, RecommendArticleAdapter.RecommendArticleViewHolder> {
 
-    private List<ArticleImage> mImages;//一篇文章对应的图片的列表
+    private List<String> mImages;//一篇文章对应的图片的列表
     private List<String> mImageUrls;
 
     public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
@@ -46,8 +45,8 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     @Override
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
-        RecommendArticle post= (RecommendArticle) data.get(position);
-        mImageUrls=post.articleImage.articleImageUrls;
+        CategoryArticle post= (CategoryArticle) data.get(position);
+        mImageUrls=post.imageUrls;
         holder.setArticle(post);
         ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
         if(mImageUrls!=null){
@@ -67,7 +66,7 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
             super(view);
             itemView.setTag(binding);
         }
-        public void setArticle(RecommendArticle recommendArticle){
+        public void setArticle(CategoryArticle recommendArticle){
             ItemRecyclerviewArticleBinding binding= (ItemRecyclerviewArticleBinding) itemView.getTag();
             mBinding = binding;
             binding.setRecommendArticle(recommendArticle);
