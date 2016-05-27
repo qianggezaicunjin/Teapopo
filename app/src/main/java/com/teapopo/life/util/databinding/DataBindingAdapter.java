@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.jaeger.ninegridimageview.NineGridImageView;
+import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
@@ -20,10 +22,18 @@ import timber.log.Timber;
  */
 public class DataBindingAdapter {
 
+    @BindingAdapter({"adapter","data"})
+    public static void setNineImageAdapter(NineGridImageView imageView, NineGridImageViewAdapter adapter,List data){
+        imageView.setAdapter(adapter);
+        imageView.setImagesData(data);
+    }
+
     @BindingAdapter({"onMenuItemClick"})
     public static void onMenuItemClick(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
         toolbar.setOnMenuItemClickListener(listener);
     }
+
+    //ImageVie 设置网络图片
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
         if(imageUrl!=null){
@@ -39,26 +49,26 @@ public class DataBindingAdapter {
             ImageLoader.getInstance().displayImage(imageUrl,iv);
         }
     }
+    //SwipeRefreshLayout 设置loading状态
     @BindingAdapter({"isLoading"})
     public static void isLoading(SwipeRefreshLayout swipeRefreshLayout, boolean isLoading) {
         swipeRefreshLayout.setRefreshing(isLoading);
     }
+    //SwipeRefreshLayout 设置onRefreshListener
     @BindingAdapter({"onRefreshListener"})
     public static void setsetOnRefreshListener(SwipeRefreshLayout swipeRefreshLayout, SwipeRefreshLayout.OnRefreshListener listener){
         swipeRefreshLayout.setOnRefreshListener(listener);
     }
+    //HackyViewPager 设置adapter
     @BindingAdapter({"adapter"})
     public static void setViewPagerAdapter(HackyViewPager viewPager, PagerAdapter adapter) {
         Timber.d("setViewPagerAdapter");
         viewPager.setAdapter(adapter);
     }
+    //HackyViewPager 设置data 并通知数据集改变
     @BindingAdapter({"viewpagerdata"})
     public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> articles) {
         Timber.d("notifyDataSetChanged viewPager");
         viewPager.notifyDataSetChanged();
-//        if(articles.size()>0){
-//            RxBus rxBus = ComponentHolder.getAppComponent().rxbus();
-//            rxBus.postEvent(new AddHeaderEvent());
-//        }
     }
 }

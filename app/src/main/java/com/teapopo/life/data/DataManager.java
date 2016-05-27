@@ -183,4 +183,18 @@ public class DataManager {
     public Observable<JsonObject> getCategoryArticle(String category,int page){
         return mNetWorkService.getCategoryArticle(category,page);
     }
+
+    /**
+     * 点赞/取消点赞文章
+     * @param islike
+     * @param articleId
+     * @return
+     */
+    public Observable<JsonObject> likeArticleOrNot(boolean islike,String articleId){
+        if (islike){
+            return mNetWorkService.likeArticle(articleId);
+        }else {
+            return mNetWorkService.unLikeArticle(articleId);
+        }
+    }
 }

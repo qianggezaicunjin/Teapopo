@@ -20,5 +20,7 @@ public enum Action {
     //for ThirdPlatformModel
     CheckOpenIdModel_Check_OpenId,
     //for SignInModel
-    SignInModel_Login
+    SignInModel_Login,
+    //for ArticleItemModel
+    ArticleItemModel_likeArticleOrNot
 }

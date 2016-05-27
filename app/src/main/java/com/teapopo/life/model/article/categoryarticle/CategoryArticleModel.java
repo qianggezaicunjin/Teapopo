@@ -91,6 +91,7 @@ public class CategoryArticleModel extends BaseModel{
         JsonObject members = data.getAsJsonObject("members");
         JsonObject images = data.getAsJsonObject("images");
         JsonObject tags = data.getAsJsonObject("tags");
+        JsonObject ilikes = data.getAsJsonObject("ilikes");
         //解析json,将所有属性整合到一个CategoryArticle对象里面
         for(JsonElement post:posts){
             CategoryArticle article = LoganSquare.parse(post.toString(),CategoryArticle.class);
@@ -112,6 +113,13 @@ public class CategoryArticleModel extends BaseModel{
                 if(tagsArray!=null){
                     List<String> tagNames = LoganSquare.parseList(tagsArray.toString(),String.class);
                     article.tags = tagNames;
+                }
+            }
+            //该文章是否被喜欢
+            if(ilikes!=null){
+                int isLike = ilikes.get(article.articleId).getAsInt();
+                if(isLike==1){
+                    article.isLike = true;
                 }
             }
             //将新封装好的article对象加进results

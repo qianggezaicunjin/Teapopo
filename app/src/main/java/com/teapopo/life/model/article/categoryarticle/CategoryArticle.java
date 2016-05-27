@@ -56,4 +56,8 @@ public class CategoryArticle extends BaseEntity{
     }
 
     public List<String> tags;//文章的标签
+
+    public boolean isLike;//是否喜欢
+
+    public boolean isFocus;//是否关注
 }

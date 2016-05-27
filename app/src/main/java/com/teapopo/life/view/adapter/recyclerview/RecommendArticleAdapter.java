@@ -4,19 +4,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
+import com.teapopo.life.injection.component.DaggerActivityComponent;
+import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
+import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -25,13 +35,12 @@ import timber.log.Timber;
  * Created by Administrator on 2016/4/7 0007.
  */
 public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity, RecommendArticleAdapter.RecommendArticleViewHolder> {
-
-    private List<String> mImages;//一篇文章对应的图片的列表
-    private List<String> mImageUrls;
+    @Inject
+    ArticleItemViewModel mViewModel;
 
     public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
         super(context,data);
-        this.mImages = new ArrayList<>();
+        DaggerActivityComponent.builder().activityModule(new ActivityModule(context)).build().inject(this);
     }
 
     @Override
@@ -49,19 +58,34 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
         CategoryArticle post= (CategoryArticle) data.get(position);
-//        mImageUrls=post.imageUrls;
-        holder.setArticle(post);
-        ItemRecyclerviewArticleBinding binding=(ItemRecyclerviewArticleBinding)holder.mBinding;
-//        NoScrollGridAdapter adapter = new NoScrollGridAdapter(mContext,post.imageUrls);
-//        binding.gvImage.setAdapter(adapter);
-
-            NineImageGridAdapter<String> adapter = new NineImageGridAdapter<>();
-            binding.gvNineimage.setAdapter(adapter);
-            binding.gvNineimage.setImagesData(post.imageUrls);
-
+        mViewModel.article = post;
+        ItemRecyclerviewArticleBinding binding = (ItemRecyclerviewArticleBinding) holder.itemView.getTag();
+        addTags(post.tags,binding);
+        holder.setViewModel(mViewModel);
     }
+    //添加每篇文章的tag
+    private void addTags(List<String> tags,ItemRecyclerviewArticleBinding binding) {
+        Timber.d("tags的个数为:%d",tags.size());
+        binding.llRvItemTag.removeAllViews();
+        //相对于自身的属性
+        AttributeSet attributeSet=DataUtils.getAttributeSetFromXml(mContext, R.layout.tagname);
+        //相对于父控件的属性
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(mContext,attributeSet);
+        //添加tag图标
+        ImageView img_tag = new ImageView(mContext);
+        img_tag.setBackgroundResource(R.drawable.icon_tag);
+        binding.llRvItemTag.addView(img_tag);
+        //添加标签的文字
+        for(String tag:tags){
+            TextView tv_tag = new TextView(mContext,attributeSet);
+            tv_tag.setId(R.id.tv_tagname);
+            tv_tag.setText(tag);
+            tv_tag.setOnClickListener(mViewModel.getOnClickListener());
+            binding.llRvItemTag.addView(tv_tag,params);
+        }
+    }
+
     public static class RecommendArticleViewHolder extends RecyclerView.ViewHolder{
-          ViewDataBinding mBinding;
         public static RecommendArticleViewHolder createViewHolder(ViewDataBinding binding) {
             return new RecommendArticleViewHolder(binding.getRoot(), binding);
         }
@@ -70,10 +94,9 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
             super(view);
             itemView.setTag(binding);
         }
-        public void setArticle(CategoryArticle recommendArticle){
+        public void setViewModel(ArticleItemViewModel viewModel){
             ItemRecyclerviewArticleBinding binding= (ItemRecyclerviewArticleBinding) itemView.getTag();
-            mBinding = binding;
-            binding.setRecommendArticle(recommendArticle);
+            binding.setViewmodel(viewModel);
             binding.executePendingBindings();
         }
     }
@@ -90,7 +113,4 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
         intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
         mContext.startActivity(intent);
     }
-
-
-
 }

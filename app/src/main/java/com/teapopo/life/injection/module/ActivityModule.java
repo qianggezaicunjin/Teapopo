@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.model.article.ArticleItemModel;
+import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,5 +25,16 @@ public class ActivityModule {
     @PerActivity
      Context provideActivity(){
         return mContext;
+    }
+
+    @Provides
+    @PerActivity
+    ArticleItemViewModel provideArticleItemViewModel(Context context,ArticleItemModel model){
+        return new ArticleItemViewModel(context,model);
+    }
+    @Provides
+    @PerActivity
+    ArticleItemModel provideArticleItemModel(Context context){
+        return new ArticleItemModel(context);
     }
 }

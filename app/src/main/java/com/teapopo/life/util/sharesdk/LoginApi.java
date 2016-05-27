@@ -124,7 +124,6 @@ public class LoginApi implements Callback, RequestView<ModelAction> {
 				@SuppressWarnings("unchecked")
 				HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
 				Timber.d("第三方登录成功返回的信息为:%s",res.toString());
-
 				//将第三方登录成功的平台名字和openid保存在sharedpreference
 				RxSpf_ThirdLogin spf_thirdLogin = RxSpf_ThirdLogin.create(context);
 				spf_thirdLogin.edit()

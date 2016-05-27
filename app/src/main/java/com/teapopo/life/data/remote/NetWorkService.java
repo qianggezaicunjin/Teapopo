@@ -115,4 +115,18 @@ public interface NetWorkService {
      */
     @GET("posts/list?all=1")
     Observable<JsonObject> getCategoryArticle(@Query("category")String category,@Query("p")int page);
+
+    /**
+     * 添加点赞
+     * @return
+     */
+    @GET("likes/add")
+    Observable<JsonObject> likeArticle(@Query("id")String articleId);
+
+    /**
+     * 取消点赞
+     * @return
+     */
+    @GET("likes/delete")
+    Observable<JsonObject> unLikeArticle(@Query("id")String articleId);
 }

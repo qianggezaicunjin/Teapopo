@@ -16,6 +16,7 @@ import android.widget.TabHost;
 import com.teapopo.life.R;
 import com.teapopo.life.injection.component.ComponentHolder;
 
+import com.teapopo.life.injection.component.DaggerActivityComponent;
 import com.teapopo.life.injection.component.DaggerMainActivityComponent;
 import com.teapopo.life.injection.component.MainActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;

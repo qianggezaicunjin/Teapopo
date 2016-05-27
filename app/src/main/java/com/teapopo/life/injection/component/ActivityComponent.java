@@ -1,11 +1,12 @@
 package com.teapopo.life.injection.component;
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+
 
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 
 import dagger.Component;
 
@@ -17,4 +18,6 @@ import dagger.Component;
 public interface ActivityComponent {
 
     Context getContext();
+
+    void inject(RecommendArticleAdapter adapter);
 }

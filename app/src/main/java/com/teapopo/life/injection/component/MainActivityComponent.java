@@ -15,7 +15,7 @@ import dagger.Component;
  * Created by louiszgm on 2016/4/27.
  */
 @PerActivity
-@Component(dependencies = ApplicationComponent.class,modules = {ActivityModule.class, MainActivityModule.class})
+@Component(dependencies = ApplicationComponent.class,modules = { ActivityModule.class,MainActivityModule.class})
 public interface MainActivityComponent extends ActivityComponent{
 
     void inject(MainActivity mainActivity);
