@@ -8,9 +8,8 @@ import android.widget.Toast;
 
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.teapopo.life.R;
-import com.teapopo.life.injection.module.fragment.SignUpVertifyCodeFragmentModule_ProvideSignUpModelFactory;
+import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.ArticleItemModel;
-import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
@@ -25,7 +24,7 @@ import timber.log.Timber;
 public class ArticleItemViewModel extends BaseObservable implements RequestView<ModelAction> {
     private Context mContext;
     private ArticleItemModel mModel;
-    public CategoryArticle article;
+    public Article article;
 
     public ArticleItemViewModel(Context context, ArticleItemModel model){
         mContext = context;

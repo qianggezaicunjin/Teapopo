@@ -14,7 +14,7 @@ import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.Tag.Tag;
 import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
-import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
+import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -88,7 +88,6 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
     @Override
     public void onRequestSuccess(ModelAction data) {
-        super.onRequestSuccess(data);
         synchronized (this){
             //如果数据源是头部轮播文章
             if (data.action == Action.RecommendArticleModel_GetTopArticle){
@@ -137,6 +136,11 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     @Override
     public void onRequestErroInfo(String erroinfo) {
         CustomToast.makeText(mContext,erroinfo, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onRequestFinished() {
+
     }
 
     /**

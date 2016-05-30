@@ -5,19 +5,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
-import com.teapopo.life.view.adapter.viewpager.TabFragmentAdapter;
+import com.teapopo.life.view.adapter.viewpager.HomeTabFragmentAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
-import com.teapopo.life.viewModel.ToolBarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,12 +75,12 @@ public class HomeFragment extends BaseFragment {
 
         List<Fragment> fragmentList = new ArrayList<>();
         RecommendArticleFragment recommendArticleFragment= RecommendArticleFragment.newInstance();
-        LikeArticleFragment likeArticleFragment=LikeArticleFragment.newInstance();
+        HomeLikeArticleFragment homeLikeArticleFragment = HomeLikeArticleFragment.newInstance();
         fragmentList.add(recommendArticleFragment);
-        fragmentList.add(likeArticleFragment);
+        fragmentList.add(homeLikeArticleFragment);
 
         //如果在fragment里面嵌套的viewpager里面再嵌套fragment,则需要getChildFragmentManager()
-        TabFragmentAdapter tabAdapter=new TabFragmentAdapter(getChildFragmentManager(),fragmentList,titles);
+        HomeTabFragmentAdapter tabAdapter=new HomeTabFragmentAdapter(getChildFragmentManager(),fragmentList,titles);
         mViewPager.setAdapter(tabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

@@ -190,11 +190,27 @@ public class DataManager {
      * @param articleId
      * @return
      */
-    public Observable<JsonObject> likeArticleOrNot(boolean islike,String articleId){
+    public Observable<JsonObject> clickLikeArticle(boolean islike, String articleId){
         if (islike){
             return mNetWorkService.likeArticle(articleId);
         }else {
             return mNetWorkService.unLikeArticle(articleId);
+        }
+    }
+
+    /**
+     * 获取喜欢的文章列表
+     * @param isHomeArticle 是否在首页展示
+     * @param page
+     * 在首页展示的喜欢文章包含了用户自己发布的以及点赞的文章
+     * 在个人中心展示的喜欢文章只是包括了用户自己点赞的文章
+     * @return
+     */
+    public Observable<JsonObject> getLikeArticle(boolean isHomeArticle,int page){
+        if(isHomeArticle){
+            return mNetWorkService.getHomeLikeArticle(true,page);
+        }else {
+            return mNetWorkService.getUserLikeArticle(true,page);
         }
     }
 }

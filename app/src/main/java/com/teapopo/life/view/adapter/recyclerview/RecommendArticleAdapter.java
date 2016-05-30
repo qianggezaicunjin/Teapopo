@@ -3,6 +3,7 @@ package com.teapopo.life.view.adapter.recyclerview;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -16,11 +17,9 @@ import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.injection.component.DaggerActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
+import com.teapopo.life.model.article.Article;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
-import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
-import com.teapopo.life.view.adapter.gridview.NoScrollGridAdapter;
 import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.ArrayList;
@@ -57,32 +56,35 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     @Override
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
-        CategoryArticle post= (CategoryArticle) data.get(position);
+        Article post= (Article) data.get(position);
         mViewModel.article = post;
         ItemRecyclerviewArticleBinding binding = (ItemRecyclerviewArticleBinding) holder.itemView.getTag();
         addTags(post.tags,binding);
         holder.setViewModel(mViewModel);
     }
     //添加每篇文章的tag
-    private void addTags(List<String> tags,ItemRecyclerviewArticleBinding binding) {
-        Timber.d("tags的个数为:%d",tags.size());
-        binding.llRvItemTag.removeAllViews();
-        //相对于自身的属性
-        AttributeSet attributeSet=DataUtils.getAttributeSetFromXml(mContext, R.layout.tagname);
-        //相对于父控件的属性
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(mContext,attributeSet);
-        //添加tag图标
-        ImageView img_tag = new ImageView(mContext);
-        img_tag.setBackgroundResource(R.drawable.icon_tag);
-        binding.llRvItemTag.addView(img_tag);
-        //添加标签的文字
-        for(String tag:tags){
-            TextView tv_tag = new TextView(mContext,attributeSet);
-            tv_tag.setId(R.id.tv_tagname);
-            tv_tag.setText(tag);
-            tv_tag.setOnClickListener(mViewModel.getOnClickListener());
-            binding.llRvItemTag.addView(tv_tag,params);
+    private void addTags(@NonNull List<String> tags, ItemRecyclerviewArticleBinding binding) {
+        if(tags!=null){
+            Timber.d("tags的个数为:%d",tags.size());
+            binding.llRvItemTag.removeAllViews();
+            //相对于自身的属性
+            AttributeSet attributeSet=DataUtils.getAttributeSetFromXml(mContext, R.layout.tagname);
+            //相对于父控件的属性
+            LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(mContext,attributeSet);
+            //添加tag图标
+            ImageView img_tag = new ImageView(mContext);
+            img_tag.setBackgroundResource(R.drawable.icon_tag);
+            binding.llRvItemTag.addView(img_tag);
+            //添加标签的文字
+            for(String tag:tags){
+                TextView tv_tag = new TextView(mContext,attributeSet);
+                tv_tag.setId(R.id.tv_tagname);
+                tv_tag.setText(tag);
+                tv_tag.setOnClickListener(mViewModel.getOnClickListener());
+                binding.llRvItemTag.addView(tv_tag,params);
+            }
         }
+
     }
 
     public static class RecommendArticleViewHolder extends RecyclerView.ViewHolder{

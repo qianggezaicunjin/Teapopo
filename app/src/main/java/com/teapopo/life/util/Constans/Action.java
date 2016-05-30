@@ -17,6 +17,8 @@ public enum Action {
     RecommendArticleModel_GetTopArticle,
     RecommendArticleModel_GetContents,
     RecommendArticleModel_GetHotTags,
+    //for HomeLikeArticleModel
+    HomeLikeArticleModel_GetArticle,
     //for ThirdPlatformModel
     CheckOpenIdModel_Check_OpenId,
     //for SignInModel

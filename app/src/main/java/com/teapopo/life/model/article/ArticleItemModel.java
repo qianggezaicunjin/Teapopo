@@ -22,7 +22,7 @@ public class ArticleItemModel extends BaseModel {
     }
 
     public void likeArticleOrNot(boolean isLike,String articleId){
-        Observable<JsonObject> observable = mDataManager.likeArticleOrNot(isLike,articleId);
+        Observable<JsonObject> observable = mDataManager.clickLikeArticle(isLike,articleId);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxResultHelper.<JsonObject>handleResult())

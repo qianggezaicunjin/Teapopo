@@ -51,11 +51,4 @@ public class BaseRecyclerViewModel<T> extends BaseObservable {
         notifyPropertyChanged(BR.loading);
     }
 
-    public void onRequestFinished() {
-
-    }
-
-    public void onRequestSuccess(ModelAction data) {
-
-    }
 }

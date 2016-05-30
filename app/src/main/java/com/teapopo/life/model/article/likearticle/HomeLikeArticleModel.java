@@ -1,4 +1,4 @@
-package com.teapopo.life.model.article.categoryarticle;
+package com.teapopo.life.model.article.likearticle;
 
 import android.content.Context;
 
@@ -18,39 +18,38 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * Created by louiszgm on 2016/5/26.
+ * Created by louiszgm on 2016/5/30.
  */
-public class CategoryArticleModel extends ArticleModel{
+public class HomeLikeArticleModel extends ArticleModel {
 
-
-    public CategoryArticleModel(Context context) {
+    public HomeLikeArticleModel(Context context) {
         super(context);
     }
 
-    public void getArticle(String category){
-        Observable<JsonObject> observable = mDataManager.getCategoryArticle(category,mPage);
+    public void getArticle(boolean isHomeArticle){
+        Observable<JsonObject> observable = mDataManager.getLikeArticle(isHomeArticle,mPage);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
                 .compose(RxResultHelper.<JsonObject>handleResult())
-                .flatMap(new Func1<JsonObject, Observable<List<CategoryArticle>>>() {
+                .flatMap(new Func1<JsonObject, Observable< List<HomeLikeArticle>>>() {
                     @Override
-                    public Observable<List<CategoryArticle>> call(JsonObject jsonObject) {
-                        List<CategoryArticle> list =  new ArrayList<CategoryArticle>();
+                    public Observable< List<HomeLikeArticle>> call(JsonObject jsonObject) {
+                        List<HomeLikeArticle> articleList = new ArrayList<HomeLikeArticle>();
                         try {
-                            list = handleArticleJson(jsonObject);
+                            articleList = handleArticleJson(jsonObject);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        return Observable.just(list);
+                        return Observable.just(articleList);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<List<CategoryArticle>>() {
+                .subscribe(new RxSubscriber<List<HomeLikeArticle>>() {
                     @Override
-                    public void _onNext(List<CategoryArticle> categoryArticles) {
-                        ModelAction<List<CategoryArticle>> action = new ModelAction<List<CategoryArticle>>();
-                        action.action = Action.CategoryArticleModel_GetArticle;
-                        action.t = categoryArticles;
+                    public void _onNext(List<HomeLikeArticle> homeLikeArticles) {
+                        ModelAction<List<HomeLikeArticle>> action = new ModelAction<List<HomeLikeArticle>>();
+                        action.action = Action.HomeLikeArticleModel_GetArticle;
+                        action.t = homeLikeArticles;
                         mRequestView.onRequestSuccess(action);
                     }
 

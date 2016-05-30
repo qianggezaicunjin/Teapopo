@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.teapopo.life.databinding.FragmentRecommendarticleBinding;
 import com.teapopo.life.injection.scope.PerActivity;
-import com.teapopo.life.model.recommendarticle.RecommendArticleModel;
+import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 
 import dagger.Module;

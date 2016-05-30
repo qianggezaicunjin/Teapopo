@@ -110,12 +110,39 @@ public interface NetWorkService {
 
     /**
      * 文章列表
+     * 获取首页的推荐文章列表，以及新滋的文章列表
      * @param category  参数为: 发现/新滋
      * @return
      */
     @GET("posts/list?all=1")
     Observable<JsonObject> getCategoryArticle(@Query("category")String category,@Query("p")int page);
 
+    /**
+     * 文章列表
+     * 获取个人点赞以及发布的文章,首页的喜欢文章列表
+     * @param ilike
+     * @return
+     */
+    @GET("posts/list?all=1")
+    Observable<JsonObject> getHomeLikeArticle(@Query("ilikes")boolean ilike,@Query("p")int page);
+
+    /**
+     * 文章列表
+     * 获取个人点赞的文章,个人中心里的赞过的文章
+     * @param like
+     * @return
+     */
+    @GET("posts/list?all=1")
+    Observable<JsonObject> getUserLikeArticle(@Query("likes")boolean like,@Query("p")int page);
+
+    /**
+     * 文章列表
+     * 获取个人发布的文章
+     * @param memberId
+     * @return
+     */
+    @GET("posts/list?all=1")
+    Observable<JsonObject> getUserPublishArticle(@Query("member_id")String memberId);
     /**
      * 添加点赞
      * @return

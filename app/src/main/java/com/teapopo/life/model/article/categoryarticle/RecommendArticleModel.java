@@ -1,4 +1,4 @@
-package com.teapopo.life.model.recommendarticle;
+package com.teapopo.life.model.article.categoryarticle;
 
 import android.content.Context;
 
