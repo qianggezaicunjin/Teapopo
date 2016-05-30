@@ -3,6 +3,7 @@ package com.teapopo.life.viewModel.userCenter;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -41,9 +42,9 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     private String mVertifycode;
 
 
-    public SignUpVertifyCodeViewModel(Context context, FragmentSignupVertifycodeBinding binding, SignUpVertifyCodeModel signUpVertifyCodeModel){
+    public SignUpVertifyCodeViewModel(Context context, ViewDataBinding binding, SignUpVertifyCodeModel signUpVertifyCodeModel){
         mContext = context;
-        mBinding = binding;
+        mBinding = (FragmentSignupVertifycodeBinding) binding;
         mSignUpVertifyCodeModel = signUpVertifyCodeModel;
         mSignUpVertifyCodeModel.setView(this);
     }

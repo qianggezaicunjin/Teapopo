@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel.userCenter;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -33,8 +34,8 @@ public class SignUpUserInfoViewModel extends BaseObservable implements RequestVi
 
     public String phonenum;
     public String vertifycode;
-    public SignUpUserInfoViewModel(Context context,FragmentSignupUserinfoBinding binding,SignUpUserInfoModel model){
-        mBinding = binding;
+    public SignUpUserInfoViewModel(Context context, ViewDataBinding binding, SignUpUserInfoModel model){
+        mBinding = (FragmentSignupUserinfoBinding) binding;
         mContext = context;
         mSignUpUserInfoModel = model;
         mSignUpUserInfoModel.setView(this);

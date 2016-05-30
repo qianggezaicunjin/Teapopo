@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSigninBinding;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
 import com.teapopo.life.injection.component.fragment.SignInFragmentComponent;
+import com.teapopo.life.injection.module.fragment.SignInAndUpFragmentModule;
 import com.teapopo.life.injection.module.fragment.SignInFragmentModule;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
@@ -33,7 +35,7 @@ public class SignInFragment extends SwipeBackBaseFragment {
     @Inject
      SignInViewModel mViewModel;
 
-    private SignInFragmentComponent mComponent;
+    private SignInAndUpFragmentComponent mComponent;
     private FragmentSigninBinding mBinding;
     public static SignInFragment newInstances(){
         return  new SignInFragment();
@@ -42,7 +44,8 @@ public class SignInFragment extends SwipeBackBaseFragment {
     @Override
     public void onCreateBinding(Bundle savedInstanceState) {
             mBinding = FragmentSigninBinding.inflate(LayoutInflater.from(_mActivity));
-        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInFragmentComponent(new SignInFragmentModule(mBinding));
+//        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInFragmentComponent(new SignInFragmentModule(mBinding));
+        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(mBinding));
         mComponent.inject(this);
     }
 

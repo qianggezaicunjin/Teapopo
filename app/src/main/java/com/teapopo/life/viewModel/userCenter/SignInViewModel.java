@@ -1,6 +1,7 @@
 package com.teapopo.life.viewModel.userCenter;
 
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -30,9 +31,9 @@ public class SignInViewModel implements RequestView<ModelAction> {
     private Context mContext;
     private FragmentSigninBinding mBinding;
     private SignInModel mModel;
-    public SignInViewModel(Context context, SignInModel model, FragmentSigninBinding binding){
+    public SignInViewModel(Context context, SignInModel model, ViewDataBinding binding){
         mContext = context;
-        mBinding = binding;
+        mBinding = (FragmentSigninBinding) binding;
         mModel = model;
         mModel.setView(this);
     }

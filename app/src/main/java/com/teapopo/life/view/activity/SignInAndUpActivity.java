@@ -9,6 +9,7 @@ import com.teapopo.life.R;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerSignInAndUpActivityComponent;
 import com.teapopo.life.injection.component.SignInAndUpActivityComponent;
+import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
 import com.teapopo.life.injection.component.fragment.SignUpVervifyCodeFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.SignInAndUpActivityModule;
@@ -23,7 +24,7 @@ import timber.log.Timber;
 public class SignInAndUpActivity extends SwipeBackBaseActivity  {
 
     private SignInAndUpActivityComponent mComponent;
-
+    private SignInAndUpFragmentComponent component;
     public static Intent getStartIntent(Context context) {
         return new Intent(context, SignInAndUpActivity.class);
     }
