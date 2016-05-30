@@ -1,11 +1,9 @@
 package com.teapopo.life.injection.component;
 
-import com.teapopo.life.injection.component.fragment.RecommendArticleFragmentComponent;
-import com.teapopo.life.injection.component.fragment.UserFragmentComponent;
+import com.teapopo.life.injection.component.fragment.MainFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.MainActivityModule;
-import com.teapopo.life.injection.module.fragment.RecommendArticleFragmentModule;
-import com.teapopo.life.injection.module.fragment.UserFragmentModule;
+import com.teapopo.life.injection.module.fragment.MainFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.activity.MainActivity;
 
@@ -20,7 +18,6 @@ public interface MainActivityComponent extends ActivityComponent{
 
     void inject(MainActivity mainActivity);
 
-    RecommendArticleFragmentComponent recommendArticleFragment(RecommendArticleFragmentModule recommendArticleFragmentModule);
+    MainFragmentComponent mainFragmentComponent(MainFragmentModule module);
 
-    UserFragmentComponent userFragment(UserFragmentModule userFragmentModule);
 }

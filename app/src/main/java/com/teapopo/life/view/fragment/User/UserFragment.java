@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentUserBinding;
-import com.teapopo.life.injection.component.fragment.UserFragmentComponent;
-import com.teapopo.life.injection.module.fragment.UserFragmentModule;
+import com.teapopo.life.injection.component.fragment.MainFragmentComponent;
+import com.teapopo.life.injection.module.fragment.MainFragmentModule;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.userCenter.UserViewModel;
@@ -22,7 +22,7 @@ import timber.log.Timber;
  */
 public class UserFragment extends BaseFragment {
 
-    private UserFragmentComponent mComponent;
+    private MainFragmentComponent mComponent;
 
     @Inject
      UserViewModel mViewModel;
@@ -30,7 +30,7 @@ public class UserFragment extends BaseFragment {
     public void onCreateBinding() {
         Timber.d("Oncreate");
         if(getActivity() instanceof MainActivity){
-            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().userFragment(new UserFragmentModule());
+            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().mainFragmentComponent(new MainFragmentModule());
             mComponent.inject(this);}
     }
 

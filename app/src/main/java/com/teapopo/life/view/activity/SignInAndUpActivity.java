@@ -10,7 +10,6 @@ import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerSignInAndUpActivityComponent;
 import com.teapopo.life.injection.component.SignInAndUpActivityComponent;
 import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
-import com.teapopo.life.injection.component.fragment.SignUpVervifyCodeFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.SignInAndUpActivityModule;
 import com.teapopo.life.view.fragment.User.SignInFragment;

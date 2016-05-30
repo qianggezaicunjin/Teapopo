@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
-import com.teapopo.life.injection.component.fragment.SignUpVervifyCodeFragmentComponent;
-import com.teapopo.life.injection.module.fragment.SignUpVertifyCodeFragmentModule;
+import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
+import com.teapopo.life.injection.module.fragment.SignInAndUpFragmentModule;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.userCenter.SignUpVertifyCodeViewModel;
@@ -27,7 +27,7 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
     Toolbar mToolBar;
     private FragmentSignupVertifycodeBinding mBinding;
 
-    private SignUpVervifyCodeFragmentComponent mComponent;
+    private SignInAndUpFragmentComponent mComponent;
 
     @Inject
     SignUpVertifyCodeViewModel mViewModel;
@@ -42,17 +42,12 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
     public void onCreateBinding(Bundle savedInstanceState) {
         Timber.d("onCreateBinding");
         mBinding = FragmentSignupVertifycodeBinding.inflate(LayoutInflater.from(_mActivity));
-        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signUpVervifyCodeFragmentComponent(new SignUpVertifyCodeFragmentModule(mBinding));
+        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(mBinding));
         mComponent.inject(this);
     }
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Timber.d("getContentView");
-        if(mViewModel == null){
-            Timber.d("SignUpVertifyCodeViewModel为空");
-        }else {
-            Timber.d("SignUpVertifyCodeViewModel不为空");
-        }
         mBinding.setSignUpViewModel(mViewModel);
         return mBinding.getRoot();
     }

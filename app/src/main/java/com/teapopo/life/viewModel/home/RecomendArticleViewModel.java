@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel.home;
 
 import android.content.Context;
 import android.databinding.Bindable;
+import android.databinding.ViewDataBinding;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,8 +53,8 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     public List<BaseEntity> tags = new ArrayList<>();
 
 
-    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel,FragmentRecommendarticleBinding binding){
-        this.mBinding = binding;
+    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel,ViewDataBinding binding){
+        this.mBinding = (FragmentRecommendarticleBinding) binding;
         this.mContext = context;
         
         this.mRecommendArticleModel = recommendArticleModel;

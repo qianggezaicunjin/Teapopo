@@ -1,6 +1,7 @@
 package com.teapopo.life.util;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 
 public class ViewUtils {
@@ -10,4 +11,7 @@ public class ViewUtils {
         return px / (metrics.densityDpi / 160f);
     }
 
+    public static Drawable findDrawableById(int id,Context context){
+        return context.getResources().getDrawable(id);
+    }
 }

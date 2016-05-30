@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentSignupUserinfoBinding;
-import com.teapopo.life.injection.component.DaggerSignInAndUpActivityComponent;
-import com.teapopo.life.injection.component.fragment.SignUpUserInfoFragmentComponent;
-import com.teapopo.life.injection.module.fragment.SignUpUserInfoFragmentModule;
+import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
+import com.teapopo.life.injection.module.fragment.SignInAndUpFragmentModule;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.userCenter.SignUpUserInfoViewModel;
@@ -24,7 +23,7 @@ import timber.log.Timber;
 public class SignUpUserInfoFragment extends SwipeBackBaseFragment {
 
     private FragmentSignupUserinfoBinding binding;
-    private SignUpUserInfoFragmentComponent mComponent;
+    private SignInAndUpFragmentComponent mComponent;
 
     @Inject
     SignUpUserInfoViewModel mViewModel;
@@ -47,7 +46,7 @@ public class SignUpUserInfoFragment extends SwipeBackBaseFragment {
     public void onCreateBinding(Bundle savedInstanceState) {
         Timber.d("SignUpUserInfoFragment 的onCreateBinding");
         binding = FragmentSignupUserinfoBinding.inflate(LayoutInflater.from(_mActivity));
-        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signUpUserInfoFragmentComponent(new SignUpUserInfoFragmentModule(binding));
+        mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(binding));
         mComponent.inject(this);
         Bundle  bundle = getArguments();
         mViewModel.phonenum = bundle.getString("phonenum");

@@ -8,9 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentHomelikearticleBinding;
+import com.teapopo.life.injection.component.fragment.MainFragmentComponent;
+import com.teapopo.life.injection.module.fragment.MainFragmentModule;
 import com.teapopo.life.model.article.likearticle.HomeLikeArticleModel;
+import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.home.HomeLikeArticleViewModel;
+
+import javax.inject.Inject;
 
 /**
  * Created by louiszgm on 2016/4/14 0014.
@@ -20,25 +25,30 @@ import com.teapopo.life.viewModel.home.HomeLikeArticleViewModel;
 public class HomeLikeArticleFragment extends BaseFragment {
 
 
+    private FragmentHomelikearticleBinding mBinding;
+    private MainFragmentComponent mComponent;
+    @Inject
+    HomeLikeArticleViewModel mViewModel;
     public static HomeLikeArticleFragment newInstance() {
         return new HomeLikeArticleFragment();
     }
 
     @Override
     public void onCreateBinding() {
-
+       mComponent = ((MainActivity)_mActivity).getMainActivityComponent().mainFragmentComponent(new MainFragmentModule());
+        mComponent.inject(this);
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FragmentHomelikearticleBinding binding = FragmentHomelikearticleBinding.inflate(inflater);
-        HomeLikeArticleViewModel viewModel = new HomeLikeArticleViewModel(_mActivity,new HomeLikeArticleModel(_mActivity));
-        binding.setViewModel(viewModel);
-        return binding.getRoot();
+        mBinding = FragmentHomelikearticleBinding.inflate(inflater);
+        mBinding.setViewModel(mViewModel);
+        return mBinding.getRoot();
     }
 
     @Override
     public void setUpView() {
 
     }
+
 }

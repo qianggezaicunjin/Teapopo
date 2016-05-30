@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.teapopo.life.model.article.ArticleItemModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
+import com.teapopo.life.util.ViewUtils;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.customView.RequestView;
 
@@ -63,11 +65,11 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
         mModel.likeArticleOrNot(!article.isLike,articleId);
     }
 
-    public int background_likeornot(){
+    public Drawable background_likeornot(){
         if(article.isFocus){
-            return R.drawable.icon_like;
+            return ViewUtils.findDrawableById(R.drawable.icon_like,mContext);
         }
-        return R.drawable.icon_no_like;
+        return ViewUtils.findDrawableById(R.drawable.icon_no_like,mContext);
     }
     //关注文章
     private void doFocusAction() {

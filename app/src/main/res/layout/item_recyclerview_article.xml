@@ -125,7 +125,7 @@
                         android:id="@+id/img_likeornot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/icon_like"
+                        android:background="@{viewmodel.background_likeornot()}"
                         android:layout_alignParentBottom="true"
                         android:onClick="@{viewmodel.getOnClickListener()}"/>
 
