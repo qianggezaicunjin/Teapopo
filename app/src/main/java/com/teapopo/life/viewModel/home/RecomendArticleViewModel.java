@@ -20,7 +20,7 @@ import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
-import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.recyclerview.HotTagsAdapter;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;

@@ -2,15 +2,16 @@ package com.teapopo.life.injection.module.fragment;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.view.View;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
+import com.teapopo.life.model.article.categoryarticle.XinZiArticleModel;
 import com.teapopo.life.model.article.likearticle.HomeLikeArticleModel;
 import com.teapopo.life.model.user.UserInfoModel;
 import com.teapopo.life.viewModel.home.HomeLikeArticleViewModel;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 import com.teapopo.life.viewModel.userCenter.UserViewModel;
+import com.teapopo.life.viewModel.xinzi.XinZiArticleViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -61,5 +62,16 @@ public class MainFragmentModule {
     @PerActivity
     HomeLikeArticleModel provideHomeLikeArticleModel(Context context){
         return new HomeLikeArticleModel(context);
+    }
+    //for XinZiFragment
+    @Provides
+    @PerActivity
+    XinZiArticleViewModel provideXinZiArticleViewModel(Context context, XinZiArticleModel model){
+        return new XinZiArticleViewModel(context,model);
+    }
+    @Provides
+    @PerActivity
+    XinZiArticleModel provideXinZiArticleModel(Context context){
+        return new XinZiArticleModel(context);
     }
 }

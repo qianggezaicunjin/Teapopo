@@ -1,5 +1,8 @@
 package com.teapopo.life.model.article.likearticle;
 
+import android.databinding.Bindable;
+import android.graphics.drawable.Drawable;
+
 import com.teapopo.life.model.article.Article;
 
 /**

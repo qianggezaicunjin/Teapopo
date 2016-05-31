@@ -27,14 +27,4 @@ public class ActivityModule {
         return mContext;
     }
 
-    @Provides
-    @PerActivity
-    ArticleItemViewModel provideArticleItemViewModel(Context context,ArticleItemModel model){
-        return new ArticleItemViewModel(context,model);
-    }
-    @Provides
-    @PerActivity
-    ArticleItemModel provideArticleItemModel(Context context){
-        return new ArticleItemModel(context);
-    }
 }

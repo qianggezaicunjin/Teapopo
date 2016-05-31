@@ -3,7 +3,7 @@ package com.teapopo.life.util.databinding;
 import android.databinding.BindingAdapter;
 
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
 import java.util.List;

@@ -1,12 +1,18 @@
 package com.teapopo.life.model.article;
 
+import android.databinding.Bindable;
 import android.databinding.BindingConversion;
+import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.teapopo.life.BR;
+import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.util.ViewUtils;
 
 import java.util.List;
 
@@ -60,4 +66,6 @@ public class Article extends BaseEntity {
         public boolean isLike;//是否喜欢
 
         public boolean isFocus;//是否关注
+
+
 }

@@ -5,6 +5,7 @@ import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.fragment.Home.HomeLikeArticleFragment;
 import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
+import com.teapopo.life.view.fragment.xinzi.XinZiFragment;
 
 import dagger.Subcomponent;
 
@@ -20,4 +21,6 @@ public interface MainFragmentComponent {
     void inject(UserFragment fragment);
 
     void inject(HomeLikeArticleFragment fragment);
+
+    void inject(XinZiFragment fragment);
 }

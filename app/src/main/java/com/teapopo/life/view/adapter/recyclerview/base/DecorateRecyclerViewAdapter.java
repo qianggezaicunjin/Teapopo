@@ -1,4 +1,4 @@
-package com.teapopo.life.view.adapter.recyclerview;
+package com.teapopo.life.view.adapter.recyclerview.base;
 
 /**
  * Created by louiszgm-pc on 2016/5/2.

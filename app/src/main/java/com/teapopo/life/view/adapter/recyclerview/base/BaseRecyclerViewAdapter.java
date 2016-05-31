@@ -1,4 +1,4 @@
-package com.teapopo.life.view.adapter.recyclerview;
+package com.teapopo.life.view.adapter.recyclerview.base;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -2,15 +2,18 @@ package com.teapopo.life.viewModel;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
+import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.ArticleItemModel;
+import com.teapopo.life.model.article.likearticle.HomeLikeArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
@@ -26,7 +29,9 @@ import timber.log.Timber;
 public class ArticleItemViewModel extends BaseObservable implements RequestView<ModelAction> {
     private Context mContext;
     private ArticleItemModel mModel;
+    @Bindable
     public Article article;
+
 
     public ArticleItemViewModel(Context context, ArticleItemModel model){
         mContext = context;
@@ -64,13 +69,6 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
         String articleId = article.articleId;
         mModel.likeArticleOrNot(!article.isLike,articleId);
     }
-
-    public Drawable background_likeornot(){
-        if(article.isFocus){
-            return ViewUtils.findDrawableById(R.drawable.icon_like,mContext);
-        }
-        return ViewUtils.findDrawableById(R.drawable.icon_no_like,mContext);
-    }
     //关注文章
     private void doFocusAction() {
     }
@@ -78,7 +76,6 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
     //根据标签名字显示对应文章
     private void showTagArticle(String tagname) {
     }
-
 
     public NineGridImageViewAdapter getNineImageAdapter(){
         return new NineImageGridAdapter<String>();
@@ -93,7 +90,16 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
     public void onRequestSuccess(ModelAction data) {
         Action action = data.action;
         if(action == Action.ArticleItemModel_likeArticleOrNot){
-
+            Timber.d("点赞");
+           article.isLike = !article.isLike;
+           int likenum = Integer.parseInt(article.like_num);
+            if(article.isLike){
+                likenum+=1;
+            }else {
+                likenum-=1;
+            }
+            article.like_num = String.valueOf(likenum);
+            notifyPropertyChanged(BR.article);
         }
     }
 

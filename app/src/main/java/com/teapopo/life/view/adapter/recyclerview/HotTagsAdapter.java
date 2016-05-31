@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemCategoryBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.Tag.Tag;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 
 import java.util.List;
 

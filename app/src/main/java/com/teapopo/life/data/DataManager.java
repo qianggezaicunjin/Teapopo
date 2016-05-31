@@ -89,12 +89,8 @@ public class DataManager {
     public Observable<JsonObject> login(boolean isVertifyCodeLogin,String account,String passwd){
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
-//        PostKeyValue no_imagevertify = new PostKeyValue("no_verify","1");
         builder.addFormDataPart("no_verify","1");
         if(isVertifyCodeLogin){
-//            PostKeyValue phone_num = new PostKeyValue("phone",account);
-//            PostKeyValue pass_wd = new PostKeyValue("sms_verify",passwd);
-//            PostKeyValue use_sms = new PostKeyValue("use_sms","1");
             builder.addFormDataPart("phone",account);
             builder.addFormDataPart("sms_verify",passwd);
             builder.addFormDataPart("use_sms","1");
@@ -180,6 +176,12 @@ public class DataManager {
     }
 
 
+    /**
+     * 获取category的文章
+     * @param category 发现/新滋的文章
+     * @param page
+     * @return
+     */
     public Observable<JsonObject> getCategoryArticle(String category,int page){
         return mNetWorkService.getCategoryArticle(category,page);
     }

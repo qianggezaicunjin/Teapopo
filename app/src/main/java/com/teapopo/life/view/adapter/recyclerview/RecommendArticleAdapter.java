@@ -14,18 +14,16 @@ import android.widget.TextView;
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
-import com.teapopo.life.injection.component.DaggerActivityComponent;
-import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.Article;
+import com.teapopo.life.model.article.ArticleItemModel;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import timber.log.Timber;
 
@@ -34,12 +32,8 @@ import timber.log.Timber;
  * Created by Administrator on 2016/4/7 0007.
  */
 public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity, RecommendArticleAdapter.RecommendArticleViewHolder> {
-    @Inject
-    ArticleItemViewModel mViewModel;
-
     public RecommendArticleAdapter(Context context,List<BaseEntity> data) {
         super(context,data);
-        DaggerActivityComponent.builder().activityModule(new ActivityModule(context)).build().inject(this);
     }
 
     @Override
@@ -56,11 +50,13 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     @Override
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
+        ArticleItemViewModel mViewModel = new ArticleItemViewModel(mContext,new ArticleItemModel(mContext));
         Article post= (Article) data.get(position);
-        mViewModel.article = post;
+        mViewModel.article =  post;
+        holder.setViewModel(mViewModel);
+        //添加tag
         ItemRecyclerviewArticleBinding binding = (ItemRecyclerviewArticleBinding) holder.itemView.getTag();
         addTags(post.tags,binding);
-        holder.setViewModel(mViewModel);
     }
     //添加每篇文章的tag
     private void addTags(@NonNull List<String> tags, ItemRecyclerviewArticleBinding binding) {
@@ -80,7 +76,7 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
                 TextView tv_tag = new TextView(mContext,attributeSet);
                 tv_tag.setId(R.id.tv_tagname);
                 tv_tag.setText(tag);
-                tv_tag.setOnClickListener(mViewModel.getOnClickListener());
+                tv_tag.setOnClickListener(binding.getViewmodel().getOnClickListener());
                 binding.llRvItemTag.addView(tv_tag,params);
             }
         }

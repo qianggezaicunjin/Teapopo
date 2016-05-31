@@ -9,8 +9,8 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.teapopo.life.view.adapter.recyclerview.BaseRecyclerViewAdapter;
-import com.teapopo.life.view.adapter.recyclerview.DecorateRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.DecorateRecyclerViewAdapter;
 
 /**
  * A super recycler view that has implemented paging at bottom, paging at top, adding header and adding footer.
