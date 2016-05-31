@@ -186,6 +186,9 @@ public class DataManager {
         return mNetWorkService.getCategoryArticle(category,page);
     }
 
+    public Observable<JsonObject> getArticleInfo(String id){
+        return mNetWorkService.getArticleInfo(id);
+    }
     /**
      * 点赞/取消点赞文章
      * @param islike

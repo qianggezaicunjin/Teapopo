@@ -145,6 +145,13 @@ public interface NetWorkService {
     Observable<JsonObject> getUserPublishArticle(@Query("member_id")String memberId);
 
     /**
+     * 文章信息
+     * @param articleId 通过文章id获得文章详情
+     * @return
+     */
+    @GET("posts/info")
+    Observable<JsonObject> getArticleInfo(@Query("id")String articleId);
+    /**
      * 添加点赞
      * @return
      */

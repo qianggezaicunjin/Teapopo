@@ -5,15 +5,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.teapopo.life.R;
+import com.teapopo.life.model.articleinfo.ArticleInfoModel;
+import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.BaseFragment;
+
+import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
-public class WelFareFragment extends BaseFragment {
-
+public class WelFareFragment extends BaseFragment implements RequestView {
+    WebView webView;
     public static WelFareFragment newInstance(){
         return new WelFareFragment();
     }
@@ -25,11 +30,32 @@ public class WelFareFragment extends BaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welfare,container,false);
+        webView = (WebView) view.findViewById(R.id.webview);
+        ArticleInfoModel model = new ArticleInfoModel(_mActivity);
+        model.getArticleInfo("10245");
+        model.setView(this);
         return view;
     }
 
     @Override
     public void setUpView() {
+
+    }
+
+    @Override
+    public void onRequestFinished() {
+
+    }
+
+    @Override
+    public void onRequestSuccess(Object data) {
+        String html5 = (String) data;
+        Timber.d("模板为:%s",html5);
+        webView.loadData(html5, "text/html", "ISO-8859");
+    }
+
+    @Override
+    public void onRequestErroInfo(String erroinfo) {
 
     }
 }
