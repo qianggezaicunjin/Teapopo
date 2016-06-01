@@ -1,16 +1,22 @@
 package com.teapopo.life.view.fragment.welfare;
 
+
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
-
+import android.widget.TextView;
 import com.teapopo.life.R;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
+import com.teapopo.life.model.sharedpreferences.RxSpf_Html;
+import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.BaseFragment;
+
 
 import timber.log.Timber;
 
@@ -18,7 +24,8 @@ import timber.log.Timber;
  * Created by louiszgm-pc on 2016/5/20.
  */
 public class WelFareFragment extends BaseFragment implements RequestView {
-    WebView webView;
+
+    HtmlTextView tv;
     public static WelFareFragment newInstance(){
         return new WelFareFragment();
     }
@@ -30,7 +37,8 @@ public class WelFareFragment extends BaseFragment implements RequestView {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welfare,container,false);
-        webView = (WebView) view.findViewById(R.id.webview);
+
+        tv = (HtmlTextView) view.findViewById(R.id.tv_html);
         ArticleInfoModel model = new ArticleInfoModel(_mActivity);
         model.getArticleInfo("10245");
         model.setView(this);
@@ -49,13 +57,17 @@ public class WelFareFragment extends BaseFragment implements RequestView {
 
     @Override
     public void onRequestSuccess(Object data) {
-        String html5 = (String) data;
+
+        RxSpf_Html rxSpf_html = RxSpf_Html.create(_mActivity);
+        String html5 =  rxSpf_html.content().get();
         Timber.d("模板为:%s",html5);
-        webView.loadData(html5, "text/html", "ISO-8859");
+        tv.setHtmlFromString(html5,false);
     }
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
 
     }
+
+
 }

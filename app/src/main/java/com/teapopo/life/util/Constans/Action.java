@@ -24,5 +24,7 @@ public enum Action {
     //for SignInModel
     SignInModel_Login,
     //for ArticleItemModel
-    ArticleItemModel_likeArticleOrNot
+    ArticleItemModel_likeArticleOrNot,
+    //for ArticleInfoModel
+    ArticleInfoModel_GetInfo
 }
