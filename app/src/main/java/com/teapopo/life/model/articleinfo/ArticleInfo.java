@@ -1,8 +1,13 @@
 package com.teapopo.life.model.articleinfo;
 
-import com.bluelinelabs.logansquare.annotation.JsonObject;
-import com.teapopo.life.model.BaseEntity;
+import android.databinding.BindingConversion;
 
+import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.teapopo.life.model.AuthorInfo;
+import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.util.DataUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,14 +28,21 @@ public class ArticleInfo extends BaseEntity {
 
     public String member_id;
 
-    public String publish_time;
+    public long publish_time;
 
+    @BindingConversion
+    public static String getTime(long time){
+        return DataUtils.getStrTime(String.valueOf(time));
+    }
     public String share_num;
 
     public String title;
 
     //以下是增加的属性
-    List<String> articleImageUrls;
+    public List<String> articleImageUrls = new ArrayList<>();
 
+    public AuthorInfo authorInfo;
+
+    public boolean isLike;
 
 }

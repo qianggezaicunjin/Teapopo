@@ -1,8 +1,10 @@
-package com.teapopo.life.injection.component;
+package com.teapopo.life.injection.component.activity;
 
+import com.teapopo.life.injection.component.ActivityComponent;
+import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
-import com.teapopo.life.injection.module.SignInAndUpActivityModule;
+import com.teapopo.life.injection.module.activity.SignInAndUpActivityModule;
 import com.teapopo.life.injection.module.fragment.SignInAndUpFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
@@ -14,7 +16,7 @@ import dagger.Component;
  */
 @PerActivity
 @Component(dependencies = ApplicationComponent.class,modules = {ActivityModule.class,SignInAndUpActivityModule.class})
-public interface SignInAndUpActivityComponent extends ActivityComponent{
+public interface SignInAndUpActivityComponent extends ActivityComponent {
 
     void inject(SignInAndUpActivity activity);
 

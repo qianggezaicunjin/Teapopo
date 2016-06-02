@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.view.customView.HackyViewPager;
+import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 
 import java.util.List;
 
@@ -21,7 +22,15 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/4.
  */
 public class DataBindingAdapter {
+    @BindingAdapter({"html_temp"})
+    public static void setHtmlText(HtmlTextView textView,String html){
+        if (html==null){
+            textView.setHtmlFromString("正在加载....",false);
+        }else {
+            textView.setHtmlFromString(html,false);
+        }
 
+    }
     @BindingAdapter({"adapter","data"})
     public static void setNineImageAdapter(NineGridImageView imageView, NineGridImageViewAdapter adapter,List data){
         imageView.setAdapter(adapter);
@@ -68,6 +77,12 @@ public class DataBindingAdapter {
     //HackyViewPager 设置data 并通知数据集改变
     @BindingAdapter({"viewpagerdata"})
     public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> articles) {
+        Timber.d("notifyDataSetChanged viewPager");
+        viewPager.notifyDataSetChanged();
+    }
+    //HackyViewPager 设置data 并通知数据集改变
+    @BindingAdapter({"viewpagerstringdata"})
+    public static void setViewPagerStringData(HackyViewPager viewPager, List<String> articles) {
         Timber.d("notifyDataSetChanged viewPager");
         viewPager.notifyDataSetChanged();
     }

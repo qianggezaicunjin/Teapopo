@@ -1,8 +1,10 @@
 package com.teapopo.life.viewModel.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +16,15 @@ import com.teapopo.life.databinding.ItemHomeHottagsBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewToparticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.Tag.Tag;
+import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.categoryarticle.CategoryArticle;
 import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.CustomToast;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.ArticleDetailActivity;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.recyclerview.HotTagsAdapter;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
@@ -27,11 +32,15 @@ import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.BR;
+import com.teapopo.life.view.fragment.ArticleInfoFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
@@ -175,5 +184,10 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     @Override
     public void onItemClick(View view, int position) {
         Timber.d("onItemClick的位置为:%s",position);
+        Article article = (Article) data.get(position);
+        //跳转到文章详情页
+        Intent intent = ArticleDetailActivity.getStartIntent(mContext);
+        intent.putExtra("articleId",article.articleId);
+        Navigator.getInstance().start(mContext,intent);
     }
 }

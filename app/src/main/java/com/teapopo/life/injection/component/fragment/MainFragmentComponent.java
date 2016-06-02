@@ -2,6 +2,7 @@ package com.teapopo.life.injection.component.fragment;
 
 import com.teapopo.life.injection.module.fragment.MainFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.view.fragment.ArticleInfoFragment;
 import com.teapopo.life.view.fragment.Home.HomeLikeArticleFragment;
 import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
@@ -23,4 +24,5 @@ public interface MainFragmentComponent {
     void inject(HomeLikeArticleFragment fragment);
 
     void inject(XinZiFragment fragment);
+
 }

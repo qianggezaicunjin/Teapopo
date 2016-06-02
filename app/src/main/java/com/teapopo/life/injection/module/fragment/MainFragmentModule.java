@@ -7,7 +7,9 @@ import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
 import com.teapopo.life.model.article.categoryarticle.XinZiArticleModel;
 import com.teapopo.life.model.article.likearticle.HomeLikeArticleModel;
+import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.user.UserInfoModel;
+import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
 import com.teapopo.life.viewModel.home.HomeLikeArticleViewModel;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 import com.teapopo.life.viewModel.userCenter.UserViewModel;
@@ -74,4 +76,5 @@ public class MainFragmentModule {
     XinZiArticleModel provideXinZiArticleModel(Context context){
         return new XinZiArticleModel(context);
     }
+
 }

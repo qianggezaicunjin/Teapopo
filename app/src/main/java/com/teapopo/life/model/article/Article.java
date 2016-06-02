@@ -10,6 +10,7 @@ import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.ViewUtils;
@@ -53,19 +54,9 @@ public class Article extends BaseEntity {
         //下面是增加的属性
         public List<String> imageUrls;//文章的图片url
 
-        public String nickname;//文章作者的昵称
-
-        public String avatarUrl;//文章作者头像的图片url
-
-        public String getAvatarUrl(){
-            return NetWorkService.IMAGE_ENDPOINT+avatarUrl+"_150x150"+NetWorkService.IMAGE_EXT;
-        }
+        public AuthorInfo authorInfo;//文章作者的基本信息
 
         public List<String> tags;//文章的标签
 
         public boolean isLike;//是否喜欢
-
-        public boolean isFocus;//是否关注
-
-
 }

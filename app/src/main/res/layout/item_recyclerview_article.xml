@@ -44,7 +44,7 @@
                         android:id="@+id/img_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:imageUrl="@{viewmodel.article.avatarUrl}"
+                        app:imageUrl="@{viewmodel.article.authorInfo.getAvatarUrl()}"
                         android:onClick="@{viewmodel.getOnClickListener()}"/>
 
                     <LinearLayout
@@ -58,7 +58,7 @@
                             android:id="@+id/tv_userName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{viewmodel.article.nickname}" />
+                            android:text="@{viewmodel.article.authorInfo.nickname}" />
 
                         <TextView
                             android:id="@+id/tv_articleTime"
@@ -86,7 +86,6 @@
                     android:id="@+id/tv_articleContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:text="@{viewmodel.article.getExcerpt()}" />
 
                 <com.jaeger.ninegridimageview.NineGridImageView
@@ -98,12 +97,6 @@
                     app:singleImgSize="240dp"
                     app:adapter="@{viewmodel.getNineImageAdapter()}"
                     app:data="@{viewmodel.article.imageUrls}"/>
-                <!--<com.teapopo.life.view.customView.NoScrollGridView-->
-                <!--android:id="@+id/gv_image"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--/>-->
-
                 <LinearLayout
                     android:id="@+id/ll_rv_item_tag"
                     android:layout_width="match_parent"

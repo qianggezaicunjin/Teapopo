@@ -1,4 +1,4 @@
-package com.teapopo.life.injection.module;
+package com.teapopo.life.injection.module.activity;
 
 import dagger.Module;
 

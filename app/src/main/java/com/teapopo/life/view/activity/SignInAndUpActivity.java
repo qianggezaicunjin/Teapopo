@@ -7,11 +7,11 @@ import android.support.annotation.Nullable;
 
 import com.teapopo.life.R;
 import com.teapopo.life.injection.component.ComponentHolder;
-import com.teapopo.life.injection.component.DaggerSignInAndUpActivityComponent;
-import com.teapopo.life.injection.component.SignInAndUpActivityComponent;
+import com.teapopo.life.injection.component.activity.DaggerSignInAndUpActivityComponent;
+import com.teapopo.life.injection.component.activity.SignInAndUpActivityComponent;
 import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
-import com.teapopo.life.injection.module.SignInAndUpActivityModule;
+import com.teapopo.life.injection.module.activity.SignInAndUpActivityModule;
 import com.teapopo.life.view.fragment.User.SignInFragment;
 
 import butterknife.ButterKnife;

@@ -44,7 +44,7 @@
                         android:id="@+id/img_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:imageUrl="@{article.avatarUrl}"
+                        app:imageUrl="@{article.authorInfo.getAvatarUrl()}"
                         />
 
                     <LinearLayout
@@ -58,7 +58,7 @@
                             android:id="@+id/tv_userName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{article.nickname}" />
+                            android:text="@{article.authorInfo.nickname}" />
 
                         <TextView
                             android:id="@+id/tv_articleTime"

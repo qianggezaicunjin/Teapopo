@@ -33,6 +33,8 @@
         </activity>
         <activity android:name=".view.activity.SignInAndUpActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
+        <activity android:name=".view.activity.ArticleDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
         <!-- mob分享 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

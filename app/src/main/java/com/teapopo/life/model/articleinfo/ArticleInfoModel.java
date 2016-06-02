@@ -6,6 +6,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.sharedpreferences.RxSpf_Html;
@@ -16,6 +17,7 @@ import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -48,12 +50,14 @@ public class ArticleInfoModel extends BaseModel {
                         return Observable.just(articleInfo);
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<ArticleInfo>() {
                     @Override
                     public void _onNext(ArticleInfo articleInfo) {
                         ModelAction<ArticleInfo> action = new ModelAction<ArticleInfo>();
                         action.action = Action.ArticleInfoModel_GetInfo;
                         action.t = articleInfo;
+                        mRequestView.onRequestSuccess(action);
                     }
 
                     @Override
@@ -66,6 +70,7 @@ public class ArticleInfoModel extends BaseModel {
 
     private ArticleInfo handleArticleInfoJson(JsonObject jsonObject) throws IOException {
         JsonObject post = jsonObject.getAsJsonObject("posts");
+        JsonObject members = jsonObject.getAsJsonObject("members");
 
         ArticleInfo articleInfo = LoganSquare.parse(post.toString(), ArticleInfo.class);
 
@@ -76,7 +81,9 @@ public class ArticleInfoModel extends BaseModel {
                 articleInfo.articleImageUrls.add(url);
             }
         }
-
+        JsonObject member = members.getAsJsonObject(articleInfo.member_id);
+        AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
+        articleInfo.authorInfo = authorInfo;
         return articleInfo;
     }
 }
