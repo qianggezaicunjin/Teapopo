@@ -41,8 +41,11 @@ public class ArticleInfo extends BaseEntity {
     //以下是增加的属性
     public List<String> articleImageUrls = new ArrayList<>();
 
-    public AuthorInfo authorInfo;
+    public AuthorInfo authorInfo;//这篇文章的作者信息
 
-    public boolean isLike;
+    public boolean isLike;//是否喜欢这篇文章
 
+    public List<String> tags = new ArrayList<>(); //标签
+
+    public List<AuthorInfo> member_like = new ArrayList<>();//喜欢这篇文章的会员信息
 }

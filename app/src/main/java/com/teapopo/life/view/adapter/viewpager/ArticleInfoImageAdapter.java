@@ -29,10 +29,7 @@ public class ArticleInfoImageAdapter extends PagerAdapter {
     }
     @Override
     public int getCount() {
-        if(imageUrls !=null){
-            return Integer.MAX_VALUE;
-        }
-        return 0;
+        return imageUrls.size();
     }
 
     @Override
@@ -43,23 +40,16 @@ public class ArticleInfoImageAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
        ItemViewpagerArticleinfoImageBinding binding = ItemViewpagerArticleinfoImageBinding.inflate(LayoutInflater.from(mContext));
-        if(imageUrls.size()!=0){
-            int position1 = position%imageUrls.size();
-            Timber.d("图片的个数为:%d,位置为:%d",imageUrls.size(),position1);
-            String url = imageUrls.get(position1);
-            Timber.d("图片地址为:%s",url);
-            binding.setImageurl(url);
-            container.addView(binding.getRoot());
-            mViews.add(binding.getRoot());
-        }
-
+        String url = imageUrls.get(position);
+        binding.setImageurl(url);
+        container.addView(binding.getRoot());
+        mViews.add(binding.getRoot());
         return binding.getRoot();
     }
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Timber.d("articles的大小为:%d", imageUrls.size());
         if(imageUrls.size()!=0&&mViews.size()!=0){
-            container.removeView(mViews.get(position% imageUrls.size()));
+            container.removeView(mViews.get(position));
         }else {
             container.removeView((View) object);
         }

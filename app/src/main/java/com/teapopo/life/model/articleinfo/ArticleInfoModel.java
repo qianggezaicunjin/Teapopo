@@ -81,9 +81,24 @@ public class ArticleInfoModel extends BaseModel {
                 articleInfo.articleImageUrls.add(url);
             }
         }
+        //文章作者的个人信息
         JsonObject member = members.getAsJsonObject(articleInfo.member_id);
         AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
         articleInfo.authorInfo = authorInfo;
+        //文章的标签
+        for(JsonElement tag:jsonObject.getAsJsonArray("tags")){
+            articleInfo.tags.add(tag.getAsString());
+        }
+        //添加喜欢的人的头像
+        JsonArray likes = jsonObject.getAsJsonArray("likes");
+        if(likes.size()>0){
+            for(JsonElement jsonElement:likes){
+                String member_id = jsonElement.getAsJsonObject().get("member_id").getAsString();
+                JsonObject member_like = members.getAsJsonObject(member_id);
+                AuthorInfo like_authorInfo = LoganSquare.parse(member_like.toString(),AuthorInfo.class);
+                articleInfo.member_like.add(like_authorInfo);
+            }
+        }
         return articleInfo;
     }
 }
