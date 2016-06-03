@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -19,8 +20,10 @@ import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
+import com.teapopo.life.databinding.ItemArticleinfoTopviewBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.model.AuthorInfo;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.toparticle.TopArticle;
@@ -28,6 +31,7 @@ import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
+import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -47,18 +51,28 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
     private ArticleInfoModel mModel;
     public String articleId;
     private FragmentArticleinfoBinding mBinding;
+
+    private CommentListAdapter adapter;
     @Bindable
     public ArticleInfo articleInfo;
+    private final ItemArticleinfoTopviewBinding topbinding;
+
     public ArticleInfoViewModel(Context context, ArticleInfoModel model, ViewDataBinding binding){
         mBinding = (FragmentArticleinfoBinding) binding;
         mContext = context;
         mModel = model;
         mModel.setView(this);
+        adapter = new CommentListAdapter(mContext,new ArrayList<BaseEntity>());
+        mBinding.rvArticleinfoComment.setAdapter(adapter);
 
+        topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(mContext));
+        topbinding.setViewmodel(this);
+        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
     }
 
 
     public void requestData(String articleId){
+
         mModel.getArticleInfo(articleId);
     }
 
@@ -85,21 +99,28 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         Action action = data.action;
         if(action == Action.ArticleInfoModel_GetInfo){
             this.articleInfo = (ArticleInfo) data.t;
-            //添加轮播的图片
-            addSlideImages(articleInfo.articleImageUrls);
-            //加入标签
-            addTags(articleInfo.tags);
-            //添加喜欢该篇文章的会员头像
-            addFans(articleInfo.member_like);
+            addHeader();
             notifyPropertyChanged(BR.articleInfo);
 
         }
     }
 
-    private void addFans(List<AuthorInfo> member_like) {
+    private void addHeader() {
+
+        //添加轮播的图片
+        addSlideImages(articleInfo.articleImageUrls,topbinding);
+        //加入标签
+        addTags(articleInfo.tags,topbinding);
+        //添加喜欢该篇文章的会员头像
+        addFans(articleInfo.member_like,topbinding);
+
+
+    }
+
+    private void addFans(List<AuthorInfo> member_like,ItemArticleinfoTopviewBinding binding) {
         if(member_like.size()>0){
             String text = member_like.size()+" 人喜欢了";
-            mBinding.tvArticleinfoLikenum.setText(text);
+            binding.tvArticleinfoLikenum.setText(text);
             //相对于自身的属性
             AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(mContext, R.layout.memberavatar);
             //相对于父控件的属性
@@ -108,15 +129,15 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             for(AuthorInfo author:member_like){
                 ImageView img = new ImageView(mContext,attributeSet);
                 ImageLoader.getInstance().displayImage(author.getAvatarUrl(),img);
-                mBinding.linearlayoutAddlikeimage.addView(img,params);
+                binding.linearlayoutAddlikeimage.addView(img,params);
             }
         }
     }
 
-    private void addTags(@NonNull List<String> tags) {
+    private void addTags(@NonNull List<String> tags,ItemArticleinfoTopviewBinding binding) {
         if (tags != null) {
             Timber.d("tags的个数为:%d", tags.size());
-            mBinding.linearlayoutAddtag.removeAllViews();
+            binding.linearlayoutAddtag.removeAllViews();
             //相对于自身的属性
             AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(mContext, R.layout.tagname);
             //相对于父控件的属性
@@ -124,26 +145,26 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             //添加tag图标
             ImageView img_tag = new ImageView(mContext);
             img_tag.setBackgroundResource(R.drawable.icon_tag);
-            mBinding.linearlayoutAddtag.addView(img_tag);
+            binding.linearlayoutAddtag.addView(img_tag);
             //添加标签的文字
             for (String tag : tags) {
                 TextView tv_tag = new TextView(mContext, attributeSet);
                 tv_tag.setId(R.id.tv_tagname);
                 tv_tag.setText(tag);
 //                tv_tag.setOnClickListener(mBinding.getViewmodel().getOnClickListener());
-                mBinding.linearlayoutAddtag.addView(tv_tag, params);
+                binding.linearlayoutAddtag.addView(tv_tag, params);
             }
 
         }
     }
 
-    private void addSlideImages(List<String> articleImageUrls) {
+    private void addSlideImages(List<String> articleImageUrls,ItemArticleinfoTopviewBinding binding) {
         //如果文章信息的articleImageUrls的大小大于0，则说明该篇文章的信息有图片轮播
         if(articleImageUrls.size()>0){
             ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(mContext,articleInfo.articleImageUrls);
-            mBinding.viewstubArticleinfoImage.getViewStub().inflate();
-            CirclePageIndicator indicator = (CirclePageIndicator) mBinding.getRoot().findViewById(R.id.indicator_viewpager);
-            HackyViewPager viewPager = (HackyViewPager) mBinding.getRoot().findViewById(R.id.viewpager);
+            binding.viewstubArticleinfoImage.getViewStub().inflate();
+            CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
+            HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
             viewPager.setAdapter(adapter);
             indicator.setViewPager(viewPager);
         }
