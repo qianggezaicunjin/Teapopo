@@ -66,8 +66,10 @@ public class MockInterceptor implements Interceptor {
         }
         else if (path.matches("(/api/posts/list)")) {//匹配/posts/list
             responseString = getResponseString("articleList.json");
+        }else {
+            responseString = getResponseString("test.json");
         }
-//        responseString = getResponseString("articleList.json");
+
         return responseString;
     }
 

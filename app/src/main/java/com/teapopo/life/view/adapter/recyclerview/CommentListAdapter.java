@@ -1,13 +1,18 @@
 package com.teapopo.life.view.adapter.recyclerview;
 
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
+import com.teapopo.life.databinding.ItemCommentListBinding;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.model.comment.CommentModel;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.viewModel.CommentItemViewModel;
 
 import java.util.List;
 
@@ -24,26 +29,39 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<BaseEntity,Comme
     @Override
     public CommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder");
-        View view = layoutInflater.inflate(R.layout.item_comment_list,null);
-        return new CommentListViewHolder(view);
+        ItemCommentListBinding binding = ItemCommentListBinding.inflate(layoutInflater);
+        return CommentListViewHolder.createCommentListViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-
+        Comment comment = (Comment) data.get(position);
+        CommentItemViewModel viewModel = new CommentItemViewModel(mContext,new CommentModel(mContext));
+        viewModel.comment = comment;
+        holder.setViewModel(viewModel);
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return data.size();
     }
 
 
     public static class CommentListViewHolder  extends RecyclerView.ViewHolder{
 
-        public CommentListViewHolder(View itemView) {
+        public static CommentListViewHolder createCommentListViewHolder(ViewDataBinding binding){
+            return new CommentListViewHolder(binding.getRoot(),binding);
+        }
+        public CommentListViewHolder(View itemView,ViewDataBinding binding) {
             super(itemView);
+            itemView.setTag(binding);
+        }
+
+        public void setViewModel(CommentItemViewModel viewModel){
+            ItemCommentListBinding binding = (ItemCommentListBinding) itemView.getTag();
+            binding.setViewmodel(viewModel);
+            binding.executePendingBindings();
         }
     }
 }

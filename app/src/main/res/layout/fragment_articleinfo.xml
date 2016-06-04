@@ -8,16 +8,36 @@
             name="viewmodel"
             type="com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel" />
     </data>
-    <LinearLayout
-        android:background="@color/blue"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="评论(0)"/>
         <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
             android:id="@+id/rv_articleinfo_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             />
-    </LinearLayout>
+       <LinearLayout
+           android:layout_alignParentBottom="true"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@color/white"
+           android:orientation="horizontal">
+           <EditText
+               android:layout_width="200dp"
+               android:layout_height="wrap_content"
+               android:hint="请输入评论内容"/>
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="发表"/>
+       </LinearLayout>
+    </RelativeLayout>
 
 </layout>

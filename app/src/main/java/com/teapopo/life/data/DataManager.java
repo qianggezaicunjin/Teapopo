@@ -218,4 +218,21 @@ public class DataManager {
             return mNetWorkService.getUserLikeArticle(true,page);
         }
     }
+
+    /**
+     * 添加评论
+     * @param id
+     * @param type 类型 0是posts 1是goods
+     * @param content
+     * @return
+     */
+    public Observable<JsonObject> addComment(String id,int type,String content){
+        switch (type){
+            case 0://评论文章
+                return mNetWorkService.addComment(id,"posts",content);
+            case 1://评论商品
+                return mNetWorkService.addComment(id,"goods",content);
+        }
+        return null;
+    }
 }

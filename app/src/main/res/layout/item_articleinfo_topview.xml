@@ -35,31 +35,31 @@
                         android:layout_height="wrap_content">
 
                         <ImageView
-                            android:id="@+id/img_articleinfo_avatar"
+                            android:id="@+id/img_comment_avatar"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
                             app:imageUrl="@{viewmodel.articleInfo.authorInfo.getAvatarUrl()}" />
 
                         <TextView
-                            android:id="@+id/tv_articleinfo_username"
+                            android:id="@+id/tv_comment_username"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
-                            android:layout_toRightOf="@+id/img_articleinfo_avatar"
+                            android:layout_toRightOf="@+id/img_comment_avatar"
                             android:hint="用户名"
                             android:text="@{viewmodel.articleInfo.authorInfo.nickname}" />
 
                         <TextView
-                            android:id="@+id/tv_articleinfo_publishtime"
+                            android:id="@+id/tv_comment_publishtime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_articleinfo_username"
-                            android:layout_toRightOf="@+id/img_articleinfo_avatar"
+                            android:layout_below="@+id/tv_comment_username"
+                            android:layout_toRightOf="@+id/img_comment_avatar"
                             android:hint="发布时间"
                             android:text="@{viewmodel.articleInfo.publish_time}" />
 
                         <Button
-                            android:id="@+id/btn_articleinfo_focus"
+                            android:id="@+id/btn_comment_focus"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true" />

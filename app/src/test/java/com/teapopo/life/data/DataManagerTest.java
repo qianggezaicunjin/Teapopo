@@ -12,6 +12,8 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
 import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Set;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
@@ -52,11 +54,13 @@ public class DataManagerTest {
 
     @Test
     public void getArticleTest()throws Exception{
-//        retrofit2.Response<JsonObject> response = mockNetWorkService.getArticle("发现").execute();
-//        JsonObject jsonObject = response.body();
-//        JsonObject data = jsonObject.getAsJsonObject("data");
-//        JsonObject members = data.getAsJsonObject("members");
-//        JsonObject item = members.getAsJsonObject("44252");
-//        Timber.d(item.toString());
+        retrofit2.Response<JsonObject> response = mockNetWorkService.test().execute();
+        JsonObject jsonObject = response.body();
+        JsonObject data = jsonObject.getAsJsonObject("data");
+        JsonObject likes = data.getAsJsonObject("likes");
+
+        for(Map.Entry entry:likes.entrySet()){
+            Timber.d("键为:%s",entry.getKey().toString());
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.databinding.BindingConversion;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.util.DataUtils;
 
 import java.util.ArrayList;
@@ -47,5 +48,7 @@ public class ArticleInfo extends BaseEntity {
 
     public List<String> tags = new ArrayList<>(); //标签
 
-    public List<AuthorInfo> member_like = new ArrayList<>();//喜欢这篇文章的会员信息
+    public List<AuthorInfo> fans = new ArrayList<>();//喜欢这篇文章的会员信息
+
+    public List<Comment> commentList = new ArrayList<>();//评论列表
 }

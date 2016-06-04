@@ -8,22 +8,21 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
-import com.teapopo.life.model.article.Article;
-import com.teapopo.life.model.sharedpreferences.RxSpf_Html;
+import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.model.comment.Reply;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/31.
@@ -74,6 +73,7 @@ public class ArticleInfoModel extends BaseModel {
 
         ArticleInfo articleInfo = LoganSquare.parse(post.toString(), ArticleInfo.class);
 
+        //添加文章的轮播图片
         JsonArray images = jsonObject.getAsJsonArray("images");
         if(images.size()>0){
             for(JsonElement image:images){
@@ -94,11 +94,39 @@ public class ArticleInfoModel extends BaseModel {
         if(likes.size()>0){
             for(JsonElement jsonElement:likes){
                 String member_id = jsonElement.getAsJsonObject().get("member_id").getAsString();
-                JsonObject member_like = members.getAsJsonObject(member_id);
-                AuthorInfo like_authorInfo = LoganSquare.parse(member_like.toString(),AuthorInfo.class);
-                articleInfo.member_like.add(like_authorInfo);
+                JsonObject member_fans = members.getAsJsonObject(member_id);
+                AuthorInfo like_authorInfo = LoganSquare.parse(member_fans.toString(),AuthorInfo.class);
+                articleInfo.fans.add(like_authorInfo);
+            }
+        }
+        //添加评论列表
+        JsonArray comments = jsonObject.getAsJsonArray("comments");
+        if(comments.size()>0){
+            for (JsonElement jsonElement:comments){
+                Comment comment = LoganSquare.parse(jsonElement.toString(),Comment.class);
+                JsonObject member_comment = members.getAsJsonObject(comment.member_id);
+                AuthorInfo comment_authorInfo = LoganSquare.parse(member_comment.toString(),AuthorInfo.class);
+                comment.authorInfo = comment_authorInfo;
+                //添加评论的回复列表
+                JsonObject replys = jsonObject.getAsJsonObject("replys");
+                if(replys!=null){
+                    //一个评论有一条或者多条回复
+                    JsonArray reply = replys.getAsJsonArray(comment.id);
+                    if(reply!=null){
+                        for (JsonElement jsonElement1:reply){
+                            Reply reply1 = LoganSquare.parse(jsonElement1.toString(),Reply.class);
+                            JsonObject member_reply = members.getAsJsonObject(reply1.member_id);
+                            AuthorInfo reply_authorInfo = LoganSquare.parse(member_reply.toString(),AuthorInfo.class);
+                            reply1.authorInfo = reply_authorInfo;
+                            comment.replyList.add(reply1);
+                        }
+                    }
+                }
+                articleInfo.commentList.add(comment);
             }
         }
         return articleInfo;
     }
+
+
 }

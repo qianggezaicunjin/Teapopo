@@ -22,6 +22,7 @@ import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
 import com.teapopo.life.databinding.ItemArticleinfoTopviewBinding;
 import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
+import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
@@ -52,27 +53,19 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
     public String articleId;
     private FragmentArticleinfoBinding mBinding;
 
-    private CommentListAdapter adapter;
     @Bindable
-    public ArticleInfo articleInfo;
-    private final ItemArticleinfoTopviewBinding topbinding;
+    public ArticleInfo articleInfo =new ArticleInfo();
+
 
     public ArticleInfoViewModel(Context context, ArticleInfoModel model, ViewDataBinding binding){
         mBinding = (FragmentArticleinfoBinding) binding;
         mContext = context;
         mModel = model;
         mModel.setView(this);
-        adapter = new CommentListAdapter(mContext,new ArrayList<BaseEntity>());
-        mBinding.rvArticleinfoComment.setAdapter(adapter);
-
-        topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(mContext));
-        topbinding.setViewmodel(this);
-        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
     }
 
 
     public void requestData(String articleId){
-
         mModel.getArticleInfo(articleId);
     }
 
@@ -99,78 +92,11 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         Action action = data.action;
         if(action == Action.ArticleInfoModel_GetInfo){
             this.articleInfo = (ArticleInfo) data.t;
-            addHeader();
+            Timber.d("评论的个数为:%d",articleInfo.commentList.size());
+            ComponentHolder.getAppComponent().rxbus().post(this.articleInfo);
             notifyPropertyChanged(BR.articleInfo);
-
         }
     }
-
-    private void addHeader() {
-
-        //添加轮播的图片
-        addSlideImages(articleInfo.articleImageUrls,topbinding);
-        //加入标签
-        addTags(articleInfo.tags,topbinding);
-        //添加喜欢该篇文章的会员头像
-        addFans(articleInfo.member_like,topbinding);
-
-
-    }
-
-    private void addFans(List<AuthorInfo> member_like,ItemArticleinfoTopviewBinding binding) {
-        if(member_like.size()>0){
-            String text = member_like.size()+" 人喜欢了";
-            binding.tvArticleinfoLikenum.setText(text);
-            //相对于自身的属性
-            AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(mContext, R.layout.memberavatar);
-            //相对于父控件的属性
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mContext, attributeSet);
-            //添加粉丝的头像
-            for(AuthorInfo author:member_like){
-                ImageView img = new ImageView(mContext,attributeSet);
-                ImageLoader.getInstance().displayImage(author.getAvatarUrl(),img);
-                binding.linearlayoutAddlikeimage.addView(img,params);
-            }
-        }
-    }
-
-    private void addTags(@NonNull List<String> tags,ItemArticleinfoTopviewBinding binding) {
-        if (tags != null) {
-            Timber.d("tags的个数为:%d", tags.size());
-            binding.linearlayoutAddtag.removeAllViews();
-            //相对于自身的属性
-            AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(mContext, R.layout.tagname);
-            //相对于父控件的属性
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mContext, attributeSet);
-            //添加tag图标
-            ImageView img_tag = new ImageView(mContext);
-            img_tag.setBackgroundResource(R.drawable.icon_tag);
-            binding.linearlayoutAddtag.addView(img_tag);
-            //添加标签的文字
-            for (String tag : tags) {
-                TextView tv_tag = new TextView(mContext, attributeSet);
-                tv_tag.setId(R.id.tv_tagname);
-                tv_tag.setText(tag);
-//                tv_tag.setOnClickListener(mBinding.getViewmodel().getOnClickListener());
-                binding.linearlayoutAddtag.addView(tv_tag, params);
-            }
-
-        }
-    }
-
-    private void addSlideImages(List<String> articleImageUrls,ItemArticleinfoTopviewBinding binding) {
-        //如果文章信息的articleImageUrls的大小大于0，则说明该篇文章的信息有图片轮播
-        if(articleImageUrls.size()>0){
-            ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(mContext,articleInfo.articleImageUrls);
-            binding.viewstubArticleinfoImage.getViewStub().inflate();
-            CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
-            HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
-            viewPager.setAdapter(adapter);
-            indicator.setViewPager(viewPager);
-        }
-    }
-
-
     @Override
     public void onRequestErroInfo(String erroinfo) {
 

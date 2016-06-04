@@ -164,4 +164,17 @@ public interface NetWorkService {
      */
     @GET("likes/delete")
     Observable<JsonObject> unLikeArticle(@Query("id")String articleId);
+
+    /**
+     * 添加评论
+     * @param id
+     * @param type 分类 posts:文章  goods：商品
+     * @param content
+     * @return
+     */
+    @POST
+    @FormUrlEncoded
+    Observable<JsonObject> addComment(@Query("id")String id,@Query("type")String type,@Field("content")String content);
+    @GET("test")
+    Call<JsonObject> test();
 }
