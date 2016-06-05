@@ -3,6 +3,7 @@ package com.teapopo.life.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.R;
@@ -19,19 +21,20 @@ import com.teapopo.life.databinding.ItemArticleinfoTopviewBinding;
 import com.teapopo.life.injection.component.fragment.ArticleDetailFragmentComponent;
 import com.teapopo.life.injection.module.fragment.ArticleDetailFragmentModule;
 import com.teapopo.life.model.AuthorInfo;
-import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.ArticleDetailActivity;
 import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
+import com.teapopo.life.view.customView.RecyclerView.LinearRecyclerView;
 import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -79,7 +82,19 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         data = mViewModel.articleInfo.commentList;
         CommentListAdapter adapter = new CommentListAdapter(_mActivity,data);
         mBinding.rvArticleinfoComment.setAdapter(adapter);
+        mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
 
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                Timber.d("onScrolled");
+                DataUtils.closeSoftInput(_mActivity,mBinding.etInputcomment);
+                mBinding.etInputcomment.setHint("发表评论");
+            }
+        });
         topbinding = ItemArticleinfoTopviewBinding.inflate(inflater);
         topbinding.setViewmodel(mViewModel);
 
@@ -91,19 +106,32 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         addRecyclerViewHeader();
 
-        addComment();
+        handleComment();
     }
 
-    private void addComment() {
+    /**
+     * 处理返回的评论内容
+     * 发表评论/回复评论
+     */
+    private void handleComment() {
         Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<Comment>() {
                     @Override
                     public void _onNext(Comment comment) {
-                        data.add(0,comment);
-
-                        mBinding.rvArticleinfoComment.notifyDataSetChanged();
-//                        mBinding.rvArticleinfoComment.scrollToPosition();
+                        //如果不包含该comment，则代表发表的是评论，否则，是回复评论
+                        if(data.contains(comment)){
+                            DataUtils.toggleSoftInput(_mActivity,mBinding.etInputcomment);
+                            mBinding.etInputcomment.setFocusable(true);
+                            mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
+                        }else {
+                            data.add(0,comment);
+                            mBinding.rvArticleinfoComment.notifyDataSetChanged();
+                            //关闭软键盘
+                            DataUtils.closeSoftInput(_mActivity,mBinding.etInputcomment);
+                            mBinding.etInputcomment.setText("");
+                            CustomToast.makeText(_mActivity,"发表评论成功!", Toast.LENGTH_SHORT);
+                        }
                     }
 
                     @Override
@@ -113,6 +141,9 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                 });
     }
 
+    /**
+     * 添加头布局
+     */
     private void addRecyclerViewHeader() {
         Observable observable = mRxBus.toObserverable(ArticleInfo.class);
         observable.observeOn(AndroidSchedulers.mainThread())
@@ -192,4 +223,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
             indicator.setViewPager(viewPager);
         }
     }
+
+
+
 }

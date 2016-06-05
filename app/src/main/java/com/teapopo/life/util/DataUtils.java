@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.util.AttributeSet;
 import android.util.Xml;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -72,4 +74,17 @@ public class DataUtils {
         return attributes;
     }
 
+    public static void toggleSoftInput(Context context, View view){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        //imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
+    }
+
+    public static void closeSoftInput(Context context, View view){
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()){
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }
+
+    }
 }

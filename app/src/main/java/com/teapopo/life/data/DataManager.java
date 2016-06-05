@@ -235,4 +235,21 @@ public class DataManager {
         }
         return null;
     }
+
+    /**
+     * 回复评论
+     * @param id 评论id
+     * @param type 类型 0是posts 1是goods
+     * @param content
+     * @return
+     */
+    public Observable<JsonObject> replyComment(String id,int type,String content){
+        switch (type){
+            case 0://回复文章的评论
+                return mNetWorkService.replyComment(id,"posts",content);
+            case 1://回复商品的评论
+                return mNetWorkService.replyComment(id,"goods",content);
+        }
+        return null;
+    }
 }

@@ -175,6 +175,12 @@ public interface NetWorkService {
     @POST("comments/add")
     @FormUrlEncoded
     Observable<JsonObject> addComment(@Query("id")String id,@Query("type")String type,@Field("content")String content);
+
+    @POST("comments/reply")
+    @FormUrlEncoded
+    Observable<JsonObject> replyComment(@Query("id")String id,@Query("type")String type,@Field("content")String content);
+
+
     @GET("test")
     Call<JsonObject> test();
 }

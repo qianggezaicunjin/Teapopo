@@ -50,7 +50,7 @@ public class ArticleInfoModel extends BaseModel {
                     @Override
                     public void _onNext(Comment comment) {
                         ModelAction<Comment> action = new ModelAction<Comment>();
-                        action.action = Action.CommentModel_AddComment;
+                        action.action = Action.ArticleInfoModel_AddComment;
                         action.t = comment;
                         mRequestView.onRequestSuccess(action);
                     }

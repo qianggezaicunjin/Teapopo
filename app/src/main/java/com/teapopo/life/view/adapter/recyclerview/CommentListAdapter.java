@@ -3,14 +3,20 @@ package com.teapopo.life.view.adapter.recyclerview;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.ItemCommentListBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.CommentModel;
+import com.teapopo.life.model.comment.Reply;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.viewModel.CommentItemViewModel;
 
@@ -22,6 +28,9 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/6/3.
  */
 public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentListAdapter.CommentListViewHolder> {
+
+
+
     public CommentListAdapter(Context context, List<Comment> data) {
         super(context, data);
     }
@@ -29,17 +38,36 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
     @Override
     public CommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Timber.d("onCreateViewHolder");
-        ItemCommentListBinding binding = ItemCommentListBinding.inflate(layoutInflater);
-        return CommentListViewHolder.createCommentListViewHolder(binding);
+        ItemCommentListBinding mBinding = ItemCommentListBinding.inflate(layoutInflater);
+        return CommentListViewHolder.createCommentListViewHolder(mBinding);
     }
 
     @Override
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Comment comment = (Comment) data.get(position);
+        Comment comment = data.get(position);
         CommentItemViewModel viewModel = new CommentItemViewModel(mContext,new CommentModel(mContext));
+        ItemCommentListBinding binding = (ItemCommentListBinding) holder.itemView.getTag();
         viewModel.comment = comment;
+        //添加回复列表
+        List<Reply> replies = comment.replyList;
+        if(replies.size()>0){
+            addReply(replies,binding);
+        }
         holder.setViewModel(viewModel);
+    }
+
+    private void addReply(List<Reply> replies,ItemCommentListBinding binding) {
+            for(Reply reply:replies){
+                LinearLayout layout = binding.linearlayoutReplyComment;
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,8,0,0);
+                String replyname = reply.authorInfo.nickname;
+                String result = replyname+"回复:"+reply.content;
+                TextView textView = new TextView(mContext);
+                textView.setText(result);
+                layout.addView(textView,params);
+            }
     }
 
     @Override

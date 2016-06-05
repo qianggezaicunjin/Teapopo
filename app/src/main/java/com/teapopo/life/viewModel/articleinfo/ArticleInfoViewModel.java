@@ -114,7 +114,7 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             this.articleInfo = (ArticleInfo) data.t;
             Timber.d("评论的个数为:%d",articleInfo.commentList.size());
             ComponentHolder.getAppComponent().rxbus().post(this.articleInfo);
-        }else if(action == Action.CommentModel_AddComment){
+        }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
             ComponentHolder.getAppComponent().rxbus().post(comment);
         }

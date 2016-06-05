@@ -29,6 +29,7 @@ public enum Action {
     ArticleItemModel_likeArticleOrNot,
     //for ArticleInfoModel
     ArticleInfoModel_GetInfo,
+    ArticleInfoModel_AddComment,
     //for CommentModel
-    CommentModel_AddComment
+    CommentModel_ReplyComment
 }
