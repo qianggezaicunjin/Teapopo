@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,11 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.L;
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
@@ -27,9 +30,11 @@ import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
+import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
@@ -56,16 +61,17 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
     @Bindable
     public ArticleInfo articleInfo =new ArticleInfo();
 
-
     public ArticleInfoViewModel(Context context, ArticleInfoModel model, ViewDataBinding binding){
         mBinding = (FragmentArticleinfoBinding) binding;
         mContext = context;
         mModel = model;
         mModel.setView(this);
+
     }
 
 
     public void requestData(String articleId){
+        this.articleId = articleId;
         mModel.getArticleInfo(articleId);
     }
 
@@ -76,9 +82,23 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
                 switch (v.getId()){
                     case R.id.img_likeornot:
                         break;
+                    case R.id.btn_articleinfo_publishcomment:
+                        //添加评论
+                        addComment();
+                        break;
                 }
             }
         };
+    }
+
+    private void addComment() {
+        String content = mBinding.etInputcomment.getText().toString();
+        if(TextUtils.isEmpty(content)){
+            CustomToast.makeText(mContext,"输入内容不能为空", Toast.LENGTH_SHORT).show();
+        }else {
+            mModel.addComment(articleId,0,content);
+        }
+
     }
 
 
@@ -94,7 +114,9 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             this.articleInfo = (ArticleInfo) data.t;
             Timber.d("评论的个数为:%d",articleInfo.commentList.size());
             ComponentHolder.getAppComponent().rxbus().post(this.articleInfo);
-            notifyPropertyChanged(BR.articleInfo);
+        }else if(action == Action.CommentModel_AddComment){
+            Comment comment = (Comment) data.t;
+            ComponentHolder.getAppComponent().rxbus().post(comment);
         }
     }
     @Override

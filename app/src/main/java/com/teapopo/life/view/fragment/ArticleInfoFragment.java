@@ -75,17 +75,45 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding.setViewmodel(mViewModel);
+
         data = mViewModel.articleInfo.commentList;
         CommentListAdapter adapter = new CommentListAdapter(_mActivity,data);
         mBinding.rvArticleinfoComment.setAdapter(adapter);
+
         topbinding = ItemArticleinfoTopviewBinding.inflate(inflater);
         topbinding.setViewmodel(mViewModel);
+
         mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
         return mBinding.getRoot();
     }
 
     @Override
     public void setUpView() {
+        addRecyclerViewHeader();
+
+        addComment();
+    }
+
+    private void addComment() {
+        Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
+        observable.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Comment>() {
+                    @Override
+                    public void _onNext(Comment comment) {
+                        data.add(0,comment);
+
+                        mBinding.rvArticleinfoComment.notifyDataSetChanged();
+//                        mBinding.rvArticleinfoComment.scrollToPosition();
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+
+                    }
+                });
+    }
+
+    private void addRecyclerViewHeader() {
         Observable observable = mRxBus.toObserverable(ArticleInfo.class);
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber() {
@@ -93,6 +121,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     public void _onNext(Object o) {
                         Timber.d("收到文章信息");
                         ArticleInfo articleInfo = (ArticleInfo) o;
+                        //刷新评论的列表
                         data.addAll(articleInfo.commentList);
                         mBinding.rvArticleinfoComment.notifyDataSetChanged();
                         //添加轮播的图片
@@ -108,9 +137,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
                     }
                 });
-
     }
-
 
 
     private void addFans(List<AuthorInfo> member_like, ItemArticleinfoTopviewBinding binding) {

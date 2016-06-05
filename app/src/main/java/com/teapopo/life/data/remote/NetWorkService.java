@@ -172,7 +172,7 @@ public interface NetWorkService {
      * @param content
      * @return
      */
-    @POST
+    @POST("comments/add")
     @FormUrlEncoded
     Observable<JsonObject> addComment(@Query("id")String id,@Query("type")String type,@Field("content")String content);
     @GET("test")

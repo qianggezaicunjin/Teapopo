@@ -21,21 +21,25 @@
             android:id="@+id/rv_articleinfo_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_above="@+id/linearlayout_input_comment"
             />
        <LinearLayout
+           android:id="@+id/linearlayout_input_comment"
            android:layout_alignParentBottom="true"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:background="@color/white"
            android:orientation="horizontal">
            <EditText
+               android:id="@+id/et_inputcomment"
                android:layout_width="200dp"
                android:layout_height="wrap_content"
                android:hint="请输入评论内容"/>
            <Button
+               android:id="@+id/btn_articleinfo_publishcomment"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               android:onClick="@{viewmodel.getOnClickListener()}"
                android:text="发表"/>
        </LinearLayout>
     </RelativeLayout>

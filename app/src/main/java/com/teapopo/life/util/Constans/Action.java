@@ -1,5 +1,7 @@
 package com.teapopo.life.util.Constans;
 
+import com.teapopo.life.model.comment.CommentModel;
+
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
@@ -26,5 +28,7 @@ public enum Action {
     //for ArticleItemModel
     ArticleItemModel_likeArticleOrNot,
     //for ArticleInfoModel
-    ArticleInfoModel_GetInfo
+    ArticleInfoModel_GetInfo,
+    //for CommentModel
+    CommentModel_AddComment
 }

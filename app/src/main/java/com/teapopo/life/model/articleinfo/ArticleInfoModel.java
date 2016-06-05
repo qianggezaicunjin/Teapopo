@@ -32,6 +32,48 @@ public class ArticleInfoModel extends BaseModel {
         super(context);
     }
 
+    //添加评论
+    public void addComment(String id,int type,String content){
+        Observable<JsonObject> observable = mDataManager.addComment(id,type,content);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(mDataManager.getScheduler())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .flatMap(new Func1<JsonObject, Observable<Comment>>() {
+                    @Override
+                    public Observable<Comment> call(JsonObject jsonObject) {
+                        Comment comment = handleCommentResponseJson(jsonObject);
+                        return Observable.just(comment);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Comment>() {
+                    @Override
+                    public void _onNext(Comment comment) {
+                        ModelAction<Comment> action = new ModelAction<Comment>();
+                        action.action = Action.CommentModel_AddComment;
+                        action.t = comment;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+
+                    }
+                });
+    }
+    private Comment handleCommentResponseJson(JsonObject jsonObject){
+        Comment comment = new Comment();
+        AuthorInfo authorInfo = new AuthorInfo();
+        authorInfo.avatar = jsonObject.get("avatar").getAsString();
+        authorInfo.nickname = jsonObject.get("nickname").getAsString();
+
+        comment.id = jsonObject.get("id").getAsString();
+        comment.content = jsonObject.get("content").getAsString();
+        comment.add_time = jsonObject.get("add_time").getAsLong();
+        comment.authorInfo = authorInfo;
+        return comment;
+    }
+    //获取文章信息
     public void getArticleInfo(String articleId){
         Observable<JsonObject> observable = mDataManager.getArticleInfo(articleId);
         observable.subscribeOn(Schedulers.io())

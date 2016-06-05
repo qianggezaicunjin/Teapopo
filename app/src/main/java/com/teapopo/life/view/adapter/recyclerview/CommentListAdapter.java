@@ -21,8 +21,8 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/6/3.
  */
-public class CommentListAdapter extends BaseRecyclerViewAdapter<BaseEntity,CommentListAdapter.CommentListViewHolder> {
-    public CommentListAdapter(Context context, List data) {
+public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentListAdapter.CommentListViewHolder> {
+    public CommentListAdapter(Context context, List<Comment> data) {
         super(context, data);
     }
 
