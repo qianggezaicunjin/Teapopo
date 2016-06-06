@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSignupUserinfoBinding;
 import com.teapopo.life.model.PostKeyValue;
-import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLogin;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLoginSp;
 import com.teapopo.life.model.user.SignUpUserInfoModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -73,7 +73,7 @@ public class SignUpUserInfoViewModel extends BaseObservable implements RequestVi
             params.add(param3);
             params.add(param4);
             params.add(param5);
-            RxSpf_ThirdLogin rxSpf_thirdLogin = RxSpf_ThirdLogin.create(mContext);
+            RxSpf_ThirdLoginSp rxSpf_thirdLogin = RxSpf_ThirdLoginSp.create(mContext);
             //如果是第三方,添加两个参数
             if(rxSpf_thirdLogin.platform().exists()){
                 String platform = rxSpf_thirdLogin.platform().get();

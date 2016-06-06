@@ -12,7 +12,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 import com.teapopo.life.R;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
-import com.teapopo.life.model.sharedpreferences.RxSpf_Html;
+
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.BaseFragment;
@@ -57,11 +57,6 @@ public class WelFareFragment extends BaseFragment implements RequestView {
 
     @Override
     public void onRequestSuccess(Object data) {
-
-        RxSpf_Html rxSpf_html = RxSpf_Html.create(_mActivity);
-        String html5 =  rxSpf_html.content().get();
-        Timber.d("模板为:%s",html5);
-        tv.setHtmlFromString(html5,false);
     }
 
     @Override

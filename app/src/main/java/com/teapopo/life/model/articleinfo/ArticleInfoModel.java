@@ -1,6 +1,7 @@
 package com.teapopo.life.model.articleinfo;
 
 import android.content.Context;
+import android.graphics.AvoidXfermode;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
@@ -10,6 +11,9 @@ import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.Reply;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
+import com.teapopo.life.model.sharedpreferences.RxSpf_UserInfoSp;
+import com.teapopo.life.model.user.UserInfo;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
@@ -23,6 +27,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/31.
@@ -32,6 +37,39 @@ public class ArticleInfoModel extends BaseModel {
         super(context);
     }
 
+
+    //回复评论
+    public void replyComment(String id, int type, final String content){
+        Observable<JsonObject> observable = mDataManager.replyComment(id,type,content);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(mDataManager.getScheduler())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .flatMap(new Func1<JsonObject, Observable<Reply>>() {
+                    @Override
+                    public Observable<Reply> call(JsonObject jsonObject) {
+                        RxSpf_ReplyCommentSp rxSpf_replyCommentSp = RxSpf_ReplyCommentSp.create(mContext);
+                        Reply reply = new Reply();
+                        reply.authorInfo.nickname = rxSpf_replyCommentSp.replyname().get();
+                        reply.content = content;
+                        return Observable.just(reply);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Reply>() {
+                    @Override
+                    public void _onNext(Reply reply) {
+                        ModelAction<Reply> action = new ModelAction<Reply>();
+                        action.action = Action.ArticleInfoModel_ReplyComment;
+                        action.t = reply;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+
+                    }
+                });
+    }
     //添加评论
     public void addComment(String id,int type,String content){
         Observable<JsonObject> observable = mDataManager.addComment(id,type,content);
@@ -150,8 +188,10 @@ public class ArticleInfoModel extends BaseModel {
                 AuthorInfo comment_authorInfo = LoganSquare.parse(member_comment.toString(),AuthorInfo.class);
                 comment.authorInfo = comment_authorInfo;
                 //添加评论的回复列表
-                JsonObject replys = jsonObject.getAsJsonObject("replys");
-                if(replys!=null){
+                Timber.d("%s",jsonObject.toString());
+                Timber.d("是否有回复内容:%s",jsonObject.has("replys"));
+                if(!jsonObject.get("replys").isJsonNull()){
+                    JsonObject replys = jsonObject.getAsJsonObject("replys");
                     //一个评论有一条或者多条回复
                     JsonArray reply = replys.getAsJsonArray(comment.id);
                     if(reply!=null){

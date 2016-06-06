@@ -30,6 +30,7 @@ public enum Action {
     //for ArticleInfoModel
     ArticleInfoModel_GetInfo,
     ArticleInfoModel_AddComment,
+    ArticleInfoModel_ReplyComment,
     //for CommentModel
     CommentModel_ReplyComment
 }

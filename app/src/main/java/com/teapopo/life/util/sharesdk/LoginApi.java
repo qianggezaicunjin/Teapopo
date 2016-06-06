@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.os.Message;
 
 
-import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLogin;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLoginSp;
 import com.teapopo.life.model.user.ThirdPlatformModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -125,7 +125,7 @@ public class LoginApi implements Callback, RequestView<ModelAction> {
 				HashMap<String, Object> res = (HashMap<String, Object>) objs[1];
 				Timber.d("第三方登录成功返回的信息为:%s",res.toString());
 				//将第三方登录成功的平台名字和openid保存在sharedpreference
-				RxSpf_ThirdLogin spf_thirdLogin = RxSpf_ThirdLogin.create(context);
+				RxSpf_ThirdLoginSp spf_thirdLogin = RxSpf_ThirdLoginSp.create(context);
 				spf_thirdLogin.edit()
 						.platform()
 						.put(plat)

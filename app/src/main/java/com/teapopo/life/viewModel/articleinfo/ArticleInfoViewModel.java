@@ -20,6 +20,7 @@ import com.jaeger.ninegridimageview.NineGridImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.utils.L;
 import com.teapopo.life.BR;
+import com.teapopo.life.MyApplication;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
@@ -31,6 +32,8 @@ import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.model.comment.Reply;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -96,7 +99,15 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         if(TextUtils.isEmpty(content)){
             CustomToast.makeText(mContext,"输入内容不能为空", Toast.LENGTH_SHORT).show();
         }else {
-            mModel.addComment(articleId,0,content);
+            //回复评论  or  发表评论
+            RxSpf_ReplyCommentSp rxSpf_replyCommentSp = RxSpf_ReplyCommentSp.create(mContext);
+            if(rxSpf_replyCommentSp.commentId().exists()){
+                //回复评论
+                mModel.replyComment(rxSpf_replyCommentSp.commentId().get(),0,content);
+            }else {
+                //发表评论d
+                mModel.addComment(articleId,0,content);
+            }
         }
 
     }
@@ -117,6 +128,10 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
             ComponentHolder.getAppComponent().rxbus().post(comment);
+        }else if(action == Action.ArticleInfoModel_ReplyComment){
+            Timber.d("回复成功，发送通知更新界面");
+            Reply reply = (Reply) data.t;
+            ComponentHolder.getAppComponent().rxbus().post(reply);
         }
     }
     @Override

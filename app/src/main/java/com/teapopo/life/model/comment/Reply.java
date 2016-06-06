@@ -16,5 +16,5 @@ public class Reply extends BaseEntity {
     public long add_time;//回复时间
 
     //新增的属性
-    public AuthorInfo authorInfo;//回复人的基本信息
+    public AuthorInfo authorInfo = new AuthorInfo();//回复人的基本信息
 }

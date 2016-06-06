@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,7 +91,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                Timber.d("onScrolled");
                 DataUtils.closeSoftInput(_mActivity,mBinding.etInputcomment);
                 mBinding.etInputcomment.setHint("发表评论");
             }
@@ -122,9 +122,9 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                         //如果不包含该comment，则代表发表的是评论，否则，是回复评论
                         if(data.contains(comment)){
                             DataUtils.toggleSoftInput(_mActivity,mBinding.etInputcomment);
-                            mBinding.etInputcomment.setFocusable(true);
                             mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
                         }else {
+                            //将最新的评论加在第一个位置
                             data.add(0,comment);
                             mBinding.rvArticleinfoComment.notifyDataSetChanged();
                             //关闭软键盘
@@ -216,11 +216,14 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         //如果文章信息的articleImageUrls的大小大于0，则说明该篇文章的信息有图片轮播
         if(articleImageUrls.size()>0){
             ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(_mActivity,articleImageUrls);
-            binding.viewstubArticleinfoImage.getViewStub().inflate();
-            CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
-            HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
-            viewPager.setAdapter(adapter);
-            indicator.setViewPager(viewPager);
+            ViewStub viewStub = binding.viewstubArticleinfoImage.getViewStub();
+            if (viewStub!=null){
+                CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
+                HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
+                viewPager.setAdapter(adapter);
+                indicator.setViewPager(viewPager);
+            }
+
         }
     }
 

@@ -1,18 +1,29 @@
 package com.teapopo.life.model.user;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonObject;
+import com.teapopo.life.data.remote.cookie.SerializableOkHttpCookies;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.erroinfo.ErroInfo;
+import com.teapopo.life.model.sharedpreferences.RxSpf_UserInfoSp;
+import com.teapopo.life.util.Constans.Action;
+import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.Cookie;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,31 +38,68 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/11.
  */
 public class UserInfoModel extends BaseModel {
-    
+
+    RxSpf_UserInfoSp rxSpf_userInfoSp = RxSpf_UserInfoSp.create(mContext);//缓存
+
     public UserInfoModel(Context context) {
         super(context);
     }
 
     public void getUserInfo() {
-        Observable<JsonObject> observable = mDataManager.getUserInfo();
+        if(rxSpf_userInfoSp.userInfo().exists()){
+            getFromCache();
+        }else {
+            getFromNetWork();
+        }
+    }
+
+    private void getFromCache() {
+        Timber.d("从缓存取出数据");
+        String encode = rxSpf_userInfoSp.userInfo().get();
+        UserInfo userInfo = UserInfo.decodeUserInfo(encode);
+        mRequestView.onRequestSuccess(userInfo);
+    }
+
+    //从网络获取数据
+    private void getFromNetWork() {
+        Timber.d("从网络取出数据");
+        final Observable<JsonObject> observable = mDataManager.getUserInfo();
         observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .observeOn(mDataManager.getScheduler())
                 .compose(RxResultHelper.<JsonObject>handleResult())
-                .subscribe(new RxSubscriber<JsonObject>() {
+                .flatMap(new Func1<JsonObject, Observable<UserInfo>>() {
                     @Override
-                    public void _onNext(JsonObject jsonObject) {
+                    public Observable<UserInfo> call(JsonObject jsonObject) {
+                        UserInfo userInfo = new UserInfo();
                         try {
-                            UserInfo userInfo = LoganSquare.parse(jsonObject.toString(),UserInfo.class);
-                            mRequestView.onRequestSuccess(userInfo);
+                            userInfo = LoganSquare.parse(jsonObject.toString(),UserInfo.class);
+                            //将userinfo序列化成string
+                            String encodeString = UserInfo.encodeUserInfo(new SerializableUserInfo(userInfo));
+                            //将个人信息缓存至SP
+                            rxSpf_userInfoSp.edit()
+                                    .userInfo()
+                                    .put(encodeString)
+                                    .commit();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                        return Observable.just(userInfo);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<UserInfo>() {
+                    @Override
+                    public void _onNext(UserInfo userInfo) {
+                        mRequestView.onRequestSuccess(userInfo);
                     }
 
                     @Override
                     public void _onError(String s) {
-                        mRequestView.onRequestErroInfo(s);
+
                     }
                 });
     }
+
+
+
 }

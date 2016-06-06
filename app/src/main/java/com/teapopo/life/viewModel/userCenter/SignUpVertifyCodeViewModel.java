@@ -12,7 +12,7 @@ import com.dd.processbutton.iml.ActionProcessButton;
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSignupVertifycodeBinding;
-import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLogin;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ThirdLoginSp;
 import com.teapopo.life.model.user.SignUpVertifyCodeModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -37,7 +37,7 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
     @Bindable
     public String leftTime;
     private CountDownTimer mCountDownTimer;
-    private RxSpf_ThirdLogin mSpf_thirdLogin;
+    private RxSpf_ThirdLoginSp mSpf_thirdLogin;
     private String mPhonenum;
     private String mVertifycode;
 
@@ -81,7 +81,7 @@ public class SignUpVertifyCodeViewModel extends BaseObservable implements Reques
         else if(action == Action.SignUpVertifyCodeModel_VertifyPhone){
             if((Boolean) data.t){
                 //如果手机号已经被注册过,则直接登录或者是绑定第三方账号
-                mSpf_thirdLogin = RxSpf_ThirdLogin.create(mContext);
+                mSpf_thirdLogin = RxSpf_ThirdLoginSp.create(mContext);
                 if(mSpf_thirdLogin.platform().exists()){
                     //绑定第三方账号
                     doThirdBind();

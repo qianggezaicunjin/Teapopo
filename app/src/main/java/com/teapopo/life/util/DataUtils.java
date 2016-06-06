@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import timber.log.Timber;
@@ -26,6 +27,37 @@ public class DataUtils {
         return connectivityManager.getActiveNetworkInfo() != null;
     }
 
+    /**
+     * 十六进制字符串转二进制数组
+     *
+     * @param hexString string of hex-encoded values
+     * @return decoded byte array
+     */
+    public static byte[] hexStringToByteArray(String hexString) {
+        int len = hexString.length();
+        byte[] data = new byte[len / 2];
+        for (int i = 0; i < len; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4) + Character.digit(hexString.charAt(i + 1), 16));
+        }
+        return data;
+    }
+    /**
+     * 二进制数组转十六进制字符串
+     *
+     * @param bytes byte array to be converted
+     * @return string containing hex values
+     */
+    public static String byteArrayToHexString(byte[] bytes) {
+        StringBuilder sb = new StringBuilder(bytes.length * 2);
+        for (byte element : bytes) {
+            int v = element & 0xff;
+            if (v < 16) {
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(v));
+        }
+        return sb.toString().toUpperCase(Locale.US);
+    }
     /**
      * 时间戳转为月日，时分
      * @param cc_time
