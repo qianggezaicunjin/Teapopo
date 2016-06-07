@@ -43,6 +43,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 /**
@@ -54,8 +55,10 @@ import timber.log.Timber;
 public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private FragmentArticleinfoBinding mBinding;
     private ItemArticleinfoTopviewBinding topbinding;
+    private CommentListAdapter mAdapter;
     private ArticleDetailFragmentComponent mComponent;
 
+    private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
     private List<Comment> data;
     @Inject
     ArticleInfoViewModel mViewModel;
@@ -97,8 +100,8 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
     private void setUpRecyclerView() {
         data = mViewModel.articleInfo.commentList;
-        CommentListAdapter adapter = new CommentListAdapter(_mActivity,data);
-        mBinding.rvArticleinfoComment.setAdapter(adapter);
+        mAdapter = new CommentListAdapter(_mActivity,data);
+        mBinding.rvArticleinfoComment.setAdapter(mAdapter);
         //监听键盘收起,当键盘收起的时候回触发RecycerView的滚动
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
             @Override
@@ -122,7 +125,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
      */
     private void handleComment() {
         Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
-        observable.observeOn(AndroidSchedulers.mainThread())
+        mCompositeSubscription.add( observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<Comment>() {
                     @Override
                     public void _onNext(Comment comment) {
@@ -145,7 +148,8 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     public void _onError(String s) {
 
                     }
-                });
+                }));
+
     }
 
     /**
@@ -153,7 +157,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
      */
     private void addRecyclerViewHeader() {
         Observable observable = mRxBus.toObserverable(ArticleInfo.class);
-        observable.observeOn(AndroidSchedulers.mainThread())
+        mCompositeSubscription.add( observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber() {
                     @Override
                     public void _onNext(Object o) {
@@ -174,7 +178,8 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     public void _onError(String s) {
 
                     }
-                });
+                }));
+
     }
 
 
@@ -235,6 +240,10 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         }
     }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.unsubscribe();
+    }
 }

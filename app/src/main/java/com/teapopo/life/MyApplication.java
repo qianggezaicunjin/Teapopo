@@ -6,6 +6,7 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.leakcanary.LeakCanary;
 import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerApplicationComponent;
@@ -22,6 +23,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         mContext = this;
         initialImageLoader();
         if(BuildConfig.DEBUG){

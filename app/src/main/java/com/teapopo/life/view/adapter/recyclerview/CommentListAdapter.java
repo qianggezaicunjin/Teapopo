@@ -26,6 +26,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 /**
@@ -33,6 +34,7 @@ import timber.log.Timber;
  */
 public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentListAdapter.CommentListViewHolder> {
 
+    public CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
     public CommentListAdapter(Context context, List<Comment> data) {
         super(context, data);
@@ -66,7 +68,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
     private void receivedReply(final ItemCommentListBinding binding, final Comment comment) {
         final Comment comment1 = comment;
         Observable<Reply> observable = ComponentHolder.getAppComponent().rxbus().toObserverable(Reply.class);
-        observable.observeOn(AndroidSchedulers.mainThread())
+        mCompositeSubscription.add(observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<Reply>() {
                     @Override
                     public void _onNext(Reply reply) {
@@ -88,7 +90,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
                     public void _onError(String s) {
 
                     }
-                });
+                }));
     }
     private void addReply(List<Reply> replies,ItemCommentListBinding binding) {
         LinearLayout layout = binding.linearlayoutReplyComment;

@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
@@ -36,6 +37,7 @@ public class MainActivity extends SwipeBackBaseActivity {
     @DrawableRes
     private int[] mImages = {R.drawable.selector_home,
             R.drawable.icon_teacup,
+            R.drawable.icon_plus,
             R.drawable.icon_welfare,
             R.drawable.icon_user
     };
@@ -81,37 +83,30 @@ public class MainActivity extends SwipeBackBaseActivity {
         mTabHost.setup(this, getSupportFragmentManager(), R.id.tab_content);
         mTabHost.getTabWidget().setDividerDrawable(null); // 去掉分割线
 
-        for (int i = 0; i < mImages.length; i++) {
-            switch (mImages[i]) {
-                case R.drawable.selector_home:
-                    // Tab按钮添加文字和图片
-                    TabHost.TabSpec tabSpec = mTabHost.newTabSpec("首页").setIndicator(getImageView(i));
-                    // 添加Fragment
-                    mTabHost.addTab(tabSpec, HomeFragment.class, null);
-                    break;
-                case R.drawable.icon_teacup:
-                    // Tab按钮添加文字和图片
-                    TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("新滋").setIndicator(getImageView(i));
-                    // 添加Fragment
-                    mTabHost.addTab(tabSpec1, XinZiFragment.class, null);
-                    break;
-                case R.drawable.icon_welfare:
-                    // Tab按钮添加文字和图片
-                    TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("福利社").setIndicator(getImageView(i));
-                    // 添加Fragment
-                    mTabHost.addTab(tabSpec2, WelFareFragment.class, null);
-                    break;
-                case R.drawable.icon_user:
-                    // Tab按钮添加文字和图片
-                    TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("我的").setIndicator(getImageView(i));
-                    // 添加Fragment
-                    mTabHost.addTab(tabSpec3, UserFragment.class, null);
 
-                    break;
-            }
-            // 设置Tab按钮的背景
-//            mTabHost.getTabWidget().getChildAt(i).setBackgroundResource(R.color.blue);
-        }
+
+        TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("首页").setIndicator(getImageView(0));
+        mTabHost.addTab(tabSpec1, HomeFragment.class, null);
+
+
+
+        TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("新滋").setIndicator(getImageView(1));
+        mTabHost.addTab(tabSpec2, XinZiFragment.class, null);
+
+
+
+        TabHost.TabSpec tabSpec3 = mTabHost.newTabSpec("发布帖子").setIndicator(getImageView(2));
+        mTabHost.addTab(tabSpec3,WelFareFragment.class, null);
+
+
+        TabHost.TabSpec tabSpec4 = mTabHost.newTabSpec("福利社").setIndicator(getImageView(3));
+        mTabHost.addTab(tabSpec4, WelFareFragment.class, null);
+
+
+        TabHost.TabSpec tabSpec5 = mTabHost.newTabSpec("我的").setIndicator(getImageView(4));
+        mTabHost.addTab(tabSpec5, UserFragment.class, null);
+
+
     }
 
     // 获得图片资源
@@ -120,6 +115,9 @@ public class MainActivity extends SwipeBackBaseActivity {
         View view = getLayoutInflater().inflate(R.layout.tab_fragmenttabhost, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.tab_iv_image);
         imageView.setImageResource(mImages[index]);
+        if(index == 2){
+            imageView.setBackgroundResource(R.color.orange);
+        }
         return view;
     }
 
