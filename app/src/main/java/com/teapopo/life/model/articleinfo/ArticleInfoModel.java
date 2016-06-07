@@ -51,6 +51,7 @@ public class ArticleInfoModel extends BaseModel {
                         Reply reply = new Reply();
                         reply.authorInfo.nickname = rxSpf_replyCommentSp.replyname().get();
                         reply.content = content;
+                        reply.commentId = rxSpf_replyCommentSp.commentId().get();
                         return Observable.just(reply);
                     }
                 })

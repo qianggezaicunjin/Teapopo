@@ -24,6 +24,7 @@ import com.teapopo.life.injection.module.fragment.ArticleDetailFragmentModule;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
@@ -79,10 +80,26 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding.setViewmodel(mViewModel);
+        return mBinding.getRoot();
+    }
 
+    @Override
+    public void setUpView() {
+        setUpRecyclerView();
+        topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(_mActivity));
+        topbinding.setViewmodel(mViewModel);
+        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
+
+        //通过Rxbus接收返回的数据，通知界面更新
+        addRecyclerViewHeader();
+        handleComment();
+    }
+
+    private void setUpRecyclerView() {
         data = mViewModel.articleInfo.commentList;
         CommentListAdapter adapter = new CommentListAdapter(_mActivity,data);
         mBinding.rvArticleinfoComment.setAdapter(adapter);
+        //监听键盘收起,当键盘收起的时候回触发RecycerView的滚动
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -91,22 +108,12 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                DataUtils.closeSoftInput(_mActivity,mBinding.etInputcomment);
+                //当收起键盘时，回到发表评论的状态，清除RxSpf_ReplyCommentSp
+                DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                 mBinding.etInputcomment.setHint("发表评论");
+                RxSpf_ReplyCommentSp.create(_mActivity).edit().clear();
             }
         });
-        topbinding = ItemArticleinfoTopviewBinding.inflate(inflater);
-        topbinding.setViewmodel(mViewModel);
-
-        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
-        return mBinding.getRoot();
-    }
-
-    @Override
-    public void setUpView() {
-        addRecyclerViewHeader();
-
-        handleComment();
     }
 
     /**
@@ -121,14 +128,14 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     public void _onNext(Comment comment) {
                         //如果不包含该comment，则代表发表的是评论，否则，是回复评论
                         if(data.contains(comment)){
-                            DataUtils.toggleSoftInput(_mActivity,mBinding.etInputcomment);
+                            DataUtils.showSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                             mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
                         }else {
                             //将最新的评论加在第一个位置
                             data.add(0,comment);
                             mBinding.rvArticleinfoComment.notifyDataSetChanged();
                             //关闭软键盘
-                            DataUtils.closeSoftInput(_mActivity,mBinding.etInputcomment);
+                            DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                             mBinding.etInputcomment.setText("");
                             CustomToast.makeText(_mActivity,"发表评论成功!", Toast.LENGTH_SHORT);
                         }
@@ -218,6 +225,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
             ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(_mActivity,articleImageUrls);
             ViewStub viewStub = binding.viewstubArticleinfoImage.getViewStub();
             if (viewStub!=null){
+                viewStub.inflate();
                 CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
                 HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
                 viewPager.setAdapter(adapter);

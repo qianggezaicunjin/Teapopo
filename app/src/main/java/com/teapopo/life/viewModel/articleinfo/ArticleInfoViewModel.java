@@ -132,6 +132,8 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
             ComponentHolder.getAppComponent().rxbus().post(reply);
+            //收起软键盘
+            DataUtils.closeSoftInput(mContext,mBinding.linearlayoutInputComment);
         }
     }
     @Override
