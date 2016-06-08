@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="tv_tagname" type="id" />
+    <item name="tab_home" type="id"/>
+    <item name="tab_xinzi" type="id"/>
+    <item name="tab_welfare" type="id"/>
+    <item name="tab_user" type="id"/>
+    <item name="tab_publish" type="id"/>
 </resources>

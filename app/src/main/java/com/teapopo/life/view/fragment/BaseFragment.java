@@ -29,6 +29,7 @@ public abstract class BaseFragment extends SupportFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //缓存fragment的内容
         if(mContentView == null){
             mContentView= getContentView(inflater,container,savedInstanceState);
         }

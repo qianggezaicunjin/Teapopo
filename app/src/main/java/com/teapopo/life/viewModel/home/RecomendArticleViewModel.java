@@ -183,11 +183,15 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
     @Override
     public void onItemClick(View view, int position) {
-        Timber.d("onItemClick的位置为:%s",position);
-        Article article = (Article) data.get(position);
-        //跳转到文章详情页
-        Intent intent = ArticleDetailActivity.getStartIntent(mContext);
-        intent.putExtra("articleId",article.articleId);
-        Navigator.getInstance().start(mContext,intent);
+        //recyclerview正在加载数据的时候,点击item不做任何跳转
+        if(loading){
+
+        }else {
+            Article article = (Article) data.get(position);
+            //跳转到文章详情页
+            Intent intent = ArticleDetailActivity.getStartIntent(mContext);
+            intent.putExtra("articleId",article.articleId);
+            Navigator.getInstance().start(mContext,intent);
+        }
     }
 }
