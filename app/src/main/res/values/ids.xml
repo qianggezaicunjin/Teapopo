@@ -6,4 +6,8 @@
     <item name="tab_welfare" type="id"/>
     <item name="tab_user" type="id"/>
     <item name="tab_publish" type="id"/>
+
+
+    <!--for dynamicgrid-->
+    <item type="id" name="dgv_wobble_tag"/>
 </resources>

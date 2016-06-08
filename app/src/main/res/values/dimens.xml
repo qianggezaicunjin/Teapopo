@@ -16,4 +16,7 @@
     <dimen name="userinfo_secondpart">300dp</dimen>
     <dimen name="userinfo_thirdpart">100dp</dimen>
     <dimen name="default_list_textsize">20sp</dimen>
+
+    <!--for dynamicgrid-->
+    <dimen name="dgv_overlap_if_switch_straight_line">16dp</dimen>
 </resources>

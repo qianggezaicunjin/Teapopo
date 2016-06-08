@@ -95,6 +95,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.commit451:PhotoView:1.2.5'
     compile 'com.wrapp.floatlabelededittext:library:0.0.6'
+    compile 'cn.finalteam:galleryfinal:1.4.8.7'
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

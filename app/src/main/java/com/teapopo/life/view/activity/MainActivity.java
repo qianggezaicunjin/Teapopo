@@ -123,6 +123,7 @@ public class MainActivity extends SwipeBackBaseActivity {
         mTabHost.addTab(tabSpec5, UserFragment.class, null);
         mTabHost.getTabWidget().getChildTabViewAt(4).setOnClickListener(new TabOnClickListener(mTabHost,4));
 
+        mTabHost.getTabWidget().setBackgroundResource(R.color.background_base);
     }
 
     /**
