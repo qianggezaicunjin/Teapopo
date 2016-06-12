@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -34,6 +36,8 @@
         <activity android:name=".view.activity.SignInAndUpActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
         <activity android:name=".view.activity.ArticleDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
+        <activity android:name=".view.activity.PublishArticleActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
         <!-- mob分享 -->
         <activity

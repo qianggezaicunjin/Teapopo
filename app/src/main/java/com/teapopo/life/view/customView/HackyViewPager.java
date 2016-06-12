@@ -105,6 +105,7 @@ public class HackyViewPager extends ViewPager {
 
 	public void  notifyDataSetChanged(){
 		this.getAdapter().notifyDataSetChanged();
+
 	}
 	public boolean isScrollble() {
 		return mScrollable;

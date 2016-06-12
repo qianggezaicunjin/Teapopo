@@ -21,6 +21,7 @@ import com.teapopo.life.injection.component.activity.DaggerMainActivityComponent
 import com.teapopo.life.injection.component.activity.MainActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.MainActivityModule;
+import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.fragment.Home.HomeFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
 import com.teapopo.life.view.fragment.welfare.WelFareFragment;
@@ -167,6 +168,7 @@ public class MainActivity extends SwipeBackBaseActivity {
         public void onClick(View v) {
            setImageSrc(fragmentTabHost,index);
             if(index==2){
+                Navigator.getInstance().start(getApplicationContext(),PublishArticleActivity.getStartIntent(getApplicationContext()));
                 Timber.d("发布帖子");
             }else {
                 fragmentTabHost.setCurrentTab(index);

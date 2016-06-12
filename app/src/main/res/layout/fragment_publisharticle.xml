@@ -28,8 +28,11 @@
         />
 
     <Button
+        android:id="@+id/btn_addpublishphoto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="添加图片"/>
+        android:text="添加图片"
+        android:onClick="@{viewModel.getOnClickListener()}"
+        />
 </LinearLayout>
     </layout>
