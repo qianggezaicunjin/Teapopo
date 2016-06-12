@@ -35,8 +35,7 @@ public class DynamicImageGridAdapter extends BaseDynamicGridAdapter {
         DynamicImageViewHolder holder;
         if(convertView == null){
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_dynamicgridview_image,null);
-            holder = new DynamicImageViewHolder();
-            holder.imageView = (ImageView) convertView.findViewById(R.id.img_publishimage);
+            holder = new DynamicImageViewHolder(convertView);
             convertView.setTag(holder);
         }else {
             holder = (DynamicImageViewHolder) convertView.getTag();
@@ -48,6 +47,9 @@ public class DynamicImageGridAdapter extends BaseDynamicGridAdapter {
     private class DynamicImageViewHolder{
         ImageView imageView;
 
+        public DynamicImageViewHolder(View view){
+            imageView = (ImageView) view.findViewById(R.id.img_publishimage);
+        }
         public void setPhoto(PhotoInfo photo){
             ImageLoader.getInstance().displayImage("file:/" + photo.getPhotoPath(), imageView);
         }

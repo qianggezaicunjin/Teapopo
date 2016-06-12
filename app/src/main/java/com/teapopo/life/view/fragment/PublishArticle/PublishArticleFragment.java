@@ -1,11 +1,14 @@
 package com.teapopo.life.view.fragment.PublishArticle;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
+import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentPublisharticleBinding;
 import com.teapopo.life.injection.component.ComponentHolder;
@@ -63,7 +66,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentPublisharticleBinding.inflate(inflater);
-        dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,5);
+        dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,3);
         mBinding.dynamicGrid.setAdapter(dynamicImageGridAdapter);
         mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
@@ -71,9 +74,23 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
     @Override
     public void setUpView() {
+        //设置图片选择器
         setUpGallery();
-
+        //处理在图片选择器中选择的图片
         receivePhoto();
+        //
+        setUpDynamicImageGrid();
+
+    }
+
+    private void setUpDynamicImageGrid() {
+        mBinding.dynamicGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mBinding.dynamicGrid.startEditMode(position);
+                return true;
+            }
+        });
     }
 
 
@@ -95,12 +112,36 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpGallery() {
-        FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
+
+        FunctionConfig functionConfig = getUpFuntionConfig();
+        ThemeConfig themeConfig = getThemeConfig();
         //设置ImagerLoader
         cn.finalteam.galleryfinal.ImageLoader imageLoader;
         PauseOnScrollListener pauseOnScrollListener = null;
         imageLoader = new UILImageLoader();
         pauseOnScrollListener = new UILPauseOnScrollListener(false, true);
+
+        CoreConfig coreConfig = new CoreConfig.Builder(_mActivity.getApplicationContext(), imageLoader, themeConfig)
+                .setFunctionConfig(functionConfig)
+                .setPauseOnScrollListener(pauseOnScrollListener)
+                .setNoAnimcation(false)
+                .build();
+        GalleryFinal.init(coreConfig);
+    }
+
+    //设置主题
+    private ThemeConfig getThemeConfig() {
+        ThemeConfig theme = new ThemeConfig.Builder()
+                .setEditPhotoBgTexture(_mActivity.getResources().getDrawable(R.color.white))
+                .setPreviewBg(_mActivity.getResources().getDrawable(R.color.white))
+                .build();
+
+        return theme;
+    }
+
+    //设置功能
+    private FunctionConfig getUpFuntionConfig() {
+        FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
         //设置多选的图片个数
         functionConfigBuilder.setMutiSelectMaxSize(10);
         //是否可以编辑
@@ -118,12 +159,8 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         //启动预览
         functionConfigBuilder.setEnablePreview(true);
 
-        CoreConfig coreConfig = new CoreConfig.Builder(_mActivity.getApplicationContext(), imageLoader, ThemeConfig.DEFAULT)
-                .setFunctionConfig(functionConfigBuilder.build())
-                .setPauseOnScrollListener(pauseOnScrollListener)
-                .setNoAnimcation(false)
-                .build();
-        GalleryFinal.init(coreConfig);
+        functionConfigBuilder.setSelected(photoInfoList);
+        return functionConfigBuilder.build();
     }
 
 

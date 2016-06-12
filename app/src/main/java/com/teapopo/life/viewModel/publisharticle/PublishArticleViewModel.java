@@ -34,6 +34,9 @@ public class PublishArticleViewModel extends BaseObservable {
                     case R.id.btn_addpublishphoto:
                         addPublishPhoto();
                         break;
+                    case R.id.img_publishimage:
+
+                        break;
                 }
 
             }

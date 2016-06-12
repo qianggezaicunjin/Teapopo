@@ -25,6 +25,7 @@
         android:id="@+id/dynamic_grid"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:numColumns="3"
         />
 
     <Button
