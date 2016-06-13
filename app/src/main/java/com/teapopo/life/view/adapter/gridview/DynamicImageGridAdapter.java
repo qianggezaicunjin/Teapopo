@@ -8,11 +8,14 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.teapopo.life.R;
+import com.teapopo.life.injection.component.ComponentHolder;
+import com.teapopo.life.model.event.TellUpLoadDoneOrNot;
 import com.teapopo.life.view.customView.Dynamicgrid.BaseDynamicGridAdapter;
 
 import java.util.List;
 
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import rx.Observable;
 
 /**
  * Created by louiszgm on 2016/6/8.
@@ -40,8 +43,15 @@ public class DynamicImageGridAdapter extends BaseDynamicGridAdapter {
         }else {
             holder = (DynamicImageViewHolder) convertView.getTag();
         }
-        holder.setPhoto((PhotoInfo) getItem(position));
+        PhotoInfo  photoInfo = (PhotoInfo) getItem(position);
+        registerSubscribe(photoInfo);
+        holder.setPhoto(photoInfo);
         return convertView;
+    }
+    //更新图片的上传状态
+    private void registerSubscribe(PhotoInfo photoInfo) {
+        Observable<TellUpLoadDoneOrNot> observable = ComponentHolder.getAppComponent().rxbus().toObserverable(TellUpLoadDoneOrNot.class);
+
     }
 
     private class DynamicImageViewHolder{

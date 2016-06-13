@@ -1,22 +1,26 @@
 package com.teapopo.life.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.util.AttributeSet;
+import android.util.Base64;
 import android.util.Xml;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
+
 
 import timber.log.Timber;
 
@@ -106,6 +110,50 @@ public class DataUtils {
         return attributes;
     }
 
+    /**
+     *
+     * @param imgPath
+     * @return
+     */
+    public static String imgToBase64(String imgPath) {
+        Bitmap bitmap = null;
+        if (imgPath != null && imgPath.length() > 0) {
+            bitmap = readBitmap(imgPath);
+        }
+        if (bitmap == null) {
+            //bitmap not found!!
+        }
+        ByteArrayOutputStream out = null;
+        try {
+            out = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+
+            byte[] imgBytes = out.toByteArray();
+            return Base64.encodeToString(imgBytes, Base64.DEFAULT);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            return null;
+        } finally {
+            try {
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+}
+    private static Bitmap readBitmap(String imgPath) {
+        try {
+            return BitmapFactory.decodeFile(imgPath);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            return null;
+        }
+    }
     public static void toggleSoftInput(Context context, View view){
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);

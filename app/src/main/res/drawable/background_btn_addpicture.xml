@@ -4,12 +4,14 @@
     <!-- rectangle表示为矩形 -->
 
     <!-- 填充的颜色 -->
-    <solid android:color="@color/red" />
+    <solid android:color="@android:color/transparent"/>
 
     <!-- 边框的颜色和粗细 -->
     <stroke
+        android:dashGap="5dp"
+        android:dashWidth="5dp"
         android:width="1dp"
-        android:color="@color/red"
+        android:color="@color/gray_light"
         />
 
     <!-- android:radius 圆角的半径 -->
@@ -17,4 +19,6 @@
         android:radius="@dimen/default_circle_indicator_radius"
         />
 
+    <size android:width="50dp"
+        android:height="50dp" />
 </shape>

@@ -1,39 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
-            type="com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel"/>
+            type="com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel" />
     </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
- <EditText
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:hint="标题"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="文章内容"/>
 
-    <com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView
-        android:id="@+id/dynamic_grid"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:numColumns="3"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_addpublishphoto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="添加图片"
-        android:onClick="@{viewModel.getOnClickListener()}"
-        />
-</LinearLayout>
-    </layout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="标题" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_size"
+            android:background="@drawable/background_graysolid">
+
+            <EditText
+                android:id="@+id/et_publishcontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_transparent"
+                android:ems="10"
+                android:hint="文章内容"
+                android:inputType="textMultiLine" />
+
+            <com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView
+                android:id="@+id/dynamic_grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/et_publishcontent"
+                android:layout_toLeftOf="@+id/linearlayout_addpublishphoto"
+                android:numColumns="3" />
+
+            <LinearLayout
+                android:id="@+id/linearlayout_addpublishphoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+               android:layout_alignParentRight="true"
+                android:layout_below="@id/et_publishcontent"
+                android:background="@drawable/background_btn_addpicture"
+                android:onClick="@{viewModel.getOnClickListener()}"
+                android:orientation="vertical"
+                android:gravity="center"
+               >
+
+                <TextView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/icon_plus_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="添加图片"
+                    android:textColor="@color/gray_light"
+                    android:layout_marginTop="2dp"
+                    android:textSize="8sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_addtag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加标签"/>
+            <View
+                android:id="@+id/publisharticle_line"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/line"
+                android:layout_below="@id/tv_addtag"/>
+
+            <me.gujun.android.taggroup.TagGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tag_group"
+                style="@style/TagGroup"
+                app:atg_isAppendMode="true"
+                android:layout_below="@id/publisharticle_line"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <View
+                android:id="@+id/gapline"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/gapline"
+                android:layout_below="@+id/tag_group"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                />
+            <me.gujun.android.taggroup.TagGroup
+                android:layout_below="@id/gapline"
+                android:id="@+id/hottag_group"
+                style="@style/TagGroup"
+                android:layout_marginTop="@dimen/activity_vertical_margin" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_publishArticle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发布文章" />
+
+    </LinearLayout>
+</layout>

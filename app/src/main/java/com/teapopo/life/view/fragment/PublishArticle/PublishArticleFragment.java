@@ -18,6 +18,7 @@ import com.teapopo.life.model.event.PickPhotoListResult;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.DynamicImageGridAdapter;
+import com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView;
 import com.teapopo.life.view.customView.Dynamicgrid.listener.UILPauseOnScrollListener;
 import com.teapopo.life.view.customView.Dynamicgrid.loader.UILImageLoader;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
@@ -34,6 +35,7 @@ import cn.finalteam.galleryfinal.GalleryFinal;
 import cn.finalteam.galleryfinal.PauseOnScrollListener;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
+import me.gujun.android.taggroup.TagGroup;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
@@ -59,13 +61,13 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     }
     @Override
     public void onCreateBinding(Bundle savedInstanceState) {
-        mComponent = ((PublishArticleActivity)_mActivity).getComponent().publishArticleFragmentComponent(new PublishArticleFragmentModule());
+        mBinding = FragmentPublisharticleBinding.inflate(LayoutInflater.from(_mActivity));
+        mComponent = ((PublishArticleActivity)_mActivity).getComponent().publishArticleFragmentComponent(new PublishArticleFragmentModule(mBinding));
         mComponent.inject(this);
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentPublisharticleBinding.inflate(inflater);
         dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,3);
         mBinding.dynamicGrid.setAdapter(dynamicImageGridAdapter);
         mBinding.setViewModel(mViewModel);
@@ -80,17 +82,46 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         receivePhoto();
         //
         setUpDynamicImageGrid();
+        //设置热门标签
+        setUpHotTags();
+
+        //
+        isImageUploadDone();
+    }
+
+    private void isImageUploadDone() {
 
     }
 
+    private void setUpHotTags() {
+        TagGroup tagGroup = mBinding.hottagGroup;
+        tagGroup.setTags(new String[]{"评测"});
+    }
+    //设置第一张图片为封面图片
+    private void setCoverImage(){
+
+    }
     private void setUpDynamicImageGrid() {
-        mBinding.dynamicGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+
+        DynamicGridView gridView = mBinding.dynamicGrid;
+        //长按进入拖拽模式
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mBinding.dynamicGrid.startEditMode(position);
                 return true;
             }
         });
+        //
+        gridView.setOnDropListener(new DynamicGridView.OnDropListener() {
+            @Override
+            public void onActionDrop() {
+                PhotoInfo photoInfo = (PhotoInfo) dynamicImageGridAdapter.getItems().get(0);
+                Timber.d("拖拽后第一张图片的名称为:%s",photoInfo.getImageName());
+            }
+        });
+
     }
 
 
@@ -102,6 +133,8 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
                     public void _onNext(PickPhotoListResult pickPhotoListResult) {
                         photoInfoList.addAll(pickPhotoListResult.photoInfoList);
                         dynamicImageGridAdapter.refresh(photoInfoList);
+                        PhotoInfo photoInfo = (PhotoInfo) dynamicImageGridAdapter.getItems().get(0);
+                        Timber.d("拖拽前第一张图片的名称为:%s",photoInfo.getImageName());
                     }
 
                     @Override
@@ -111,6 +144,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
                 }));
     }
 
+    //初始化图片选择器
     private void setUpGallery() {
 
         FunctionConfig functionConfig = getUpFuntionConfig();

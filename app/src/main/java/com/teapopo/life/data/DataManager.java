@@ -252,4 +252,12 @@ public class DataManager {
         }
         return null;
     }
+
+    public Observable<JsonObject> publishArticle(String title,String content,String coverImage,String[] images){
+        return mNetWorkService.publishArticle(title,content,coverImage,images);
+    }
+
+    public Observable<JsonObject> uploadImage(String articleID,String base64Encode){
+        return mNetWorkService.uploadImage(articleID,base64Encode);
+    }
 }
