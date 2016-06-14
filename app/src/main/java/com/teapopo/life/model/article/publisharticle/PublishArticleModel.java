@@ -134,20 +134,23 @@ public class PublishArticleModel extends BaseModel {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        TellUpLoadDoneOrNot tellUpLoadDoneOrNot = new TellUpLoadDoneOrNot();
-                        tellUpLoadDoneOrNot.isDone = false;
-                        tellUpLoadDoneOrNot.id = path;
-                        mRxBus.post(tellUpLoadDoneOrNot);
+//                        TellUpLoadDoneOrNot tellUpLoadDoneOrNot = new TellUpLoadDoneOrNot();
+//                        tellUpLoadDoneOrNot.isDone = false;
+//                        tellUpLoadDoneOrNot.id = path;
+//                        mRxBus.post(tellUpLoadDoneOrNot);
                     }
                 })
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .subscribe(new RxSubscriber<JsonObject>() {
                     @Override
                     public void _onNext(JsonObject jsonObject) {
-                        TellUpLoadDoneOrNot tellUpLoadDoneOrNot = new TellUpLoadDoneOrNot();
-                        tellUpLoadDoneOrNot.isDone = true;
-                        tellUpLoadDoneOrNot.id = path;
-                        mRxBus.post(tellUpLoadDoneOrNot);
+//                        TellUpLoadDoneOrNot tellUpLoadDoneOrNot = new TellUpLoadDoneOrNot();
+//                        tellUpLoadDoneOrNot.isDone = true;
+//                        tellUpLoadDoneOrNot.id = path;
+//                        mRxBus.post(tellUpLoadDoneOrNot);
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.PublishArticleModel_PublishWithImage;
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override

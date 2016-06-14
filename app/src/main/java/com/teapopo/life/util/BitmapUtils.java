@@ -24,6 +24,7 @@ public class BitmapUtils {
         Bitmap src = BitmapFactory.decodeFile(pathName, options);
         return createScaleBitmap(src, reqWidth, reqHeight);
     }
+
     // 如果是放大图片，filter决定是否平滑，如果是缩小图片，filter无影响
     private static Bitmap createScaleBitmap(Bitmap src, int dstWidth,
                                             int dstHeight) {
@@ -33,6 +34,7 @@ public class BitmapUtils {
         }
         return dst;
     }
+
     private static int calculateInSampleSize(BitmapFactory.Options options,
                                              int reqWidth, int reqHeight) {
         final int height = options.outHeight;
@@ -48,12 +50,13 @@ public class BitmapUtils {
         }
         return inSampleSize;
     }
+
     //图片的质量压缩
     private static Bitmap compressImage(Bitmap image) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;
-        while ( baos.toByteArray().length / 1024>300) {    //循环判断如果压缩后图片是否大于300kb,大于继续压缩
+        while (baos.toByteArray().length / 1024 > 300) {    //循环判断如果压缩后图片是否大于300kb,大于继续压缩
             baos.reset();//重置baos即清空baos
             options -= 10;//每次都减少10
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
@@ -70,8 +73,8 @@ public class BitmapUtils {
         Bitmap image = readBitmap(path);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        Timber.d("压缩前的大小为:%d",baos.toByteArray().length / 1024);
-        if( baos.toByteArray().length / 1024>1024) {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
+        Timber.d("压缩前的大小为:%dkb", baos.toByteArray().length / 1024);
+        if (baos.toByteArray().length / 1024 > 1024) {//判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
             baos.reset();//重置baos即清空baos
             image.compress(Bitmap.CompressFormat.JPEG, 50, baos);//这里压缩50%，把压缩后的数据存放到baos中
         }
@@ -107,7 +110,7 @@ public class BitmapUtils {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         //开始读入图片，此时把options.inJustDecodeBounds 设回true了
         newOpts.inJustDecodeBounds = true;
-        Bitmap bitmap = BitmapFactory.decodeFile(srcPath,newOpts);//此时返回bm为空
+        Bitmap bitmap = BitmapFactory.decodeFile(srcPath, newOpts);//此时返回bm为空
 
         newOpts.inJustDecodeBounds = false;
         int w = newOpts.outWidth;

@@ -97,9 +97,13 @@ public class PublishArticleViewModel extends BaseObservable implements RequestVi
 
     @Override
     public void onRequestSuccess(ModelAction data) {
+        int countUpload = 0;
         Action action = data.action;
         if(action == Action.PublishArticleModel_PublishWithoutImage){
             mBinding.btnPublishArticle.setProgress(100);
+        }else if(action == Action.PublishArticleModel_PublishWithImage){
+            countUpload += 1;
+            Timber.d("成功上传的图片个数:%d",countUpload);
         }
     }
 
