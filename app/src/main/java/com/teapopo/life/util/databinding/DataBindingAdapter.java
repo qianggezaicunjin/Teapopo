@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -49,13 +50,13 @@ public class DataBindingAdapter {
             //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
             String tag = imageUrl.substring(0,4);
             if(tag.equals("http")){
-                ImageLoader.getInstance().displayImage(imageUrl,iv);
+                Picasso.with(iv.getContext()).load(imageUrl).into(iv);
             }else {
                 String imagurl = NetWorkService.IMAGE_ENDPOINT+imageUrl+NetWorkService.IMAGE_EXT;
-                ImageLoader.getInstance().displayImage(imagurl,iv);
+                Picasso.with(iv.getContext()).load(imagurl).into(iv);
             }
         }else {
-            ImageLoader.getInstance().displayImage(imageUrl,iv);
+            Picasso.with(iv.getContext()).load(imageUrl).into(iv);
         }
     }
     //SwipeRefreshLayout 设置loading状态

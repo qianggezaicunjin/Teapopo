@@ -21,7 +21,7 @@ public abstract class BaseDynamicGridAdapter extends AbstractDynamicGridAdapter 
         this.mColumnCount = columnCount;
     }
 
-    public BaseDynamicGridAdapter(Context context, List<?> items, int columnCount) {
+    public BaseDynamicGridAdapter(Context context, List<?> items,int columnCount) {
         mContext = context;
         mColumnCount = columnCount;
         init(items);

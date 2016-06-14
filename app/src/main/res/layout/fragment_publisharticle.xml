@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools">
 
     <data>
 
@@ -40,11 +41,12 @@
 
             <com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView
                 android:id="@+id/dynamic_grid"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/et_publishcontent"
                 android:layout_toLeftOf="@+id/linearlayout_addpublishphoto"
-                android:numColumns="3" />
+                android:numColumns="@integer/column_count"
+                />
 
             <LinearLayout
                 android:id="@+id/linearlayout_addpublishphoto"
@@ -112,11 +114,18 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin" />
         </RelativeLayout>
 
-        <Button
+
+        <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/btn_publishArticle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="发布文章" />
-
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:background="@drawable/background_btn_login"
+            android:onClick="@{viewModel.getOnClickListener()}"
+            android:text="发布帖子"
+            android:layout_marginBottom="3dp"
+            android:textColor="@android:color/white"
+            custom:pb_textComplete="Success"
+            custom:pb_textProgress="正在发布....." />
     </LinearLayout>
 </layout>

@@ -212,11 +212,11 @@ public interface NetWorkService {
      */
     @POST("posts/add")
     @FormUrlEncoded
-    Observable<JsonObject> publishArticle(@Query("title") String title, @Query("content") String content, @Query("cover") String coverImage, @Query("images") String[] images);
+    Observable<JsonObject> publishArticle(@Field("no_verify")int no_vertify,@Field("title") String title, @Field("content") String content, @Field("cover") String coverImage, @Field("images") String[] images,@Field("tags")String tags);
 
     @POST("posts/images")
     @FormUrlEncoded
-    Observable<JsonObject> uploadImage(@Query("post_id") String articleId, @Query("base64") String base64Encode);
+    Observable<JsonObject> uploadImage(@Field("post_id") String articleId, @Field("base64") String base64Encode);
 
 
     @GET("test")

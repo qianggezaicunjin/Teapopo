@@ -112,17 +112,17 @@ public class DataUtils {
 
     /**
      *
-     * @param imgPath
+     * @param bitmap
      * @return
      */
-    public static String imgToBase64(String imgPath) {
-        Bitmap bitmap = null;
-        if (imgPath != null && imgPath.length() > 0) {
-            bitmap = readBitmap(imgPath);
-        }
-        if (bitmap == null) {
-            //bitmap not found!!
-        }
+    public static String imgToBase64(Bitmap bitmap) {
+//        Bitmap bitmap = null;
+//        if (imgPath != null && imgPath.length() > 0) {
+//            bitmap = readBitmap(imgPath);
+//        }
+//        if (bitmap == null) {
+//            //bitmap not found!!
+//        }
         ByteArrayOutputStream out = null;
         try {
             out = new ByteArrayOutputStream();

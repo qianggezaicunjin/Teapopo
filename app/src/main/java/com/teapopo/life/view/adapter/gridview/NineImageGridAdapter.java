@@ -22,7 +22,6 @@ public class NineImageGridAdapter<T> extends NineGridImageViewAdapter {
     protected void onDisplayImage(Context context, ImageView imageView, Object o) {
         String image = (String) o;
         String url= NetWorkService.IMAGE_ENDPOINT+image+"_300x300"+NetWorkService.IMAGE_EXT;
-        ImageLoader.getInstance().displayImage(url, imageView);
-//        Picasso.with(context).load(url).into(imageView);
+        Picasso.with(context).load(url).into(imageView);
     }
 }

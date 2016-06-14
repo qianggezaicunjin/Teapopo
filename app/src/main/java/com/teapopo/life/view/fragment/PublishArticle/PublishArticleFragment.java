@@ -15,6 +15,7 @@ import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.fragment.PublishArticleFragmentComponent;
 import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
 import com.teapopo.life.model.event.PickPhotoListResult;
+import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.DynamicImageGridAdapter;
@@ -68,7 +69,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,3);
+        dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,getResources().getInteger(R.integer.column_count));
         mBinding.dynamicGrid.setAdapter(dynamicImageGridAdapter);
         mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
@@ -84,14 +85,9 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         setUpDynamicImageGrid();
         //设置热门标签
         setUpHotTags();
-
-        //
-        isImageUploadDone();
     }
 
-    private void isImageUploadDone() {
 
-    }
 
     private void setUpHotTags() {
         TagGroup tagGroup = mBinding.hottagGroup;
@@ -102,9 +98,8 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
     }
     private void setUpDynamicImageGrid() {
-
-
         DynamicGridView gridView = mBinding.dynamicGrid;
+
         //长按进入拖拽模式
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -133,8 +128,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
                     public void _onNext(PickPhotoListResult pickPhotoListResult) {
                         photoInfoList.addAll(pickPhotoListResult.photoInfoList);
                         dynamicImageGridAdapter.refresh(photoInfoList);
-                        PhotoInfo photoInfo = (PhotoInfo) dynamicImageGridAdapter.getItems().get(0);
-                        Timber.d("拖拽前第一张图片的名称为:%s",photoInfo.getImageName());
                     }
 
                     @Override
@@ -201,7 +194,9 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeSubscription.unsubscribe();
+        mCompositeSubscription.add(dynamicImageGridAdapter.mCompositeSubscription);
+        mCompositeSubscription.add(mViewModel.mModel.mCompositeSubscription);
+        RxUtils.unsubscribeIfNotNull(mCompositeSubscription);
         mComponent = null;
     }
 }

@@ -10,7 +10,10 @@ import com.teapopo.life.databinding.FragmentPublisharticleBinding;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.article.publisharticle.PublishArticleModel;
 import com.teapopo.life.model.event.PickPhotoListResult;
+import com.teapopo.life.util.Constans.Action;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.view.customView.RequestView;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -23,16 +26,19 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/6/8.
  */
-public class PublishArticleViewModel extends BaseObservable {
+public class PublishArticleViewModel extends BaseObservable implements RequestView<ModelAction> {
 
     private Context mContext;
-    private PublishArticleModel mModel;
+    public PublishArticleModel mModel;
 
     private FragmentPublisharticleBinding mBinding;
+
+    private List<PhotoInfo> mPhotoInfo;
     public PublishArticleViewModel(Context context, PublishArticleModel model, ViewDataBinding binding){
         mContext = context;
         mBinding = (FragmentPublisharticleBinding) binding;
         mModel = model;
+        mModel.setView(this);
     }
 
     public View.OnClickListener getOnClickListener(){
@@ -53,26 +59,27 @@ public class PublishArticleViewModel extends BaseObservable {
     }
 
     private void publishArticle() {
+        mBinding.btnPublishArticle.setProgress(50);
         //获取文章标题
+        String title = "帖子标题啊";
         //获取文章内容
+        String content = "发布帖子啊";
         //获取要上传的图片
-        //选择封面
         //获取该文章的标签
+        String tags = "tags1,tags2,tags3";
+        mModel.publishArticle(title,content,mPhotoInfo,tags);
     }
 
     private void addPublishPhoto() {
+        //弱引用 ,防止内存泄漏
         WeakReference<CoreConfig> coreConfigWeakReference = new WeakReference<CoreConfig>(GalleryFinal.getCoreConfig());
-        GalleryFinal.openGalleryMuti(1, coreConfigWeakReference.get().getFunctionConfig(), new GalleryFinal.OnHanlderResultCallback() {
+        WeakReference<GalleryFinal.OnHanlderResultCallback> callback = new WeakReference<GalleryFinal.OnHanlderResultCallback>(new GalleryFinal.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                mPhotoInfo = resultList;
                 PickPhotoListResult pickPhotoListResult = new PickPhotoListResult();
                 pickPhotoListResult.photoInfoList = resultList;
                 ComponentHolder.getAppComponent().rxbus().post(pickPhotoListResult);
-
-                for(PhotoInfo photoInfo:resultList){
-                    Timber.d("图片路径为:%s",photoInfo.getPhotoPath());
-                    Timber.d("图片名称为:%s",photoInfo.getImageName());
-                }
             }
 
             @Override
@@ -80,5 +87,24 @@ public class PublishArticleViewModel extends BaseObservable {
 
             }
         });
+        GalleryFinal.openGalleryMuti(1, coreConfigWeakReference.get().getFunctionConfig(),callback.get());
+    }
+
+    @Override
+    public void onRequestFinished() {
+
+    }
+
+    @Override
+    public void onRequestSuccess(ModelAction data) {
+        Action action = data.action;
+        if(action == Action.PublishArticleModel_PublishWithoutImage){
+            mBinding.btnPublishArticle.setProgress(100);
+        }
+    }
+
+    @Override
+    public void onRequestErroInfo(String erroinfo) {
+
     }
 }
