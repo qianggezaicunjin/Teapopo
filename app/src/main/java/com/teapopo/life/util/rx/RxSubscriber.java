@@ -21,10 +21,6 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         e.printStackTrace();
 
-        if(!DataUtils.isNetworkAvailable(MyApplication.getInstance())){
-            _onError("请检查网络");
-        }
-
         if(e instanceof ServerException){
             _onError(e.getMessage());
         }
@@ -34,6 +30,8 @@ public abstract class RxSubscriber<T> extends Subscriber<T> {
     public void onNext(T t) {
         _onNext(t);
     }
+
+
     public abstract void _onNext(T t);
 
     public abstract void _onError(String s);

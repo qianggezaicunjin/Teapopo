@@ -27,8 +27,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_size"
-            android:background="@drawable/background_graysolid">
+            android:padding="@dimen/padding_size">
 
             <EditText
                 android:id="@+id/et_publishcontent"
@@ -39,78 +38,84 @@
                 android:hint="文章内容"
                 android:inputType="textMultiLine" />
 
-            <com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView
-                android:id="@+id/dynamic_grid"
+           <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/viewgroup_addImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/red"
                 android:layout_below="@id/et_publishcontent"
-                android:layout_toLeftOf="@+id/linearlayout_addpublishphoto"
-                android:numColumns="@integer/column_count"
-                />
+                app:flexWrap="wrap">
 
-            <LinearLayout
-                android:id="@+id/linearlayout_addpublishphoto"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-               android:layout_alignParentRight="true"
-                android:layout_below="@id/et_publishcontent"
-                android:background="@drawable/background_btn_addpicture"
-                android:onClick="@{viewModel.getOnClickListener()}"
-                android:orientation="vertical"
-                android:gravity="center"
-               >
+                <LinearLayout
+                    android:id="@+id/linearlayout_addpublishphoto"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/background_btn_addpicture"
+                    android:gravity="center"
+                    android:onClick="@{viewModel.getOnClickListener()}"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/icon_plus_gray" />
+                    <TextView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/icon_plus_gray" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="添加图片"
-                    android:textColor="@color/gray_light"
-                    android:layout_marginTop="2dp"
-                    android:textSize="8sp" />
-            </LinearLayout>
-        </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:hint="添加图片"
+                        android:textColor="@color/gray_light"
+                        android:textSize="8sp" />
+                </LinearLayout>
+           </com.google.android.flexbox.FlexboxLayout>
+
+            <View
+                android:id="@+id/line_publishcontent"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_below="@id/viewgroup_addImage"
+                android:background="@drawable/line" />
+       </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tv_addtag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="添加标签"/>
+                android:text="添加标签" />
+
             <View
                 android:id="@+id/publisharticle_line"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@drawable/line"
-                android:layout_below="@id/tv_addtag"/>
+                android:layout_below="@id/tv_addtag"
+                android:background="@drawable/line" />
 
             <me.gujun.android.taggroup.TagGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/tag_group"
                 style="@style/TagGroup"
-                app:atg_isAppendMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/publisharticle_line"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                app:atg_isAppendMode="true" />
 
             <View
                 android:id="@+id/gapline"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:background="@drawable/gapline"
                 android:layout_below="@+id/tag_group"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                />
+                android:background="@drawable/gapline" />
+
             <me.gujun.android.taggroup.TagGroup
-                android:layout_below="@id/gapline"
                 android:id="@+id/hottag_group"
                 style="@style/TagGroup"
+                android:layout_below="@id/gapline"
                 android:layout_marginTop="@dimen/activity_vertical_margin" />
         </RelativeLayout>
 
@@ -119,11 +124,11 @@
             android:id="@+id/btn_publishArticle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/background_btn_login"
             android:onClick="@{viewModel.getOnClickListener()}"
             android:text="发布帖子"
-            android:layout_marginBottom="3dp"
             android:textColor="@android:color/white"
             custom:pb_textComplete="Success"
             custom:pb_textProgress="正在发布....." />

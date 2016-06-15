@@ -216,7 +216,7 @@ public interface NetWorkService {
 
     @POST("posts/images")
     @FormUrlEncoded
-    Observable<JsonObject> uploadImage(@Field("post_id") String articleId, @Field("base64") String base64Encode);
+    Call<JsonObject> uploadImage(@Field("post_id") String articleId, @Field("base64") String base64Encode);
 
 
     @GET("test")

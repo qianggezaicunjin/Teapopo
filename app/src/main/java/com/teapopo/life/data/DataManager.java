@@ -21,6 +21,7 @@ import javax.inject.Inject;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import okhttp3.MultipartBody;
+import retrofit2.Call;
 import rx.Observable;
 import rx.Scheduler;
 import timber.log.Timber;
@@ -257,7 +258,7 @@ public class DataManager {
         return mNetWorkService.publishArticle(1,title,content,coverImage,images,tags);
     }
 
-    public Observable<JsonObject> uploadImage(String articleID,String base64Encode){
+    public Call uploadImage(String articleID, String base64Encode){
         return mNetWorkService.uploadImage(articleID,base64Encode);
     }
 }

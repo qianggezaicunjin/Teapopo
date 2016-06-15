@@ -52,7 +52,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
     private List<PhotoInfo> photoInfoList = new ArrayList<>();
 
-    private DynamicImageGridAdapter dynamicImageGridAdapter;
     @Inject
     PublishArticleViewModel mViewModel;
     @Inject
@@ -69,8 +68,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dynamicImageGridAdapter = new DynamicImageGridAdapter(_mActivity,photoInfoList,getResources().getInteger(R.integer.column_count));
-        mBinding.dynamicGrid.setAdapter(dynamicImageGridAdapter);
+
         mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
@@ -80,9 +78,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         //设置图片选择器
         setUpGallery();
         //处理在图片选择器中选择的图片
-        receivePhoto();
-        //
-        setUpDynamicImageGrid();
         //设置热门标签
         setUpHotTags();
     }
@@ -97,45 +92,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     private void setCoverImage(){
 
     }
-    private void setUpDynamicImageGrid() {
-        DynamicGridView gridView = mBinding.dynamicGrid;
 
-        //长按进入拖拽模式
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mBinding.dynamicGrid.startEditMode(position);
-                return true;
-            }
-        });
-        //
-        gridView.setOnDropListener(new DynamicGridView.OnDropListener() {
-            @Override
-            public void onActionDrop() {
-                PhotoInfo photoInfo = (PhotoInfo) dynamicImageGridAdapter.getItems().get(0);
-                Timber.d("拖拽后第一张图片的名称为:%s",photoInfo.getImageName());
-            }
-        });
-
-    }
-
-
-    private void receivePhoto() {
-        Observable<PickPhotoListResult> observable = mRxBus.toObserverable(PickPhotoListResult.class);
-        mCompositeSubscription.add(observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<PickPhotoListResult>() {
-                    @Override
-                    public void _onNext(PickPhotoListResult pickPhotoListResult) {
-                        photoInfoList.addAll(pickPhotoListResult.photoInfoList);
-                        dynamicImageGridAdapter.refresh(photoInfoList);
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-                        Timber.e(s);
-                    }
-                }));
-    }
 
     //初始化图片选择器
     private void setUpGallery() {
@@ -176,11 +133,12 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         //旋转
         functionConfigBuilder.setEnableRotate(true);
         //旋转覆盖原图
-        functionConfigBuilder.setRotateReplaceSource(true);
+        functionConfigBuilder.setRotateReplaceSource(false);
         //裁剪
         functionConfigBuilder.setEnableCrop(true);
         //裁剪覆盖原图
-        functionConfigBuilder.setCropReplaceSource(true);
+        functionConfigBuilder.setCropReplaceSource(false);
+        functionConfigBuilder.setCropSquare(true);
         //显示照相机
         functionConfigBuilder.setEnableCamera(true);
         //启动预览
@@ -194,7 +152,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeSubscription.add(dynamicImageGridAdapter.mCompositeSubscription);
         mCompositeSubscription.add(mViewModel.mModel.mCompositeSubscription);
         RxUtils.unsubscribeIfNotNull(mCompositeSubscription);
         mComponent = null;

@@ -56,61 +56,20 @@ public class DynamicImageGridAdapter extends BaseDynamicGridAdapter {
             holder = (DynamicImageViewHolder) convertView.getTag();
         }
         PhotoInfo  photoInfo = (PhotoInfo) getItem(position);
-//        registerSubscribe(photoInfo,holder);
         holder.setPhoto(photoInfo);
         return convertView;
-    }
-    //更新图片的上传状态
-    private void registerSubscribe(final PhotoInfo photoInfo, final DynamicImageViewHolder holder) {
-        Observable<TellUpLoadDoneOrNot> observable = ComponentHolder.getAppComponent().rxbus().toObserverable(TellUpLoadDoneOrNot.class);
-        mCompositeSubscription.add(observable
-                .observeOn(Schedulers.io())
-                .filter(new Func1<TellUpLoadDoneOrNot, Boolean>() {
-                    @Override
-                    public Boolean call(TellUpLoadDoneOrNot tellUpLoadDoneOrNot) {
-                        Timber.d("收到要加载的图片为:%s",tellUpLoadDoneOrNot.id);
-                        if(tellUpLoadDoneOrNot.id.equals(photoInfo.getPhotoPath())){
-                            return true;
-                        }
-                        return false;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<TellUpLoadDoneOrNot>() {
-                    @Override
-                    public void _onNext(TellUpLoadDoneOrNot tellUpLoadDoneOrNot) {
-                        Timber.d("正在加载的图片为:%s",tellUpLoadDoneOrNot.id);
-                            holder.showloading(!tellUpLoadDoneOrNot.isDone);
-
-
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-                        Timber.e(s);
-                    }
-                }));
     }
 
     private class DynamicImageViewHolder{
         ImageView imageView;
-        WaveLoadingView  loadingView;
         public DynamicImageViewHolder(View view){
-            imageView = (ImageView) view.findViewById(R.id.img_publishimage);
-            loadingView = (WaveLoadingView) view.findViewById(R.id.waveLoadingView);
-            loadingView.setVisibility(View.GONE);
+            imageView = (ImageView) view;
+
         }
         public void setPhoto(PhotoInfo photo){
-            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromFd(photo.getPhotoPath(),100,100);
+            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromFd(photo.getPhotoPath(),200,200);
             imageView.setImageBitmap(bitmap);
         }
 
-        public void showloading(boolean isLoad){
-            if(isLoad){
-               loadingView.setVisibility(View.VISIBLE);
-            }else {
-              loadingView.setVisibility(View.GONE);
-            }
-        }
     }
 }
