@@ -12,15 +12,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:isLoading="@{recommendArticleViewModel.loading}"
-            app:onRefreshListener="@{recommendArticleViewModel.getOnRefreshListener()}"
             >
             <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
                 android:id="@+id/rv_recommendarticle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:adapter="@{recommendArticleViewModel.getAdapter()}"
-                app:onPageListener="@{recommendArticleViewModel.onPageListener}"
-                app:data="@{recommendArticleViewModel.data}"
                 />
         </android.support.v4.widget.SwipeRefreshLayout>
  </layout>

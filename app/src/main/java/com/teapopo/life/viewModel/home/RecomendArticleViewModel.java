@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.BR;
 import com.teapopo.life.view.fragment.ArticleInfoFragment;
+import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
 import java.util.ArrayList;
@@ -46,56 +48,30 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction>,BaseRecyclerViewAdapter.OnItemClickListener {
-    private FragmentRecommendarticleBinding mBinding;
-    private Context mContext;
-    private boolean isFirstTime = true;
-    private RecommendArticleAdapter mAdapter;//文章内容的adapter
-    private TopArticleAdapter topArticleAdapter;//顶部文章轮播viewpager的adapter
-    private HotTagsAdapter hotTagsAdapter;
+public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
+
     private RecommendArticleModel mRecommendArticleModel;
+    private RecommendArticleFragment mView;
 
 
-    @Bindable
-    public List<BaseEntity> articles = new ArrayList<>();
-    @Bindable
-    public List<BaseEntity> tags = new ArrayList<>();
-
-
-    public RecomendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel,ViewDataBinding binding){
-        this.mBinding = (FragmentRecommendarticleBinding) binding;
-        this.mContext = context;
-        
+    public RecomendArticleViewModel(Fragment view, RecommendArticleModel recommendArticleModel){
+       mView = (RecommendArticleFragment) view;
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
-
-        mAdapter = new RecommendArticleAdapter(mContext,getData());
-        topArticleAdapter = new TopArticleAdapter(mContext,articles);
-        hotTagsAdapter = new HotTagsAdapter(mContext, tags);
-
-        mAdapter.setOnItemClickListener(this);
-        mRecommendArticleModel.getTopArticle("index");
-        mRecommendArticleModel.getHotTags();
-        requestData();
-
     }
 
-    public TopArticleAdapter getTopArticleAdapter(){
-        return topArticleAdapter;
-    }
-    public RecommendArticleAdapter getAdapter(){
-        return mAdapter;
-    }
-    public HotTagsAdapter getHotTagsAdapter(){
-        return hotTagsAdapter;
-    }
 
     @Override
     public void requestData() {
         super.requestData();
         mRecommendArticleModel.getArticle("发现");
     }
-
+    public void getTopArticle(){
+        mRecommendArticleModel.getTopArticle("index");
+    }
+    public void getHotTags(){
+        mRecommendArticleModel.getHotTags();
+    }
     @Override
     public void onRequestSuccess(ModelAction data) {
         synchronized (this){
@@ -103,49 +79,31 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
             if (data.action == Action.RecommendArticleModel_GetTopArticle){
                 Timber.d("onRequestSuccess  TopArticle");
                 List<TopArticle> list = (List<TopArticle>)data.t;
-                articles.addAll(list);
-                notifyPropertyChanged(BR.articles);
+                mView.refreshTopArticle(list);
             }
             //如果数据源是热门标签
             if(data.action == Action.RecommendArticleModel_GetHotTags){
                 Timber.d("onRequestSuccess  Tag");
-                tags.addAll((List<Tag>)data.t);
-                notifyPropertyChanged(BR.tags);
-
+                List<Tag> list = (List<Tag>) data.t;
+                mView.refreshHotTags(list);
             }
             //如果数据源是文章列表内容
             if(data.action == Action.CategoryArticleModel_GetArticle){
                 Timber.d("onRequestSuccess  RecommendArticle");
-                super.data.addAll((List<CategoryArticle>)data.t);
-                Timber.d("文章长度为:%d",super.data.size());
-                notifyPropertyChanged(BR.data);
-                //通知加载文章内容完毕，更新loading状态
+               List<CategoryArticle> list = (List<CategoryArticle>) data.t;
+                mView.refreshArticle(list);
+                //加载文章数据完成
                 loading = false;
                 notifyPropertyChanged(BR.loading);
-                //在首次加载文章完成时，添加头部的布局，只添加一次
-                if(isFirstTime){
-                    addHeader();
-                    isFirstTime = false;
-                }
             }
         }
     }
 
-    private void addHeader() {
-        //头部视图的初始化
-        ItemRecyclerviewToparticleBinding toparticleBinding = ItemRecyclerviewToparticleBinding.inflate(LayoutInflater.from(mContext));
-        ItemHomeHottagsBinding hotTagsBinding = ItemHomeHottagsBinding.inflate(LayoutInflater.from(mContext));
-        hotTagsBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
-        toparticleBinding.setRecommendArticleViewModel(this);
-        hotTagsBinding.setRecommendArticleViewModel(this);
-        mBinding.rvRecommendarticle.addHeader(toparticleBinding.getRoot());
-        mBinding.rvRecommendarticle.addHeader(hotTagsBinding.getRoot());
-        toparticleBinding.viewpagerToparticle.setCurrentItem(Integer.MAX_VALUE/2);
-    }
+
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
-        CustomToast.makeText(mContext,erroinfo, Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
@@ -153,45 +111,5 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
     }
 
-    /**
-     * 首页面的下拉刷新监听器
-     * @return
-     */
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener(){
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Timber.d("onRefresh");
-                data.clear();
-                requestData();
-            }
-        };
-    }
 
-    /**
-     * 首页面的翻页监听器
-     * @return
-     */
-    public OnPageListener getOnPageListener() {
-        return new OnPageListener() {
-            @Override
-            public void onPage() {
-                requestData();
-            }
-        };
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        //recyclerview正在加载数据的时候,点击item不做任何跳转
-        if(loading){
-
-        }else {
-            Article article = (Article) data.get(position);
-            //跳转到文章详情页
-            Intent intent = ArticleDetailActivity.getStartIntent(mContext);
-            intent.putExtra("articleId",article.articleId);
-            Navigator.getInstance().start(mContext,intent);
-        }
-    }
 }

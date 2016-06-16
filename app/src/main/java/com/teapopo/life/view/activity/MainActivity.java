@@ -103,7 +103,6 @@ public class MainActivity extends SwipeBackBaseActivity {
 
         TabHost.TabSpec tabSpec1 = mTabHost.newTabSpec("首页").setIndicator(getTabView(0,"首页" ));
         mTabHost.addTab(tabSpec1, HomeFragment.class, null);
-
         mTabHost.getTabWidget().getChildTabViewAt(0).setOnClickListener(new TabOnClickListener(mTabHost,0));
 
         TabHost.TabSpec tabSpec2 = mTabHost.newTabSpec("新滋").setIndicator(getTabView(1,"新滋"));
@@ -171,6 +170,7 @@ public class MainActivity extends SwipeBackBaseActivity {
                 Navigator.getInstance().start(getApplicationContext(),PublishArticleActivity.getStartIntent(getApplicationContext()));
                 Timber.d("发布帖子");
             }else {
+                Timber.d("setCurrentTab");
                 fragmentTabHost.setCurrentTab(index);
             }
         }
@@ -178,7 +178,7 @@ public class MainActivity extends SwipeBackBaseActivity {
 
     /**
      *
-     * 设置tab点击时候的背景
+     * 设置tab的背景
      * @param fragmentTabHost
      * @param index 点击tab的索引
      */
@@ -187,9 +187,6 @@ public class MainActivity extends SwipeBackBaseActivity {
             View view = fragmentTabHost.getTabWidget().getChildAt(i);
             ImageView imageView = (ImageView)view.findViewById(R.id.tab_iv_image);
             if(i == index){
-                if(index!=2){
-                    TextView textView = (TextView) view.findViewById(R.id.tab_tv_tabname);
-                }
                 imageView.setImageResource(tabImageSelectedArray[i]);
             }else{
                 imageView.setImageResource(tabImageNoramlArray[i]);

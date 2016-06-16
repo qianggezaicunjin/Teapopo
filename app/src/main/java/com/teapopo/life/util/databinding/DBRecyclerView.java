@@ -29,14 +29,4 @@ public class DBRecyclerView {
         recyclerView.setIsLoading(false);
     }
 
-    @BindingAdapter({"footerStatus"})
-    public static void footerStatus(SuperRecyclerView recyclerView, int footerStatus) {
-        if (footerStatus == SHOW_FOOTER) {
-            recyclerView.setPageEnable(true);
-            recyclerView.showLoadingFooter();
-        } else {
-            recyclerView.setPageEnable(false);
-            recyclerView.removePageFooter();
-        }
-    }
 }

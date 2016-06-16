@@ -53,6 +53,7 @@ public class RecommendArticleModel  extends CategoryArticleModel{
                         return Observable.just(tagList);
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<List<Tag>>() {
                     @Override
                     public void _onNext(List<Tag> tags) {

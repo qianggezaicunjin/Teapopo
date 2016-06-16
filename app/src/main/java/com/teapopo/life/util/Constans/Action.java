@@ -35,5 +35,7 @@ public enum Action {
     CommentModel_ReplyComment,
     //for PublishArticleModel
     PublishArticleModel_PublishWithoutImage,
-    PublishArticleModel_PublishWithImage
+    PublishArticleModel_PublishWithImage,
+    //for XinZiArticleModel
+    XinZiArticleModel_GetTopArticle
 }

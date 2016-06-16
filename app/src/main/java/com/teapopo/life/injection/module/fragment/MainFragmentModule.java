@@ -2,6 +2,8 @@ package com.teapopo.life.injection.module.fragment;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v4.app.Fragment;
+import android.view.View;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.article.categoryarticle.RecommendArticleModel;
@@ -23,7 +25,11 @@ import dagger.Provides;
  */
 @Module
 public class MainFragmentModule {
+    private Fragment mView;
     private ViewDataBinding mBinding;
+    public MainFragmentModule(Fragment view){
+        mView = view;
+    }
     public MainFragmentModule(ViewDataBinding binding){
         mBinding = binding;
     }
@@ -33,8 +39,8 @@ public class MainFragmentModule {
     //for RecommendArticleFragment
     @Provides
     @PerActivity
-    RecomendArticleViewModel provideRecommendArticleViewModel(Context context, RecommendArticleModel recommendArticleModel){
-        return new RecomendArticleViewModel(context,recommendArticleModel,mBinding);
+    RecomendArticleViewModel provideRecommendArticleViewModel( RecommendArticleModel recommendArticleModel){
+        return new RecomendArticleViewModel(mView,recommendArticleModel);
     }
 
     @Provides
@@ -68,8 +74,8 @@ public class MainFragmentModule {
     //for XinZiFragment
     @Provides
     @PerActivity
-    XinZiArticleViewModel provideXinZiArticleViewModel(Context context, XinZiArticleModel model){
-        return new XinZiArticleViewModel(context,model);
+    XinZiArticleViewModel provideXinZiArticleViewModel(XinZiArticleModel model){
+        return new XinZiArticleViewModel(mView,model);
     }
     @Provides
     @PerActivity

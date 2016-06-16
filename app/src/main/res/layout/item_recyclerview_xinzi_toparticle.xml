@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="recommendArticleViewModel"
-            type="com.teapopo.life.viewModel.home.RecomendArticleViewModel"/>
+            name="viewModel"
+            type="com.teapopo.life.viewModel.xinzi.XinZiArticleViewModel"/>
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,8 +31,7 @@
                 <com.teapopo.life.view.customView.HackyViewPager
                     android:id="@+id/viewpager_toparticle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
