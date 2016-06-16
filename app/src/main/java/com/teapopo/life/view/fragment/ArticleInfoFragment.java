@@ -89,16 +89,46 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public void setUpView() {
         setUpRecyclerView();
+
+        handleComment();
+    }
+
+    /**
+     * 刷新评论列表
+     * @param articleInfo
+     */
+    public void refreshView(ArticleInfo articleInfo){
+        //刷新评论的列表
+        data.addAll(articleInfo.commentList);
+        mBinding.rvArticleinfoComment.notifyDataSetChanged();
+        //添加轮播的图片
+        addSlideImages(articleInfo.articleImageUrls,topbinding);
+        //加入标签
+        addTags(articleInfo.tags,topbinding);
+        //添加喜欢该篇文章的会员头像
+        addFans(articleInfo.fans,topbinding);
+    }
+    //添加评论
+    public void addComment(Comment comment){
+        //将最新的评论加在第一个位置
+        data.add(0,comment);
+        mBinding.rvArticleinfoComment.notifyDataSetChanged();
+        //关闭软键盘
+        DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
+        mBinding.etInputcomment.setText("");
+        CustomToast.makeText(_mActivity,"发表评论成功!", Toast.LENGTH_SHORT);
+    }
+
+    //回复成功时收起键盘
+    public void refreshWhenReplyDone(){
+        //收起软键盘
+        DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
+    }
+    private void setUpRecyclerView() {
         topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(_mActivity));
         topbinding.setViewmodel(mViewModel);
         mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
 
-        //通过Rxbus接收返回的数据，通知界面更新
-        addRecyclerViewHeader();
-        handleComment();
-    }
-
-    private void setUpRecyclerView() {
         data = mViewModel.articleInfo.commentList;
         mAdapter = new CommentListAdapter(_mActivity,data);
         mBinding.rvArticleinfoComment.setAdapter(mAdapter);
@@ -121,7 +151,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
     /**
      * 处理返回的评论内容
-     * 发表评论/回复评论
+     * 回复评论
      */
     private void handleComment() {
         Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
@@ -129,18 +159,10 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                 .subscribe(new RxSubscriber<Comment>() {
                     @Override
                     public void _onNext(Comment comment) {
-                        //如果不包含该comment，则代表发表的是评论，否则，是回复评论
+                        //如果不包含该comment，则代表发表的是评论
                         if(data.contains(comment)){
                             DataUtils.showSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                             mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
-                        }else {
-                            //将最新的评论加在第一个位置
-                            data.add(0,comment);
-                            mBinding.rvArticleinfoComment.notifyDataSetChanged();
-                            //关闭软键盘
-                            DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-                            mBinding.etInputcomment.setText("");
-                            CustomToast.makeText(_mActivity,"发表评论成功!", Toast.LENGTH_SHORT);
                         }
                     }
 
@@ -152,35 +174,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
     }
 
-    /**
-     * 添加头布局
-     */
-    private void addRecyclerViewHeader() {
-        Observable observable = mRxBus.toObserverable(ArticleInfo.class);
-        mCompositeSubscription.add( observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber() {
-                    @Override
-                    public void _onNext(Object o) {
-                        Timber.d("收到文章信息");
-                        ArticleInfo articleInfo = (ArticleInfo) o;
-                        //刷新评论的列表
-                        data.addAll(articleInfo.commentList);
-                        mBinding.rvArticleinfoComment.notifyDataSetChanged();
-                        //添加轮播的图片
-                        addSlideImages(articleInfo.articleImageUrls,topbinding);
-                        //加入标签
-                        addTags(articleInfo.tags,topbinding);
-                        //添加喜欢该篇文章的会员头像
-                        addFans(articleInfo.fans,topbinding);
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-
-                    }
-                }));
-
-    }
 
 
     private void addFans(List<AuthorInfo> member_like, ItemArticleinfoTopviewBinding binding) {

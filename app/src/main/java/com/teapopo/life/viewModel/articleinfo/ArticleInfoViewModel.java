@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -45,6 +46,7 @@ import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.RequestView;
+import com.teapopo.life.view.fragment.ArticleInfoFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -60,11 +62,12 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
     private ArticleInfoModel mModel;
     public String articleId;
     private FragmentArticleinfoBinding mBinding;
-
+    private ArticleInfoFragment mView;
     @Bindable
     public ArticleInfo articleInfo =new ArticleInfo();
 
-    public ArticleInfoViewModel(Context context, ArticleInfoModel model, ViewDataBinding binding){
+    public ArticleInfoViewModel(Fragment view,Context context, ArticleInfoModel model, ViewDataBinding binding){
+        mView = (ArticleInfoFragment) view;
         mBinding = (FragmentArticleinfoBinding) binding;
         mContext = context;
         mModel = model;
@@ -124,16 +127,14 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         if(action == Action.ArticleInfoModel_GetInfo){
             this.articleInfo = (ArticleInfo) data.t;
             Timber.d("评论的个数为:%d",articleInfo.commentList.size());
-            ComponentHolder.getAppComponent().rxbus().post(this.articleInfo);
+          mView.refreshView(articleInfo);
         }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
-            ComponentHolder.getAppComponent().rxbus().post(comment);
+           mView.addComment(comment);
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
             ComponentHolder.getAppComponent().rxbus().post(reply);
-            //收起软键盘
-            DataUtils.closeSoftInput(mContext,mBinding.linearlayoutInputComment);
         }
     }
     @Override
