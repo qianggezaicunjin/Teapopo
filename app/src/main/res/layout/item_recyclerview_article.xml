@@ -69,15 +69,15 @@
 
                     <Button
                         android:id="@+id/btn_focus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:gravity="center"
-                        android:text="@string/focus"
+                        android:text="@{viewmodel.article.authorInfo.isSubscribe}"
+                        android:textSize="14sp"
+                        android:textColor="@color/green"
                         android:onClick="@{viewmodel.getOnClickListener()}"
-                        android:textAppearance="@style/Button_TextAppearance_focus" />
+                        android:background="@drawable/background_txt_verificationcode" />
 
                 </RelativeLayout>
 
@@ -86,6 +86,7 @@
                     android:id="@+id/tv_articleContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="18sp"
                     android:text="@{viewmodel.article.getExcerpt()}" />
 
                 <com.jaeger.ninegridimageview.NineGridImageView
@@ -95,8 +96,7 @@
                     app:imgGap="4dp"
                     app:showStyle="grid"
                     app:singleImgSize="240dp"
-                    app:adapter="@{viewmodel.getNineImageAdapter()}"
-                    app:data="@{viewmodel.article.imageUrls}"/>
+                   />
                 <LinearLayout
                     android:id="@+id/ll_rv_item_tag"
                     android:layout_width="match_parent"

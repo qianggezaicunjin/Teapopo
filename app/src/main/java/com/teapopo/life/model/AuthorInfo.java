@@ -1,8 +1,11 @@
 package com.teapopo.life.model;
 
+import android.databinding.BindingConversion;
+
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.util.DataUtils;
 
 /**
  * Created by louiszgm on 2016/6/2.
@@ -21,4 +24,13 @@ public class AuthorInfo extends BaseEntity {
     public String signature;
     @JsonField(name = "subscribe")
     public boolean isSubscribe;
+
+    @BindingConversion
+    public static String getSubscribeState(boolean isSubscribe){
+        if(isSubscribe){
+            return "取消关注";
+        }else {
+            return "关注";
+        }
+    }
 }

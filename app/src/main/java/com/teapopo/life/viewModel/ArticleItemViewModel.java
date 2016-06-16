@@ -27,14 +27,12 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/27.
  */
 public class ArticleItemViewModel extends BaseObservable implements RequestView<ModelAction> {
-    private Context mContext;
     private ArticleItemModel mModel;
     @Bindable
     public Article article;
 
 
-    public ArticleItemViewModel(Context context, ArticleItemModel model){
-        mContext = context;
+    public ArticleItemViewModel(ArticleItemModel model){
         mModel = model;
         mModel.setView(this);
     }
@@ -71,14 +69,12 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
     }
     //关注文章
     private void doFocusAction() {
+        String memberId = article.member_id;
+        mModel.focusMember(memberId);
     }
 
     //根据标签名字显示对应文章
     private void showTagArticle(String tagname) {
-    }
-
-    public NineGridImageViewAdapter getNineImageAdapter(){
-        return new NineImageGridAdapter<String>();
     }
 
     @Override
@@ -100,11 +96,14 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
             }
             article.like_num = String.valueOf(likenum);
             notifyPropertyChanged(BR.article);
+        }else if(action == Action.ArticleItemModel_focusMember){
+            article.authorInfo.isSubscribe = !article.authorInfo.isSubscribe;
+            notifyPropertyChanged(BR.article);
         }
     }
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
-        CustomToast.makeText(mContext,erroinfo, Toast.LENGTH_SHORT).show();
+
     }
 }

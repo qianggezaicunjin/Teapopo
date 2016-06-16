@@ -214,11 +214,23 @@ public interface NetWorkService {
     @FormUrlEncoded
     Observable<JsonObject> publishArticle(@Field("no_verify")int no_vertify,@Field("title") String title, @Field("content") String content, @Field("cover") String coverImage, @Field("images") String[] images,@Field("tags")String tags);
 
+    /**
+     * 上传图片
+     * @param articleId
+     * @param base64Encode
+     * @return
+     */
     @POST("posts/images")
     @FormUrlEncoded
     Call<JsonObject> uploadImage(@Field("post_id") String articleId, @Field("base64") String base64Encode);
 
-
+    /**
+     * 关注会员
+     * @param memberId
+     * @return
+     */
+    @GET("focus/member")
+    Observable<JsonObject>  focusMember(@Query("id")String memberId);
     @GET("test")
     Call<JsonObject> test();
 }

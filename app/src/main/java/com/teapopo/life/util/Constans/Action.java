@@ -27,6 +27,7 @@ public enum Action {
     SignInModel_Login,
     //for ArticleItemModel
     ArticleItemModel_likeArticleOrNot,
+    ArticleItemModel_focusMember,
     //for ArticleInfoModel
     ArticleInfoModel_GetInfo,
     ArticleInfoModel_AddComment,

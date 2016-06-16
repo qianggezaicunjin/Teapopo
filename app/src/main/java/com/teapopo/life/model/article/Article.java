@@ -59,4 +59,5 @@ public class Article extends BaseEntity {
         public List<String> tags;//文章的标签
 
         public boolean isLike;//是否喜欢
+
 }

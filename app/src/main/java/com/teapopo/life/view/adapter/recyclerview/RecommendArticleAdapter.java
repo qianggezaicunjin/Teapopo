@@ -19,6 +19,7 @@ import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.ArticleItemModel;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
+import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.viewModel.ArticleItemViewModel;
 
@@ -50,12 +51,16 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
     @Override
     public void onBindViewHolder(RecommendArticleAdapter.RecommendArticleViewHolder holder, int position) {
         super.onBindViewHolder(holder,position);
-        ArticleItemViewModel mViewModel = new ArticleItemViewModel(mContext,new ArticleItemModel(mContext));
+        ItemRecyclerviewArticleBinding binding = (ItemRecyclerviewArticleBinding) holder.itemView.getTag();
+        ArticleItemViewModel mViewModel = new ArticleItemViewModel(new ArticleItemModel(mContext));
         Article post= (Article) data.get(position);
         mViewModel.article =  post;
         holder.setViewModel(mViewModel);
+        //设置九宫格的图片显示
+        NineImageGridAdapter adapter = new NineImageGridAdapter();
+        binding.gvNineimage.setAdapter(adapter);
+        binding.gvNineimage.setImagesData(post.imageUrls);
         //添加tag
-        ItemRecyclerviewArticleBinding binding = (ItemRecyclerviewArticleBinding) holder.itemView.getTag();
         addTags(post.tags,binding);
     }
     //添加每篇文章的tag

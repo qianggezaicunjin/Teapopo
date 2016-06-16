@@ -9,7 +9,10 @@ import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
+import org.antlr.v4.runtime.atn.AmbiguityInfo;
+
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -21,6 +24,12 @@ public class ArticleItemModel extends BaseModel {
         super(context);
     }
 
+
+    /**
+     * 点赞文章或者取消点赞
+     * @param isLike
+     * @param articleId
+     */
     public void likeArticleOrNot(boolean isLike,String articleId){
         Observable<JsonObject> observable = mDataManager.clickLikeArticle(isLike,articleId);
         observable.subscribeOn(Schedulers.io())
@@ -37,6 +46,30 @@ public class ArticleItemModel extends BaseModel {
                     @Override
                     public void _onError(String s) {
                         mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
+
+    /**
+     * 关注会员
+     * @param memberId
+     */
+    public void focusMember( String memberId){
+        Observable<JsonObject> observable = mDataManager.focusmember(memberId);
+        observable.subscribeOn(Schedulers.io())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.ArticleItemModel_focusMember;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+
                     }
                 });
     }

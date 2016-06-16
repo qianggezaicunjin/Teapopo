@@ -254,11 +254,35 @@ public class DataManager {
         return null;
     }
 
+    /**
+     * 发布文章
+     * @param title
+     * @param content
+     * @param coverImage
+     * @param images
+     * @param tags
+     * @return
+     */
     public Observable<JsonObject> publishArticle(String title,String content,String coverImage,String[] images,String tags){
         return mNetWorkService.publishArticle(1,title,content,coverImage,images,tags);
     }
 
+    /**
+     * 上传图片
+     * @param articleID
+     * @param base64Encode
+     * @return
+     */
     public Call uploadImage(String articleID, String base64Encode){
         return mNetWorkService.uploadImage(articleID,base64Encode);
+    }
+
+    /**
+     * 关注会员
+     * @param memberId
+     * @return
+     */
+    public Observable<JsonObject> focusmember(String memberId){
+        return mNetWorkService.focusMember(memberId);
     }
 }
