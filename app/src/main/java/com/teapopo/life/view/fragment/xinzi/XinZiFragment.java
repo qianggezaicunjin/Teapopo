@@ -1,5 +1,6 @@
 package com.teapopo.life.view.fragment.xinzi;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -22,8 +23,11 @@ import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.ViewUtils;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.ArticleDetailActivity;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.XinZiArticleAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
@@ -39,7 +43,7 @@ import rx.Observable;
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
-public class XinZiFragment extends BaseFragment {
+public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener {
 
     private MainFragmentComponent mComponent;
     private XinZiArticleAdapter mAdapter;
@@ -85,6 +89,7 @@ public class XinZiFragment extends BaseFragment {
 
     private void setUpArticle() {
         mAdapter = new XinZiArticleAdapter(_mActivity,articleList);
+        mAdapter.setOnItemClickListener(this);
         mBinding.rvXinziarticle.setAdapter(mAdapter);
         mViewModel.requestData();
     }
@@ -110,5 +115,14 @@ public class XinZiFragment extends BaseFragment {
     //处理服务器返回的错误信息
     public void handleErroMsg(String s){
         CustomToast.makeText(_mActivity,s, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Article article = (Article) articleList.get(position);
+        //跳转到文章详情页
+        Intent intent = ArticleDetailActivity.getStartIntent(_mActivity);
+        intent.putExtra("articleId",article.articleId);
+        Navigator.getInstance().start(_mActivity,intent);
     }
 }
