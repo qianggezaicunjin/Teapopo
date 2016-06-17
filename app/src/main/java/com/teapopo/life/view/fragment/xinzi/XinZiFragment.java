@@ -2,9 +2,11 @@ package com.teapopo.life.view.fragment.xinzi;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teapopo.life.R;
@@ -62,8 +64,16 @@ public class XinZiFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
+//        setUpToolBar();
         setUpArticle();
         setUpTopArticle();
+    }
+
+    private void setUpToolBar() {
+        Toolbar toolbar = mBinding.xinziToolbar.toolbar;
+        TextView textView = new TextView(_mActivity);
+        textView.setText("新滋");
+        toolbar.addView(textView);
     }
 
     private void setUpArticle() {

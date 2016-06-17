@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.viewModel.ToolBarViewModel;
 
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
@@ -42,13 +44,6 @@ public abstract class BaseFragment extends SupportFragment{
     }
     public abstract void onCreateBinding();
 
-    public ToolbarBinding setUpToolBar(Toolbar toolBar){
-        if(toolBar!=null){
-            ToolbarBinding binding = ToolbarBinding.bind(toolBar);
-            return binding;
-        }
-        return null;
-    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -65,4 +60,17 @@ public abstract class BaseFragment extends SupportFragment{
      * 初始化需要用的
      */
     public abstract void setUpView();
+
+//    public void setUpToolBar(Toolbar toolBar){
+//        ToolBarViewModel viewModel = new ToolBarViewModel()
+//        toolBar.setNavigationIcon(R.drawable.icon_search);
+//        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        toolBar.inflateMenu(R.menu.menu_newmsg);
+//    }
+
 }
