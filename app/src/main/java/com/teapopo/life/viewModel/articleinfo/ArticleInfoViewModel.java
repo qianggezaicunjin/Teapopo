@@ -4,53 +4,18 @@ import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewStub;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jaeger.ninegridimageview.NineGridImageView;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.utils.L;
-import com.teapopo.life.BR;
-import com.teapopo.life.MyApplication;
-import com.teapopo.life.R;
-import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
-import com.teapopo.life.databinding.ItemArticleinfoTopviewBinding;
-import com.teapopo.life.databinding.ItemRecyclerviewArticleBinding;
 import com.teapopo.life.injection.component.ComponentHolder;
-import com.teapopo.life.model.AuthorInfo;
-import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.Reply;
-import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
-import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
-import com.teapopo.life.util.CustomToast;
-import com.teapopo.life.util.DataUtils;
-import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
-import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
-import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
-import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
-import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.ArticleInfoFragment;
-import com.viewpagerindicator.CirclePageIndicator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import timber.log.Timber;
 
@@ -58,62 +23,44 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/6/1.
  */
 public class ArticleInfoViewModel extends BaseObservable implements RequestView<ModelAction> {
-    private Context mContext;
     private ArticleInfoModel mModel;
-    public String articleId;
-    private FragmentArticleinfoBinding mBinding;
     private ArticleInfoFragment mView;
     @Bindable
     public ArticleInfo articleInfo =new ArticleInfo();
 
-    public ArticleInfoViewModel(Fragment view,Context context, ArticleInfoModel model, ViewDataBinding binding){
+    public ArticleInfoViewModel(Fragment view, ArticleInfoModel model){
         mView = (ArticleInfoFragment) view;
-        mBinding = (FragmentArticleinfoBinding) binding;
-        mContext = context;
         mModel = model;
         mModel.setView(this);
 
     }
 
 
+
     public void requestData(String articleId){
-        this.articleId = articleId;
         mModel.getArticleInfo(articleId);
     }
 
-    public View.OnClickListener getOnClickListener(){
-        return  new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.img_likeornot:
-                        break;
-                    case R.id.btn_articleinfo_publishcomment:
-                        //添加评论
-                        addComment();
-                        break;
-                }
-            }
-        };
+    /**
+     * 回复评论
+     * @param commentId
+     * @param type 类型 0是posts 1是goods
+     * @param content
+     */
+    public void replyComment(String commentId,int type,String content){
+        mModel.replyComment(commentId,type,content);
     }
 
-    private void addComment() {
-        String content = mBinding.etInputcomment.getText().toString();
-        if(TextUtils.isEmpty(content)){
-            CustomToast.makeText(mContext,"输入内容不能为空", Toast.LENGTH_SHORT).show();
-        }else {
-            //回复评论  or  发表评论
-            RxSpf_ReplyCommentSp rxSpf_replyCommentSp = RxSpf_ReplyCommentSp.create(mContext);
-            if(rxSpf_replyCommentSp.commentId().exists()){
-                //回复评论
-                mModel.replyComment(rxSpf_replyCommentSp.commentId().get(),0,content);
-            }else {
-                //发表评论d
-                mModel.addComment(articleId,0,content);
-            }
-        }
-
+    /**
+     * 添加评论
+     * @param articleId
+     * @param type 类型 0是posts 1是goods
+     * @param content
+     */
+    public void addComment(String articleId,int type,String content){
+        mModel.addComment(articleId,0,content);
     }
+
 
 
     @Override
@@ -130,11 +77,12 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
           mView.refreshView(articleInfo);
         }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
-           mView.addComment(comment);
+           mView.refreshAddComment(comment);
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
             ComponentHolder.getAppComponent().rxbus().post(reply);
+            mView.refreshWhenReplyDone();
         }
     }
     @Override

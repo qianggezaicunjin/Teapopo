@@ -49,15 +49,6 @@ public class CommentItemViewModel extends BaseEntity implements RequestView {
 
     private void doReplyComment() {
         if(RxSpf_UserInfoSp.create(mContext).userInfo().exists()){
-            String encodeString = RxSpf_UserInfoSp.create(mContext).userInfo().get();
-            //将ReplyComment缓存到SP，
-            RxSpf_ReplyCommentSp rxSpf_replyCommentSp = RxSpf_ReplyCommentSp.create(mContext);
-            rxSpf_replyCommentSp.edit()
-                    .commentId()
-                    .put(comment.id)
-                    .replyname()
-                    .put(UserInfo.decodeUserInfo(encodeString).nickname)
-                    .commit();
             //发送回复评论的事件通知
             ComponentHolder.getAppComponent().rxbus().post(comment);
         }else {

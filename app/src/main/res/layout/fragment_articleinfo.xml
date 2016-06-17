@@ -43,7 +43,6 @@
                android:id="@+id/btn_articleinfo_publishcomment"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:onClick="@{viewmodel.getOnClickListener()}"
                android:layout_toRightOf="@id/et_inputcomment"
                android:text="发表"/>
        </RelativeLayout>

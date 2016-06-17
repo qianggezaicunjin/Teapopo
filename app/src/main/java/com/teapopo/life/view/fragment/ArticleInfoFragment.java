@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +60,9 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private ArticleDetailFragmentComponent mComponent;
 
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-    private List<Comment> data;
+    private List<Comment> data;//评论列表的数据
+    private String mArticleId; //文章id
+    private Comment mReplyComment;//要回复的评论
     @Inject
     ArticleInfoViewModel mViewModel;
     @Inject
@@ -75,9 +78,9 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public void onCreateBinding(Bundle savedInstanceState) {
         mBinding = FragmentArticleinfoBinding.inflate(LayoutInflater.from(_mActivity));
-        mComponent = ((ArticleDetailActivity)_mActivity).getComponent().articleDetailFragmentComponent(new ArticleDetailFragmentModule(mBinding));
+        mComponent = ((ArticleDetailActivity)_mActivity).getComponent().articleDetailFragmentComponent(new ArticleDetailFragmentModule(this));
         mComponent.inject(this);
-        mViewModel.requestData(getArguments().getString("articleId"));
+        mArticleId = getArguments().getString("articleId");
     }
 
     @Override
@@ -89,10 +92,44 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public void setUpView() {
         setUpRecyclerView();
-
-        handleComment();
+        attachOnClickListener();
+        //标识发出回复评论的动作
+        tagWhenDoReplyAction();
     }
 
+    private void attachOnClickListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.btn_articleinfo_publishcomment:
+                        addCommentOrReply();
+                        break;
+                }
+            }
+        };
+        mBinding.btnArticleinfoPublishcomment.setOnClickListener(listener);
+    }
+
+    /**
+     * 发表评论/回复评论
+     */
+    private void addCommentOrReply() {
+        String content = mBinding.etInputcomment.getText().toString();
+        if(TextUtils.isEmpty(content)){
+            CustomToast.makeText(_mActivity,"输入内容不能为空", Toast.LENGTH_SHORT).show();
+        }else {
+            //回复评论  or  发表评论
+            if(mReplyComment!=null){
+                //回复评论
+                mViewModel.replyComment(mReplyComment.id,0,content);
+            }else {
+                //发表评论d
+                mViewModel.addComment(mArticleId,0,content);
+            }
+        }
+
+    }
     /**
      * 刷新评论列表
      * @param articleInfo
@@ -109,7 +146,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         addFans(articleInfo.fans,topbinding);
     }
     //添加评论
-    public void addComment(Comment comment){
+    public void refreshAddComment(Comment comment){
         //将最新的评论加在第一个位置
         data.add(0,comment);
         mBinding.rvArticleinfoComment.notifyDataSetChanged();
@@ -123,12 +160,11 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     public void refreshWhenReplyDone(){
         //收起软键盘
         DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
+        mBinding.etInputcomment.setHint("发表评论");
+        mReplyComment = null;
     }
     private void setUpRecyclerView() {
-        topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(_mActivity));
-        topbinding.setViewmodel(mViewModel);
-        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
-
+        //内容区，评论列表
         data = mViewModel.articleInfo.commentList;
         mAdapter = new CommentListAdapter(_mActivity,data);
         mBinding.rvArticleinfoComment.setAdapter(mAdapter);
@@ -144,16 +180,22 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                 //当收起键盘时，回到发表评论的状态，清除RxSpf_ReplyCommentSp
                 DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                 mBinding.etInputcomment.setHint("发表评论");
-                RxSpf_ReplyCommentSp.create(_mActivity).edit().clear();
+               mReplyComment = null;
             }
         });
+        //加入头布局
+        topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(_mActivity));
+        topbinding.setViewmodel(mViewModel);
+        mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
+        //请求数据内容
+        mViewModel.requestData(mArticleId);
     }
 
     /**
      * 处理返回的评论内容
      * 回复评论
      */
-    private void handleComment() {
+    private void tagWhenDoReplyAction() {
         Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
         mCompositeSubscription.add( observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new RxSubscriber<Comment>() {
@@ -163,6 +205,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                         if(data.contains(comment)){
                             DataUtils.showSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                             mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
+                            mReplyComment = comment;
                         }
                     }
 
