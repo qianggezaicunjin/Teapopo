@@ -1,6 +1,5 @@
 package com.teapopo.life.view.adapter.recyclerview;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +9,9 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemRecyclerviewXinziArticleBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.Article;
+import com.teapopo.life.model.article.ArticleItemModel;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.List;
 
@@ -33,8 +34,10 @@ public class XinZiArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,XinZ
     @Override
     public void onBindViewHolder(XinZiViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        ArticleItemViewModel viewModel = new ArticleItemViewModel(new ArticleItemModel(mContext));
         Article article = (Article) data.get(position);
-        holder.setArticle(article);
+        viewModel.article = article;
+        holder.setViewModel(viewModel);
     }
 
     public static class XinZiViewHolder extends RecyclerView.ViewHolder{
@@ -47,9 +50,9 @@ public class XinZiArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,XinZ
             itemView.setTag(binding);
         }
 
-        public void setArticle(Article article){
+        public void setViewModel(ArticleItemViewModel viewModel){
             ItemRecyclerviewXinziArticleBinding binding = (ItemRecyclerviewXinziArticleBinding) itemView.getTag();
-            binding.setArticle(article);
+            binding.setViewmodel(viewModel);
             binding.executePendingBindings();
         }
     }

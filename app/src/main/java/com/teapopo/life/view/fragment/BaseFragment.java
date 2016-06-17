@@ -7,11 +7,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.view.fragment.MsgList.MsgListFragment;
 import com.teapopo.life.viewModel.ToolBarViewModel;
 
 import me.yokeyword.fragmentation.SupportFragment;
@@ -61,16 +63,25 @@ public abstract class BaseFragment extends SupportFragment{
      */
     public abstract void setUpView();
 
-//    public void setUpToolBar(Toolbar toolBar){
-//        ToolBarViewModel viewModel = new ToolBarViewModel()
-//        toolBar.setNavigationIcon(R.drawable.icon_search);
-//        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        toolBar.inflateMenu(R.menu.menu_newmsg);
-//    }
+    public void setUpToolBar(final Toolbar toolBar){
+        toolBar.setNavigationIcon(R.drawable.icon_search);
+        //打开搜索界面
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        //打开新消息的界面
+        toolBar.inflateMenu(R.menu.menu_newmsg);
+        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                start(MsgListFragment.newInstance());
+                return true;
+            }
+        });
+
+    }
 
 }

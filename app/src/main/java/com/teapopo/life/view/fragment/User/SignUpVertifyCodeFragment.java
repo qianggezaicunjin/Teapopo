@@ -39,7 +39,7 @@ public class SignUpVertifyCodeFragment extends SwipeBackBaseFragment {
     }
 
     @Override
-    public void onCreateBinding(Bundle savedInstanceState) {
+    public void onCreateBinding() {
         Timber.d("onCreateBinding");
         mBinding = FragmentSignupVertifycodeBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(mBinding));

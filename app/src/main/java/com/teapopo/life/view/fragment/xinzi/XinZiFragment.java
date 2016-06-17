@@ -3,6 +3,7 @@ package com.teapopo.life.view.fragment.xinzi;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.util.CustomToast;
+import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.util.ViewUtils;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.XinZiArticleAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.xinzi.XinZiArticleViewModel;
 
 import java.util.ArrayList;
@@ -64,16 +68,19 @@ public class XinZiFragment extends BaseFragment {
 
     @Override
     public void setUpView() {
-//        setUpToolBar();
+        setUpToolBar();
         setUpArticle();
         setUpTopArticle();
     }
 
     private void setUpToolBar() {
         Toolbar toolbar = mBinding.xinziToolbar.toolbar;
-        TextView textView = new TextView(_mActivity);
+        AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(_mActivity,R.layout.toolbartitle);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(_mActivity,attributeSet);
+        TextView textView = new TextView(_mActivity,attributeSet);
         textView.setText("新滋");
-        toolbar.addView(textView);
+        toolbar.addView(textView,params);
+        setUpToolBar(toolbar);
     }
 
     private void setUpArticle() {

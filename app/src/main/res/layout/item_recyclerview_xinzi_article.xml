@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="article"
-            type="com.teapopo.life.model.article.Article" />
+            name="viewmodel"
+            type="com.teapopo.life.viewModel.ArticleItemViewModel" />
     </data>
 
     <LinearLayout
@@ -44,7 +44,7 @@
                         android:id="@+id/img_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:imageUrl="@{article.authorInfo.getAvatarUrl()}"
+                        app:imageUrl="@{viewmodel.article.authorInfo.getAvatarUrl()}"
                         />
 
                     <LinearLayout
@@ -52,31 +52,33 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_toRightOf="@id/img_user"
+                        android:layout_marginTop="@dimen/article_verticle_margin"
                         android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/tv_userName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{article.authorInfo.nickname}" />
+                            android:text="@{viewmodel.article.authorInfo.nickname}" />
 
                         <TextView
                             android:id="@+id/tv_articleTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{article.publish_time}" />
+                            android:text="@{viewmodel.article.publish_time}" />
                     </LinearLayout>
 
                     <Button
                         android:id="@+id/btn_focus"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:gravity="center"
-                        android:text="@string/focus"
-                        />
+                        android:text="@{viewmodel.article.authorInfo.isSubscribe}"
+                        android:textSize="14sp"
+                        android:textColor="@color/green"
+                        android:onClick="@{viewmodel.getOnClickListener()}"
+                        android:background="@drawable/background_txt_verificationcode" />
 
                 </RelativeLayout>
 
@@ -84,18 +86,24 @@
                 <com.teapopo.life.view.customView.RecyclableImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:imageUrl="@{article.cover}"/>
+                    android:layout_marginTop="@dimen/article_verticle_margin"
+                    app:imageUrl="@{viewmodel.article.cover}"/>
                 <TextView
                     android:id="@+id/tv_articleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{article.title}" />
+                    android:textColor="@android:color/black"
+                    android:textSize="22sp"
+                    android:text="@{viewmodel.article.title}"
+                    android:layout_marginTop="@dimen/article_verticle_margin"/>
                 <TextView
                     android:id="@+id/tv_articleContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:text="@{article.excerpt}" />
+                    android:textColor="@color/gray_light"
+                    android:textSize="20sp"
+                    android:text="@{viewmodel.article.excerpt}"
+                    android:layout_marginTop="@dimen/article_verticle_margin"/>
 
 
 
@@ -120,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/img_likeornot"
                         android:layout_marginLeft="8dp"
-                        android:text="@{article.like_num}"
+                        android:text="@{viewmodel.article.like_num}"
                         android:textSize="18sp" />
 
                     <ImageView
@@ -138,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/img_comment"
                         android:layout_marginLeft="8dp"
-                        android:text="@{article.comment_num}"
+                        android:text="@{viewmodel.article.comment_num}"
                         android:textSize="18sp" />
 
                 </RelativeLayout>

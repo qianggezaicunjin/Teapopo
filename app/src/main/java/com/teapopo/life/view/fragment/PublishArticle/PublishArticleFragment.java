@@ -1,25 +1,18 @@
 package com.teapopo.life.view.fragment.PublishArticle;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentPublisharticleBinding;
-import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.fragment.PublishArticleFragmentComponent;
 import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
-import com.teapopo.life.model.event.PickPhotoListResult;
 import com.teapopo.life.util.RxUtils;
-import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.PublishArticleActivity;
-import com.teapopo.life.view.adapter.gridview.DynamicImageGridAdapter;
-import com.teapopo.life.view.customView.Dynamicgrid.DynamicGridView;
 import com.teapopo.life.view.customView.Dynamicgrid.listener.UILPauseOnScrollListener;
 import com.teapopo.life.view.customView.Dynamicgrid.loader.UILImageLoader;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
@@ -37,10 +30,7 @@ import cn.finalteam.galleryfinal.PauseOnScrollListener;
 import cn.finalteam.galleryfinal.ThemeConfig;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
 import me.gujun.android.taggroup.TagGroup;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/8.
@@ -60,7 +50,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         return new PublishArticleFragment();
     }
     @Override
-    public void onCreateBinding(Bundle savedInstanceState) {
+    public void onCreateBinding() {
         mBinding = FragmentPublisharticleBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((PublishArticleActivity)_mActivity).getComponent().publishArticleFragmentComponent(new PublishArticleFragmentModule(mBinding));
         mComponent.inject(this);

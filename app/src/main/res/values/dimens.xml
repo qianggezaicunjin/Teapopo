@@ -19,4 +19,8 @@
 
     <!--for dynamicgrid-->
     <dimen name="dgv_overlap_if_switch_straight_line">16dp</dimen>
+
+    <!--文章内容的间隔-->
+    <dimen name="article_verticle_margin">5dp</dimen>
+    <dimen name="article_horizontal_margin">5dp</dimen>
 </resources>

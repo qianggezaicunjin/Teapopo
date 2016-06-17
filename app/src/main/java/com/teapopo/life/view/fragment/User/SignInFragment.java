@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSigninBinding;
 import com.teapopo.life.injection.component.fragment.SignInAndUpFragmentComponent;
 import com.teapopo.life.injection.module.fragment.SignInAndUpFragmentModule;
 import com.teapopo.life.view.activity.SignInAndUpActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
-import com.teapopo.life.viewModel.ToolBarViewModel;
 import com.teapopo.life.viewModel.userCenter.SignInViewModel;
 
 import javax.inject.Inject;
@@ -35,7 +33,7 @@ public class SignInFragment extends SwipeBackBaseFragment {
     }
 
     @Override
-    public void onCreateBinding(Bundle savedInstanceState) {
+    public void onCreateBinding() {
             mBinding = FragmentSigninBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(mBinding));
         mComponent.inject(this);
@@ -49,11 +47,7 @@ public class SignInFragment extends SwipeBackBaseFragment {
 
     @Override
     public void setUpView() {
-        mToolBar = mBinding.toolbarSignin.toolbar;
-        mToolBar.inflateMenu(R.menu.menu_fast_signup);
-        ToolBarViewModel toolBarViewModel = new ToolBarViewModel(_mActivity);
-        mBinding.toolbarSignin.setToolBarViewModel(toolBarViewModel);
-//        setUpToolBar(mToolBar).setToolBarViewModel(toolBarViewModel);
+
     }
 
 }

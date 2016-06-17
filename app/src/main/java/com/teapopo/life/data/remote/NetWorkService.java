@@ -231,6 +231,15 @@ public interface NetWorkService {
      */
     @GET("focus/member")
     Observable<JsonObject>  focusMember(@Query("id")String memberId);
+
+    /**
+     * 消息列表
+     * @param classify
+     * @return
+     */
+    @GET("members/messages")
+    Observable<JsonObject>  getMsgList(@Query("classify")String classify);
+
     @GET("test")
     Call<JsonObject> test();
 }

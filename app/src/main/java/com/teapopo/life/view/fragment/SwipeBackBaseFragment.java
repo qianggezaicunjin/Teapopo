@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.view.fragment.MsgList.MsgListFragment;
 
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
@@ -22,7 +25,7 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        onCreateBinding(savedInstanceState);
+        onCreateBinding();
     }
 
     @Nullable
@@ -32,15 +35,8 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
         setUpView();
         return attachToSwipeBack(mContentView);
     }
-    public abstract void onCreateBinding(Bundle savedInstanceState);
+    public abstract void onCreateBinding();
 
-    public ToolbarBinding setUpToolBar(Toolbar toolBar){
-        if(toolBar!=null){
-            ToolbarBinding binding = ToolbarBinding.bind(toolBar);
-            return binding;
-        }
-        return null;
-    }
     /**
      * 设置fragment的内容视图
      * @param inflater
@@ -53,4 +49,23 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
      */
     public abstract void setUpView();
 
+
+    public void setUpToolBar(Toolbar toolBar){
+        toolBar.setNavigationIcon(R.drawable.icon_search);
+        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        toolBar.inflateMenu(R.menu.menu_newmsg);
+        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                start(MsgListFragment.newInstance());
+                return true;
+            }
+        });
+
+    }
 }

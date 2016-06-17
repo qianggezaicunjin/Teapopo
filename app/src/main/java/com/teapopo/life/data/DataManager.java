@@ -285,4 +285,13 @@ public class DataManager {
     public Observable<JsonObject> focusmember(String memberId){
         return mNetWorkService.focusMember(memberId);
     }
+
+    /**
+     * 获取用户的消息列表
+     * @param classify  system/private
+     * @return
+     */
+    public Observable<JsonObject> getMsgList(String classify){
+        return mNetWorkService.getMsgList(classify);
+    }
 }

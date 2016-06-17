@@ -1,6 +1,7 @@
 package com.teapopo.life.viewModel;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,29 +15,17 @@ import timber.log.Timber;
  * Created by louiszgm-pc on 2016/5/18.
  */
 public class ToolBarViewModel {
-    private SupportActivity mContext;
-    public ToolBarViewModel(Context context){
-        if(context instanceof SupportActivity){
-            mContext = (SupportActivity) context;
-        }
-    }
-    public Toolbar.OnMenuItemClickListener getlis(){
-        return new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Timber.d("ToolBar菜单被点击啦");
-                mContext.start(SignUpVertifyCodeFragment.newInstance());
-                return true;
-            }
-        };
+    Fragment mView;
+    public ToolBarViewModel(Fragment view){
+        mView = view;
     }
 
-    public View.OnClickListener getClick(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mContext.showFragmentStackHierarchyView();
-            }
-        };
+    //新消息
+    public void requestNewMsg(){
+
+    }
+    //搜索
+    public void search(){
+
     }
 }

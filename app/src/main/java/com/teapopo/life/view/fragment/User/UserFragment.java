@@ -26,6 +26,10 @@ public class UserFragment extends BaseFragment {
 
     @Inject
      UserViewModel mViewModel;
+
+    public static UserFragment newInstance(){
+        return new UserFragment();
+    }
     @Override
     public void onCreateBinding() {
         Timber.d("Oncreate");

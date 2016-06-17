@@ -25,7 +25,6 @@ import com.teapopo.life.injection.module.fragment.ArticleDetailFragmentModule;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
 import com.teapopo.life.model.comment.Comment;
-import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
 import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
@@ -76,7 +75,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         return fragment;
     }
     @Override
-    public void onCreateBinding(Bundle savedInstanceState) {
+    public void onCreateBinding() {
         mBinding = FragmentArticleinfoBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((ArticleDetailActivity)_mActivity).getComponent().articleDetailFragmentComponent(new ArticleDetailFragmentModule(this));
         mComponent.inject(this);

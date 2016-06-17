@@ -87,7 +87,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="18sp"
-                    android:text="@{viewmodel.article.getExcerpt()}" />
+                    android:text="@{viewmodel.article.getExcerpt()}"
+                    android:layout_marginTop="@dimen/article_verticle_margin"/>
 
                 <com.jaeger.ninegridimageview.NineGridImageView
                     android:id="@+id/gv_nineimage"
@@ -96,6 +97,7 @@
                     app:imgGap="4dp"
                     app:showStyle="grid"
                     app:singleImgSize="240dp"
+                    android:layout_marginTop="@dimen/article_verticle_margin"
                    />
                 <LinearLayout
                     android:id="@+id/ll_rv_item_tag"

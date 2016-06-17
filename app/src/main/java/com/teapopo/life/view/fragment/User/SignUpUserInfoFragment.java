@@ -43,7 +43,7 @@ public class SignUpUserInfoFragment extends SwipeBackBaseFragment {
         return fragment;
     }
     @Override
-    public void onCreateBinding(Bundle savedInstanceState) {
+    public void onCreateBinding() {
         Timber.d("SignUpUserInfoFragment 的onCreateBinding");
         binding = FragmentSignupUserinfoBinding.inflate(LayoutInflater.from(_mActivity));
         mComponent = ((SignInAndUpActivity)_mActivity).getSignInAndUpActivityComponent().signInAndUpFragmentComponent(new SignInAndUpFragmentModule(binding));
