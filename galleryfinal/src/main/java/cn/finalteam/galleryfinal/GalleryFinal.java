@@ -46,7 +46,7 @@ public class GalleryFinal {
     private static ThemeConfig mThemeConfig;
     private static CoreConfig mCoreConfig;
 
-    private static OnHanlderResultCallback mCallback;
+    public static OnHanlderResultCallback mCallback;
     private static int mRequestCode;
 
     public static void init(CoreConfig coreConfig) {
@@ -428,7 +428,7 @@ public class GalleryFinal {
     /**
      * 处理结果
      */
-    public static interface OnHanlderResultCallback {
+    public  interface OnHanlderResultCallback {
         /**
          * 处理成功
          * @param reqeustCode

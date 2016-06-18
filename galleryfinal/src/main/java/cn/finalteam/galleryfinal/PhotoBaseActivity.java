@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 import cn.finalteam.galleryfinal.model.PhotoInfo;
@@ -41,6 +42,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * Desction:
@@ -179,6 +181,7 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
     }
 
     protected void resultData(ArrayList<PhotoInfo> photoList) {
+        Log.d("debug","resultData");
         GalleryFinal.OnHanlderResultCallback callback = GalleryFinal.getCallback();
         int requestCode = GalleryFinal.getRequestCode();
         if (callback != null) {
@@ -187,6 +190,8 @@ public abstract class PhotoBaseActivity extends Activity implements EasyPermissi
             } else {
                 callback.onHanlderFailure(requestCode, getString(R.string.photo_list_empty));
             }
+        }else {
+            Log.d("debug","callback为空啊");
         }
         finishGalleryFinalPage();
     }

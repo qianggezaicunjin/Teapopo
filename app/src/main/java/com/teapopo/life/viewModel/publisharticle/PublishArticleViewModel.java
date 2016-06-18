@@ -57,17 +57,18 @@ public class PublishArticleViewModel extends BaseObservable implements RequestVi
         int countUpload = 0;
         Action action = data.action;
         if(action == Action.PublishArticleModel_PublishWithoutImage){
-
+            mView.refreshPublishDone();
         }else if(action == Action.PublishArticleModel_PublishWithImage){
-            Timber.d("成功上传的图片个数:%d",countUpload);
+            mView.refreshPublishDone();
         }
     }
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
-
+        mView.toastErroMsg(erroinfo);
     }
 
+    //发布文章
     public void publishArticle(String title, String content, List<PhotoInfo> mPhotoInfoList, String[] tagArray) {
         StringBuilder tags = new StringBuilder();
         //将tag用逗号分隔

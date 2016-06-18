@@ -25,6 +25,7 @@ import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -112,9 +113,9 @@ public class PublishArticleModel extends BaseModel {
         Timber.d("上传图片的个数:%d",imagePaths.size());
         Observable.from(imagePaths)
                 .observeOn(Schedulers.io())
-                .subscribe(new RxSubscriber<String>() {
+                .doOnNext(new Action1<String>() {
                     @Override
-                    public void _onNext(String s) {
+                    public void call(String s) {
                         Timber.d("开始压缩图片");
                         String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
                         try {
@@ -124,12 +125,18 @@ public class PublishArticleModel extends BaseModel {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onNext(String s) {
 
                     }
 
                     @Override
                     public void _onError(String s) {
-                        Timber.e(s);
+                        mRequestView.onRequestErroInfo(s);
                     }
 
                     @Override

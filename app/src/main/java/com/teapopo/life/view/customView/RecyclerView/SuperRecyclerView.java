@@ -12,6 +12,8 @@ import android.view.View;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.DecorateRecyclerViewAdapter;
 
+import timber.log.Timber;
+
 /**
  * A super recycler view that has implemented paging at bottom, paging at top, adding header and adding footer.
  * <p/>
@@ -75,6 +77,7 @@ public class SuperRecyclerView extends LinearRecyclerView implements LinearRecyc
 
     @Override
     public void onScrollToBottom() {
+        Timber.d("onScrollToBottom,isLoading:%s",isLoading);
         if (pageEnable && onPageListener != null && !isLoading) {
             isLoading = true;
             onPageListener.onPage();

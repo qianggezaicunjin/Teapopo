@@ -21,24 +21,29 @@
         android:theme="@style/AppTheme.NoActionBar" >
         <activity
             android:name=".view.activity.SplashActivity"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activity.MainActivity">
+        <activity android:name=".view.activity.MainActivity"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.activity.ImagePagerActivity" >
+        <activity android:name=".view.activity.ImagePagerActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name=".view.activity.SignInAndUpActivity"
-            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"
+            android:screenOrientation="portrait"/>
         <activity android:name=".view.activity.ArticleDetailActivity"
-            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"
+            android:screenOrientation="portrait"/>
         <activity android:name=".view.activity.PublishArticleActivity"
-            android:theme="@style/AppTheme.NoActionBar.SwipeBack"/>
+            android:theme="@style/AppTheme.NoActionBar.SwipeBack"
+            android:screenOrientation="portrait"/>
         <!-- mob分享 -->
         <activity
             android:name="com.mob.tools.MobUIShell"

@@ -22,6 +22,7 @@ import android.widget.AbsListView;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 
 /**
  * Desction:
@@ -29,7 +30,7 @@ import java.io.Serializable;
  * Date:15/12/27 下午1:41
  */
 public class CoreConfig {
-    private Context context;
+    private WeakReference<Context> context ;
     private ImageLoader imageLoader;
     private File takePhotoFolder;
     private File editPhotoCacheFolder;
@@ -39,7 +40,7 @@ public class CoreConfig {
     private AbsListView.OnScrollListener onScrollListener;
 
     private CoreConfig(Builder builder) {
-        this.context = builder.context;
+        this.context = new WeakReference<Context>(builder.context.get());
         this.imageLoader = builder.imageLoader;
         this.takePhotoFolder = builder.takePhotoFolder;
         this.editPhotoCacheFolder = builder.editPhotoCacheFolder;
@@ -68,7 +69,7 @@ public class CoreConfig {
     }
 
     public static class Builder {
-        private Context context;
+        private WeakReference<Context> context;
         private ThemeConfig themeConfig;
         private ImageLoader imageLoader;
         private File takePhotoFolder;//配置拍照缓存目录
@@ -79,7 +80,7 @@ public class CoreConfig {
         private AbsListView.OnScrollListener onScrollListener;
 
         public Builder(Context context, ImageLoader imageLoader, ThemeConfig themeConfig) {
-            this.context = context;
+            this.context = new WeakReference<Context>(context);
             this.imageLoader = imageLoader;
             this.themeConfig = themeConfig;
             this.animRes = R.anim.gf_flip_horizontal_in;
@@ -130,7 +131,7 @@ public class CoreConfig {
     }
 
     public Context getContext() {
-        return context;
+        return context.get();
     }
 
     public ImageLoader getImageLoader() {
