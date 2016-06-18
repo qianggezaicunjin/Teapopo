@@ -88,7 +88,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
 
                     @Override
                     public void _onError(String s) {
-
+                        Timber.e(s);
                     }
                 }));
     }

@@ -25,6 +25,7 @@ import timber.log.Timber;
 public class DataBindingAdapter {
     @BindingAdapter({"html_temp"})
     public static void setHtmlText(HtmlTextView textView,String html){
+        Timber.d("加载的文章信息为:%s",html);
         if (html==null){
             textView.setHtmlFromString("正在加载....",false);
         }else {

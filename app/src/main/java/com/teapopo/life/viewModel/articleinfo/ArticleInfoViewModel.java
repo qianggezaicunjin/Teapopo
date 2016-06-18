@@ -6,6 +6,7 @@ import android.databinding.Bindable;
 import android.databinding.ViewDataBinding;
 import android.support.v4.app.Fragment;
 
+import com.teapopo.life.BR;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.articleinfo.ArticleInfo;
@@ -75,6 +76,7 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
             this.articleInfo = (ArticleInfo) data.t;
             Timber.d("评论的个数为:%d",articleInfo.commentList.size());
           mView.refreshView(articleInfo);
+            notifyPropertyChanged(BR.articleInfo);
         }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
            mView.refreshAddComment(comment);

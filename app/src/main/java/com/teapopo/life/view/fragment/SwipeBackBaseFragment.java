@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.ToolbarBinding;
+import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.view.fragment.MsgList.MsgListFragment;
 
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
@@ -67,5 +69,9 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
             }
         });
 
+    }
+
+    public void toastErroMsg(String msg){
+        CustomToast.makeText(_mActivity,msg, Toast.LENGTH_SHORT).show();
     }
 }

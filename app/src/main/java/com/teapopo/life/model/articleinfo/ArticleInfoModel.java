@@ -39,7 +39,7 @@ public class ArticleInfoModel extends BaseModel {
 
 
     //回复评论
-    public void replyComment(String id, int type, final String content){
+    public void replyComment(final String id, int type, final String content){
         Observable<JsonObject> observable = mDataManager.replyComment(id,type,content);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
@@ -47,11 +47,11 @@ public class ArticleInfoModel extends BaseModel {
                 .flatMap(new Func1<JsonObject, Observable<Reply>>() {
                     @Override
                     public Observable<Reply> call(JsonObject jsonObject) {
-                        RxSpf_ReplyCommentSp rxSpf_replyCommentSp = RxSpf_ReplyCommentSp.create(mContext);
+                        RxSpf_UserInfoSp rxSpf_userInfoSp = RxSpf_UserInfoSp.create(mContext);
                         Reply reply = new Reply();
-                        reply.authorInfo.nickname = rxSpf_replyCommentSp.replyname().get();
+                        reply.authorInfo.nickname = rxSpf_userInfoSp.username().get();
                         reply.content = content;
-                        reply.commentId = rxSpf_replyCommentSp.commentId().get();
+                        reply.commentId = id;
                         return Observable.just(reply);
                     }
                 })
