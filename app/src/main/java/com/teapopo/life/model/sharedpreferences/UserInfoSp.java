@@ -10,5 +10,6 @@ import me.yokeyword.rxapi.Spf;
  */
 @Spf
 public class UserInfoSp {
-    String userInfo;
+    String userInfo; //序列化后的userInfo
+    String username;
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
@@ -159,7 +160,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     public void refreshWhenReplyDone(){
         //收起软键盘
         DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-        mBinding.etInputcomment.setHint("发表评论");
+        mBinding.etInputcomment.setText("发表评论");
         mReplyComment = null;
     }
     private void setUpRecyclerView() {
@@ -229,7 +230,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
             //添加粉丝的头像
             for(AuthorInfo author:member_like){
                 ImageView img = new ImageView(_mActivity,attributeSet);
-                ImageLoader.getInstance().displayImage(author.getAvatarUrl(),img);
+                Picasso.with(_mActivity).load(author.getAvatarUrl()).into(img);
                 binding.linearlayoutAddlikeimage.addView(img,params);
             }
         }

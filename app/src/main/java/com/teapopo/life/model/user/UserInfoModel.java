@@ -46,11 +46,12 @@ public class UserInfoModel extends BaseModel {
     }
 
     public void getUserInfo() {
-        if(rxSpf_userInfoSp.userInfo().exists()){
-            getFromCache();
-        }else {
-            getFromNetWork();
-        }
+//        if(rxSpf_userInfoSp.userInfo().exists()){
+//            getFromCache();
+//        }else {
+//            getFromNetWork();
+//        }
+        getFromNetWork();
     }
 
     private void getFromCache() {
@@ -74,11 +75,11 @@ public class UserInfoModel extends BaseModel {
                         try {
                             userInfo = LoganSquare.parse(jsonObject.toString(),UserInfo.class);
                             //将userinfo序列化成string
-                            String encodeString = UserInfo.encodeUserInfo(new SerializableUserInfo(userInfo));
+//                            String encodeString = UserInfo.encodeUserInfo(new SerializableUserInfo(userInfo));
                             //将个人信息缓存至SP
                             rxSpf_userInfoSp.edit()
-                                    .userInfo()
-                                    .put(encodeString)
+                                    .username()
+                                    .put(userInfo.nickname)
                                     .commit();
                         } catch (IOException e) {
                             e.printStackTrace();
