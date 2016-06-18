@@ -5,6 +5,8 @@ import android.databinding.BaseObservable;
 import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -19,6 +21,7 @@ import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.customView.MultiLineViewGroup;
 import com.teapopo.life.view.customView.RequestView;
+import com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -33,71 +36,16 @@ import timber.log.Timber;
  */
 public class PublishArticleViewModel extends BaseObservable implements RequestView<ModelAction> {
 
-    private Context mContext;
-    public PublishArticleModel mModel;
+    private PublishArticleModel mModel;
 
-    private FragmentPublisharticleBinding mBinding;
+    private PublishArticleFragment mView;
 
-    private List<PhotoInfo> mPhotoInfo;
-    public PublishArticleViewModel(Context context, PublishArticleModel model, ViewDataBinding binding){
-        mContext = context;
-        mBinding = (FragmentPublisharticleBinding) binding;
+    public PublishArticleViewModel(Fragment view,PublishArticleModel model){
+        mView = (PublishArticleFragment) view;
         mModel = model;
         mModel.setView(this);
     }
 
-    public View.OnClickListener getOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.linearlayout_addpublishphoto:
-                        addPublishPhoto();
-                        break;
-                    case R.id.btn_publishArticle:
-                        publishArticle();
-                        break;
-                }
-
-            }
-        };
-    }
-
-    private void publishArticle() {
-        mBinding.btnPublishArticle.setProgress(50);
-        //获取文章标题
-        String title = "帖子标题";
-        //获取文章内容
-        String content = "梨山茶";
-        //获取要上传的图片
-        //获取该文章的标签
-
-        String tags = "梨山茶";
-        mModel.publishArticle(title,content,mPhotoInfo,tags);
-    }
-
-    private void addPublishPhoto() {
-        //弱引用 ,防止内存泄漏
-        WeakReference<CoreConfig> coreConfigWeakReference = new WeakReference<CoreConfig>(GalleryFinal.getCoreConfig());
-        WeakReference<GalleryFinal.OnHanlderResultCallback> callback = new WeakReference<GalleryFinal.OnHanlderResultCallback>(new GalleryFinal.OnHanlderResultCallback() {
-            @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                mPhotoInfo = resultList;
-               for(PhotoInfo photoInfo:resultList){
-                   ImageView imageView = new ImageView(mContext);
-                   Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromFd(photoInfo.getPhotoPath(),100,100);
-                   imageView.setImageBitmap(bitmap);
-                   mBinding.viewgroupAddImage.addView(imageView,0);
-               }
-            }
-
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
-                Timber.e(errorMsg);
-            }
-        });
-        GalleryFinal.openGalleryMuti(1, coreConfigWeakReference.get().getFunctionConfig(),callback.get());
-    }
 
     @Override
     public void onRequestFinished() {
@@ -109,7 +57,7 @@ public class PublishArticleViewModel extends BaseObservable implements RequestVi
         int countUpload = 0;
         Action action = data.action;
         if(action == Action.PublishArticleModel_PublishWithoutImage){
-            mBinding.btnPublishArticle.setProgress(100);
+
         }else if(action == Action.PublishArticleModel_PublishWithImage){
             Timber.d("成功上传的图片个数:%d",countUpload);
         }
@@ -118,5 +66,21 @@ public class PublishArticleViewModel extends BaseObservable implements RequestVi
     @Override
     public void onRequestErroInfo(String erroinfo) {
 
+    }
+
+    public void publishArticle(String title, String content, List<PhotoInfo> mPhotoInfoList, String[] tagArray) {
+        StringBuilder tags = new StringBuilder();
+        //将tag用逗号分隔
+        for (int i = 0; i < tagArray.length; i++) {
+            if (i == 0) {
+                tags.append(tagArray[i]);
+            } else {
+                tags.append(",").append(tagArray[i]);
+            }
+        }
+        if (TextUtils.isEmpty(content)) {
+            mView.toastErroMsg("输入的文章内容不为空");
+        }
+        mModel.publishArticle(title, content, mPhotoInfoList, tags.toString());
     }
 }

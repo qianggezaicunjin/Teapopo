@@ -2,6 +2,7 @@ package com.teapopo.life.injection.module.fragment;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v4.app.Fragment;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.article.publisharticle.PublishArticleModel;
@@ -16,9 +17,9 @@ import dagger.Provides;
 @Module
 public class PublishArticleFragmentModule {
 
-    private ViewDataBinding mBinding;
-    public PublishArticleFragmentModule(ViewDataBinding binding){
-        mBinding = binding;
+    private Fragment mView;
+    public PublishArticleFragmentModule(Fragment view){
+        mView = view;
     }
 
     public PublishArticleFragmentModule(){
@@ -27,8 +28,8 @@ public class PublishArticleFragmentModule {
     //for PublishArticleFragment
     @PerActivity
     @Provides
-    PublishArticleViewModel providePublishArticleViewModel(Context context, PublishArticleModel model){
-        return new PublishArticleViewModel(context,model,mBinding);
+    PublishArticleViewModel providePublishArticleViewModel(PublishArticleModel model){
+        return new PublishArticleViewModel(mView,model);
     }
     @PerActivity
     @Provides

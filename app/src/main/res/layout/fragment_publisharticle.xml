@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <EditText
+            android:id="@+id/et_publishtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="标题" />
@@ -55,7 +56,6 @@
                     android:layout_height="50dp"
                     android:background="@drawable/background_btn_addpicture"
                     android:gravity="center"
-                    android:onClick="@{viewModel.getOnClickListener()}"
                     android:orientation="vertical">
 
                     <TextView
@@ -135,7 +135,6 @@
             android:layout_marginBottom="3dp"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/background_btn_login"
-            android:onClick="@{viewModel.getOnClickListener()}"
             android:text="发布帖子"
             android:textColor="@android:color/white"
             custom:pb_textComplete="Success"
