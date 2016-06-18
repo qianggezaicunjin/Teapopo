@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.google.android.flexbox.FlexboxLayout;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentPublisharticleBinding;
@@ -111,27 +113,35 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     }
     //打开图片选择器
     private void openGallery() {
-        //弱引用 ,防止内存泄漏
-        WeakReference<GalleryFinal.OnHanlderResultCallback> callback = new WeakReference<GalleryFinal.OnHanlderResultCallback>(new GalleryFinal.OnHanlderResultCallback() {
+        GalleryFinal.OnHanlderResultCallback callback = new GalleryFinal.OnHanlderResultCallback() {
             @Override
             public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
+                Timber.d("选择了图片");
+                mPhotoInfoList = resultList;
                 refreshPublishImage(resultList);
             }
             @Override
             public void onHanlderFailure(int requestCode, String errorMsg) {
                 Timber.e(errorMsg);
             }
-        });
-        GalleryFinal.openGalleryMuti(1, getUpFuntionConfig(),callback.get());
+        };
+        GalleryFinal.openGalleryMuti(1, getUpFuntionConfig(),callback);
     }
 
+    //发布成功时，通知视图更新
+    public void refreshPublishDone(){
+        mBinding.btnPublishArticle.setProgress(100);
+    }
     //刷新要发布图片的视图
     private void refreshPublishImage(List<PhotoInfo> resultList) {
+        Timber.d("选择图片,更新界面");
         for(PhotoInfo photoInfo:resultList){
             ImageView imageView = new ImageView(_mActivity);
+            FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = 10;
             Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromFd(photoInfo.getPhotoPath(),100,100);
             imageView.setImageBitmap(bitmap);
-            mBinding.viewgroupAddImage.addView(imageView,0);
+            mBinding.viewgroupAddImage.addView(imageView,0,params);
         }
     }
 
@@ -198,5 +208,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     public void onDestroy() {
         super.onDestroy();
         RxUtils.unsubscribeIfNotNull(mCompositeSubscription);
+        GalleryFinal.mCallback = null;
     }
 }
