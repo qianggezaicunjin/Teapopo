@@ -149,6 +149,10 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
             Navigator.getInstance().start(_mActivity,intent);
         }
     }
+    //加载完成
+    public void refreshWhenLoadingDone(){
+        mBinding.rvRecommendarticle.setIsLoading(false);
+    }
 
     //下拉刷新监听
     @Override
@@ -160,6 +164,7 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
 
     @Override
     public void onPage() {
+        Timber.d("onPage");
         mRecomendArticleViewModel.requestData();
     }
 }

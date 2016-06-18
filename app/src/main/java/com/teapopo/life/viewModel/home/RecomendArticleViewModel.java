@@ -95,6 +95,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
                 //加载文章数据完成
                 loading = false;
                 notifyPropertyChanged(BR.loading);
+                mView.refreshWhenLoadingDone();
             }
         }
     }
@@ -103,7 +104,7 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
-
+        Timber.e(erroinfo);
     }
 
     @Override

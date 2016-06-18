@@ -12,6 +12,8 @@ import com.teapopo.life.model.BaseModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by louiszgm on 2016/5/30.
  */
@@ -38,6 +40,7 @@ public class ArticleModel extends BaseModel {
         mPage = jsonObject.get("page").getAsInt();
         pageCount = jsonObject.get("pages").getAsInt();
         //下一页是否还有数据
+        Timber.d("mPage为：%d，pageCount为:%d",mPage,pageCount);
         if(mPage<pageCount){
             //若下一页有数据，页码加1
             mPage +=1;
