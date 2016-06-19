@@ -17,18 +17,22 @@ import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.ArticleInfoFragment;
+import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
 import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/1.
  */
-public class ArticleInfoViewModel extends BaseObservable implements RequestView<ModelAction> {
+public class ArticleInfoViewModel extends BaseRecyclerViewModel implements RequestView<ModelAction> {
     private ArticleInfoModel mModel;
     private ArticleInfoFragment mView;
     @Bindable
     public ArticleInfo articleInfo =new ArticleInfo();
 
+    public void setArticleInfo(ArticleInfo articleInfo){
+        this.articleInfo = articleInfo;
+    }
     public ArticleInfoViewModel(Fragment view, ArticleInfoModel model){
         mView = (ArticleInfoFragment) view;
         mModel = model;
@@ -75,11 +79,13 @@ public class ArticleInfoViewModel extends BaseObservable implements RequestView<
         if(action == Action.ArticleInfoModel_GetInfo){
             this.articleInfo = (ArticleInfo) data.t;
             Timber.d("评论的个数为:%d",articleInfo.commentList.size());
-          mView.refreshView(articleInfo);
+            super.data.addAll(articleInfo.commentList);
+            notifyPropertyChanged(BR.data);
             notifyPropertyChanged(BR.articleInfo);
         }else if(action == Action.ArticleInfoModel_AddComment){
             Comment comment = (Comment) data.t;
-           mView.refreshAddComment(comment);
+//           mView.refreshAddComment(comment);
+            notifyPropertyChanged(BR.articleInfo);
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;

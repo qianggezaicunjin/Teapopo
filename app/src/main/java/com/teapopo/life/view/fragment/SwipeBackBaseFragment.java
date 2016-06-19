@@ -1,5 +1,6 @@
 package com.teapopo.life.view.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,7 @@ import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.view.fragment.MsgList.MsgListFragment;
 
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/5/18.
@@ -27,12 +29,20 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
         onCreateBinding();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Timber.d("onAttach");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView");
         mContentView= getContentView(inflater,container,savedInstanceState);
         setUpView();
         return attachToSwipeBack(mContentView);

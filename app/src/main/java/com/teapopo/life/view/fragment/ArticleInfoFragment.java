@@ -1,5 +1,6 @@
 package com.teapopo.life.view.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.ArticleDetailActivity;
+import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -67,6 +69,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     ArticleInfoViewModel mViewModel;
     @Inject
     RxBus mRxBus;
+    private ArticleFansAdapter articleFansAdapter;
 
     public static ArticleInfoFragment newInstance(String articleId){
         ArticleInfoFragment fragment = new ArticleInfoFragment();
@@ -75,6 +78,13 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         fragment.setArguments(bundle);
         return fragment;
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        articleFansAdapter = new ArticleFansAdapter(_mActivity);
+    }
+
     @Override
     public void onCreateBinding() {
         mBinding = FragmentArticleinfoBinding.inflate(LayoutInflater.from(_mActivity));
@@ -130,21 +140,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         }
 
     }
-    /**
-     * 刷新评论列表
-     * @param articleInfo
-     */
-    public void refreshView(ArticleInfo articleInfo){
-        //刷新评论的列表
-        data.addAll(articleInfo.commentList);
-        mBinding.rvArticleinfoComment.notifyDataSetChanged();
-        //添加轮播的图片
-        addSlideImages(articleInfo.articleImageUrls,topbinding);
-        //加入标签
-        addTags(articleInfo.tags,topbinding);
-        //添加喜欢该篇文章的会员头像
-        addFans(articleInfo.fans,topbinding);
-    }
     //添加评论
     public void refreshAddComment(Comment comment){
         //将最新的评论加在第一个位置
@@ -166,7 +161,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private void setUpRecyclerView() {
         //内容区，评论列表
         data = mViewModel.articleInfo.commentList;
-        mAdapter = new CommentListAdapter(_mActivity,data);
+        mAdapter = new CommentListAdapter(_mActivity,mViewModel.getData());
         mBinding.rvArticleinfoComment.setAdapter(mAdapter);
         //监听键盘收起,当键盘收起的时候回触发RecycerView的滚动
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
@@ -187,9 +182,22 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         topbinding = ItemArticleinfoTopviewBinding.inflate(LayoutInflater.from(_mActivity));
         topbinding.setViewmodel(mViewModel);
         mBinding.rvArticleinfoComment.addHeader(topbinding.getRoot());
+
+        //文章的图片
+        ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(_mActivity,mViewModel.articleInfo.articleImageUrls);
+        CirclePageIndicator indicator = topbinding.indicatorViewpager;
+        HackyViewPager viewPager = topbinding.viewpager;
+        viewPager.setAdapter(adapter);
+        indicator.setViewPager(viewPager);
+        //文章的粉丝
+
+        articleFansAdapter.setDataSource(mViewModel.articleInfo.fans);
+        topbinding.flexboxAddlikeimage.setAdapter(articleFansAdapter);
+
         //请求数据内容
         mViewModel.requestData(mArticleId);
     }
+
 
     /**
      * 处理返回的评论内容
@@ -215,65 +223,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     }
                 }));
 
-    }
-
-
-
-    private void addFans(List<AuthorInfo> member_like, ItemArticleinfoTopviewBinding binding) {
-        if(member_like.size()>0){
-            String text = member_like.size()+" 人喜欢了";
-            binding.tvArticleinfoLikenum.setText(text);
-            //相对于自身的属性
-            AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(_mActivity, R.layout.memberavatar);
-            //相对于父控件的属性
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(_mActivity, attributeSet);
-            //添加粉丝的头像
-            for(AuthorInfo author:member_like){
-                ImageView img = new ImageView(_mActivity,attributeSet);
-                Picasso.with(_mActivity).load(author.getAvatarUrl()).into(img);
-                binding.linearlayoutAddlikeimage.addView(img,params);
-            }
-        }
-    }
-
-    private void addTags(@NonNull List<String> tags, ItemArticleinfoTopviewBinding binding) {
-        if (tags != null) {
-            Timber.d("tags的个数为:%d", tags.size());
-            binding.linearlayoutAddtag.removeAllViews();
-            //相对于自身的属性
-            AttributeSet attributeSet = DataUtils.getAttributeSetFromXml(_mActivity, R.layout.tagname);
-            //相对于父控件的属性
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(_mActivity, attributeSet);
-            //添加tag图标
-            ImageView img_tag = new ImageView(_mActivity);
-            img_tag.setBackgroundResource(R.drawable.icon_tag);
-            binding.linearlayoutAddtag.addView(img_tag);
-            //添加标签的文字
-            for (String tag : tags) {
-                TextView tv_tag = new TextView(_mActivity, attributeSet);
-                tv_tag.setId(R.id.tv_tagname);
-                tv_tag.setText(tag);
-//                tv_tag.setOnClickListener(mBinding.getViewmodel().getOnClickListener());
-                binding.linearlayoutAddtag.addView(tv_tag, params);
-            }
-
-        }
-    }
-
-    private void addSlideImages(List<String> articleImageUrls,ItemArticleinfoTopviewBinding binding) {
-        //如果文章信息的articleImageUrls的大小大于0，则说明该篇文章的信息有图片轮播
-        if(articleImageUrls.size()>0){
-            ArticleInfoImageAdapter adapter = new ArticleInfoImageAdapter(_mActivity,articleImageUrls);
-            ViewStub viewStub = binding.viewstubArticleinfoImage.getViewStub();
-            if (viewStub!=null){
-                viewStub.inflate();
-                CirclePageIndicator indicator = (CirclePageIndicator) binding.getRoot().findViewById(R.id.indicator_viewpager);
-                HackyViewPager viewPager = (HackyViewPager) binding.getRoot().findViewById(R.id.viewpager);
-                viewPager.setAdapter(adapter);
-                indicator.setViewPager(viewPager);
-            }
-
-        }
     }
 
     @Override

@@ -19,7 +19,7 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/6/2.
  */
 public class ArticleInfoImageAdapter extends PagerAdapter {
-    List<String> imageUrls;
+    public List<String> imageUrls;
     List<View> mViews = new ArrayList<>();
     private Context mContext;
 
