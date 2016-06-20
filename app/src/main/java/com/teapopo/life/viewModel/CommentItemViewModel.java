@@ -34,19 +34,6 @@ public class CommentItemViewModel extends BaseEntity implements RequestView {
     }
 
 
-    public View.OnClickListener getClickListener(){
-        return  new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.img_replycomment:
-                        doReplyComment();
-                        break;
-                }
-            }
-        };
-    }
-
     private void doReplyComment() {
         if(RxSpf_UserInfoSp.create(mContext).userInfo().exists()){
             //发送回复评论的事件通知

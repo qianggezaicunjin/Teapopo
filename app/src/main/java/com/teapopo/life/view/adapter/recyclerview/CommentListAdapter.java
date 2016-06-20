@@ -48,7 +48,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         return CommentListViewHolder.createCommentListViewHolder(mBinding);
     }
 
-    public void replyComment(View view){
+    public void onClickreplyComment(View view){
         Timber.d("回复评论");
     }
     @Override

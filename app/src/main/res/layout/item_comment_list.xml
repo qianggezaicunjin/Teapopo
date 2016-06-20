@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/icon_comment"
-                android:onClick="@{handler.replyComment()}"
+                android:onClick="@{handler.onClickreplyComment}"
                  />
 
             <ImageView
