@@ -1,11 +1,18 @@
 package com.teapopo.life.util.databinding.refreshView;
 
 import android.databinding.BindingAdapter;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.comment.Comment;
+import com.teapopo.life.util.CustomToast;
+import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.flexbox.ArticleTagsAdapter;
+import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -21,8 +28,14 @@ import timber.log.Timber;
 public class RefreshArticleFragment {
 
     @BindingAdapter({"articleInfo"})
-    public static void addArticleInfoComments(SuperRecyclerView recyclerView, List<BaseEntity> data) {
+    public static void addArticleInfoComments(SuperRecyclerView recyclerView, List<Comment> data) {
         Timber.d("addArticleInfoComments");
+        CommentListAdapter commentListAdapter = (CommentListAdapter) recyclerView.getBookendsAdapter().getWrappedAdapter();
+        for(Comment comment:data){
+            if(!commentListAdapter.data.contains(comment)){
+                commentListAdapter.data.add(0,comment);
+            }
+        }
         recyclerView.notifyDataSetChanged();
         recyclerView.setIsLoading(false);
     }
@@ -43,7 +56,23 @@ public class RefreshArticleFragment {
     @BindingAdapter({"articleInfo"})
     public static void bindImage(HackyViewPager viewPager, List<String> data) {
         Timber.d("addArticleInfoImages");
-        ((ArticleInfoImageAdapter)viewPager.getAdapter()).imageUrls.addAll(data);
+        for(String url:data){
+            if (!((ArticleInfoImageAdapter)viewPager.getAdapter()).imageUrls.contains(url)){
+                ((ArticleInfoImageAdapter)viewPager.getAdapter()).imageUrls.add(url);
+            }
+        }
         viewPager.notifyDataSetChanged();
+    }
+
+    @BindingAdapter({"android:hint"})
+    public static void refreshWhenAddCommentDone(EditText editText,String hint){
+        Timber.d("refreshWhenAddCommentDone");
+        editText.setText(null);
+        editText.setHint(hint);
+        if(editText.getText()!=null){
+            DataUtils.closeSoftInput(editText.getContext(),editText);
+            CustomToast.makeText(editText.getContext(),"添加评论成功", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

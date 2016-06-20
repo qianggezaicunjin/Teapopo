@@ -25,7 +25,7 @@ public class ArticleDetailFragmentModule {
     @Provides
     @PerActivity
     ArticleInfoViewModel provideArticleInfoViewModel( ArticleInfoModel model){
-        return new ArticleInfoViewModel(mView,model);
+        return new ArticleInfoViewModel(model);
     }
     @Provides
     @PerActivity

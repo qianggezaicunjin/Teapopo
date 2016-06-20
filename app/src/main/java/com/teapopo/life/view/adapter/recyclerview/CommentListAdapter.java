@@ -44,9 +44,13 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
     public CommentListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         ItemCommentListBinding mBinding = ItemCommentListBinding.inflate(layoutInflater);
+        mBinding.setHandler(this);
         return CommentListViewHolder.createCommentListViewHolder(mBinding);
     }
 
+    public void replyComment(View view){
+        Timber.d("回复评论");
+    }
     @Override
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
@@ -54,6 +58,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         Comment comment = data.get(position);
         CommentItemViewModel viewModel = new CommentItemViewModel(mContext,new CommentModel(mContext));
         ItemCommentListBinding binding = (ItemCommentListBinding) holder.itemView.getTag();
+//        binding.imgReplycomment.setOnClickListener(this);
         viewModel.comment = comment;
         //添加回复列表
         List<Reply> replies = comment.replyList;
@@ -62,7 +67,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         }
         holder.setViewModel(viewModel);
 
-        receivedReply(binding,comment);
+//        receivedReply(binding,comment);
     }
 
     private void receivedReply(final ItemCommentListBinding binding, final Comment comment) {

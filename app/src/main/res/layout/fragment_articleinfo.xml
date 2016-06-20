@@ -23,8 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearlayout_input_comment"
-            app:articleInfo="@{viewmodel.articleInfo.tags}"
-            />
+            app:articleInfo="@{viewmodel.articleInfo.commentList}"
+            >
+            </com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView>
        <RelativeLayout
            android:id="@+id/linearlayout_input_comment"
            android:layout_alignParentBottom="true"

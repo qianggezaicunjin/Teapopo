@@ -137,13 +137,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
     }
 
-    //回复成功时收起键盘
-    public void refreshWhenReplyDone(){
-        //收起软键盘
-        DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-        mBinding.etInputcomment.setText("发表评论");
-        mReplyComment = null;
-    }
     private void setUpRecyclerView() {
         //内容区，评论列表
         mAdapter = new CommentListAdapter(_mActivity,mViewModel.articleInfo.commentList);

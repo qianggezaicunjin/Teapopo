@@ -27,17 +27,17 @@ import timber.log.Timber;
  */
 public class ArticleInfoViewModel extends BaseViewModel  {
     private ArticleInfoModel mModel;
-    private ArticleInfoFragment mView;
+
     @Bindable
     public ArticleInfo articleInfo =new ArticleInfo();
 
     @Bindable
     public String mEditText_inputCommentHint = "发表评论";
+
     public void setArticleInfo(ArticleInfo articleInfo){
         this.articleInfo = articleInfo;
     }
-    public ArticleInfoViewModel(Fragment view, ArticleInfoModel model){
-        mView = (ArticleInfoFragment) view;
+    public ArticleInfoViewModel(ArticleInfoModel model){
         mModel = model;
         mModel.setView(this);
 
@@ -64,7 +64,7 @@ public class ArticleInfoViewModel extends BaseViewModel  {
      * @param content
      */
     public void addComment(String articleId,int type,String content){
-        mModel.addComment(articleId,0,content);
+        mModel.addComment(articleId,type,content);
     }
 
 
@@ -77,15 +77,14 @@ public class ArticleInfoViewModel extends BaseViewModel  {
         }else if(action == Action.ArticleInfoModel_AddComment){
             Timber.d("添加评论成功 ");
             Comment comment = (Comment) data.t;
-            articleInfo.commentList.add(0,comment);
+           articleInfo.commentList.add(0,comment);
             notifyPropertyChanged(BR.articleInfo);
-            mEditText_inputCommentHint = "发表评论2";
             notifyPropertyChanged(BR.editText_inputCommentHint);
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
             ComponentHolder.getAppComponent().rxbus().post(reply);
-            mView.refreshWhenReplyDone();
+            notifyPropertyChanged(BR.editText_inputCommentHint);
         }
     }
 }

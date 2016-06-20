@@ -7,6 +7,9 @@
         <import type="android.view.View" />
 
         <variable
+            name="handler"
+            type="com.teapopo.life.view.adapter.recyclerview.CommentListAdapter"/>
+        <variable
             name="viewmodel"
             type="com.teapopo.life.viewModel.CommentItemViewModel" />
     </data>
@@ -50,7 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/icon_comment"
-                android:onClick="@{viewmodel.getClickListener()}" />
+                android:onClick="@{handler.replyComment()}"
+                 />
 
             <ImageView
                 android:id="@+id/img_comment_zan"
