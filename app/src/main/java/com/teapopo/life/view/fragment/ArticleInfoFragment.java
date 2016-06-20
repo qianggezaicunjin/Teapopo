@@ -32,6 +32,7 @@ import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.ArticleDetailActivity;
 import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
+import com.teapopo.life.view.adapter.flexbox.ArticleTagsAdapter;
 import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
@@ -62,14 +63,14 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private ArticleDetailFragmentComponent mComponent;
 
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-    private List<Comment> data;//评论列表的数据
+
     private String mArticleId; //文章id
     private Comment mReplyComment;//要回复的评论
     @Inject
     ArticleInfoViewModel mViewModel;
     @Inject
     RxBus mRxBus;
-    private ArticleFansAdapter articleFansAdapter;
+
 
     public static ArticleInfoFragment newInstance(String articleId){
         ArticleInfoFragment fragment = new ArticleInfoFragment();
@@ -79,11 +80,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         return fragment;
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        articleFansAdapter = new ArticleFansAdapter(_mActivity);
-    }
 
     @Override
     public void onCreateBinding() {
@@ -140,16 +136,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         }
 
     }
-    //添加评论
-    public void refreshAddComment(Comment comment){
-        //将最新的评论加在第一个位置
-        data.add(0,comment);
-        mBinding.rvArticleinfoComment.notifyDataSetChanged();
-        //关闭软键盘
-        DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-        mBinding.etInputcomment.setText("");
-        CustomToast.makeText(_mActivity,"发表评论成功!", Toast.LENGTH_SHORT);
-    }
 
     //回复成功时收起键盘
     public void refreshWhenReplyDone(){
@@ -160,8 +146,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     }
     private void setUpRecyclerView() {
         //内容区，评论列表
-        data = mViewModel.articleInfo.commentList;
-        mAdapter = new CommentListAdapter(_mActivity,mViewModel.getData());
+        mAdapter = new CommentListAdapter(_mActivity,mViewModel.articleInfo.commentList);
         mBinding.rvArticleinfoComment.setAdapter(mAdapter);
         //监听键盘收起,当键盘收起的时候回触发RecycerView的滚动
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
@@ -189,8 +174,12 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         HackyViewPager viewPager = topbinding.viewpager;
         viewPager.setAdapter(adapter);
         indicator.setViewPager(viewPager);
+        //文章的标签
+        ArticleTagsAdapter articleTagsAdapter = new ArticleTagsAdapter(_mActivity);
+        articleTagsAdapter.setDataSource(mViewModel.articleInfo.tags);
+        topbinding.flexboxAddtag.setAdapter(articleTagsAdapter);
         //文章的粉丝
-
+        ArticleFansAdapter articleFansAdapter = new ArticleFansAdapter(_mActivity);
         articleFansAdapter.setDataSource(mViewModel.articleInfo.fans);
         topbinding.flexboxAddlikeimage.setAdapter(articleFansAdapter);
 
@@ -210,7 +199,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
                     @Override
                     public void _onNext(Comment comment) {
                         //如果不包含该comment，则代表发表的是评论
-                        if(data.contains(comment)){
+                        if(mViewModel.articleInfo.commentList.contains(comment)){
                             DataUtils.showSoftInput(_mActivity,mBinding.linearlayoutInputComment);
                             mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
                             mReplyComment = comment;

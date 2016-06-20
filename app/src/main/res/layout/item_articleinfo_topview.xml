@@ -152,17 +152,16 @@
                 app:cardPreventCornerOverlap="false"
                 >
 
-                <LinearLayout
-                    android:id="@+id/linearlayout_addtag"
+                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                    android:id="@+id/flexbox_addtag"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="@dimen/padding_size"
                     android:gravity="center_vertical"
                     app:articleInfo="@{viewmodel.articleInfo.tags}"
-                    android:orientation="horizontal">
+                   app:flexWrap="wrap">
 
-
-                </LinearLayout>
+                </com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView

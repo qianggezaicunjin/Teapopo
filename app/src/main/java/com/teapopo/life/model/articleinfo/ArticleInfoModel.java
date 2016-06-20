@@ -67,7 +67,7 @@ public class ArticleInfoModel extends BaseModel {
 
                     @Override
                     public void _onError(String s) {
-
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }
@@ -96,7 +96,7 @@ public class ArticleInfoModel extends BaseModel {
 
                     @Override
                     public void _onError(String s) {
-
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }
