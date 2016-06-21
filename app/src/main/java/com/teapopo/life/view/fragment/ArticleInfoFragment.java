@@ -1,35 +1,19 @@
 package com.teapopo.life.view.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentArticleinfoBinding;
 import com.teapopo.life.databinding.ItemArticleinfoTopviewBinding;
 import com.teapopo.life.injection.component.fragment.ArticleDetailFragmentComponent;
 import com.teapopo.life.injection.module.fragment.ArticleDetailFragmentModule;
-import com.teapopo.life.model.AuthorInfo;
-import com.teapopo.life.model.articleinfo.ArticleInfo;
-import com.teapopo.life.model.comment.Comment;
-import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.DataUtils;
-import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.ArticleDetailActivity;
 import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.flexbox.ArticleTagsAdapter;
@@ -41,14 +25,9 @@ import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
 import com.viewpagerindicator.CirclePageIndicator;
 
 
-import java.util.List;
-
 import javax.inject.Inject;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/2.
@@ -65,7 +44,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
     private String mArticleId; //文章id
-    private Comment mReplyComment;//要回复的评论
     @Inject
     ArticleInfoViewModel mViewModel;
     @Inject
@@ -99,8 +77,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         setUpRecyclerView();
         attachOnClickListener();
-        //标识发出回复评论的动作
-        tagWhenDoReplyAction();
     }
 
     private void attachOnClickListener() {
@@ -122,26 +98,14 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
      */
     private void addCommentOrReply() {
         String content = mBinding.etInputcomment.getText().toString();
-        if(TextUtils.isEmpty(content)){
-            CustomToast.makeText(_mActivity,"输入内容不能为空", Toast.LENGTH_SHORT).show();
-        }else {
-            //回复评论  or  发表评论
-            if(mReplyComment!=null){
-                //回复评论
-                mViewModel.replyComment(mReplyComment.id,0,content);
-            }else {
-                //发表评论d
-                mViewModel.addComment(mArticleId,0,content);
-            }
-        }
-
+        mViewModel.addCommentOrReply(content,mArticleId);
     }
 
     private void setUpRecyclerView() {
         //内容区，评论列表
         mAdapter = new CommentListAdapter(_mActivity,mViewModel.articleInfo.commentList);
         mBinding.rvArticleinfoComment.setAdapter(mAdapter);
-        //监听键盘收起,当键盘收起的时候回触发RecycerView的滚动
+        //模拟监听键盘收起,键盘收起的时候会引起RecyclerView的滚动
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -150,10 +114,11 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                //当收起键盘时，回到发表评论的状态，清除RxSpf_ReplyCommentSp
-                DataUtils.closeSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-                mBinding.etInputcomment.setHint("发表评论");
-               mReplyComment = null;
+                //当收起键盘时，回到发表评论的状态，setSoftInputStateWhenCommentOrReply(null)
+                //只有当键盘显示时才关闭软键盘
+                if(mViewModel.showSoftInput){
+                    mViewModel.setSoftInputStateWhenCommentOrReply(false,false,null);
+                }
             }
         });
         //加入头布局
@@ -181,36 +146,11 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     }
 
 
-    /**
-     * 处理返回的评论内容
-     * 回复评论
-     */
-    private void tagWhenDoReplyAction() {
-        Observable<Comment> observable = mRxBus.toObserverable(Comment.class);
-        mCompositeSubscription.add( observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Comment>() {
-                    @Override
-                    public void _onNext(Comment comment) {
-                        //如果不包含该comment，则代表发表的是评论
-                        if(mViewModel.articleInfo.commentList.contains(comment)){
-                            DataUtils.showSoftInput(_mActivity,mBinding.linearlayoutInputComment);
-                            mBinding.etInputcomment.setHint("回复"+comment.authorInfo.nickname);
-                            mReplyComment = comment;
-                        }
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-
-                    }
-                }));
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         mAdapter.mCompositeSubscription.unsubscribe();
+        mViewModel.compositeSubscription.unsubscribe();
         mCompositeSubscription.unsubscribe();
     }
 }

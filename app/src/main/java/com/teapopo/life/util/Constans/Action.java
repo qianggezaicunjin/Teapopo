@@ -34,6 +34,7 @@ public enum Action {
     ArticleInfoModel_ReplyComment,
     //for CommentModel
     CommentModel_ReplyComment,
+    CommentModel_ClickLikeComment,
     //for PublishArticleModel
     PublishArticleModel_PublishWithoutImage,
     PublishArticleModel_PublishWithImage,

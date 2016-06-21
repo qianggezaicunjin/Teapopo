@@ -18,11 +18,13 @@ import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.CommentModel;
 import com.teapopo.life.model.comment.Reply;
+import com.teapopo.life.model.sharedpreferences.RxSpf_UserInfoSp;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.viewModel.CommentItemViewModel;
 
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,6 +38,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
 
     public CompositeSubscription mCompositeSubscription = new CompositeSubscription();
 
+
     public CommentListAdapter(Context context, List<Comment> data) {
         super(context, data);
     }
@@ -48,18 +51,26 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         return CommentListViewHolder.createCommentListViewHolder(mBinding);
     }
 
-    public void onClickreplyComment(View view){
-        Timber.d("回复评论");
-    }
     @Override
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Timber.d("onBindViewHolder");
         Comment comment = data.get(position);
-        CommentItemViewModel viewModel = new CommentItemViewModel(mContext,new CommentModel(mContext));
+        final CommentItemViewModel viewModel = new CommentItemViewModel(new CommentModel(mContext));
         ItemCommentListBinding binding = (ItemCommentListBinding) holder.itemView.getTag();
-//        binding.imgReplycomment.setOnClickListener(this);
-        viewModel.comment = comment;
+        binding.imgReplycomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.doReplyComment(RxSpf_UserInfoSp.create(mContext).userInfo().exists());
+            }
+        });
+        binding.imgCommentZan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.doLikeComment();
+            }
+        });
+        viewModel.setComment(comment);
         //添加回复列表
         List<Reply> replies = comment.replyList;
         if(replies.size()>0){
@@ -67,7 +78,8 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         }
         holder.setViewModel(viewModel);
 
-//        receivedReply(binding,comment);
+        //当回复评论成功时，通过Rxbus接收Reply
+        receivedReply(binding,comment);
     }
 
     private void receivedReply(final ItemCommentListBinding binding, final Comment comment) {
@@ -81,6 +93,9 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
                         if(comment1.id.equals(reply.commentId) ){
                             Timber.d("更新回复评论的界面");
                             LinearLayout layout = binding.linearlayoutReplyComment;
+                            if(layout.getVisibility() == View.GONE){
+                                layout.setVisibility(View.VISIBLE);
+                            }
                             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                             params.setMargins(0,8,0,0);
                             String result = reply.authorInfo.nickname+"回复:"+reply.content;

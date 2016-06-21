@@ -18,7 +18,6 @@ import timber.log.Timber;
 public class ToastErroInfo {
     @BindingAdapter({"erroInfo"})
     public static void toastErroInfo(View view, String data) {
-        Timber.d("提示错误信息");
         if(data!=null){
             CustomToast.makeText(view.getContext(),data, Toast.LENGTH_SHORT).show();
         }

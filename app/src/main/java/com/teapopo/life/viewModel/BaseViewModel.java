@@ -18,6 +18,11 @@ public class BaseViewModel extends BaseObservable implements RequestView<ModelAc
         this.erroInfo = erroInfo;
     }
 
+
+    public void handleNoticeInfo(String s){
+        erroInfo = s;
+        notifyPropertyChanged(BR.erroInfo);
+    }
     @Override
     public void onRequestFinished() {
 
@@ -30,7 +35,6 @@ public class BaseViewModel extends BaseObservable implements RequestView<ModelAc
 
     @Override
     public void onRequestErroInfo(String erroinfo) {
-        this.erroInfo = erroinfo;
-        notifyPropertyChanged(BR.erroInfo);
+        handleNoticeInfo(erroinfo);
     }
 }

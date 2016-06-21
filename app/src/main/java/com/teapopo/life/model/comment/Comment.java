@@ -19,7 +19,9 @@ public class Comment extends BaseEntity {
 
     public long add_time;
 
-    public String like_num;
+    public String like_num = "0";
+
+    public boolean is_like;
 
     //新增的属性
     public AuthorInfo authorInfo;

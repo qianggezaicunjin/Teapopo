@@ -64,15 +64,20 @@ public class RefreshArticleFragment {
         viewPager.notifyDataSetChanged();
     }
 
-    @BindingAdapter({"android:hint"})
-    public static void refreshWhenAddCommentDone(EditText editText,String hint){
+    @BindingAdapter({"android:hint","showSoftInput"})
+    public static void refreshWhenAddCommentDone(EditText editText,String hint,boolean isShow){
         Timber.d("refreshWhenAddCommentDone");
-        editText.setText(null);
         editText.setHint(hint);
-        if(editText.getText()!=null){
+        editText.setText(null);
+        if(isShow){
+            editText.requestFocus();
+            DataUtils.toggleSoftInput(editText.getContext(),editText);
+        }else {
+            editText.clearFocus();
             DataUtils.closeSoftInput(editText.getContext(),editText);
-            CustomToast.makeText(editText.getContext(),"添加评论成功", Toast.LENGTH_SHORT).show();
         }
+
+
 
     }
 }

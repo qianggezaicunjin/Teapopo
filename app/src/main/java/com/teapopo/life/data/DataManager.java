@@ -193,17 +193,27 @@ public class DataManager {
     /**
      * 点赞/取消点赞文章
      * @param islike
-     * @param articleId
+     * @param id
      * @return
      */
-    public Observable<JsonObject> clickLikeArticle(boolean islike, String articleId){
+    public Observable<JsonObject> clickLikeArticle(boolean islike, String id){
         if (islike){
-            return mNetWorkService.likeArticle(articleId);
+            return mNetWorkService.likeArticle(id);
         }else {
-            return mNetWorkService.unLikeArticle(articleId);
+            return mNetWorkService.unLikeArticle(id);
         }
     }
 
+    /**
+     * 点赞评论
+     * 为文章的评论或者商品的评论点赞
+     * @param id
+     * @param type  posts：文章/goods：商品
+     * @return
+     */
+    public Observable<JsonObject> clickLikeComment(String type,String id){
+        return mNetWorkService.likeComment(id,type);
+    }
     /**
      * 获取喜欢的文章列表
      * @param isHomeArticle 是否在首页展示
