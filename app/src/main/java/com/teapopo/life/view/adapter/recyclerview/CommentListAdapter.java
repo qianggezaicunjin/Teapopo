@@ -36,9 +36,6 @@ import timber.log.Timber;
  */
 public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentListAdapter.CommentListViewHolder> {
 
-    public CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-
-
     public CommentListAdapter(Context context, List<Comment> data) {
         super(context, data);
     }

@@ -152,7 +152,6 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mAdapter.mCompositeSubscription.unsubscribe();
         mViewModel.compositeSubscription.unsubscribe();
         mCompositeSubscription.unsubscribe();
     }

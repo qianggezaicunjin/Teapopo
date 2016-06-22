@@ -82,6 +82,7 @@ public class ArticleInfoViewModel extends BaseViewModel  {
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
+            //将回复的内容添加至对应的Comment,并标识回复的位置
             for(int i = 0;i<articleInfo.commentList.size();i++){
                 Comment comment = articleInfo.commentList.get(i);
                 if(comment.id.equals(reply.commentId)){
@@ -90,7 +91,6 @@ public class ArticleInfoViewModel extends BaseViewModel  {
                 }
             }
            notifyPropertyChanged(BR.articleInfo);
-//            ComponentHolder.getAppComponent().rxbus().post(reply);
             handleNoticeInfo("回复评论成功");
             setSoftInputStateWhenCommentOrReply(true,false,null);
         }
