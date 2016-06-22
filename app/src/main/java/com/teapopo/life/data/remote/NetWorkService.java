@@ -251,6 +251,12 @@ public interface NetWorkService {
     @GET("members/messages")
     Observable<JsonObject>  getMsgList(@Query("classify")String classify);
 
+    /**
+     * 活动列表
+     * @return
+     */
+    @GET("events/list")
+    Observable<JsonObject> getEventList(@Query("p")int page);
     @GET("test")
     Call<JsonObject> test();
 }

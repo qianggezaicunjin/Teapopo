@@ -49,8 +49,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     private String mArticleId; //文章id
     @Inject
     ArticleInfoViewModel mViewModel;
-    @Inject
-    RxBus mRxBus;
+
 
 
     public static ArticleInfoFragment newInstance(String articleId){

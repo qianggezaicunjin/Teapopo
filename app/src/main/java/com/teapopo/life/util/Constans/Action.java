@@ -39,5 +39,7 @@ public enum Action {
     PublishArticleModel_PublishWithoutImage,
     PublishArticleModel_PublishWithImage,
     //for XinZiArticleModel
-    XinZiArticleModel_GetTopArticle
+    XinZiArticleModel_GetTopArticle,
+    //for EventListModel
+    EventListModel_GetEventList
 }

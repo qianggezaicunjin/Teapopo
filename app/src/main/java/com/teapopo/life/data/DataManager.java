@@ -304,4 +304,12 @@ public class DataManager {
     public Observable<JsonObject> getMsgList(String classify){
         return mNetWorkService.getMsgList(classify);
     }
+
+    /**
+     * 活动列表
+     * @return
+     */
+    public Observable<JsonObject> getEventList(int page){
+        return mNetWorkService.getEventList(page);
+    }
 }

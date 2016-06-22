@@ -11,58 +11,54 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 import com.teapopo.life.R;
+import com.teapopo.life.databinding.FragmentWelfareBinding;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 
+import com.teapopo.life.view.activity.MainActivity;
+import com.teapopo.life.view.adapter.recyclerview.EventListAdapter;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.viewModel.welfare.EventListViewModel;
 
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
-public class WelFareFragment extends BaseFragment implements RequestView {
+public class WelFareFragment extends BaseFragment {
 
-    HtmlTextView tv;
+    @Inject
+    EventListViewModel mViewModel;
+
+    private FragmentWelfareBinding mBinding;
     public static WelFareFragment newInstance(){
         return new WelFareFragment();
     }
     @Override
     public void onCreateBinding() {
-
+        ((MainActivity)_mActivity).getMainFragmentComponent().inject(this);
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_welfare,container,false);
-
-        tv = (HtmlTextView) view.findViewById(R.id.tv_html);
-        ArticleInfoModel model = new ArticleInfoModel(_mActivity);
-        model.getArticleInfo("10245");
-        model.setView(this);
-        return view;
+        mBinding = FragmentWelfareBinding.inflate(inflater);
+        mBinding.setViewModel(mViewModel);
+        return mBinding.getRoot();
     }
 
     @Override
     public void setUpView() {
-
+        setUpEventList();
     }
 
-    @Override
-    public void onRequestFinished() {
-
+    private void setUpEventList() {
+        EventListAdapter adapter = new EventListAdapter(_mActivity,mViewModel.data);
+        mBinding.rvEventlist.setAdapter(adapter);
+        mViewModel.getEventList();
     }
-
-    @Override
-    public void onRequestSuccess(Object data) {
-    }
-
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-
-    }
-
 
 }

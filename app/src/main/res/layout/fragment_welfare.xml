@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <LinearLayout
-        android:layout_width="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.teapopo.life.viewModel.welfare.EventListViewModel"/>
+    </data>
+    <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
-            android:id="@+id/tv_html"
+        <include
+            android:id="@+id/welfare_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/padding_size"
-            android:textSize="20sp"/>
-
-
-        <Button
+            layout="@layout/toolbar"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_widget"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            app:isLoading="@{viewModel.loading}"
+            >
+            <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+                android:id="@+id/rv_eventlist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:data="@{viewModel.data}"
+                />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
-</ScrollView>
+
+</layout>
