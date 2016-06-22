@@ -1,11 +1,14 @@
 package com.teapopo.life.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
@@ -116,7 +119,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //当收起键盘时，回到发表评论的状态，setSoftInputStateWhenCommentOrReply(null)
                 //只有当键盘显示时才关闭软键盘
-                if(mViewModel.showSoftInput){
+                if(mBinding.etInputcomment.isFocused()){
                     mViewModel.setSoftInputStateWhenCommentOrReply(false,false,null);
                 }
             }

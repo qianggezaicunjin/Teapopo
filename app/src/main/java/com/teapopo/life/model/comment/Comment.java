@@ -27,4 +27,6 @@ public class Comment extends BaseEntity {
     public AuthorInfo authorInfo;
 
    public List<Reply> replyList = new ArrayList<>();//回复列表
+
+    public String replyPosition;//用来标识回复的评论，是在评论列表的哪个位置
 }

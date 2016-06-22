@@ -2,6 +2,7 @@ package com.teapopo.life.model.articleinfo;
 
 import android.content.Context;
 import android.graphics.AvoidXfermode;
+import android.support.v4.view.TintableBackgroundView;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
@@ -101,6 +102,7 @@ public class ArticleInfoModel extends BaseModel {
                 });
     }
     private Comment handleCommentResponseJson(JsonObject jsonObject){
+        Timber.d("评论成功服务器返回的json:%s",jsonObject.toString());
         Comment comment = new Comment();
         AuthorInfo authorInfo = new AuthorInfo();
         authorInfo.avatar = jsonObject.get("avatar").getAsString();

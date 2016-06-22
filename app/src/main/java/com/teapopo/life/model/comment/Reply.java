@@ -19,4 +19,5 @@ public class Reply extends BaseEntity {
     public AuthorInfo authorInfo = new AuthorInfo();//回复人的基本信息
 
     public String commentId;
+
 }

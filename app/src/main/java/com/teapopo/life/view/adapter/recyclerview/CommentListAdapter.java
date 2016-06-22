@@ -52,6 +52,12 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
     }
 
     @Override
+    public void onBindViewHolder(CommentListViewHolder holder, int position, List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+        Timber.d("payloads为:%s",payloads.toString());
+    }
+
+    @Override
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Timber.d("onBindViewHolder");
@@ -77,41 +83,9 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
             addReply(replies,binding);
         }
         holder.setViewModel(viewModel);
-
-        //当回复评论成功时，通过Rxbus接收Reply
-        receivedReply(binding,comment);
     }
 
-    private void receivedReply(final ItemCommentListBinding binding, final Comment comment) {
-        final Comment comment1 = comment;
-        Observable<Reply> observable = ComponentHolder.getAppComponent().rxbus().toObserverable(Reply.class);
-        mCompositeSubscription.add(observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<Reply>() {
-                    @Override
-                    public void _onNext(Reply reply) {
-                        Timber.d("收到回复");
-                        if(comment1.id.equals(reply.commentId) ){
-                            Timber.d("更新回复评论的界面");
-                            LinearLayout layout = binding.linearlayoutReplyComment;
-                            if(layout.getVisibility() == View.GONE){
-                                layout.setVisibility(View.VISIBLE);
-                            }
-                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            params.setMargins(0,8,0,0);
-                            String result = reply.authorInfo.nickname+"回复:"+reply.content;
-                            TextView textView = new TextView(mContext);
-                            textView.setText(result);
-                            layout.addView(textView,params);
-                        }
 
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-                        Timber.e(s);
-                    }
-                }));
-    }
     private void addReply(List<Reply> replies,ItemCommentListBinding binding) {
         LinearLayout layout = binding.linearlayoutReplyComment;
         //每次在添加子View的时候，先清空布局

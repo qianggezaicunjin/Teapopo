@@ -17,6 +17,8 @@ import com.teapopo.life.viewModel.BaseViewModel;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -80,7 +82,15 @@ public class ArticleInfoViewModel extends BaseViewModel  {
         }else if(action == Action.ArticleInfoModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
-            ComponentHolder.getAppComponent().rxbus().post(reply);
+            for(int i = 0;i<articleInfo.commentList.size();i++){
+                Comment comment = articleInfo.commentList.get(i);
+                if(comment.id.equals(reply.commentId)){
+                    comment.replyPosition = String.valueOf(i);
+                    comment.replyList.add(reply);
+                }
+            }
+           notifyPropertyChanged(BR.articleInfo);
+//            ComponentHolder.getAppComponent().rxbus().post(reply);
             handleNoticeInfo("回复评论成功");
             setSoftInputStateWhenCommentOrReply(true,false,null);
         }
@@ -117,10 +127,16 @@ public class ArticleInfoViewModel extends BaseViewModel  {
      * @param comment 如果是回复评论则传入要回复的评论，否则传入null
      */
     public void setSoftInputStateWhenCommentOrReply(boolean isReply,boolean isShow,Comment comment){
+        Timber.d("setSoftInputStateWhenCommentOrReply");
         showSoftInput = isShow;
         this.mReplyComment = comment;
         if(isReply){
-            mEditText_inputCommentHint = "回复"+comment.authorInfo.nickname;
+            //当comment为null时，表示回复评论成功，重置为发表评论的状态
+            if(comment!=null){
+                mEditText_inputCommentHint = "回复"+comment.authorInfo.nickname;
+            }else {
+                mEditText_inputCommentHint = "发表评论";
+            }
         }else {
             mEditText_inputCommentHint = "发表评论";
         }

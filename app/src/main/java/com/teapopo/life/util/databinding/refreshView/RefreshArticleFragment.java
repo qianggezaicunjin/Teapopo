@@ -20,6 +20,9 @@ import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 
 import java.util.List;
 
+import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import timber.log.Timber;
 
 /**
@@ -28,15 +31,43 @@ import timber.log.Timber;
 public class RefreshArticleFragment {
 
     @BindingAdapter({"articleInfo"})
-    public static void addArticleInfoComments(SuperRecyclerView recyclerView, List<Comment> data) {
+    public static void addArticleInfoComments(final SuperRecyclerView recyclerView, List<Comment> data) {
         Timber.d("addArticleInfoComments");
-        CommentListAdapter commentListAdapter = (CommentListAdapter) recyclerView.getBookendsAdapter().getWrappedAdapter();
-        for(Comment comment:data){
-            if(!commentListAdapter.data.contains(comment)){
-                commentListAdapter.data.add(0,comment);
-            }
+        final CommentListAdapter commentListAdapter = (CommentListAdapter) recyclerView.getBookendsAdapter().getWrappedAdapter();
+        if(commentListAdapter.data.size()==0){
+            commentListAdapter.data.addAll(data);
+            recyclerView.notifyDataSetChanged();
+        }else {
+            Observable.from(data)
+                    .filter(new Func1<Comment, Boolean>() {
+                        @Override
+                        public Boolean call(Comment comment) {
+                            //如果包含此评论，则有可能是回复评论
+                            //如果不包含，则是添加评论
+                            if(!commentListAdapter.data.contains(comment)){
+                                return true;
+                            } else {
+                                //通过comment的replyPosition参数来判断回复的评论列表的位置
+                                if(comment.replyPosition!=null){
+                                    Timber.d("添加回复的评论的位置是:%s",comment.replyPosition);
+                                    recyclerView.notifyItemChanged(Integer.parseInt(comment.replyPosition)+1);
+                                    comment.replyPosition = null;
+                                }
+                                return false;
+                            }
+
+                        }
+                    })
+                    .subscribe(new Action1<Comment>() {
+                        @Override
+                        public void call(Comment comment) {
+                            //添加评论
+                            commentListAdapter.data.add(0,comment);
+                            recyclerView.notifyItemInserted(0);
+                        }
+                    });
         }
-        recyclerView.notifyDataSetChanged();
+
         recyclerView.setIsLoading(false);
     }
     @BindingAdapter({"articleInfo"})
@@ -71,13 +102,10 @@ public class RefreshArticleFragment {
         editText.setText(null);
         if(isShow){
             editText.requestFocus();
-            DataUtils.toggleSoftInput(editText.getContext(),editText);
+            DataUtils.showSoftInput(editText.getContext(),editText);
         }else {
             editText.clearFocus();
             DataUtils.closeSoftInput(editText.getContext(),editText);
         }
-
-
-
     }
 }

@@ -162,7 +162,7 @@ public class DataUtils {
 
     public static void showSoftInput(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInputFromInputMethod(view.getWindowToken(),0);
+        imm.showSoftInput(view,0);
     }
     public static void closeSoftInput(Context context, View view){
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
