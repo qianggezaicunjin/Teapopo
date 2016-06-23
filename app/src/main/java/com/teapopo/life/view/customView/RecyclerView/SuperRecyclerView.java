@@ -91,6 +91,9 @@ public class SuperRecyclerView extends LinearRecyclerView implements LinearRecyc
     public void notifyItemInserted(int position) {
         decorateRecyclerViewAdapter.notifyItemInserted(position);
     }
+    public void notifyItemChanged(int position){
+        decorateRecyclerViewAdapter.notifyItemChanged(position);
+    }
 
     public void notifyItemRemoved(int position) {
         decorateRecyclerViewAdapter.notifyItemRemoved(position);

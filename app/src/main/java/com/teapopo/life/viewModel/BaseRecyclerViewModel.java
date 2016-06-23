@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by louiszgm-pc on 2016/5/2.
  */
-public class BaseRecyclerViewModel<T> extends BaseObservable {
+public class BaseRecyclerViewModel<T> extends BaseViewModel {
     @Bindable
     public List<T> data = new ArrayList<>();
 

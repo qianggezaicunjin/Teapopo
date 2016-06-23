@@ -11,10 +11,12 @@ import com.teapopo.life.model.article.categoryarticle.XinZiArticleModel;
 import com.teapopo.life.model.article.likearticle.HomeLikeArticleModel;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.user.UserInfoModel;
+import com.teapopo.life.model.welfare.EventListModel;
 import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
 import com.teapopo.life.viewModel.home.HomeLikeArticleViewModel;
 import com.teapopo.life.viewModel.home.RecomendArticleViewModel;
 import com.teapopo.life.viewModel.userCenter.UserViewModel;
+import com.teapopo.life.viewModel.welfare.EventListViewModel;
 import com.teapopo.life.viewModel.xinzi.XinZiArticleViewModel;
 
 import dagger.Module;
@@ -82,5 +84,15 @@ public class MainFragmentModule {
     XinZiArticleModel provideXinZiArticleModel(Context context){
         return new XinZiArticleModel(context);
     }
-
+    //for WelfareFragment
+    @Provides
+    @PerActivity
+    EventListViewModel provideEventListViewModel(EventListModel model){
+        return new EventListViewModel(model);
+    }
+    @Provides
+    @PerActivity
+    EventListModel provideEventListModel(Context context){
+        return new EventListModel(context);
+    }
 }

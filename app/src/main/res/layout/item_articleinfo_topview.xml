@@ -65,12 +65,28 @@
                             android:layout_alignParentRight="true" />
 
                     </RelativeLayout>
-                    <ViewStub
-                        android:id="@+id/viewstub_articleinfo_image"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout="@layout/viewpager"/>
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:visibility="@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}">
+
+                        <com.teapopo.life.view.customView.HackyViewPager
+                            android:id="@+id/viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
+                            />
+
+                        <com.viewpagerindicator.CirclePageIndicator
+                            android:id="@+id/indicator_viewpager"
+                            android:padding="@dimen/padding_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true" />
+                    </RelativeLayout>
+
                     <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
                         android:id="@+id/htmltv_articleinfo_content"
                         android:layout_width="match_parent"
@@ -136,16 +152,16 @@
                 app:cardPreventCornerOverlap="false"
                 >
 
-                <LinearLayout
-                    android:id="@+id/linearlayout_addtag"
+                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                    android:id="@+id/flexbox_addtag"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="@dimen/padding_size"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    app:articleInfo="@{viewmodel.articleInfo.tags}"
+                   app:flexWrap="wrap">
 
-
-                </LinearLayout>
+                </com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -176,11 +192,13 @@
                         android:layout_height="2dp"
                         android:background="@drawable/line"/>
 
-                    <com.teapopo.life.view.customView.MultiLineViewGroup
+                    <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
                         android:layout_below="@+id/line"
-                        android:id="@+id/linearlayout_addlikeimage"
+                        android:id="@+id/flexbox_addlikeimage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:articleInfo="@{viewmodel.articleInfo.fans}"
+                        app:flexWrap="wrap"
                         android:paddingTop="5dp"/>
 
                 </RelativeLayout>

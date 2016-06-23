@@ -11,6 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:erroInfo="@{viewmodel.erroInfo}"
         >
 
         <TextView
@@ -22,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearlayout_input_comment"
-            />
+            app:articleInfo="@{viewmodel.articleInfo.commentList}"
+            >
+            </com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView>
        <RelativeLayout
            android:id="@+id/linearlayout_input_comment"
            android:layout_alignParentBottom="true"
@@ -38,7 +41,8 @@
                android:layout_marginLeft="@dimen/activity_horizontal_margin"
               android:layout_centerVertical="true"
                android:background="@drawable/background_et_loginout"
-               android:hint="发表评论"/>
+               android:hint="@{viewmodel.mEditText_inputCommentHint}"
+               app:showSoftInput="@{viewmodel.showSoftInput}"/>
            <Button
                android:id="@+id/btn_articleinfo_publishcomment"
                android:layout_width="wrap_content"

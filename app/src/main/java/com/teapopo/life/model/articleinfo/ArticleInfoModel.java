@@ -2,6 +2,7 @@ package com.teapopo.life.model.articleinfo;
 
 import android.content.Context;
 import android.graphics.AvoidXfermode;
+import android.support.v4.view.TintableBackgroundView;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
@@ -67,7 +68,7 @@ public class ArticleInfoModel extends BaseModel {
 
                     @Override
                     public void _onError(String s) {
-
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }
@@ -96,11 +97,12 @@ public class ArticleInfoModel extends BaseModel {
 
                     @Override
                     public void _onError(String s) {
-
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }
     private Comment handleCommentResponseJson(JsonObject jsonObject){
+        Timber.d("评论成功服务器返回的json:%s",jsonObject.toString());
         Comment comment = new Comment();
         AuthorInfo authorInfo = new AuthorInfo();
         authorInfo.avatar = jsonObject.get("avatar").getAsString();
@@ -109,6 +111,9 @@ public class ArticleInfoModel extends BaseModel {
         comment.id = jsonObject.get("id").getAsString();
         comment.content = jsonObject.get("content").getAsString();
         comment.add_time = jsonObject.get("add_time").getAsLong();
+        if(jsonObject.has("is_like")){
+            comment.is_like = jsonObject.get("is_like").getAsBoolean();
+        }
         comment.authorInfo = authorInfo;
         return comment;
     }

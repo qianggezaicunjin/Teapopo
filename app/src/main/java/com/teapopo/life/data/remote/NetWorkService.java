@@ -179,6 +179,17 @@ public interface NetWorkService {
     Observable<JsonObject> unLikeArticle(@Query("id") String articleId);
 
     /**
+     * 点赞评论
+     * 为文章的评论或者商品的评论点赞
+     * @param commentId
+     * @param type  posts：文章/goods：商品
+     * @return
+     */
+    @GET("comments/like")
+    Observable<JsonObject> likeComment(@Query("id") String commentId,@Query("type")String type);
+
+
+    /**
      * 添加评论
      *
      * @param id
@@ -240,6 +251,12 @@ public interface NetWorkService {
     @GET("members/messages")
     Observable<JsonObject>  getMsgList(@Query("classify")String classify);
 
+    /**
+     * 活动列表
+     * @return
+     */
+    @GET("events/list")
+    Observable<JsonObject> getEventList(@Query("p")int page);
     @GET("test")
     Call<JsonObject> test();
 }

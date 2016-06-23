@@ -3,7 +3,6 @@ package com.teapopo.life.model.comment;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -12,7 +11,6 @@ import com.teapopo.life.util.rx.RxSubscriber;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -39,6 +37,26 @@ public class CommentModel extends BaseModel {
                     @Override
                     public void _onError(String s) {
 
+                    }
+                });
+    }
+
+    public void clickLikeCommentOrNot(String type , String commentId){
+        Observable<JsonObject> observable = mDataManager.clickLikeComment(type,commentId);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.CommentModel_ClickLikeComment;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
     }

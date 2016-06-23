@@ -34,9 +34,12 @@ public enum Action {
     ArticleInfoModel_ReplyComment,
     //for CommentModel
     CommentModel_ReplyComment,
+    CommentModel_ClickLikeComment,
     //for PublishArticleModel
     PublishArticleModel_PublishWithoutImage,
     PublishArticleModel_PublishWithImage,
     //for XinZiArticleModel
-    XinZiArticleModel_GetTopArticle
+    XinZiArticleModel_GetTopArticle,
+    //for EventListModel
+    EventListModel_GetEventList
 }

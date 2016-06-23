@@ -6,6 +6,7 @@ import com.teapopo.life.view.fragment.ArticleInfoFragment;
 import com.teapopo.life.view.fragment.Home.HomeLikeArticleFragment;
 import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
+import com.teapopo.life.view.fragment.welfare.WelFareFragment;
 import com.teapopo.life.view.fragment.xinzi.XinZiFragment;
 
 import dagger.Subcomponent;
@@ -25,4 +26,5 @@ public interface MainFragmentComponent {
 
     void inject(XinZiFragment fragment);
 
+    void inject(WelFareFragment fragment);
 }
