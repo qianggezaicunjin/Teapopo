@@ -41,5 +41,7 @@ public enum Action {
     //for XinZiArticleModel
     XinZiArticleModel_GetTopArticle,
     //for EventListModel
-    EventListModel_GetEventList
+    EventListModel_GetEventList,
+    //for UserInfoModel
+    UserInfoModel_GetUserInfo
 }

@@ -91,7 +91,10 @@ public class UserInfoModel extends BaseModel {
                 .subscribe(new RxSubscriber<UserInfo>() {
                     @Override
                     public void _onNext(UserInfo userInfo) {
-                        mRequestView.onRequestSuccess(userInfo);
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.UserInfoModel_GetUserInfo;
+                        modelAction.t = userInfo;
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override

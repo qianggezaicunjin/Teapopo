@@ -52,7 +52,7 @@ public class MainFragmentModule {
     @Provides
     @PerActivity
     UserViewModel provideUserViewModel(Context context, UserInfoModel userInfoModel){
-        return new UserViewModel(context,userInfoModel);
+        return new UserViewModel(userInfoModel);
     }
     @Provides
     @PerActivity
