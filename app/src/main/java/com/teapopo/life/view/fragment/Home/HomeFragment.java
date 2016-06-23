@@ -19,6 +19,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/4/12 0012.
@@ -75,7 +76,7 @@ public class HomeFragment extends BaseFragment {
 
         List<Fragment> fragmentList = new ArrayList<>();
         RecommendArticleFragment recommendArticleFragment= RecommendArticleFragment.newInstance();
-        HomeLikeArticleFragment homeLikeArticleFragment = HomeLikeArticleFragment.newInstance();
+        final HomeLikeArticleFragment homeLikeArticleFragment = HomeLikeArticleFragment.newInstance();
         fragmentList.add(recommendArticleFragment);
         fragmentList.add(homeLikeArticleFragment);
 
@@ -83,6 +84,29 @@ public class HomeFragment extends BaseFragment {
         HomeTabFragmentAdapter tabAdapter=new HomeTabFragmentAdapter(getChildFragmentManager(),fragmentList,titles);
         mViewPager.setAdapter(tabAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        /**
+         * 在选择到homelikeArticleFragment的时候才加载数据
+         * 防止两个faragment同时加载数据，优化性能
+         */
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Timber.d("onPageSelected");
+                if(position==1){
+                    homeLikeArticleFragment.loadData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 }
