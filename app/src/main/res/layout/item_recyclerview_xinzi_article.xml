@@ -77,7 +77,6 @@
                         android:text="@{viewmodel.article.authorInfo.isSubscribe}"
                         android:textSize="14sp"
                         android:textColor="@color/green"
-                        android:onClick="@{viewmodel.getOnClickListener()}"
                         android:background="@drawable/background_txt_verificationcode" />
 
                 </RelativeLayout>

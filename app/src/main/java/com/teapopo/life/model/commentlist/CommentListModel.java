@@ -1,8 +1,6 @@
-package com.teapopo.life.model.articleinfo;
+package com.teapopo.life.model.commentlist;
 
 import android.content.Context;
-import android.graphics.AvoidXfermode;
-import android.support.v4.view.TintableBackgroundView;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
@@ -12,9 +10,7 @@ import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.Reply;
-import com.teapopo.life.model.sharedpreferences.RxSpf_ReplyCommentSp;
 import com.teapopo.life.model.sharedpreferences.RxSpf_UserInfoSp;
-import com.teapopo.life.model.user.UserInfo;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
@@ -31,13 +27,41 @@ import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
- * Created by louiszgm-pc on 2016/5/31.
+ * Created by louiszgm on 2016/6/23.
  */
-public class ArticleInfoModel extends BaseModel {
-    public ArticleInfoModel(Context context) {
+public class CommentListModel extends BaseModel {
+    public CommentListModel(Context context) {
         super(context);
     }
 
+
+    public void getCommentList(String id,String classify){
+        Observable<JsonObject> observable = mDataManager.getCommentList(id,classify);
+        observable.subscribeOn(Schedulers.io())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .flatMap(new Func1<JsonObject, Observable<List<Comment>>>() {
+                    @Override
+                    public Observable<List<Comment>> call(JsonObject jsonObject) {
+                        List<Comment> commentList = handleCommentListJson(jsonObject);
+                        return Observable.just(commentList);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<List<Comment>>() {
+                    @Override
+                    public void _onNext(List<Comment> comments) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.CommentListModel_GetCommentList;
+                        modelAction.t = comments;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
 
     //回复评论
     public void replyComment(final String id, int type, final String content){
@@ -61,7 +85,7 @@ public class ArticleInfoModel extends BaseModel {
                     @Override
                     public void _onNext(Reply reply) {
                         ModelAction<Reply> action = new ModelAction<Reply>();
-                        action.action = Action.ArticleInfoModel_ReplyComment;
+                        action.action = Action.CommentListModel_ReplyComment;
                         action.t = reply;
                         mRequestView.onRequestSuccess(action);
                     }
@@ -90,7 +114,7 @@ public class ArticleInfoModel extends BaseModel {
                     @Override
                     public void _onNext(Comment comment) {
                         ModelAction<Comment> action = new ModelAction<Comment>();
-                        action.action = Action.ArticleInfoModel_AddComment;
+                        action.action = Action.CommentListModel_AddComment;
                         action.t = comment;
                         mRequestView.onRequestSuccess(action);
                     }
@@ -117,102 +141,50 @@ public class ArticleInfoModel extends BaseModel {
         comment.authorInfo = authorInfo;
         return comment;
     }
-    //获取文章信息
-    public void getArticleInfo(String articleId){
-        Observable<JsonObject> observable = mDataManager.getArticleInfo(articleId);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(mDataManager.getScheduler())
-                .compose(RxResultHelper.<JsonObject>handleResult())
-                .flatMap(new Func1<JsonObject, Observable<ArticleInfo>>() {
-                    @Override
-                    public Observable<ArticleInfo> call(JsonObject jsonObject) {
-                        ArticleInfo articleInfo = new ArticleInfo();
-                        try {
-                            articleInfo = handleArticleInfoJson(jsonObject);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return Observable.just(articleInfo);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<ArticleInfo>() {
-                    @Override
-                    public void _onNext(ArticleInfo articleInfo) {
-                        ModelAction<ArticleInfo> action = new ModelAction<ArticleInfo>();
-                        action.action = Action.ArticleInfoModel_GetInfo;
-                        action.t = articleInfo;
-                        mRequestView.onRequestSuccess(action);
-                    }
-
-                    @Override
-                    public void _onError(String s) {
-                        mRequestView.onRequestErroInfo(s);
-                    }
-                });
-
-    }
-
-    private ArticleInfo handleArticleInfoJson(JsonObject jsonObject) throws IOException {
-        JsonObject post = jsonObject.getAsJsonObject("posts");
-        JsonObject members = jsonObject.getAsJsonObject("members");
-
-        ArticleInfo articleInfo = LoganSquare.parse(post.toString(), ArticleInfo.class);
-
-        //添加文章的轮播图片
-        JsonArray images = jsonObject.getAsJsonArray("images");
-        if(images.size()>0){
-            for(JsonElement image:images){
-                String url = ((JsonObject)image).get("filename").getAsString();
-                articleInfo.articleImageUrls.add(url);
-            }
+    private List<Comment> handleCommentListJson(JsonObject jsonObject)  {
+        List<Comment> commentList = new ArrayList<>();
+        JsonObject data = jsonObject.getAsJsonObject("data");
+        JsonArray comments = data.getAsJsonArray("comments");
+        JsonObject members = data.getAsJsonObject("members");
+        JsonObject comment_likes = null;
+        if(data.has("comment_likes")){
+            comment_likes = data.getAsJsonObject("comment_likes");
         }
-        //文章作者的个人信息
-        JsonObject member = members.getAsJsonObject(articleInfo.member_id);
-        AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
-        articleInfo.authorInfo = authorInfo;
-        //文章的标签
-        for(JsonElement tag:jsonObject.getAsJsonArray("tags")){
-            articleInfo.tags.add(tag.getAsString());
+        JsonObject replys = null;
+        if(data.has("replys")){
+            replys = data.getAsJsonObject("replys");
         }
-        //添加喜欢的人的头像
-        JsonArray likes = jsonObject.getAsJsonArray("likes");
-        if(likes.size()>0){
-            for(JsonElement jsonElement:likes){
-                String member_id = jsonElement.getAsJsonObject().get("member_id").getAsString();
-                JsonObject member_fans = members.getAsJsonObject(member_id);
-                AuthorInfo like_authorInfo = LoganSquare.parse(member_fans.toString(),AuthorInfo.class);
-                articleInfo.fans.add(like_authorInfo);
-            }
-        }
-        //添加评论列表
-        JsonArray comments = jsonObject.getAsJsonArray("comments");
-        if(comments.size()>0){
-            for (JsonElement jsonElement:comments){
-                Comment comment = LoganSquare.parse(jsonElement.toString(),Comment.class);
-                JsonObject member_comment = members.getAsJsonObject(comment.member_id);
-                AuthorInfo comment_authorInfo = LoganSquare.parse(member_comment.toString(),AuthorInfo.class);
-                comment.authorInfo = comment_authorInfo;
-                //添加评论的回复列表
-                if(!jsonObject.get("replys").isJsonNull()){
-                    JsonObject replys = jsonObject.getAsJsonObject("replys");
-                    //一个评论有一条或者多条回复
+        for (JsonElement object:comments){
+            try {
+                Comment comment = LoganSquare.parse(object.toString(),Comment.class);
+                //添加该条评论的用户基本信息
+                JsonObject member = members.getAsJsonObject(comment.member_id);
+                AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
+                comment.authorInfo = authorInfo;
+                //该条评论是否被喜欢
+                if(comment_likes!=null){
+                    if(comment_likes.has(comment.id)){
+                        comment.is_like = true;
+                    }
+                }
+                //添加该条评论的回复列表
+                if(replys!=null) {
                     JsonArray reply = replys.getAsJsonArray(comment.id);
-                    if(reply!=null){
-                        for (JsonElement jsonElement1:reply){
-                            Reply reply1 = LoganSquare.parse(jsonElement1.toString(),Reply.class);
+                    if (reply != null) {
+                        for (JsonElement jsonElement1 : reply) {
+                            Reply reply1 = LoganSquare.parse(jsonElement1.toString(), Reply.class);
                             JsonObject member_reply = members.getAsJsonObject(reply1.member_id);
-                            AuthorInfo reply_authorInfo = LoganSquare.parse(member_reply.toString(),AuthorInfo.class);
+                            AuthorInfo reply_authorInfo = LoganSquare.parse(member_reply.toString(), AuthorInfo.class);
                             reply1.authorInfo = reply_authorInfo;
                             comment.replyList.add(reply1);
                         }
                     }
                 }
-                articleInfo.commentList.add(comment);
+                commentList.add(comment);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        return articleInfo;
+        return commentList;
     }
-
-
 }

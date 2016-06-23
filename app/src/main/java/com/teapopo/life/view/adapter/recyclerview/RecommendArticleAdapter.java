@@ -21,11 +21,13 @@ import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.view.activity.ImagePagerActivity;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.fragment.CommentList.CommentListFragment;
 import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 
@@ -56,12 +58,46 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
         Article post= (Article) data.get(position);
         mViewModel.article =  post;
         holder.setViewModel(mViewModel);
+        //设置点击事件
+        ArticleItemClickListener listener = new ArticleItemClickListener(mViewModel);
+        binding.btnFocus.setOnClickListener(listener);
+        binding.imgLikeornot.setOnClickListener(listener);
+        binding.imgComment.setOnClickListener(listener);
+        binding.imgUser.setOnClickListener(listener);
         //设置九宫格的图片显示
         NineImageGridAdapter adapter = new NineImageGridAdapter();
         binding.gvNineimage.setAdapter(adapter);
         binding.gvNineimage.setImagesData(post.imageUrls);
         //添加tag
         addTags(post.tags,binding);
+    }
+    class ArticleItemClickListener implements View.OnClickListener{
+        private ArticleItemViewModel mViewModel;
+        public ArticleItemClickListener(ArticleItemViewModel viewModel){
+            mViewModel = viewModel;
+        }
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.tv_tagname:
+                    String tagname = (String) ((TextView) v).getText();
+                    Timber.d("标签%s",tagname);
+                    mViewModel.showTagArticle(tagname);
+                    break;
+                case R.id.btn_focus:
+                    Timber.d("关注");
+                    mViewModel.doFocusAction();
+                    break;
+                case R.id.img_likeornot:
+                    Timber.d("点赞");
+                    mViewModel.doLikeArticle();
+                    break;
+                case R.id.img_comment:
+                    Timber.d("评论");
+                    ((SupportActivity)mContext).start(CommentListFragment.newInstance(mViewModel.article.articleId,mViewModel.article.title,"posts"));
+                    break;
+            }
+        }
     }
     //添加每篇文章的tag
     private void addTags(@NonNull List<String> tags, ItemRecyclerviewArticleBinding binding) {
@@ -81,7 +117,6 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
                 TextView tv_tag = new TextView(mContext,attributeSet);
                 tv_tag.setId(R.id.tv_tagname);
                 tv_tag.setText(tag);
-                tv_tag.setOnClickListener(binding.getViewmodel().getOnClickListener());
                 binding.llRvItemTag.addView(tv_tag,params);
             }
         }
