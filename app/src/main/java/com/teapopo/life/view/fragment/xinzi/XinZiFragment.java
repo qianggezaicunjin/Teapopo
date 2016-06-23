@@ -29,6 +29,7 @@ import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.XinZiArticleAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
+import com.teapopo.life.view.customView.RecyclerView.OnPageListener;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.xinzi.XinZiArticleViewModel;
@@ -43,12 +44,10 @@ import rx.Observable;
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
-public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener {
+public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener, OnPageListener {
 
-    private MainFragmentComponent mComponent;
     private XinZiArticleAdapter mAdapter;
-    private List<BaseEntity> articleList = new ArrayList<>();
-    private List<BaseEntity> topArticleList = new ArrayList<>();
+
     @Inject
     XinZiArticleViewModel mViewModel;
     private FragmentXinziBinding mBinding;
@@ -59,8 +58,7 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
     }
     @Override
     public void onCreateBinding() {
-        mComponent = ((MainActivity)_mActivity).getMainActivityComponent().mainFragmentComponent(new MainFragmentModule(this));
-        mComponent.inject(this);
+         ((MainActivity)_mActivity).getMainFragmentComponent().inject(this);
     }
 
     @Override
@@ -88,41 +86,32 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
     }
 
     private void setUpArticle() {
-        mAdapter = new XinZiArticleAdapter(_mActivity,articleList);
+        mAdapter = new XinZiArticleAdapter(_mActivity,mViewModel.data);
         mAdapter.setOnItemClickListener(this);
         mBinding.rvXinziarticle.setAdapter(mAdapter);
+        mBinding.rvXinziarticle.setOnPageListener(this);
         mViewModel.requestData();
     }
     private void setUpTopArticle() {
         mTopBinding = ItemRecyclerviewXinziToparticleBinding.inflate(LayoutInflater.from(_mActivity));
-        TopArticleAdapter adapter = new TopArticleAdapter(_mActivity,topArticleList);
+        TopArticleAdapter adapter = new TopArticleAdapter(_mActivity,mViewModel.xinzi_topArticleList);
         mTopBinding.viewpagerToparticle.setAdapter(adapter);
         mBinding.rvXinziarticle.addHeader(mTopBinding.getRoot());
         //请求数据
         mViewModel.getTopArticle();
     }
-    //更新文章的内容
-    public void refreshArticleContent(List<Article> articleList){
-        this.articleList.addAll(articleList);
-        mBinding.rvXinziarticle.notifyDataSetChanged();
-    }
-    //更新头部文章
-    public void refreshTopArticle(List<TopArticle> topArticles){
-        this.topArticleList.addAll(topArticles);
-        mTopBinding.viewpagerToparticle.notifyDataSetChanged();
-    }
-
-    //处理服务器返回的错误信息
-    public void handleErroMsg(String s){
-        CustomToast.makeText(_mActivity,s, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public void onItemClick(View view, int position) {
-        Article article = (Article) articleList.get(position);
+        Article article = (Article) mViewModel.data.get(position);
         //跳转到文章详情页
         Intent intent = ArticleDetailActivity.getStartIntent(_mActivity);
         intent.putExtra("articleId",article.articleId);
         Navigator.getInstance().start(_mActivity,intent);
+    }
+
+    @Override
+    public void onPage() {
+        mViewModel.requestData();
     }
 }

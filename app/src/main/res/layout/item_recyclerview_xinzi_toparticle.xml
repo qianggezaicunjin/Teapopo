@@ -31,7 +31,8 @@
                 <com.teapopo.life.view.customView.HackyViewPager
                     android:id="@+id/viewpager_toparticle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:data="@{viewModel.xinzi_topArticleList}"/>
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>

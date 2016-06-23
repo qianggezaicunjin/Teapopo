@@ -1,6 +1,7 @@
 package com.teapopo.life.viewModel.xinzi;
 
 import android.content.Context;
+import android.databinding.Bindable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.xinzi.XinZiFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import timber.log.Timber;
@@ -30,12 +32,13 @@ import timber.log.Timber;
 public class XinZiArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
 
     private XinZiArticleModel mModel;
-    private XinZiFragment mView;
-    public XinZiArticleViewModel(Fragment view, XinZiArticleModel model){
-        mView = (XinZiFragment) view;
+
+    @Bindable
+    public List<BaseEntity> xinzi_topArticleList = new ArrayList<>();
+
+    public XinZiArticleViewModel(XinZiArticleModel model){
         mModel = model;
         mModel.setView(this);
-        requestData();
     }
 
     @Override
@@ -47,33 +50,20 @@ public class XinZiArticleViewModel extends BaseRecyclerViewModel<BaseEntity> imp
     public void getTopArticle(){
         mModel.getTopArticle("xinzi");
     }
-    public OnPageListener getOnPageListener() {
-        return new OnPageListener() {
-            @Override
-            public void onPage() {
-                requestData();
-            }
-        };
-    }
-    @Override
-    public void onRequestFinished() {
-
-    }
 
     @Override
     public void onRequestSuccess(ModelAction data) {
         Action action = data.action;
         if(action == Action.CategoryArticleModel_GetArticle){
             List<Article> articles = (List<Article>) data.t;
-            mView.refreshArticleContent(articles);
+            super.data.addAll(articles);
+            notifyPropertyChanged(BR.data);
         }else if(action == Action.XinZiArticleModel_GetTopArticle){
             List<TopArticle> topArticles = (List<TopArticle>) data.t;
-            mView.refreshTopArticle(topArticles);
+            xinzi_topArticleList.addAll(topArticles);
+            notifyPropertyChanged(BR.xinzi_topArticleList);
         }
     }
 
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-        mView.handleErroMsg(erroinfo);
-    }
+
 }
