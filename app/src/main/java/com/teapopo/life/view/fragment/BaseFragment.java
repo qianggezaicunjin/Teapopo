@@ -18,6 +18,7 @@ import com.teapopo.life.viewModel.ToolBarViewModel;
 
 import me.yokeyword.fragmentation.SupportFragment;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/4/19 0019.
@@ -27,12 +28,14 @@ public abstract class BaseFragment extends SupportFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
         onCreateBinding();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Timber.d("onCreateView");
         //缓存fragment的内容
         if(mContentView == null){
             mContentView= getContentView(inflater,container,savedInstanceState);

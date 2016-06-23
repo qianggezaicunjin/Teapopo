@@ -25,22 +25,11 @@ import timber.log.Timber;
  */
 public class HomeLikeArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
 
-    private Context mContext;
     private HomeLikeArticleModel mModel;
-    private RecommendArticleAdapter adapter;
 
-    public HomeLikeArticleViewModel(Context context, HomeLikeArticleModel model){
-        mContext = context;
+    public HomeLikeArticleViewModel(HomeLikeArticleModel model){
         mModel = model;
         mModel.setView(this);
-
-        adapter = new RecommendArticleAdapter(mContext,getData());
-
-        requestData();
-    }
-
-    public RecommendArticleAdapter getAdapter(){
-        return adapter;
     }
 
     @Override
@@ -49,36 +38,10 @@ public class HomeLikeArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         mModel.getArticle(true);
     }
 
-    public SwipeRefreshLayout.OnRefreshListener getOnRefreshListener(){
-        return new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Timber.d("onRefresh");
-                data.clear();
-                requestData();
-            }
-        };
-    }
-
-    public OnPageListener getOnPageListener() {
-        return new OnPageListener() {
-            @Override
-            public void onPage() {
-                requestData();
-            }
-        };
-    }
-    @Override
-    public void onRequestFinished() {
-
-    }
 
     @Override
     public void onRequestSuccess(ModelAction data) {
         Action action = data.action;
-        if(data.t==null){
-            CustomToast.makeText(mContext,"已无更多数据", Toast.LENGTH_SHORT).show();
-        }else {
             if(action == Action.HomeLikeArticleModel_GetArticle){
                 Timber.d("Action.HomeLikeArticleModel_GetArticle");
                 List<HomeLikeArticle> list = (List<HomeLikeArticle>) data.t;
@@ -88,13 +51,7 @@ public class HomeLikeArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
                 loading = false;
                 notifyPropertyChanged(BR.loading);
             }
-        }
+
     }
 
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-        loading = false;
-        notifyPropertyChanged(BR.loading);
-        CustomToast.makeText(mContext,erroinfo,Toast.LENGTH_SHORT).show();
-    }
 }

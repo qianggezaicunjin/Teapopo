@@ -27,12 +27,6 @@ import dagger.Provides;
  */
 @Module
 public class MainFragmentModule {
-
-    private ViewDataBinding mBinding;
-
-    public MainFragmentModule(ViewDataBinding binding){
-        mBinding = binding;
-    }
     public MainFragmentModule(){
 
     }
@@ -64,7 +58,7 @@ public class MainFragmentModule {
     @Provides
     @PerActivity
     HomeLikeArticleViewModel provideHomeLikeArticleViewModel(Context context, HomeLikeArticleModel model){
-        return new HomeLikeArticleViewModel(context,model);
+        return new HomeLikeArticleViewModel(model);
     }
     @Provides
     @PerActivity
