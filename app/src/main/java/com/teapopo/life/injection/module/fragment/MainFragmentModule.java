@@ -27,11 +27,9 @@ import dagger.Provides;
  */
 @Module
 public class MainFragmentModule {
-    private Fragment mView;
+
     private ViewDataBinding mBinding;
-    public MainFragmentModule(Fragment view){
-        mView = view;
-    }
+
     public MainFragmentModule(ViewDataBinding binding){
         mBinding = binding;
     }
@@ -77,7 +75,7 @@ public class MainFragmentModule {
     @Provides
     @PerActivity
     XinZiArticleViewModel provideXinZiArticleViewModel(XinZiArticleModel model){
-        return new XinZiArticleViewModel(mView,model);
+        return new XinZiArticleViewModel(model);
     }
     @Provides
     @PerActivity
