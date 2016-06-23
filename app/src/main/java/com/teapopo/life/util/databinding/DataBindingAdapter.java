@@ -66,15 +66,9 @@ public class DataBindingAdapter {
         swipeRefreshLayout.setRefreshing(isLoading);
     }
 
-    //HackyViewPager 设置adapter
-    @BindingAdapter({"adapter"})
-    public static void setViewPagerAdapter(HackyViewPager viewPager, PagerAdapter adapter) {
-        Timber.d("setViewPagerAdapter");
-        viewPager.setAdapter(adapter);
-    }
     //HackyViewPager 设置data 并通知数据集改变
-    @BindingAdapter({"viewpagerdata"})
-    public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> articles) {
+    @BindingAdapter({"data"})
+    public static void setViewPagerData(HackyViewPager viewPager, List<BaseEntity> data) {
         Timber.d("notifyDataSetChanged viewPager");
         viewPager.notifyDataSetChanged();
     }

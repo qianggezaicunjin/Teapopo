@@ -48,7 +48,6 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
     RecomendArticleViewModel mRecomendArticleViewModel;
     @Inject
     RxBus mRxBus;
-    private MainFragmentComponent mComponent;
     private FragmentRecommendarticleBinding mBinding;//文章列表内容的binding对象
     private ItemRecyclerviewToparticleBinding toparticleBinding;
     private ItemHomeHottagsBinding hotTagsBinding;
@@ -57,9 +56,6 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
     private TopArticleAdapter topArticleAdapter;//顶部文章轮播viewpager的adapter
     private HotTagsAdapter hotTagsAdapter;
 
-    private List<BaseEntity> articleList = new ArrayList<>();
-    private List<BaseEntity> topArticleList = new ArrayList<>();
-    private List<Tag> tagList = new ArrayList<>();
 
     public static RecommendArticleFragment newInstance() {
         return new RecommendArticleFragment();
@@ -68,8 +64,7 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
     @Override
     public void onCreateBinding() {
         if(getActivity() instanceof MainActivity){
-            mComponent = ((MainActivity)getActivity()).getMainActivityComponent().mainFragmentComponent(new MainFragmentModule(this));
-            mComponent.inject(this);
+             ((MainActivity)getActivity()).getMainFragmentComponent().inject(this);
         }
     }
     @Override
@@ -93,7 +88,7 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
 
     private void setUpHotTags() {
 
-        hotTagsAdapter = new HotTagsAdapter(_mActivity,tagList);
+        hotTagsAdapter = new HotTagsAdapter(_mActivity,mRecomendArticleViewModel.tagList);
         hotTagsBinding.rvCategory.setAdapter(hotTagsAdapter);
         hotTagsBinding.rvCategory.setOrientation(RecyclerView.HORIZONTAL);
         //请求热门标签的数据
@@ -101,7 +96,7 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
     }
 
     private void setUpArticle() {
-        mAdapter = new RecommendArticleAdapter(_mActivity,articleList);
+        mAdapter = new RecommendArticleAdapter(_mActivity,mRecomendArticleViewModel.data);
         mAdapter.setOnItemClickListener(this);
         mBinding.swipeRefreshWidget.setOnRefreshListener(this);
         mBinding.rvRecommendarticle.setOnPageListener(this);
@@ -113,24 +108,13 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
     }
 
     private void setUpTopArticle() {
-        topArticleAdapter = new TopArticleAdapter(_mActivity,topArticleList);
+        topArticleAdapter = new TopArticleAdapter(_mActivity,mRecomendArticleViewModel.topArticleList);
         toparticleBinding.viewpagerToparticle.setAdapter(topArticleAdapter);
         //请求头部文章的数据
         mRecomendArticleViewModel.getTopArticle();
     }
 
-    public void refreshArticle(List<CategoryArticle> data){
-        articleList.addAll(data);
-        mBinding.rvRecommendarticle.notifyDataSetChanged();
-    }
-    public void refreshTopArticle(List<TopArticle> data){
-        topArticleList.addAll(data);
-        toparticleBinding.viewpagerToparticle.notifyDataSetChanged();
-    }
-    public void refreshHotTags(List<Tag> data){
-        tagList.addAll(data);
-        hotTagsBinding.rvCategory.notifyDataSetChanged();
-    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -142,23 +126,19 @@ public class RecommendArticleFragment extends BaseFragment implements BaseRecycl
         if(mBinding.swipeRefreshWidget.isRefreshing()){
 
         }else {
-            Article article = (Article) articleList.get(position);
+            Article article = (Article) mRecomendArticleViewModel.data.get(position);
             //跳转到文章详情页
             Intent intent = ArticleDetailActivity.getStartIntent(_mActivity);
             intent.putExtra("articleId",article.articleId);
             Navigator.getInstance().start(_mActivity,intent);
         }
     }
-    //加载完成
-    public void refreshWhenLoadingDone(){
-        mBinding.rvRecommendarticle.setIsLoading(false);
-    }
 
     //下拉刷新监听
     @Override
     public void onRefresh() {
         Timber.d("onRefresh");
-        articleList.clear();
+        mRecomendArticleViewModel.data.clear();
         mRecomendArticleViewModel.requestData();
     }
 

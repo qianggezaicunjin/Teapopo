@@ -51,11 +51,14 @@ import timber.log.Timber;
 public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
 
     private RecommendArticleModel mRecommendArticleModel;
-    private RecommendArticleFragment mView;
 
+    @Bindable
+    public List<BaseEntity> topArticleList = new ArrayList<>();
+    @Bindable
+    public List<BaseEntity> tagList = new ArrayList<>();
 
-    public RecomendArticleViewModel(Fragment view, RecommendArticleModel recommendArticleModel){
-       mView = (RecommendArticleFragment) view;
+    public RecomendArticleViewModel( RecommendArticleModel recommendArticleModel){
+
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
     }
@@ -79,23 +82,25 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
             if (data.action == Action.RecommendArticleModel_GetTopArticle){
                 Timber.d("onRequestSuccess  TopArticle");
                 List<TopArticle> list = (List<TopArticle>)data.t;
-                mView.refreshTopArticle(list);
+                topArticleList.addAll(list);
+                notifyPropertyChanged(BR.topArticleList);
             }
             //如果数据源是热门标签
             if(data.action == Action.RecommendArticleModel_GetHotTags){
                 Timber.d("onRequestSuccess  Tag");
                 List<Tag> list = (List<Tag>) data.t;
-                mView.refreshHotTags(list);
+                tagList.addAll(list);
+                notifyPropertyChanged(BR.tagList);
             }
             //如果数据源是文章列表内容
             if(data.action == Action.CategoryArticleModel_GetArticle){
                 Timber.d("onRequestSuccess  RecommendArticle");
                List<CategoryArticle> list = (List<CategoryArticle>) data.t;
-                mView.refreshArticle(list);
+                super.data.addAll(list);
+                notifyPropertyChanged(BR.data);
                 //加载文章数据完成
                 loading = false;
                 notifyPropertyChanged(BR.loading);
-                mView.refreshWhenLoadingDone();
             }
         }
     }
