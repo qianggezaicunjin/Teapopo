@@ -6,11 +6,37 @@
             name="event"
             type="com.teapopo.life.model.welfare.Event"/>
     </data>
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="vertical"
-        android:background="@color/red">
-
-    </LinearLayout>
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="350dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/background_splash"
+            android:id="@+id/item_welfare_iv"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="会员福利专场"
+            android:textSize="21dp"
+            android:layout_below="@id/item_welfare_iv"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/item_welfare_tv"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_welfare_tv"
+            android:text="凭积分0元兑换，福利商品持续更新"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="16dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥0.00起"
+            android:textColor="@android:color/holo_red_dark"
+            android:layout_below="@id/item_welfare_iv"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:textSize="15dp"/>
+    </RelativeLayout>
 
 </layout>
