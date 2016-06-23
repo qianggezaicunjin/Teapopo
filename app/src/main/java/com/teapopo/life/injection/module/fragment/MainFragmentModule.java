@@ -42,7 +42,7 @@ public class MainFragmentModule {
     @Provides
     @PerActivity
     RecomendArticleViewModel provideRecommendArticleViewModel( RecommendArticleModel recommendArticleModel){
-        return new RecomendArticleViewModel(mView,recommendArticleModel);
+        return new RecomendArticleViewModel(recommendArticleModel);
     }
 
     @Provides
