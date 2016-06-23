@@ -104,6 +104,24 @@ public class UserInfoModel extends BaseModel {
                 });
     }
 
+    public void logOut(){
+        Observable<JsonObject> observable = mDataManager.logOut();
+        observable.subscribeOn(Schedulers.io())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.UserInfoModel_LogOut;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
 
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
 
 }

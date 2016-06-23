@@ -43,5 +43,6 @@ public enum Action {
     //for EventListModel
     EventListModel_GetEventList,
     //for UserInfoModel
-    UserInfoModel_GetUserInfo
+    UserInfoModel_GetUserInfo,
+    UserInfoModel_LogOut
 }

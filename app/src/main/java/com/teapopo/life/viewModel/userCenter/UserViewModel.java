@@ -53,6 +53,9 @@ public class UserViewModel extends BaseViewModel {
         mUserInfoModel.getUserInfo();
     }
 
+    public void logOut(){
+        mUserInfoModel.logOut();
+    }
     @Override
     public void onRequestSuccess(ModelAction data) {
         Action action = data.action;
@@ -60,9 +63,9 @@ public class UserViewModel extends BaseViewModel {
             UserInfo userInfo = (UserInfo) data.t;
             mUserInfo = userInfo;
             notifyPropertyChanged(BR.userInfo);
+        }else if(action == Action.UserInfoModel_LogOut){
+            mUserInfo = null;
+            notifyPropertyChanged(BR.userInfo);
         }
     }
-
-
-
 }

@@ -41,6 +41,7 @@
                     android:layout_below="@+id/iv_user_msg"
                     android:layout_centerHorizontal="true"
                     app:imageUrl="@{userViewModel.mUserInfo.avatar}"
+                    android:onClick="@{handler.clickUserAvatar}"
                     app:civ_border_color="@color/gray_light"
                     app:civ_border_width="2dp"
                     />
@@ -304,6 +305,7 @@
                         android:textSize="@dimen/default_list_textsize"
                         android:text="@string/userinfo_exit"
                         android:background="?android:selectableItemBackground"
+                        android:onClick="@{handler.clickLogOut}"
                         />
                 </LinearLayout>
             </android.support.v7.widget.CardView>

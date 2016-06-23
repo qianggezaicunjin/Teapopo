@@ -257,6 +257,9 @@ public interface NetWorkService {
      */
     @GET("events/list")
     Observable<JsonObject> getEventList(@Query("p")int page);
+
+    @GET("members/logout")
+    Observable<JsonObject> logOut();
     @GET("test")
     Call<JsonObject> test();
 }
