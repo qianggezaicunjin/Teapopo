@@ -91,7 +91,10 @@ public class UserInfoModel extends BaseModel {
                 .subscribe(new RxSubscriber<UserInfo>() {
                     @Override
                     public void _onNext(UserInfo userInfo) {
-                        mRequestView.onRequestSuccess(userInfo);
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.UserInfoModel_GetUserInfo;
+                        modelAction.t = userInfo;
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override
@@ -101,6 +104,24 @@ public class UserInfoModel extends BaseModel {
                 });
     }
 
+    public void logOut(){
+        Observable<JsonObject> observable = mDataManager.logOut();
+        observable.subscribeOn(Schedulers.io())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.UserInfoModel_LogOut;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
 
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
 
 }

@@ -312,4 +312,12 @@ public class DataManager {
     public Observable<JsonObject> getEventList(int page){
         return mNetWorkService.getEventList(page);
     }
+
+    /**
+     * 会员登出
+     * @return
+     */
+    public Observable<JsonObject> logOut(){
+        return mNetWorkService.logOut();
+    }
 }

@@ -28,6 +28,8 @@ public class EventListAdapter extends BaseRecyclerViewAdapter<Event,EventListAda
     @Override
     public void onBindViewHolder(EventListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        Event event = data.get(position);
+        holder.setEvent(event);
     }
 
     public static class EventListViewHolder extends RecyclerView.ViewHolder{

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="event"
@@ -12,11 +12,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@drawable/background_splash"
-            android:id="@+id/item_welfare_iv"/>
+            android:id="@+id/item_welfare_iv"
+            app:imageUrl="@{event.coverImg}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="会员福利专场"
+            android:text="@{event.name}"
             android:textSize="21dp"
             android:layout_below="@id/item_welfare_iv"
             android:layout_marginLeft="10dp"
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/item_welfare_tv"
-            android:text="凭积分0元兑换，福利商品持续更新"
+            android:text="@{event.adWords}"
             android:textColor="@android:color/darker_gray"
             android:textSize="16dp"/>
         <TextView
