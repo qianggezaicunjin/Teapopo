@@ -339,19 +339,21 @@ public class DataManager {
      * @return
      */
     public Observable<JsonObject> getEventGoodsList(String id,int type){
-        Call call = mNetWorkService.getEventGoodsList(id);
+        Observable<JsonObject> observable = null;
         switch (type){
             case 1:
                 break;
             case 2:
-                call.request().url().newBuilder().addQueryParameter("price","point");
+                observable = mNetWorkService.getEventGoodsList(id,"point",null);
                 break;
             case 3:
+                observable = mNetWorkService.getEventGoodsList(id,null,"hot");
                 break;
             case 4:
+                observable = mNetWorkService.getEventGoodsList(id,null,"new");
                 break;
         }
 
-        return null;
+        return observable;
     }
 }
