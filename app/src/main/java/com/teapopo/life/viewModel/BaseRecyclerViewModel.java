@@ -9,6 +9,8 @@ import com.teapopo.life.BR;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by louiszgm-pc on 2016/5/2.
  */
@@ -47,6 +49,18 @@ public class BaseRecyclerViewModel<T> extends BaseViewModel {
     }
 
     public void requestData() {
+        loading = true;
+        notifyPropertyChanged(BR.loading);
+    }
+
+    public void stopLoading(){
+        Timber.d("stopLoading");
+        loading = false;
+        notifyPropertyChanged(BR.loading);
+    }
+
+    public void startLoading(){
+        Timber.d("startLoading");
         loading = true;
         notifyPropertyChanged(BR.loading);
     }

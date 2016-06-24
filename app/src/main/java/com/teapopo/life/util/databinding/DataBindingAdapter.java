@@ -63,6 +63,7 @@ public class DataBindingAdapter {
     //SwipeRefreshLayout 设置loading状态
     @BindingAdapter({"isLoading"})
     public static void isLoading(SwipeRefreshLayout swipeRefreshLayout, boolean isLoading) {
+        Timber.d("set SwipeRefreshLayout loading:%s",isLoading);
         swipeRefreshLayout.setRefreshing(isLoading);
     }
 

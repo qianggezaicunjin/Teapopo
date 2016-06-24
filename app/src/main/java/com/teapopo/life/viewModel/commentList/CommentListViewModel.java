@@ -32,7 +32,6 @@ public class CommentListViewModel extends BaseRecyclerViewModel {
     @Bindable
     public boolean showSoftInput = false;
 
-    private List<Comment> commentList;
     public CompositeSubscription compositeSubscription = new CompositeSubscription();
     private Comment mReplyComment;//要回复的评论
     public void setShowSoftInput(boolean isShow){
@@ -45,8 +44,10 @@ public class CommentListViewModel extends BaseRecyclerViewModel {
     }
 
     public void getCommentList(String id,String classify){
-        mModel.getCommentList(id,classify);
-        requestData();
+        if(!mModel.isNoData){
+            mModel.getCommentList(id,classify);
+            startLoading();
+        }
     }
 
 
@@ -70,29 +71,28 @@ public class CommentListViewModel extends BaseRecyclerViewModel {
         if(action == Action.CommentListModel_GetCommentList){
             Timber.d("获取评论列表成功");
             List<Comment> commentList = (List<Comment>) data.t;
-            this.commentList = commentList;
             super.data.addAll(commentList);
             notifyPropertyChanged(BR.data);
             loading = false;
             notifyPropertyChanged(BR.loading);
         }else if(action == Action.CommentListModel_AddComment){
             Comment comment = (Comment) data.t;
-            commentList.add(0,comment);
+            super.data.add(0,comment);
             handleNoticeInfo("发表评论成功");
-            notifyPropertyChanged(BR.articleInfo);
+            notifyPropertyChanged(BR.data);
             setSoftInputStateWhenCommentOrReply(false,false,null);
         }else if(action == Action.CommentListModel_ReplyComment){
             Timber.d("回复成功，发送通知更新界面");
             Reply reply = (Reply) data.t;
             //将回复的内容添加至对应的Comment,并标识回复的位置
-            for(int i = 0;i<commentList.size();i++){
-                Comment comment = commentList.get(i);
+            for(int i = 0;i<super.data.size();i++){
+                Comment comment = (Comment) super.data.get(i);
                 if(comment.id.equals(reply.commentId)){
                     comment.replyPosition = String.valueOf(i);
                     comment.replyList.add(reply);
                 }
             }
-            notifyPropertyChanged(BR.articleInfo);
+            notifyPropertyChanged(BR.data);
             handleNoticeInfo("回复评论成功");
             setSoftInputStateWhenCommentOrReply(true,false,null);
         }
@@ -109,7 +109,7 @@ public class CommentListViewModel extends BaseRecyclerViewModel {
                     @Override
                     public void _onNext(Comment comment) {
                         //如果不包含该comment，则代表发表的是评论
-                        if(commentList.contains(comment)){
+                        if(data.contains(comment)){
                             setSoftInputStateWhenCommentOrReply(true,true,comment);
                         }
                     }
@@ -144,5 +144,11 @@ public class CommentListViewModel extends BaseRecyclerViewModel {
         }
         notifyPropertyChanged(BR.showSoftInput);
         notifyPropertyChanged(BR.editText_inputCommentHint);
+    }
+
+    @Override
+    public void onRequestErroInfo(String erroinfo) {
+        super.onRequestErroInfo(erroinfo);
+         stopLoading();
     }
 }
