@@ -320,4 +320,14 @@ public class DataManager {
     public Observable<JsonObject> logOut(){
         return mNetWorkService.logOut();
     }
+
+    /**
+     * 获取评论列表
+     * @param id
+     * @param classify
+     * @return
+     */
+    public Observable<JsonObject> getCommentList(String id,String classify){
+        return mNetWorkService.getCommentList(id,classify);
+    }
 }

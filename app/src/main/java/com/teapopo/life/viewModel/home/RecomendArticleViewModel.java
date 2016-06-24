@@ -39,6 +39,8 @@ import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -57,10 +59,29 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     @Bindable
     public List<BaseEntity> tagList = new ArrayList<>();
 
+    @Bindable
+    public int position = 0;
+
+    public void setPositon(int positon){
+        this.position = positon;
+    }
+
     public RecomendArticleViewModel( RecommendArticleModel recommendArticleModel){
 
         this.mRecommendArticleModel = recommendArticleModel;
         mRecommendArticleModel.setView(this);
+        startTopArticleTimer();
+    }
+
+    private void startTopArticleTimer() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                position+=1;
+                notifyPropertyChanged(BR.position);
+            }
+        }, 1000, 2000);
     }
 
 

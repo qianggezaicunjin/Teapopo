@@ -26,7 +26,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/27.
  */
-public class ArticleItemViewModel extends BaseObservable implements RequestView<ModelAction> {
+public class ArticleItemViewModel extends BaseViewModel {
     private ArticleItemModel mModel;
     @Bindable
     public Article article;
@@ -37,50 +37,21 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
         mModel.setView(this);
     }
 
-    public View.OnClickListener getOnClickListener(){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               switch (v.getId()){
-                   case R.id.tv_tagname:
-                       String tagname = (String) ((TextView) v).getText();
-                       Timber.d("标签%s",tagname);
-                       showTagArticle(tagname);
-                       break;
-                   case R.id.btn_focus:
-                       Timber.d("关注");
-                       doFocusAction();
-                       break;
-                   case R.id.img_likeornot:
-                       Timber.d("点赞");
-                       doLikeArticle();
-                       break;
-                   case R.id.img_comment:
-                       Timber.d("评论");
-                       break;
-               }
-            }
-        };
-    }
     //点赞/取消点赞文章
-    private void doLikeArticle() {
+    public void doLikeArticle() {
         String articleId = article.articleId;
         mModel.likeArticleOrNot(!article.isLike,articleId);
     }
     //关注文章
-    private void doFocusAction() {
+    public void doFocusAction() {
         String memberId = article.member_id;
         mModel.focusMember(memberId);
     }
 
     //根据标签名字显示对应文章
-    private void showTagArticle(String tagname) {
+    public void showTagArticle(String tagname) {
     }
 
-    @Override
-    public void onRequestFinished() {
-
-    }
 
     @Override
     public void onRequestSuccess(ModelAction data) {
@@ -102,8 +73,4 @@ public class ArticleItemViewModel extends BaseObservable implements RequestView<
         }
     }
 
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-
-    }
 }

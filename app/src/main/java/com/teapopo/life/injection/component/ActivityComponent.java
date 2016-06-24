@@ -7,6 +7,7 @@ import android.content.Context;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.view.adapter.recyclerview.RecommendArticleAdapter;
+import com.teapopo.life.view.fragment.CommentList.CommentListFragment;
 
 import dagger.Component;
 
@@ -19,5 +20,4 @@ public interface ActivityComponent {
 
     Context getContext();
 
-    void inject(RecommendArticleAdapter adapter);
 }

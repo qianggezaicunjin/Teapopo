@@ -44,5 +44,9 @@ public enum Action {
     EventListModel_GetEventList,
     //for UserInfoModel
     UserInfoModel_GetUserInfo,
-    UserInfoModel_LogOut
+    UserInfoModel_LogOut,
+    //for CommentListModel
+    CommentListModel_GetCommentList,
+    CommentListModel_ReplyComment,
+    CommentListModel_AddComment
 }

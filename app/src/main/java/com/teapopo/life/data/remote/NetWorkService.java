@@ -258,8 +258,21 @@ public interface NetWorkService {
     @GET("events/list")
     Observable<JsonObject> getEventList(@Query("p")int page);
 
+    /**
+     * 会员登出
+     * @return
+     */
     @GET("members/logout")
     Observable<JsonObject> logOut();
+
+    /**
+     * 获取评论列表
+     * @param id
+     * @param classify 分类 goods 或者 posts
+     * @return
+     */
+    @GET("comments/list")
+    Observable<JsonObject> getCommentList(@Query("id")String id,@Query("classify")String classify);
     @GET("test")
     Call<JsonObject> test();
 }
