@@ -72,4 +72,9 @@ public class DataBindingAdapter {
         Timber.d("notifyDataSetChanged viewPager");
         viewPager.notifyDataSetChanged();
     }
+
+    @BindingAdapter({"position"})
+    public static void setPage(HackyViewPager viewPager,int position){
+        viewPager.setCurrentItem(position);
+    }
 }
