@@ -15,10 +15,14 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Set;
 
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Response;
+import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -46,6 +50,7 @@ public class DataManagerTest {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(NetWorkService.ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
 
@@ -54,13 +59,10 @@ public class DataManagerTest {
 
     @Test
     public void getArticleTest()throws Exception{
-        retrofit2.Response<JsonObject> response = mockNetWorkService.test().execute();
-        JsonObject jsonObject = response.body();
-        JsonObject data = jsonObject.getAsJsonObject("data");
-        JsonObject likes = data.getAsJsonObject("likes");
 
-        for(Map.Entry entry:likes.entrySet()){
-            Timber.d("键为:%s",entry.getKey().toString());
-        }
+    }
+    @Test
+    public void getEventGoodsListTest()throws Exception{
+        mockNetWorkService.test("123","points",null).execute();
     }
 }
