@@ -334,26 +334,10 @@ public class DataManager {
     /**
      *
      * @param id
-     * @param type 活动商品列表的类型
-     *             1.全部活动商品  2.积分兑换 3.热门 4.最新
      * @return
      */
-    public Observable<JsonObject> getEventGoodsList(String id,int type){
-        Observable<JsonObject> observable = null;
-        switch (type){
-            case 1:
-                break;
-            case 2:
-                observable = mNetWorkService.getEventGoodsList(id,"point",null);
-                break;
-            case 3:
-                observable = mNetWorkService.getEventGoodsList(id,null,"hot");
-                break;
-            case 4:
-                observable = mNetWorkService.getEventGoodsList(id,null,"new");
-                break;
-        }
+    public Observable<JsonObject> getEventGoodsList(String id){
 
-        return observable;
+        return mNetWorkService.getEventGoodsList(id);
     }
 }

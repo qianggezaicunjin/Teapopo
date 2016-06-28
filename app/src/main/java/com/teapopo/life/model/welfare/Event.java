@@ -4,6 +4,9 @@ import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.model.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by louiszgm on 2016/6/22.
  */
@@ -27,4 +30,8 @@ public class  Event extends BaseEntity {
     public long end_time;
 
     public String min_price;
+
+
+    //以下是增加的属性
+    public List<EventGoods> goods = new ArrayList<>();
 }
