@@ -3,6 +3,7 @@ package com.teapopo.life.viewModel.welfare;
 import android.databinding.Bindable;
 
 import com.teapopo.life.BR;
+import com.teapopo.life.R;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.model.welfare.EventListModel;
@@ -35,6 +36,7 @@ public class EventListViewModel extends BaseRecyclerViewModel{
         Action action = data.action;
         if(action == Action.EventListModel_GetEventList){
             List<BaseEntity> eventlist = (List<BaseEntity>) data.t;
+
             super.data.addAll(eventlist);
             notifyPropertyChanged(BR.data);
         }

@@ -4,6 +4,7 @@ package com.teapopo.life.view.fragment.welfare;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.EventListAdapter;
+import com.teapopo.life.view.adapter.viewpager.WelfareAdapter;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.BaseFragment;
