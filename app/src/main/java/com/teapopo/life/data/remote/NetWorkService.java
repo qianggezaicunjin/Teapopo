@@ -274,8 +274,14 @@ public interface NetWorkService {
     @GET("comments/list")
     Observable<JsonObject> getCommentList(@Query("id")String id,@Query("classify")String classify,@Query("p")int page);
 
+    /**
+     * 活动商品列表
+     * 每种类型的商品列表通过本地进行筛选，节省网络资源
+     * @param id
+     * @return
+     */
     @GET("events/goods")
-    Observable<JsonObject> getEventGoodsList(@Query("id")String id,@Query("price")String price,@Query("order")String order);
+    Observable<JsonObject> getEventGoodsList(@Query("id")String id);
     @GET("test")
-    Call<JsonObject> test(@Query("id")String id,@Query("price")String price,@Query("order")String order);
+    Call<JsonObject> test();
 }
