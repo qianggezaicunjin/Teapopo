@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.FragmentEventdetailBinding;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.model.welfare.EventGoodsListModel;
+import com.teapopo.life.view.adapter.viewpager.EventGoodsListTypeAdapter;
 import com.teapopo.life.view.adapter.viewpager.HomeTabFragmentAdapter;
 import com.teapopo.life.view.fragment.Home.HomeLikeArticleFragment;
 import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
@@ -61,19 +62,13 @@ public class EventDetailFragment extends SwipeBackBaseFragment {
 
     private void setUpTabLayout() {
         List<String> titles=new ArrayList<>();
-
         titles.add("全部");
         titles.add("热门");
         titles.add("最新");
         titles.add("积分兑换");
 
-        List<Fragment> fragmentList = new ArrayList<>();
-        EventGoodsListFragment allGoods = EventGoodsListFragment.newInstance(event);
-        fragmentList.add(allGoods);
-
-
         //如果在fragment里面嵌套的viewpager里面再嵌套fragment,则需要getChildFragmentManager()
-        HomeTabFragmentAdapter tabAdapter=new HomeTabFragmentAdapter(getChildFragmentManager(),fragmentList,titles);
+        EventGoodsListTypeAdapter tabAdapter=new EventGoodsListTypeAdapter(getChildFragmentManager(),mViewModel.event,titles);
         mBinding.ucvp.setAdapter(tabAdapter);
         mBinding.tabs.setupWithViewPager(mBinding.ucvp);
     }
