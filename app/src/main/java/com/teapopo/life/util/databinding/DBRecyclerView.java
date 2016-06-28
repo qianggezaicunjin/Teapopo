@@ -18,10 +18,6 @@ public class DBRecyclerView {
 
     public static int HIDE_FOOTER = 1;
 
-    @BindingAdapter({"adapter"})
-    public static void setSuperRvAdapter(SuperRecyclerView recyclerView, BaseRecyclerViewAdapter adapter) {
-        recyclerView.setAdapter(adapter);
-    }
     @BindingAdapter({"data"})
     public static void bindData(SuperRecyclerView recyclerView, List<BaseEntity> data) {
         Timber.d("notifyDataSetChanged data");
