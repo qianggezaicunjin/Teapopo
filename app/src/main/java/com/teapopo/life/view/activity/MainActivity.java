@@ -6,13 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
-import android.support.v4.app.FragmentTabHost;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -34,7 +29,6 @@ import com.teapopo.life.view.fragment.xinzi.XinZiFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import me.yokeyword.fragmentation.SupportFragment;
-import rx.Observable;
 import timber.log.Timber;
 
 

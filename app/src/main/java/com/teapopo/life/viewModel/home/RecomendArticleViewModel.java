@@ -78,10 +78,10 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                position+=1;
+                position++;
                 notifyPropertyChanged(BR.position);
             }
-        }, 1000, 2000);
+        }, 1000, 3000);
     }
 
 

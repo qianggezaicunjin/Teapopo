@@ -1,8 +1,13 @@
 package com.teapopo.life.data;
 
+import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.BuildConfig;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.model.welfare.EventGoods;
+import com.teapopo.life.model.welfare.EventGoodsComparator;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,18 +16,16 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowLog;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import rx.Observable;
 import timber.log.Timber;
 
 /**
@@ -63,6 +66,7 @@ public class DataManagerTest {
     }
     @Test
     public void getEventGoodsListTest()throws Exception{
-        mockNetWorkService.test("123","points",null).execute();
+
     }
+
 }
