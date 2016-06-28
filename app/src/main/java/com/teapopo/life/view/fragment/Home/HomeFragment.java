@@ -57,13 +57,13 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void setUpView() {
         setupAppBar();
+        setUpToolBar(mToolbar);
     }
 
     /**
      * 设置首页的顶部
      */
     private void setupAppBar() {
-        mToolbar.setNavigationIcon(R.drawable.icon_search);
 
         //设置滑动标签页
         List<String> titles=new ArrayList<>();
