@@ -1,23 +1,18 @@
 package com.teapopo.life.view.fragment.welfare;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentWelfareBinding;
 
-import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.EventListAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.welfare.EventListViewModel;
 
@@ -27,7 +22,7 @@ import javax.inject.Inject;
 /**
  * Created by louiszgm-pc on 2016/5/20.
  */
-public class WelFareFragment extends BaseFragment {
+public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener {
 
     @Inject
     EventListViewModel mViewModel;
@@ -56,6 +51,12 @@ public class WelFareFragment extends BaseFragment {
     private void setUpEventList() {
         EventListAdapter adapter = new EventListAdapter(_mActivity,mViewModel.data);
         mBinding.rvEventlist.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
         mViewModel.getEventList();
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        start(EventDetailFragment.newInstance((Event) mViewModel.data.get(position)));
     }
 }

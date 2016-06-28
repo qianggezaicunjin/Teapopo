@@ -1,12 +1,15 @@
 package com.teapopo.life.model.welfare;
 
 import android.content.Context;
+import android.graphics.AvoidXfermode;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.Constans.Action;
+import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
@@ -52,7 +55,10 @@ public class EventGoodsListModel extends BaseModel {
                 .subscribe(new RxSubscriber<List<EventGoods>>() {
                     @Override
                     public void _onNext(List<EventGoods> eventGoodses) {
-
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.EventGoodsListModel_GetGoodsList;
+                        modelAction.t = eventGoodses;
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override
@@ -67,7 +73,7 @@ public class EventGoodsListModel extends BaseModel {
      * @param jsonObject
      * @param type  活动商品列表的类型
      *             1.全部活动商品  2.积分兑换 3.热门 4.最新
-     *              当type为2时，以价格是否为0进行筛选
+     *              当type为2时，以积分是否为0进行筛选
      *              其他类型时，以相应的排序规则进行筛选
      * @return
      */
