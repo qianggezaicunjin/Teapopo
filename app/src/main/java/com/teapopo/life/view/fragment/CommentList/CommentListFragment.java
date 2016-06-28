@@ -44,6 +44,7 @@ public class CommentListFragment extends SwipeBackBaseFragment implements OnPage
         mBinding = FragmentCommentlistBinding.inflate(inflater);
         mViewModel = new CommentListViewModel(new CommentListModel(_mActivity));
         mBinding.setViewmodel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 

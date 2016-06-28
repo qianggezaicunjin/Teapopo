@@ -8,7 +8,7 @@ import com.teapopo.life.model.BaseEntity;
  * Created by louiszgm on 2016/6/22.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class Event extends BaseEntity {
+public class  Event extends BaseEntity {
 
     public String id;
 

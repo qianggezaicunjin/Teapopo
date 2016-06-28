@@ -30,37 +30,50 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/6/23.
  */
 public class CommentListModel extends BaseModel {
+
+    private int page = 0;
+    private int pages = 1;
+    public boolean isNoData = false;
     public CommentListModel(Context context) {
         super(context);
     }
 
 
     public void getCommentList(String id,String classify){
-        Observable<JsonObject> observable = mDataManager.getCommentList(id,classify);
-        observable.subscribeOn(Schedulers.io())
-                .compose(RxResultHelper.<JsonObject>handleResult())
-                .flatMap(new Func1<JsonObject, Observable<List<Comment>>>() {
-                    @Override
-                    public Observable<List<Comment>> call(JsonObject jsonObject) {
-                        List<Comment> commentList = handleCommentListJson(jsonObject);
-                        return Observable.just(commentList);
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<List<Comment>>() {
-                    @Override
-                    public void _onNext(List<Comment> comments) {
-                        ModelAction modelAction = new ModelAction();
-                        modelAction.action = Action.CommentListModel_GetCommentList;
-                        modelAction.t = comments;
-                        mRequestView.onRequestSuccess(modelAction);
-                    }
+        page+=1;
+        if(page<=pages){
+            isNoData = false;
+            Observable<JsonObject> observable = mDataManager.getCommentList(id,classify,page);
+            observable.subscribeOn(Schedulers.io())
+                    .compose(RxResultHelper.<JsonObject>handleResult())
+                    .flatMap(new Func1<JsonObject, Observable<List<Comment>>>() {
+                        @Override
+                        public Observable<List<Comment>> call(JsonObject jsonObject) {
+                            List<Comment> commentList = handleCommentListJson(jsonObject);
+                            return Observable.just(commentList);
+                        }
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new RxSubscriber<List<Comment>>() {
+                        @Override
+                        public void _onNext(List<Comment> comments) {
+                            ModelAction modelAction = new ModelAction();
+                            modelAction.action = Action.CommentListModel_GetCommentList;
+                            modelAction.t = comments;
+                            mRequestView.onRequestSuccess(modelAction);
+                        }
 
-                    @Override
-                    public void _onError(String s) {
-                        mRequestView.onRequestErroInfo(s);
-                    }
-                });
+                        @Override
+                        public void _onError(String s) {
+                            mRequestView.onRequestErroInfo(s);
+                        }
+                    });
+        }else {
+            Timber.d("没有更多数据啦");
+            isNoData = true;
+            mRequestView.onRequestErroInfo("没有更多数据啦");
+        }
+
     }
 
     //回复评论
@@ -143,6 +156,7 @@ public class CommentListModel extends BaseModel {
     }
     private List<Comment> handleCommentListJson(JsonObject jsonObject)  {
         List<Comment> commentList = new ArrayList<>();
+        pages = jsonObject.get("pages").getAsInt();
         JsonObject data = jsonObject.getAsJsonObject("data");
         JsonArray comments = data.getAsJsonArray("comments");
         JsonObject members = data.getAsJsonObject("members");

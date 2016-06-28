@@ -64,7 +64,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
         binding.imgReplycomment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel.doReplyComment(RxSpf_UserInfoSp.create(mContext).userInfo().exists());
+                viewModel.doReplyComment(RxSpf_UserInfoSp.create(mContext).username().exists());
             }
         });
         binding.imgCommentZan.setOnClickListener(new View.OnClickListener() {

@@ -327,7 +327,33 @@ public class DataManager {
      * @param classify
      * @return
      */
-    public Observable<JsonObject> getCommentList(String id,String classify){
-        return mNetWorkService.getCommentList(id,classify);
+    public Observable<JsonObject> getCommentList(String id,String classify,int page){
+        return mNetWorkService.getCommentList(id,classify,page);
+    }
+
+    /**
+     *
+     * @param id
+     * @param type 活动商品列表的类型
+     *             1.全部活动商品  2.积分兑换 3.热门 4.最新
+     * @return
+     */
+    public Observable<JsonObject> getEventGoodsList(String id,int type){
+        Observable<JsonObject> observable = null;
+        switch (type){
+            case 1:
+                break;
+            case 2:
+                observable = mNetWorkService.getEventGoodsList(id,"point",null);
+                break;
+            case 3:
+                observable = mNetWorkService.getEventGoodsList(id,null,"hot");
+                break;
+            case 4:
+                observable = mNetWorkService.getEventGoodsList(id,null,"new");
+                break;
+        }
+
+        return observable;
     }
 }

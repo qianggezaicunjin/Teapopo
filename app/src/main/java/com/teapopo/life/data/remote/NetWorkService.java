@@ -272,7 +272,10 @@ public interface NetWorkService {
      * @return
      */
     @GET("comments/list")
-    Observable<JsonObject> getCommentList(@Query("id")String id,@Query("classify")String classify);
+    Observable<JsonObject> getCommentList(@Query("id")String id,@Query("classify")String classify,@Query("p")int page);
+
+    @GET("events/goods")
+    Observable<JsonObject> getEventGoodsList(@Query("id")String id,@Query("price")String price,@Query("order")String order);
     @GET("test")
-    Call<JsonObject> test();
+    Call<JsonObject> test(@Query("id")String id,@Query("price")String price,@Query("order")String order);
 }

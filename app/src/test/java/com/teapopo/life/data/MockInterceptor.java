@@ -55,6 +55,7 @@ public class MockInterceptor implements Interceptor {
         HttpUrl uri = chain.request().url();
         String path = uri.url().getPath();
         String query = uri.url().getQuery();
+        Timber.d("地址为:%s",uri.toString());
         Timber.d("path为:%s",path);
         Timber.d("查询的参数为:%s",query);
         if (path.matches("^(/users/)+[^/]*+(/repos)$")) {//匹配/users/{username}/repos
