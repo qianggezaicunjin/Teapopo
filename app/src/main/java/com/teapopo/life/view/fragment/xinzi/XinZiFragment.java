@@ -1,6 +1,7 @@
 package com.teapopo.life.view.fragment.xinzi;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
@@ -81,6 +82,7 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(_mActivity,attributeSet);
         TextView textView = new TextView(_mActivity,attributeSet);
         textView.setText("新滋");
+        textView.setTextColor(Color.BLACK);
         toolbar.addView(textView,params);
         setUpToolBar(toolbar);
     }
