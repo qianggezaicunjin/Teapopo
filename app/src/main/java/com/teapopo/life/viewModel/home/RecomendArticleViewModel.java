@@ -98,7 +98,6 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     }
     @Override
     public void onRequestSuccess(ModelAction data) {
-        synchronized (this){
             //如果数据源是头部轮播文章
             if (data.action == Action.RecommendArticleModel_GetTopArticle){
                 Timber.d("onRequestSuccess  TopArticle");
@@ -123,7 +122,6 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
                 loading = false;
                 notifyPropertyChanged(BR.loading);
             }
-        }
     }
 
 
