@@ -10,26 +10,31 @@ import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.view.fragment.welfare.EventGoodsListFragment;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/28.
  */
 public class EventGoodsListTypeAdapter extends FragmentStatePagerAdapter {
-    private List<Fragment> mFragments;
+
     private List<String> mTitles;
-    private Event event;
-    public EventGoodsListTypeAdapter(FragmentManager fm, Event event, List<String> titles) {
+    private String eventId;
+
+    public EventGoodsListTypeAdapter(FragmentManager fm, String eventId, List<String> titles) {
         super(fm);
         mTitles = titles;
-        this.event = event;
+        this.eventId = eventId;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return EventGoodsListFragment.newInstance(event);
+        Timber.d("getItem  %d",position);
+        return  EventGoodsListFragment.newInstance(eventId, position+1);
     }
-
 
     @Override
     public int getCount() {
@@ -46,4 +51,5 @@ public class EventGoodsListTypeAdapter extends FragmentStatePagerAdapter {
     public Parcelable saveState() {
         return null;
     }
+
 }

@@ -8,6 +8,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.sharedpreferences.EventGoodsSp;
+import com.teapopo.life.model.sharedpreferences.RxSpf_EventGoodsSp;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;
@@ -28,6 +30,7 @@ import rx.schedulers.Schedulers;
  */
 public class EventGoodsListModel extends BaseModel {
 
+    private RxSpf_EventGoodsSp cache = RxSpf_EventGoodsSp.create(mContext);
 
     public EventGoodsListModel(Context context) {
         super(context);
@@ -39,15 +42,20 @@ public class EventGoodsListModel extends BaseModel {
      *             1.全部活动商品  2.积分兑换 3.热门 4.最新
      * @return
      */
-    public void getEventGoodsListModel(String id, final int type){
-        Observable<JsonObject> observable = mDataManager.getEventGoodsList(id);
+    public void getEventGoodsListModel(String id,  int type){
+        getFromNetWork(id,type);
+    }
+
+
+    private void getFromNetWork(final String id, final int type) {
+        Observable<JsonObject> observable = mDataManager.getEventGoodsList(id,type);
         observable.subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .flatMap(new Func1<JsonObject, Observable<List<EventGoods>>>() {
                     @Override
                     public Observable<List<EventGoods>> call(JsonObject jsonObject) {
-                        List<EventGoods> list = handleEventGoodsJson(jsonObject,type);
+                        List<EventGoods> list = handleEventGoodsJson(jsonObject);
                         return Observable.just(list);
                     }
                 })
@@ -71,36 +79,19 @@ public class EventGoodsListModel extends BaseModel {
     /**
      *
      * @param jsonObject
-     * @param type  活动商品列表的类型
-     *             1.全部活动商品  2.积分兑换 3.热门 4.最新
-     *              当type为2时，以积分是否为0进行筛选
-     *              其他类型时，以相应的排序规则进行筛选
      * @return
      */
-    private List<EventGoods> handleEventGoodsJson(JsonObject jsonObject,int type){
+    private List<EventGoods> handleEventGoodsJson(JsonObject jsonObject){
         List<EventGoods> eventGoodsList = new ArrayList<>();
         JsonObject data = jsonObject.getAsJsonObject("data");
         JsonArray goods = data.getAsJsonArray("goods");
         for (JsonElement o:goods){
             try {
                 EventGoods eventGoods = LoganSquare.parse(o.toString(),EventGoods.class);
-                if(type == 2){
-                    int point = Integer.parseInt(eventGoods.points);
-                    if(point!=0){
-                        eventGoodsList.add(eventGoods);
-                    }
-                }else {
                     eventGoodsList.add(eventGoods);
-                }
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        //优化性能
-        //当type为2的时候，不去执行Comparator
-        if(type!=2){
-            Collections.sort(eventGoodsList,new EventGoodsComparator(type));
         }
         return eventGoodsList;
     }

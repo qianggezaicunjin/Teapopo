@@ -56,7 +56,6 @@ public class TopArticleAdapter extends PagerAdapter {
     }
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        Timber.d("articles的大小为:%d",articles.size());
         if(articles.size()!=0&&mViews.size()!=0){
             container.removeView(mViews.get(position%articles.size()));
         }else {

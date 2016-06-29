@@ -47,6 +47,7 @@ public class DataBindingAdapter {
     //ImageVie 设置网络图片
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
+
         if(imageUrl!=null){
             //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
             String tag = imageUrl.substring(0,4);
