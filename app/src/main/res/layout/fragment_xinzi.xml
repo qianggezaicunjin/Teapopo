@@ -14,11 +14,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/toolbar"/>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_widget"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:isLoading="@{viewModel.loading}"
+
             >
             <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
                 android:id="@+id/rv_xinziarticle"
