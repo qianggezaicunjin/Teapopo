@@ -33,7 +33,6 @@
                 android:orientation="vertical"
                 android:padding="@dimen/padding_size">
 
-
                 <RelativeLayout
                     android:id="@+id/ll_rv_item_top"
                     android:layout_width="match_parent"
@@ -92,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/black"
-                    android:textSize="22sp"
+                    android:textSize="17sp"
                     android:text="@{viewmodel.article.title}"
                     android:layout_marginTop="@dimen/article_verticle_margin"/>
                 <TextView
@@ -100,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/gray_light"
-                    android:textSize="20sp"
+                    android:textSize="14sp"
                     android:text="@{viewmodel.article.excerpt}"
                     android:layout_marginTop="@dimen/article_verticle_margin"/>
 
@@ -118,8 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/icon_like"
-                        android:layout_alignParentBottom="true"
-                       />
+                        android:layout_alignParentBottom="true" />
 
                     <TextView
                         android:id="@+id/tv_likecount"
@@ -128,7 +126,8 @@
                         android:layout_toRightOf="@+id/img_likeornot"
                         android:layout_marginLeft="8dp"
                         android:text="@{viewmodel.article.like_num}"
-                        android:textSize="18sp" />
+                        android:textSize="13sp"
+                        android:layout_marginTop="10dp"/>
 
                     <ImageView
                         android:id="@+id/img_comment"
@@ -137,7 +136,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_toRightOf="@+id/tv_likecount"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:src="@drawable/icon_comment" />
+                        android:src="@drawable/icon_comment"/>
 
                     <TextView
                         android:id="@+id/tv_commentcount"
@@ -146,8 +145,26 @@
                         android:layout_toRightOf="@+id/img_comment"
                         android:layout_marginLeft="8dp"
                         android:text="@{viewmodel.article.comment_num}"
-                        android:textSize="18sp" />
-
+                        android:textSize="13sp"
+                        android:layout_marginTop="10dp"/>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/img_eye"
+                        android:layout_toRightOf="@id/tv_commentcount"
+                        android:src="@drawable/icon_browse"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginBottom="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_eye"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/img_eye"
+                        android:textSize="13sp"
+                        android:layout_alignParentBottom="true"
+                        android:text="@{viewmodel.article.browse_num}"
+                        android:layout_marginBottom="10dp"/>
                 </RelativeLayout>
             </LinearLayout>
 
