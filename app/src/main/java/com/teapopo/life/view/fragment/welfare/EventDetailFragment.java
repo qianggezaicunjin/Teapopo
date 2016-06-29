@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentEventdetailBinding;
 import com.teapopo.life.model.welfare.Event;
-import com.teapopo.life.model.welfare.EventGoodsListModel;
 import com.teapopo.life.view.adapter.viewpager.EventGoodsListTypeAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 
