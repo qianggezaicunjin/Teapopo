@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.picasso.Picasso;
 import com.teapopo.life.injection.component.ApplicationComponent;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.injection.component.DaggerApplicationComponent;
@@ -25,7 +26,6 @@ public class MyApplication extends Application {
         super.onCreate();
         LeakCanary.install(this);
         mContext = this;
-        initialImageLoader();
         if(BuildConfig.DEBUG){
             Timber.plant(new Timber.DebugTree());
         }
@@ -35,34 +35,9 @@ public class MyApplication extends Application {
         ComponentHolder.setAppComponent(mApplicationComponent);
     }
 
-    private void initialImageLoader() {
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-                .showImageForEmptyUri(R.drawable.default_picture)
-                .showImageOnFail(R.drawable.default_picture)
-                .showImageOnLoading(R.drawable.default_picture)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration
-                .Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .diskCacheSize(50 * 1024 * 1024)//
-                .diskCacheFileCount(100)// 缓存一百张图片
-//                .writeDebugLogs()
-                .build();
-        ImageLoader.getInstance().init(config);
-    }
+
     public static Context getInstance(){
         return mContext;
     }
-//    public static MyApplication get(Context context){
-//        return (MyApplication) context.getApplicationContext();
-//    }
-//    public ApplicationComponent getComponent() {
-//        return mApplicationComponent;
-//    }
-//    // Needed to replace the component with a test specific one
-//    public void setComponent(ApplicationComponent applicationComponent) {
-//        mApplicationComponent = applicationComponent;
-//    }
+
 }
