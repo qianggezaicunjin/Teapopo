@@ -72,7 +72,7 @@
                         android:textSize="18sp" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.Toolbar>>
+            </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <android.support.design.widget.TabLayout
