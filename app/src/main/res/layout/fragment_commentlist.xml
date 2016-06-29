@@ -17,11 +17,22 @@
     android:layout_height="match_parent"
     app:erroInfo="@{viewmodel.erroInfo}">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tb_comment_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
+        android:background="@android:color/white"
+        />
     <TextView
         android:id="@+id/tv_comment_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="评论的标题啊"/>
+        android:layout_below="@id/tb_comment_toolbar"
+        android:text="文章主题："
+        android:textSize="13dp"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/black"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_below="@id/tv_comment_title"
@@ -44,7 +55,7 @@
         android:orientation="horizontal">
         <EditText
             android:id="@+id/et_inputcomment"
-            android:layout_width="300dp"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding_size"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -58,6 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/et_inputcomment"
             android:text="发表"
+            android:textSize="18dp"
+            android:background="@android:color/white"
             android:onClick="@{handler.clickAddOrReplyComment}"/>
     </RelativeLayout>
 </RelativeLayout>
