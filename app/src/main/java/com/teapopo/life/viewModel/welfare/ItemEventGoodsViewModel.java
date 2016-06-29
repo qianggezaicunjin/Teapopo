@@ -1,5 +1,8 @@
 package com.teapopo.life.viewModel.welfare;
 
+import android.databinding.Bindable;
+
+import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.viewModel.BaseViewModel;
 
 /**
@@ -7,6 +10,8 @@ import com.teapopo.life.viewModel.BaseViewModel;
  */
 public class ItemEventGoodsViewModel extends BaseViewModel {
 
+    @Bindable
+    public EventGoods eventGoods = new EventGoods();
     public ItemEventGoodsViewModel(){
 
     }

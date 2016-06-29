@@ -1,25 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.ItemEventGoodsViewModel" />
-        <variable
-            name="imageUrl"
-            type="String" />
-    </data>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:imageUrl="@{imageUrl}"
-        />
-</LinearLayout>
-    </layout>
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:imageUrl="@{viewModel.eventGoods.getCoverImg()}" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.eventGoods.name}"/>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tv_goodsprice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.eventGoods.getPrice()}"/>
+                <TextView
+                    android:id="@+id/tv_goodsplus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_goodsprice"
+                    android:text="+"/>
+                <TextView
+                    android:id="@+id/tv_goodspoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_goodsplus"
+                    android:text="@{viewModel.eventGoods.getPoints()}"/>
+
+                <TextView
+                    android:id="@+id/tv_goodssalenum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@{viewModel.eventGoods.getSale_num()}"/>
+                <TextView
+                    android:id="@+id/tv_goodsor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_goodssalenum"
+                    android:text="/"/>
+                <TextView
+                    android:id="@+id/tv_goodsstorge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/tv_goodsor"
+                    android:text="@{viewModel.eventGoods.getStorage()}"/>
+
+
+            </RelativeLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</layout>

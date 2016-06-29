@@ -336,8 +336,22 @@ public class DataManager {
      * @param id
      * @return
      */
-    public Observable<JsonObject> getEventGoodsList(String id){
-
-        return mNetWorkService.getEventGoodsList(id);
+    public Observable<JsonObject> getEventGoodsList(String id,int type){
+        Observable<JsonObject> observable = null;
+        switch (type){
+            case 1:
+                observable = mNetWorkService.getEventGoodsList(id,null,null);
+                break;
+            case 2:
+                observable = mNetWorkService.getEventGoodsList(id,"point",null);
+                break;
+            case 3:
+                observable = mNetWorkService.getEventGoodsList(id,null,"hot");
+                break;
+            case 4:
+                observable = mNetWorkService.getEventGoodsList(id,null,"new");
+                break;
+        }
+        return observable;
     }
 }

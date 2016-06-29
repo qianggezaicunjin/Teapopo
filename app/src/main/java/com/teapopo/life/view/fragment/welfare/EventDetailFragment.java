@@ -2,7 +2,6 @@ package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +10,7 @@ import com.teapopo.life.databinding.FragmentEventdetailBinding;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.model.welfare.EventGoodsListModel;
 import com.teapopo.life.view.adapter.viewpager.EventGoodsListTypeAdapter;
-import com.teapopo.life.view.adapter.viewpager.HomeTabFragmentAdapter;
-import com.teapopo.life.view.fragment.Home.HomeLikeArticleFragment;
-import com.teapopo.life.view.fragment.Home.RecommendArticleFragment;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
-import com.teapopo.life.viewModel.welfare.EventDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +21,8 @@ import java.util.List;
 public class EventDetailFragment extends SwipeBackBaseFragment {
 
     private FragmentEventdetailBinding mBinding;
-
-    private EventDetailViewModel mViewModel;
     private Event event;
+
     public static EventDetailFragment newInstance(Event event){
         EventDetailFragment fragment = new EventDetailFragment();
         Bundle bundle = new Bundle();
@@ -46,9 +40,7 @@ public class EventDetailFragment extends SwipeBackBaseFragment {
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentEventdetailBinding.inflate(inflater);
-        mViewModel = new EventDetailViewModel(new EventGoodsListModel(_mActivity));
         mBinding.setEvent(event);
-        mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
 
@@ -68,8 +60,9 @@ public class EventDetailFragment extends SwipeBackBaseFragment {
         titles.add("积分兑换");
 
         //如果在fragment里面嵌套的viewpager里面再嵌套fragment,则需要getChildFragmentManager()
-        EventGoodsListTypeAdapter tabAdapter=new EventGoodsListTypeAdapter(getChildFragmentManager(),mViewModel.event,titles);
+        EventGoodsListTypeAdapter tabAdapter=new EventGoodsListTypeAdapter(getChildFragmentManager(),event.id,titles);
         mBinding.ucvp.setAdapter(tabAdapter);
         mBinding.tabs.setupWithViewPager(mBinding.ucvp);
+
     }
 }

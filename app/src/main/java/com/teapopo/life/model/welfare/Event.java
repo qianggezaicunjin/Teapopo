@@ -36,7 +36,7 @@ public class  Event extends BaseEntity implements Parcelable{
 
 
     //以下是增加的属性
-    public List<EventGoods> goods = new ArrayList<>();
+    public ArrayList<EventGoods> goods = new ArrayList<>();
 
     @Override
     public int describeContents() {

@@ -281,7 +281,7 @@ public interface NetWorkService {
      * @return
      */
     @GET("events/goods")
-    Observable<JsonObject> getEventGoodsList(@Query("id")String id);
+    Observable<JsonObject> getEventGoodsList(@Query("id")String id,@Query("price")String price,@Query("order")String order);
     @GET("test")
     Call<JsonObject> test();
 }

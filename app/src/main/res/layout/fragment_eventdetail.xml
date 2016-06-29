@@ -5,9 +5,6 @@
     >
     <data>
         <variable
-            name="viewModel"
-            type="com.teapopo.life.viewModel.welfare.EventDetailViewModel" />
-        <variable
             name="event"
             type="com.teapopo.life.model.welfare.Event"/>
     </data>
@@ -88,8 +85,9 @@
 
     <com.teapopo.life.view.customView.HackyViewPager
         android:id="@+id/ucvp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/red"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </android.support.design.widget.CoordinatorLayout>
     </layout>
