@@ -36,8 +36,8 @@
 
                         <ImageView
                             android:id="@+id/img_comment_avatar"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             app:imageUrl="@{viewmodel.articleInfo.authorInfo.getAvatarUrl()}" />
 
                         <TextView

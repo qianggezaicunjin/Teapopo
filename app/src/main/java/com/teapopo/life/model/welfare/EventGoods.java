@@ -21,7 +21,7 @@ public class EventGoods extends BaseEntity implements Parcelable{
     public String coverImg;
 
     public String getCoverImg(){
-        return coverImg+"_300x300";
+        return coverImg+"_768x300";
     }
     public String goods_id;
 
@@ -39,12 +39,12 @@ public class EventGoods extends BaseEntity implements Parcelable{
     public String price;
 
     public String getPrice(){
-        return "$"+price;
+        return "￥"+price;
     }
     public int sale_num;
 
     public String getSale_num(){
-        return "售出"+sale_num+"件";
+        return sale_num+"件";
     }
     public String storage;
 
