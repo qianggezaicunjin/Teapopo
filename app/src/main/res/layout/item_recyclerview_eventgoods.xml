@@ -12,63 +12,116 @@
     </data>
 
     <android.support.v7.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:imageUrl="@{viewModel.eventGoods.getCoverImg()}" />
+                app:imageUrl="@{viewModel.eventGoods.getCoverImg()}"
+                android:padding="5dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.eventGoods.name}"/>
+                android:text="@{viewModel.eventGoods.name}"
+                android:textColor="@android:color/black"
+                android:layout_marginLeft="5dp"
+                android:textSize="17dp" />
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
                 <TextView
                     android:id="@+id/tv_goodsprice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.eventGoods.getPrice()}"/>
+                    android:text="@{viewModel.eventGoods.getPrice()}"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_marginLeft="3dp"/>
                 <TextView
                     android:id="@+id/tv_goodsplus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_goodsprice"
-                    android:text="+"/>
+                    android:text="+"
+                    android:textColor="@android:color/holo_red_dark"/>
                 <TextView
                     android:id="@+id/tv_goodspoints"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/tv_goodsplus"
-                    android:text="@{viewModel.eventGoods.getPoints()}"/>
+                    android:text="@{viewModel.eventGoods.getPoints()}"
+                    android:textColor="@android:color/holo_red_dark"/>
 
                 <TextView
                     android:id="@+id/tv_goodssalenum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="@{viewModel.eventGoods.getSale_num()}"/>
+                    android:text="@{viewModel.eventGoods.getSale_num()}"
+                    android:textColor="@android:color/holo_red_dark"/>
                 <TextView
                     android:id="@+id/tv_goodsor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/tv_goodssalenum"
-                    android:text="/"/>
+                    android:text="/售出"/>
                 <TextView
                     android:id="@+id/tv_goodsstorge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/tv_goodsor"
-                    android:text="@{viewModel.eventGoods.getStorage()}"/>
-
-
+                    android:text="@{viewModel.eventGoods.getStorage()}" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:src="@drawable/icon_no_like"
+                    android:id="@+id/welfare_special_like"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/welfare_special_liketv"
+                    android:layout_toRightOf="@id/welfare_special_like"
+                    android:text="@{viewModel.eventGoods.collect_num}"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerInParent="true"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:src="@drawable/icon_comment"
+                    android:id="@+id/welfare_special_msg"
+                    android:layout_toRightOf="@id/welfare_special_liketv"
+                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/welfare_special_msg"
+                    android:text="@{viewModel.eventGoods.comment_num}"
+                    android:layout_marginLeft="5dp"
+                    android:layout_centerInParent="true"/>
+                <Button
+                    android:id="@+id/welfare_special_bt"
+                    android:layout_width="60dp"
+                    android:layout_height="35dp"
+                    android:text="购买"
+                    android:textSize="16dp"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:background="@drawable/background_welfare_btn"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center" />
             </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
