@@ -8,11 +8,16 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemRecyclerviewEventgoodsBinding;
 import com.teapopo.life.model.welfare.EventGoods;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.GoodsSettleMentActivity;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.fragment.welfare.GoodsSettleMentFragment;
 import com.teapopo.life.viewModel.welfare.ItemEventGoodsViewModel;
 
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
+import me.yokeyword.fragmentation.SupportFragment;
 import timber.log.Timber;
 
 /**
@@ -31,11 +36,19 @@ public class EventGoodsListAdapter extends BaseRecyclerViewAdapter<EventGoods,Ev
     @Override
     public void onBindViewHolder(EventGoodsViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        EventGoods eventGoods = data.get(position);
+        final EventGoods eventGoods = data.get(position);
+        ItemRecyclerviewEventgoodsBinding binding = (ItemRecyclerviewEventgoodsBinding) holder.itemView.getTag();
         ItemEventGoodsViewModel viewModel = new ItemEventGoodsViewModel();
         viewModel.eventGoods = eventGoods;
         holder.setViewModel(viewModel);
+        binding.welfareSpecialBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigator.getInstance().start(mContext, GoodsSettleMentActivity.getStartIntent(mContext,eventGoods));
+            }
+        });
     }
+
 
     public static  class EventGoodsViewHolder extends RecyclerView.ViewHolder{
 

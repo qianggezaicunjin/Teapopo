@@ -87,4 +87,5 @@ public class MainFragmentModule {
     EventListModel provideEventListModel(Context context){
         return new EventListModel(context);
     }
+
 }
