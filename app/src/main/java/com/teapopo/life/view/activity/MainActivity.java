@@ -20,6 +20,7 @@ import com.teapopo.life.injection.component.fragment.MainFragmentComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.MainActivityModule;
 import com.teapopo.life.injection.module.fragment.MainFragmentModule;
+import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.fragment.Home.HomeFragment;
 import com.teapopo.life.view.fragment.User.UserFragment;
@@ -79,7 +80,8 @@ public class MainActivity extends SwipeBackBaseActivity implements View.OnClickL
         return mMainActivityComponent.mainFragmentComponent(new MainFragmentModule());
     }
     public static Intent getStartIntent(Context context) {
-        return new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
     }
 
     @Override

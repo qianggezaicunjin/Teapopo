@@ -23,4 +23,7 @@
     <!--文章内容的间隔-->
     <dimen name="article_verticle_margin">5dp</dimen>
     <dimen name="article_horizontal_margin">5dp</dimen>
+
+    <!--分割线的高度-->
+    <dimen name="line_height">3dp</dimen>
 </resources>
