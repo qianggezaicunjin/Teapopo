@@ -50,5 +50,7 @@ public enum Action {
     CommentListModel_ReplyComment,
     CommentListModel_AddComment,
     //for EventGoodsListModel
-    EventGoodsListModel_GetGoodsList
+    EventGoodsListModel_GetGoodsList,
+    //for AddressManageModel
+    AddressManageModel_GetAddressLsit
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
+import com.teapopo.life.model.welfare.AddressManageModel;
 import com.teapopo.life.model.welfare.GoodsSettleMentModel;
 import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
 import com.teapopo.life.viewModel.welfare.AddressManageViewModel;
@@ -33,7 +34,13 @@ public class GoodsHandleFragmentModule {
     //for AddressManageFragment
     @Provides
     @PerActivity
-    AddressManageViewModel provideAddressManageViewModel(){
-        return new AddressManageViewModel();
+    AddressManageViewModel provideAddressManageViewModel(AddressManageModel model){
+        return new AddressManageViewModel(model);
+    }
+
+    @Provides
+    @PerActivity
+    AddressManageModel provideAddressManageModel(Context context){
+        return new AddressManageModel(context);
     }
 }
