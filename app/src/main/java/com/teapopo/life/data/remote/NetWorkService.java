@@ -282,6 +282,13 @@ public interface NetWorkService {
      */
     @GET("events/goods")
     Observable<JsonObject> getEventGoodsList(@Query("id")String id,@Query("price")String price,@Query("order")String order);
+
+    /**
+     * 获取收货地址列表
+     * @return
+     */
+    @GET("address/list")
+    Observable<JsonObject> getAddressList();
     @GET("test")
     Call<JsonObject> test();
 }

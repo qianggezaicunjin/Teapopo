@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.FragmentAddressManageBinding;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
+import com.teapopo.life.view.adapter.recyclerview.AddressManageListAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.AddressManageViewModel;
 
@@ -21,6 +22,11 @@ public class AddressManageFragment extends SwipeBackBaseFragment {
     private FragmentAddressManageBinding mBinding;
     @Inject
     AddressManageViewModel mViewModel;
+
+
+    public static AddressManageFragment newInstance(){
+        return new AddressManageFragment();
+    }
     @Override
     public void onCreateBinding() {
         ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
@@ -39,7 +45,10 @@ public class AddressManageFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpAddressList() {
+        AddressManageListAdapter adapter = new AddressManageListAdapter(_mActivity,mViewModel.data);
+        mBinding.rvAddressmanage.setAdapter(adapter);
 
+        mViewModel.getAddressList();
     }
 
 

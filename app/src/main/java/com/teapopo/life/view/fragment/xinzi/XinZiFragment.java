@@ -65,7 +65,9 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentXinziBinding.inflate(inflater);
+        mTopBinding = ItemRecyclerviewXinziToparticleBinding.inflate(LayoutInflater.from(_mActivity));
         mBinding.setViewModel(mViewModel);
+        mTopBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
 
@@ -95,7 +97,7 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
         mViewModel.requestData();
     }
     private void setUpTopArticle() {
-        mTopBinding = ItemRecyclerviewXinziToparticleBinding.inflate(LayoutInflater.from(_mActivity));
+
         TopArticleAdapter adapter = new TopArticleAdapter(_mActivity,mViewModel.xinzi_topArticleList);
         mTopBinding.viewpagerToparticle.setAdapter(adapter);
         mBinding.rvXinziarticle.addHeader(mTopBinding.getRoot());

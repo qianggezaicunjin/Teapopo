@@ -51,6 +51,7 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
         binding_addressinfo = LayoutReceiveAddressBinding.inflate(inflater);
         mViewModel.data = eventGoodsList;
         mBinding.setViewModel(mViewModel);
+        binding_addressinfo.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -71,6 +72,11 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
     }
 
     public void clickAddress(View view){
+        startForResult(AddressManageFragment.newInstance(),1);
+    }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
     }
 }
