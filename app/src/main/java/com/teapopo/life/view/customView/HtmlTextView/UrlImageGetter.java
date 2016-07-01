@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 
 public class UrlImageGetter implements Html.ImageGetter {
@@ -34,9 +37,9 @@ public class UrlImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         final UrlDrawable urlDrawable = new UrlDrawable();
-        ImageLoader.getInstance().loadImage(source, new SimpleImageLoadingListener() {
+        Picasso.with(c).load(source).into(new Target() {
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public void onBitmapLoaded(Bitmap loadedImage, Picasso.LoadedFrom from) {
                 // 计算缩放比例
                 float scaleWidth = ((float) width)/loadedImage.getWidth();
                 // 取得想要缩放的matrix参数
@@ -48,6 +51,16 @@ public class UrlImageGetter implements Html.ImageGetter {
                 urlDrawable.setBounds(0, 0, loadedImage.getWidth(), loadedImage.getHeight());
                 container.invalidate();
                 container.setText(container.getText()); // 解决图文重叠
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
             }
         });
         return urlDrawable;
