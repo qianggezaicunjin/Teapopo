@@ -6,6 +6,7 @@ import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.welfare.GoodsSettleMentModel;
 import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
+import com.teapopo.life.viewModel.welfare.AddressManageViewModel;
 import com.teapopo.life.viewModel.welfare.GoodsSettleMentViewModel;
 
 import dagger.Module;
@@ -15,7 +16,7 @@ import dagger.Provides;
  * Created by louiszgm on 2016/6/30.
  */
 @Module
-public class GoodsSettleMentFragmentModule {
+public class GoodsHandleFragmentModule {
 
     //for GoodsSettleMentFragment
     @Provides
@@ -27,5 +28,12 @@ public class GoodsSettleMentFragmentModule {
     @PerActivity
     GoodsSettleMentModel provideGoodsSettleMentModel(Context context){
         return new GoodsSettleMentModel(context);
+    }
+
+    //for AddressManageFragment
+    @Provides
+    @PerActivity
+    AddressManageViewModel provideAddressManageViewModel(){
+        return new AddressManageViewModel();
     }
 }

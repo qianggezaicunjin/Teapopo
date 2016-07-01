@@ -1,23 +1,23 @@
 package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentSettlementBinding;
+import com.teapopo.life.databinding.LayoutReceiveAddressBinding;
 import com.teapopo.life.model.welfare.EventGoods;
-import com.teapopo.life.view.activity.GoodsSettleMentActivity;
-import com.teapopo.life.view.customView.ClickAbleTextView;
+import com.teapopo.life.view.activity.GoodsHandleActivity;
+import com.teapopo.life.view.adapter.recyclerview.SettleMentGoodsListAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.GoodsSettleMentViewModel;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
 
-import timber.log.Timber;
+import javax.inject.Inject;
 
 /**
  * Created by louiszgm on 2016/6/30.
@@ -26,34 +26,51 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
 
     private FragmentSettlementBinding mBinding;
 
-    private EventGoods eventGoods;
+    private ArrayList<EventGoods> eventGoodsList;
 
     @Inject
     GoodsSettleMentViewModel mViewModel;
-    public static GoodsSettleMentFragment newInstance(EventGoods eventGoods){
+    private LayoutReceiveAddressBinding binding_addressinfo;
+
+    public static GoodsSettleMentFragment newInstance(ArrayList<Parcelable> eventGoodsList){
         GoodsSettleMentFragment fragment = new GoodsSettleMentFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("goods",eventGoods);
+        bundle.putParcelableArrayList("goodslist",eventGoodsList);
         fragment.setArguments(bundle);
         return fragment;
     }
     @Override
     public void onCreateBinding() {
-        eventGoods = getArguments().getParcelable("goods");
-        ((GoodsSettleMentActivity)_mActivity).getFragmentComponent().inject(this);
+        eventGoodsList = getArguments().getParcelableArrayList("goodslist");
+        ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentSettlementBinding.inflate(inflater);
-        mViewModel.goods = eventGoods;
+        binding_addressinfo = LayoutReceiveAddressBinding.inflate(inflater);
+        mViewModel.data = eventGoodsList;
         mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
 
+
     @Override
     public void setUpView() {
-
+        setUpGoodsList();
+        setUpAddressInfo();
     }
 
+    private void setUpAddressInfo() {
+        mBinding.rvGoodsSettlement.addHeader(binding_addressinfo.getRoot());
+    }
+
+    private void setUpGoodsList() {
+        SettleMentGoodsListAdapter adapter = new SettleMentGoodsListAdapter(_mActivity,mViewModel.data);
+        mBinding.rvGoodsSettlement.setAdapter(adapter);
+    }
+
+    public void clickAddress(View view){
+
+    }
 }

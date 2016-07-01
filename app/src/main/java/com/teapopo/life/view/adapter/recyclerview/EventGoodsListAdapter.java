@@ -2,6 +2,7 @@ package com.teapopo.life.view.adapter.recyclerview;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,12 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemRecyclerviewEventgoodsBinding;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.util.navigator.Navigator;
-import com.teapopo.life.view.activity.GoodsSettleMentActivity;
+import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
-import com.teapopo.life.view.fragment.welfare.GoodsSettleMentFragment;
 import com.teapopo.life.viewModel.welfare.ItemEventGoodsViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import me.yokeyword.fragmentation.SupportActivity;
-import me.yokeyword.fragmentation.SupportFragment;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/28.
@@ -44,7 +41,9 @@ public class EventGoodsListAdapter extends BaseRecyclerViewAdapter<EventGoods,Ev
         binding.welfareSpecialBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Navigator.getInstance().start(mContext, GoodsSettleMentActivity.getStartIntent(mContext,eventGoods));
+                ArrayList<Parcelable> list = new ArrayList<Parcelable>();
+                list.add(eventGoods);
+                Navigator.getInstance().start(mContext, GoodsHandleActivity.getStartIntent(mContext,list,1));
             }
         });
     }
