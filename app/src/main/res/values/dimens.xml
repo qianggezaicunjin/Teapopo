@@ -26,4 +26,6 @@
 
     <!--分割线的高度-->
     <dimen name="line_height">3dp</dimen>
+
+    <dimen name="header_height">300dp</dimen>
 </resources>
