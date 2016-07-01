@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="handler"
+            type="com.teapopo.life.view.fragment.welfare.GoodsSettleMentFragment"/>
+        <variable
+            name="viewModel"
+            type="com.teapopo.life.viewModel.welfare.ReceiveAddressViewModel"/>
+    </data>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/red">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/icon_forward"
+            android:drawableLeft="@drawable/icon_location"
+            android:drawablePadding="@dimen/padding_size"
+            android:drawableRight="@drawable/icon_forward"
+            android:drawableStart="@drawable/icon_location"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/default_list_textsize"
+            android:text="收货地址"
+            android:background="?android:selectableItemBackground"
+            android:onClick="@{handler.clickAddress}"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_height"
+            android:background="@drawable/line"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收件人姓名和电话号码"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="收件人地址"/>
+</LinearLayout>
+    </layout>

@@ -44,7 +44,7 @@
         <activity android:name=".view.activity.PublishArticleActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.GoodsSettleMentActivity"
+        <activity android:name=".view.activity.GoodsHandleActivity"
             android:theme="@style/AppTheme.NoActionBar.SwipeBack"
             android:screenOrientation="portrait"/>
         <!-- mob分享 -->

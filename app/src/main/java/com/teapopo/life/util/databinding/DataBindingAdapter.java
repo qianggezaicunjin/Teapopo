@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
@@ -24,6 +25,8 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/5/4.
  */
 public class DataBindingAdapter {
+
+
     @BindingAdapter({"html_temp"})
     public static void setHtmlText(HtmlTextView textView,String html){
         Timber.d("加载的文章信息为:%s",html);
