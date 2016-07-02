@@ -14,7 +14,8 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -31,13 +32,24 @@
                     android:id="@+id/circleiv_userinfo_icon"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
-                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="80dp"
                     app:imageUrl="@{userViewModel.mUserInfo.avatar}"
                     android:onClick="@{handler.clickUserAvatar}"
                     app:civ_border_color="@color/gray_light"
-                    app:civ_border_width="2dp"
-                    />
-
+                    app:civ_border_width="2dp" />
+                <TextView
+                    android:id="@+id/tv_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/login_tips"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="@{userViewModel.mUserInfo.nickname}"
+                    android:layout_below="@+id/circleiv_userinfo_icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
                 <TextView
                     android:id="@+id/tv_signature"
                     android:layout_width="match_parent"
@@ -92,18 +104,7 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_nickname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:hint="@string/login_tips"
-                    android:textColor="@color/white"
-                    android:gravity="center"
-                    android:text="@{userViewModel.mUserInfo.nickname}"
-                    android:layout_below="@+id/circleiv_userinfo_icon"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
+
             </RelativeLayout>
 
             <LinearLayout

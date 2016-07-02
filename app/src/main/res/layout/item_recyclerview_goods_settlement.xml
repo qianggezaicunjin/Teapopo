@@ -9,24 +9,40 @@
 
     </data>
 <LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="#FFCCCC"
+        android:alpha="100"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
-
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_margin="10dp">
         <ImageView
             android:id="@+id/img_goodscover"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:background="@drawable/splash"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/img_goodscover"
-            android:text="商品简介"/>
+            android:text="商品简介"
+            android:textSize="16dp"
+            android:layout_marginLeft="20dp"
+            android:ems="10"/>
+        <TextView
+            android:id="@+id/integralNum_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="积分和数量"
+            android:textSize="16dp"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -36,12 +52,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        >
+        android:layout_margin="8dp">
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="购买数量:"/>
+            android:text="购买数量:"
+            android:layout_centerVertical="true"
+            android:textSize="16dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,12 +67,14 @@
             android:orientation="horizontal"
             android:layout_alignParentRight="true">
             <EditText
-                android:layout_width="wrap_content"
+                android:id="@+id/buy_num"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_minus_withstroke"
                 android:drawableRight="@drawable/icon_plus_withstroke"
-                android:text="1"/>
-
+                android:text="1"
+                android:gravity="center_horizontal"
+                android:background="@drawable/background_transparent"/>
         </LinearLayout>
     </RelativeLayout>
     <View
@@ -65,11 +85,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        >
+        android:layout_margin="8dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="快递运费"/>
+            android:text="快递运费"
+            android:textSize="16dp"/>
 
         <TextView
             android:id="@+id/tv_goodsfee"
@@ -86,11 +107,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        >
+        android:layout_margin="8dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="合计"/>
+            android:text="合计"
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/integral_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="积分"
+            android:textSize="16dp"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
 </LinearLayout>
     </layout>

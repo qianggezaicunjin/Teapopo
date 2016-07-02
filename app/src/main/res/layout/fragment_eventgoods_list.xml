@@ -10,15 +10,12 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/red">
+        android:layout_height="wrap_content">
         <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
             android:id="@+id/rv_eventgoodlist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:data="@{viewModel.data}"
-            android:background="@color/blue"
-            />
+            app:data="@{viewModel.data}" />
     </RelativeLayout>
 
 
