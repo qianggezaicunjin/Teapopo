@@ -14,7 +14,7 @@ import com.teapopo.life.injection.component.fragment.GoodsHandleFragmentComponen
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.GoodsHandleActivityModule;
 import com.teapopo.life.injection.module.fragment.GoodsHandleFragmentModule;
-import com.teapopo.life.view.fragment.welfare.GoodsSettleMentFragment;
+import com.teapopo.life.view.fragment.welfare.MakeOrderFragment;
 
 import java.util.ArrayList;
 
@@ -64,7 +64,7 @@ public class GoodsHandleActivity extends SwipeBackBaseActivity {
     private void routeFragment(ArrayList<Parcelable> datalist, int type) {
         switch (type){
             case 1:
-                start(GoodsSettleMentFragment.newInstance(datalist));
+                start(MakeOrderFragment.newInstance(datalist));
                 break;
             case 2:
                 break;

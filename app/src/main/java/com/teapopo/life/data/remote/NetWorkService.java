@@ -289,6 +289,22 @@ public interface NetWorkService {
      */
     @GET("address/list")
     Observable<JsonObject> getAddressList();
+
+
+    /**
+     * 下单
+     * @return
+     */
+    @POST("orders/create")
+    Observable<JsonObject>  makeOrder(@Body RequestBody requestBody);
+
+    /**
+     * 获取订单信息
+     * @param orderId
+     * @return
+     */
+    @GET("orders/info")
+    Observable<JsonObject> getOrderInfo(@Query("id")String orderId);
     @GET("test")
     Call<JsonObject> test();
 }
