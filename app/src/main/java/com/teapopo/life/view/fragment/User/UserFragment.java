@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,6 @@ import timber.log.Timber;
 public class UserFragment extends BaseFragment {
     @Inject
      UserViewModel mViewModel;
-
     public static UserFragment newInstance(){
         return new UserFragment();
     }
@@ -51,9 +51,7 @@ public class UserFragment extends BaseFragment {
     }
 
     @Override
-    public void setUpView() {
-
-    }
+    public void setUpView() {}
     //点击用户头像
     public void clickUserAvatar(View view){
         Navigator.getInstance().start(_mActivity,SignInAndUpActivity.getStartIntent(_mActivity));

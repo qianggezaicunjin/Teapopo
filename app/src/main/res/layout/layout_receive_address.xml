@@ -9,10 +9,9 @@
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.ReceiveAddressViewModel"/>
     </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/red">
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <Button
             android:layout_width="match_parent"
@@ -33,12 +32,12 @@
             android:layout_height="@dimen/line_height"
             android:background="@drawable/line"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="收件人姓名和电话号码"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="收件人地址"/>
-</LinearLayout>
-    </layout>
+    </LinearLayout>
+</layout>

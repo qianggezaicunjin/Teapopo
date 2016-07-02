@@ -8,13 +8,13 @@
     </data>
 <LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/background_base"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
 
 <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
     android:id="@+id/rv_goods_settlement"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"/>
     <View
         android:layout_width="match_parent"
@@ -23,8 +23,47 @@
 
     <EditText
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="订单补充说明.."
+        android:background="#FFCCCC"
+        android:layout_margin="15dp" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/line"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="订单补充说明"
-        />
+        android:layout_gravity="bottom">
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总计:"
+            android:textSize="20dp"
+            android:layout_marginLeft="3dp"
+            android:layout_centerVertical="true"/>
+        <TextView
+            android:id="@+id/price_integral_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="价格和积分:"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/red"
+            android:layout_toRightOf="@id/tv"
+            android:layout_centerVertical="true"/>
+        <Button
+            android:id="@+id/settlement_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结算"
+            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:background="@color/orange"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"/>
+    </RelativeLayout>
 </LinearLayout>
     </layout>
