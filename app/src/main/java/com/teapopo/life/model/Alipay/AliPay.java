@@ -1,47 +1,55 @@
 package com.teapopo.life.model.Alipay;
 
+import com.bluelinelabs.logansquare.annotation.JsonObject;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.util.SignUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by louiszgm on 2016/7/2.
  */
+
 public class AliPay extends BaseEntity {
-    public String notify_url;
 
-    public String partner;
+    private String rsa_private_key_pkcs8 = "MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAMy/R0bDTvmJwhLzQ5oVSMsp0d9hFEM13aw9jcSQPrckWcqVs7e+IHGX/Ki1SIpKWk7xbglej7k/UJPreflhG+4MNRAKHjfMdVRin27W4Jlg6gcgZM0vlcv2Sz0SycpdCIBURyrB9y+JbxfMibFqzTE4clsliUvrKyGhgQ3lPYH/AgMBAAECgYEAmmuZQlGDesjfSpOWZNuwrym3VBZPxfEWYxV5msp/wnj0D8qgZPBMX+AVethfAY3aVrfYGdDr7PdHuoha0i7fdGz7nKwzCMDbWyZ/1AesINHNSlwz6DmBPfH/sL9QWoMA+KvN4Ooh8VKHJPXDR9hPydM9tjionopCURgOtJq2F2ECQQDnWWFKIpMHkvOjtWZBJ4gJ8OeCdY+wO5oyj68lsQlMX2nPQxLABp6NieZx0NxaHNVH2B9ilkGo0V5qpIM6jg7tAkEA4pBDn4/48Vz1220TgVt3PJbnQkqe5sjjYBiZ1/Wrutp1UQtnNWgbNJMYDeGi7qHOA0ALdTml1DbwzNU5opzLGwJBALp5n+LatXqAZ6QIPlC8JXol1OWiDty1XhftGvcdmOoXajkmzkE71KcvhTEucb6syPks6jdT9760bA83ZZNYGA0CQQDKaMRha0imqbxkesBwUvzlvpOA4BWybUrl8VSQYcU4vC8PZragOhAEGl3lGO5tb1UUBkW2Rvhl7WeYN+6z3ox9AkB+6PwvNTEcgwRlf6hmrLN/9lOHYIO7Gg904POKVqTUR/0bMr0SGOFz7PWCjZwNnX0apo4HUh7M70/qpvrF079k";
 
-    public String return_url;
+    private String PARTNER = "2088021837165023";
 
-    public String seller_id;
+    private String SELLER = "newstea2013@foxmail.com";
 
-    public String sign;
+    private String notify_url = "http://www.teapopo.com/api/callback/alipay_notify";
 
-    public String sign_type;
+    private String sign_type = "RSA";
+    private String out_trade_no;
 
-    public String subject;
-
-    public String total_fee;
-
-    public String out_trade_no;
-    //新增加的
-    public String getPayInfo(){
-        return getOrderInfo("测试商品",subject,total_fee,out_trade_no,partner,seller_id,notify_url,return_url);
+    private String price;
+    public AliPay(String out_trade_no,String price){
+        this.out_trade_no = out_trade_no;
+        this.price = price;
     }
 
+    public String getPayInfo() throws UnsupportedEncodingException {
+        String sign1 = SignUtils.sign(getOrderInfo(),rsa_private_key_pkcs8);
+        String sign = URLEncoder.encode(sign1,"UTF-8");
+        return getOrderInfo()+ "&sign=\"" + sign + "\""+"&sign_type=" + "\"" + sign_type + "\"";
+    }
     /**
-     * create the order info. 创建订单信息
-     *
+     * 创建支付订单
+     * @return
      */
-    private String getOrderInfo(String subject, String body, String price,String orderId,String partner,String seller,String notify_url,String show_url) {
-
+    private String getOrderInfo() {
+         String subject = "支付订单"+out_trade_no;
+         String body = subject;
         // 签约合作者身份ID
-        String orderInfo = "partner=" + "\"" + partner + "\"";
+        String orderInfo = "partner=" + "\"" + PARTNER + "\"";
 
         // 签约卖家支付宝账号
-        orderInfo += "&seller_id=" + "\"" + seller + "\"";
+        orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + orderId + "\"";
+        orderInfo += "&out_trade_no=" + "\"" + out_trade_no + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -75,7 +83,7 @@ public class AliPay extends BaseEntity {
         // orderInfo += "&extern_token=" + "\"" + extern_token + "\"";
 
         // 支付宝处理完请求后，当前页面跳转到商户指定页面的路径，可空
-        orderInfo += "&return_url="+ "\"" + show_url + "\"";
+//		orderInfo += "&return_url="+ "\"" + show_url + "\"";
 
         // 调用银行卡支付，需配置此参数，参与签名， 固定值 （需要签约《无线银行卡快捷支付》才能使用）
         // orderInfo += "&paymethod=\"expressGateway\"";

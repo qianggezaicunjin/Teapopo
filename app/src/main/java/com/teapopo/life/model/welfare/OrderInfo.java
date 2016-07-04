@@ -10,7 +10,6 @@ public class OrderInfo extends BaseEntity {
     //商品信息
 
     //订单的总览
+    public OrderOverview orderOverview;
 
-    //支付宝相应的信息
-    public AliPay aliPay;
 }
