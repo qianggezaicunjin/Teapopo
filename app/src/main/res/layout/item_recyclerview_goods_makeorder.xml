@@ -15,7 +15,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
-        android:background="#FFCCCC"
+        android:background="#FBFBFB"
         android:alpha="100"/>
     <RelativeLayout
         android:layout_width="match_parent"
