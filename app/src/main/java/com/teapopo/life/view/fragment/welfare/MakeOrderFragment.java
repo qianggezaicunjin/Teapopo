@@ -86,7 +86,7 @@ public class MakeOrderFragment extends SwipeBackBaseFragment{
 
     public void clickSettleMent(View view){
 //        mViewModel.makeOrder();
-        start(OrderSettleMentFragment.newInstance("351"));
+        start(OrderSettleMentFragment.newInstance("352"));
     }
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
