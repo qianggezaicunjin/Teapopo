@@ -7,201 +7,226 @@
         <variable
             name="viewmodel"
             type="com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel" />
+
     </data>
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_base"
+        android:orientation="vertical">
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background_base"
-            android:orientation="vertical">
-            <android.support.v7.widget.CardView
+            >
+            <LinearLayout
+                android:id="@+id/linearlayout_articleinfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/linearlayout_articleinfo"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_size"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_articleinfo_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_size"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_articleinfo_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@{viewmodel.articleInfo.title}" />
-
-                    <RelativeLayout
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/img_comment_avatar"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            app:imageUrl="@{viewmodel.articleInfo.authorInfo.getAvatarUrl()}" />
-
-                        <TextView
-                            android:id="@+id/tv_comment_username"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_toRightOf="@+id/img_comment_avatar"
-                            android:hint="用户名"
-                            android:text="@{viewmodel.articleInfo.authorInfo.nickname}" />
-
-                        <TextView
-                            android:id="@+id/tv_comment_publishtime"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tv_comment_username"
-                            android:layout_toRightOf="@+id/img_comment_avatar"
-                            android:hint="发布时间"
-                            android:text="@{viewmodel.articleInfo.publish_time}" />
-
-                        <Button
-                            android:id="@+id/btn_comment_focus"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true" />
-
-                    </RelativeLayout>
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:visibility="@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}">
-
-                        <com.teapopo.life.view.customView.HackyViewPager
-                            android:id="@+id/viewpager"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
-                            />
-
-                        <com.viewpagerindicator.CirclePageIndicator
-                            android:id="@+id/indicator_viewpager"
-                            android:padding="@dimen/padding_size"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true" />
-                    </RelativeLayout>
-
-                    <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
-                        android:id="@+id/htmltv_articleinfo_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:textSize="16sp"
-                        app:html_temp="@{viewmodel.articleInfo.content}" />
-
-                    <RelativeLayout
-                        android:id="@+id/relativeLayout_likeAndcomment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/activity_vertical_margin">
-
-                        <ImageView
-                            android:id="@+id/img_likeornot"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:background="@{viewmodel.articleInfo.isLike?@drawable/icon_like:@drawable/icon_no_like}"
-                             />
-
-                        <TextView
-                            android:id="@+id/tv_likecount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toRightOf="@+id/img_likeornot"
-                            android:text="@{viewmodel.articleInfo.like_num}"
-                            android:textSize="18sp" />
-
-                        <ImageView
-                            android:id="@+id/img_comment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                            android:layout_toRightOf="@+id/tv_likecount"
-                            android:src="@drawable/icon_comment" />
-
-                        <TextView
-                            android:id="@+id/tv_commentcount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toRightOf="@+id/img_comment"
-                            android:text="@{viewmodel.articleInfo.comment_num}"
-                            android:textSize="18sp" />
-
-                    </RelativeLayout>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/cardMarginVertical"
-                android:layout_marginTop="@dimen/cardMarginVertical"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="2dp"
-                app:cardPreventCornerOverlap="false"
-                >
-
-                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
-                    android:id="@+id/flexbox_addtag"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/padding_size"
-                    android:gravity="center_vertical"
-                    app:articleInfo="@{viewmodel.articleInfo.tags}"
-                   app:flexWrap="wrap">
-
-                </com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/cardMarginVertical"
-                android:layout_marginTop="@dimen/cardMarginVertical"
-                app:cardCornerRadius="2dp"
-                app:cardElevation="2dp"
-                app:cardPreventCornerOverlap="false"
-                >
+                    android:text="@{viewmodel.articleInfo.title}"
+                    android:textSize="23dp"
+                    android:textColor="#000"/>
                 <RelativeLayout
-                    android:padding="@dimen/padding_size"
+                    android:layout_marginTop="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="10dp">
+
+                    <ImageView
+                        android:id="@+id/img_comment_avatar"
+                        android:layout_width="66dp"
+                        android:layout_height="60dp"
+                        app:imageUrl="@{viewmodel.articleInfo.authorInfo.getAvatarUrl()}" />
+
                     <TextView
-                        android:id="@+id/tv_articleinfo_likenum"
+                        android:id="@+id/tv_comment_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:hint="0 人喜欢了"/>
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/img_comment_avatar"
+                        android:hint="用户名"
+                        android:layout_marginLeft="5dp"
+                        android:text="@{viewmodel.articleInfo.authorInfo.nickname}"
+                        android:textSize="16dp"
+                        android:textColor="#000"/>
 
-                    <View
-                        android:id="@+id/line"
-                        android:layout_below="@+id/tv_articleinfo_likenum"
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="@dimen/activity_vertical_margin"
-                        android:layout_height="2dp"
-                        android:background="@drawable/line"/>
-
-                    <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
-                        android:layout_below="@+id/line"
-                        android:id="@+id/flexbox_addlikeimage"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/tv_comment_fanNum"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:articleInfo="@{viewmodel.articleInfo.fans}"
-                        app:flexWrap="wrap"
-                        android:paddingTop="5dp"/>
+                        android:layout_below="@+id/tv_comment_username"
+                        android:layout_toRightOf="@+id/img_comment_avatar"
+                        android:hint="粉丝数"
+                        android:layout_marginLeft="5dp"
+                        android:text="@{viewmodel.articleInfo.authorInfo.getFans_num()}" />
+
+                    <Button
+                        android:id="@+id/btn_comment_focus"
+                        android:layout_width="56dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:text="关注"
+                        android:background="@drawable/background_welfare_btn"
+                        android:textColor="@color/green"
+                        android:layout_marginRight="5dp"
+                        android:textSize="16dp"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:id="@+id/tv_comment_publishtime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="发布时间"
+                        android:text="@{viewmodel.articleInfo.publish_time}"
+                        android:textColor="@color/gray_light"
+                        android:layout_below="@id/tv_comment_fanNum"
+                        android:layout_toRightOf="@id/img_comment_avatar"
+                        android:layout_marginLeft="5dp"/>
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:visibility="@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}">
+
+                    <com.teapopo.life.view.customView.HackyViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
+                        />
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/indicator_viewpager"
+                        android:padding="@dimen/padding_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+                <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
+                    android:id="@+id/htmltv_articleinfo_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:textSize="16sp"
+                    app:html_temp="@{viewmodel.articleInfo.content}" />
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout_likeAndcomment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <ImageView
+                        android:id="@+id/img_likeornot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:background="@{viewmodel.articleInfo.isLike?@drawable/icon_like:@drawable/icon_no_like}"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_likecount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/img_likeornot"
+                        android:text="@{viewmodel.articleInfo.like_num}"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/img_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_toRightOf="@+id/tv_likecount"
+                        android:src="@drawable/icon_comment" />
+
+                    <TextView
+                        android:id="@+id/tv_commentcount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toRightOf="@+id/img_comment"
+                        android:text="@{viewmodel.articleInfo.comment_num}"
+                        android:textSize="18sp" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/cardMarginVertical"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="false"
+            >
+
+            <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                android:id="@+id/flexbox_addtag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/padding_size"
+                android:gravity="center_vertical"
+                app:articleInfo="@{viewmodel.articleInfo.tags}"
+                app:flexWrap="wrap">
+
+            </com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/cardMarginVertical"
+            android:layout_marginTop="@dimen/cardMarginVertical"
+            app:cardCornerRadius="2dp"
+            app:cardElevation="2dp"
+            app:cardPreventCornerOverlap="false"
+            >
+            <RelativeLayout
+                android:padding="@dimen/padding_size"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tv_articleinfo_likenum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:hint="0 人喜欢了"/>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_below="@+id/tv_articleinfo_likenum"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_height="2dp"
+                    android:background="@drawable/line"/>
+
+                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                    android:layout_below="@+id/line"
+                    android:id="@+id/flexbox_addlikeimage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:articleInfo="@{viewmodel.articleInfo.fans}"
+                    app:flexWrap="wrap"
+                    android:paddingTop="5dp"/>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 </layout>
