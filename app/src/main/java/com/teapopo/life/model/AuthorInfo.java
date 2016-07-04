@@ -20,7 +20,9 @@ public class AuthorInfo extends BaseEntity {
     public String nickname;
 
     public String fans_num;
-
+    public String getFans_num(){
+        return "粉丝数:"+fans_num;
+    }
     public String signature;
     @JsonField(name = "subscribe")
     public boolean isSubscribe;

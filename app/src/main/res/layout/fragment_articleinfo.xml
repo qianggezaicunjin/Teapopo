@@ -11,13 +11,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:erroInfo="@{viewmodel.erroInfo}"
-        >
+        app:erroInfo="@{viewmodel.erroInfo}">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="评论(0)"/>
+            android:text="评论(0)"/>
         <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
             android:id="@+id/rv_articleinfo_comment"
             android:layout_width="match_parent"
@@ -25,31 +24,37 @@
             android:layout_above="@+id/linearlayout_input_comment"
             app:articleInfo="@{viewmodel.articleInfo.commentList}"
             >
-            </com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView>
-       <RelativeLayout
-           android:id="@+id/linearlayout_input_comment"
-           android:layout_alignParentBottom="true"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@color/white"
-           android:orientation="horizontal">
-           <EditText
-               android:id="@+id/et_inputcomment"
-               android:layout_width="300dp"
-               android:layout_height="wrap_content"
-               android:padding="@dimen/padding_size"
-               android:layout_marginLeft="@dimen/activity_horizontal_margin"
-              android:layout_centerVertical="true"
-               android:background="@drawable/background_et_loginout"
-               android:hint="@{viewmodel.mEditText_inputCommentHint}"
-               app:showSoftInput="@{viewmodel.showSoftInput}"/>
-           <Button
-               android:id="@+id/btn_articleinfo_publishcomment"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_toRightOf="@id/et_inputcomment"
-               android:text="发表"/>
-       </RelativeLayout>
+        </com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView>
+        <RelativeLayout
+            android:id="@+id/linearlayout_input_comment"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/et_inputcomment"
+                android:layout_width="268dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_size"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_centerVertical="true"
+                android:background="@drawable/background_et_loginout"
+                android:hint="@{viewmodel.mEditText_inputCommentHint}"
+                app:showSoftInput="@{viewmodel.showSoftInput}"
+                android:layout_marginBottom="3dp"/>
+            <Button
+                android:id="@+id/btn_articleinfo_publishcomment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/et_inputcomment"
+                android:text="发表"
+                android:textSize="16dp"
+                android:background="@drawable/background_welfare_btn"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="3dp"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>
