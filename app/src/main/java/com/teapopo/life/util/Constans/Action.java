@@ -54,5 +54,7 @@ public enum Action {
     //for AddressManageModel
     AddressManageModel_GetAddressLsit,
     //for MakeOrderModel
-    GoodsSettleMentModel_MakeOrder
+    GoodsSettleMentModel_MakeOrder,
+    //for OrderSettleMentModel
+    OrderSettleMentModel_GetOrderInfo
 }

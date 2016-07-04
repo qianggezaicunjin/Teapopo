@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alipay.sdk.app.PayTask;
 import com.teapopo.life.databinding.FragmentOrderSettlementBinding;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
@@ -44,6 +45,7 @@ public class OrderSettleMentFragment extends SwipeBackBaseFragment {
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentOrderSettlementBinding.inflate(inflater);
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -52,6 +54,10 @@ public class OrderSettleMentFragment extends SwipeBackBaseFragment {
         setUpOrderInfo();
     }
 
+    public void clickPayByAlipay(View view){
+        PayTask payTask = new PayTask(_mActivity);
+        mViewModel.pay(payTask);
+    }
     private void setUpOrderInfo() {
         mViewModel.getOrderInfo(orderId);
     }
