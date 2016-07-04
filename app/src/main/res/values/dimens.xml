@@ -8,6 +8,7 @@
     <dimen name="iclike_size">20dp</dimen>
     <dimen name="icComment_size">20dp</dimen>
     <dimen name="icTag_size">15dp</dimen>
+    <dimen name="icon_margintop">8dp</dimen>
 
     <dimen name="padding_size">10dp</dimen>
     

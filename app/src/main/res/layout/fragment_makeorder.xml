@@ -9,65 +9,82 @@
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.MakeOrderViewModel"/>
     </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/white"
-    android:layout_height="match_parent">
-
-
-<com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
-    android:id="@+id/rv_goods_settlement"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/line_height"
-        android:background="@drawable/line"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:hint="订单补充说明.."
-        android:background="#FFCCCC"
-        android:layout_margin="15dp" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@drawable/line"/>
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
+        android:layout_height="match_parent">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_makeorder"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"/>
         <TextView
-            android:id="@+id/tv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="确认购买"
+            android:textSize="23dp"
+            android:gravity="center"/>
+        <LinearLayout
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="wrap_content"
-            android:text="总计:"
-            android:textSize="20dp"
-            android:layout_marginLeft="3dp"
-            android:layout_centerVertical="true"/>
-        <TextView
-            android:id="@+id/price_integral_tv"
-            android:layout_width="wrap_content"
+            android:layout_marginTop="50dp">
+
+
+            <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+                android:id="@+id/rv_goods_settlement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_height"
+                android:background="@drawable/line"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:hint="订单补充说明.."
+                android:background="#FBFBFB"
+                android:layout_margin="15dp"
+                android:gravity="center"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@drawable/line"/>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="价格和积分:"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/red"
-            android:layout_toRightOf="@id/tv"
-            android:layout_centerVertical="true"/>
-        <Button
-            android:id="@+id/settlement_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="结算"
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:background="@color/orange"
-            android:layout_alignParentRight="true"
-            android:onClick="@{handler.clickSettleMent}"
-            android:layout_margin="10dp"/>
+            android:layout_alignParentBottom="true">
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="总计:"
+                android:textSize="14dp"
+                android:layout_marginLeft="3dp"
+                android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/price_integral_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格和积分:"
+                android:textSize="14dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/red"
+                android:layout_toRightOf="@id/tv"
+                android:layout_centerVertical="true"/>
+            <Button
+                android:id="@+id/settlement_bt"
+                android:layout_width="80dp"
+                android:layout_height="45dp"
+                android:text="结算"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                android:background="@color/orange"
+                android:layout_alignParentRight="true"
+                android:onClick="@{handler.clickSettleMent}"
+                android:layout_margin="10dp"/>
+        </RelativeLayout>
     </RelativeLayout>
-</LinearLayout>
-    </layout>
+</layout>

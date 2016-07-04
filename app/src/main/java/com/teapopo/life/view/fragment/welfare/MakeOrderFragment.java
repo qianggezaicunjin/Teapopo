@@ -3,11 +3,14 @@ package com.teapopo.life.view.fragment.welfare;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
+import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentMakeorderBinding;
 import com.teapopo.life.databinding.LayoutReceiveAddressBinding;
@@ -61,11 +64,11 @@ public class MakeOrderFragment extends SwipeBackBaseFragment{
         return mBinding.getRoot();
     }
 
-
     @Override
     public void setUpView() {
         setUpGoodsList();
         setUpAddressInfo();
+        setToolBar();
     }
 
     private void setUpAddressInfo() {
@@ -88,5 +91,18 @@ public class MakeOrderFragment extends SwipeBackBaseFragment{
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
+    }
+
+    //设置返回按钮监听
+    public void setToolBar(){
+        Toolbar toolbar=mBinding.toolbarMakeorder;
+        toolbar.setNavigationIcon(R.drawable.icon_back);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+                Toast.makeText(_mActivity,"111",0).show();
+            }
+        });
     }
 }

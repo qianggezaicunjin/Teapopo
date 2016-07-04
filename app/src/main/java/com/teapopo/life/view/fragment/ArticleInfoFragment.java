@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -79,6 +81,7 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         setUpRecyclerView();
         attachOnClickListener();
+        setToolBar();
     }
 
     private void attachOnClickListener() {
@@ -147,7 +150,26 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         mViewModel.requestData(mArticleId);
     }
 
-
+    //设置标题栏导航按钮
+    public void setToolBar(){
+        Toolbar toolbar=topbinding.toolbarArticleinfo;
+        toolbar.setNavigationIcon(R.drawable.icon_back);
+        toolbar.inflateMenu(R.menu.menu_home);
+        //导航栏按钮监听
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                pop();
+                return true;
+            }
+        });
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
