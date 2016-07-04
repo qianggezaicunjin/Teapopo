@@ -43,8 +43,8 @@
 
                     <ImageView
                         android:id="@+id/img_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         app:imageUrl="@{viewmodel.article.authorInfo.getAvatarUrl()}"
                         />
 
@@ -86,7 +86,7 @@
                     android:id="@+id/tv_articleContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:text="@{viewmodel.article.getExcerpt()}"
                     android:layout_marginTop="@dimen/article_verticle_margin"/>
 
@@ -113,7 +113,7 @@
                     android:id="@+id/ll_rv_item_likeAndcomment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/icon_margintop"
                     >
 
                     <ImageView
@@ -153,8 +153,6 @@
 
                 </RelativeLayout>
             </LinearLayout>
-
-
         </android.support.v7.widget.CardView>
     </LinearLayout>
 </layout>
