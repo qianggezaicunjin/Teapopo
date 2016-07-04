@@ -53,6 +53,8 @@ public class EventGoods extends BaseEntity implements Parcelable{
     }
     public int is_commend;
 
+    //新增加的属性
+    public int buy_num = 1;
     @Override
     public int describeContents() {
         return 0;
@@ -72,6 +74,7 @@ public class EventGoods extends BaseEntity implements Parcelable{
         dest.writeInt(sale_num);
         dest.writeString(storage);
         dest.writeInt(is_commend);
+        dest.writeInt(buy_num);
     }
 
     protected EventGoods(Parcel in) {
@@ -87,6 +90,7 @@ public class EventGoods extends BaseEntity implements Parcelable{
         sale_num = in.readInt();
         storage = in.readString();
         is_commend = in.readInt();
+        buy_num = in.readInt();
     }
     public EventGoods(){
 

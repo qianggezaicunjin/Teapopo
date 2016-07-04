@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.databinding.FragmentSettlementBinding;
+
+import com.teapopo.life.data.rx.RxBus;
+import com.teapopo.life.databinding.FragmentMakeorderBinding;
 import com.teapopo.life.databinding.LayoutReceiveAddressBinding;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
-import com.teapopo.life.view.adapter.recyclerview.SettleMentGoodsListAdapter;
+import com.teapopo.life.view.adapter.recyclerview.MakeOrderListAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
-import com.teapopo.life.viewModel.welfare.GoodsSettleMentViewModel;
+import com.teapopo.life.viewModel.welfare.MakeOrderViewModel;
 
 import java.util.ArrayList;
 
@@ -22,18 +24,21 @@ import javax.inject.Inject;
 /**
  * Created by louiszgm on 2016/6/30.
  */
-public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
+public class MakeOrderFragment extends SwipeBackBaseFragment{
 
-    private FragmentSettlementBinding mBinding;
+    private FragmentMakeorderBinding mBinding;
 
     private ArrayList<EventGoods> eventGoodsList;
 
     @Inject
-    GoodsSettleMentViewModel mViewModel;
+    MakeOrderViewModel mViewModel;
+
+    @Inject
+    RxBus mRxBus;
     private LayoutReceiveAddressBinding binding_addressinfo;
 
-    public static GoodsSettleMentFragment newInstance(ArrayList<Parcelable> eventGoodsList){
-        GoodsSettleMentFragment fragment = new GoodsSettleMentFragment();
+    public static MakeOrderFragment newInstance(ArrayList<Parcelable> eventGoodsList){
+        MakeOrderFragment fragment = new MakeOrderFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("goodslist",eventGoodsList);
         fragment.setArguments(bundle);
@@ -47,10 +52,11 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = FragmentSettlementBinding.inflate(inflater);
+        mBinding = FragmentMakeorderBinding.inflate(inflater);
         binding_addressinfo = LayoutReceiveAddressBinding.inflate(inflater);
         mViewModel.data = eventGoodsList;
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         binding_addressinfo.setHandler(this);
         return mBinding.getRoot();
     }
@@ -67,7 +73,7 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
     }
 
     private void setUpGoodsList() {
-        SettleMentGoodsListAdapter adapter = new SettleMentGoodsListAdapter(_mActivity,mViewModel.data);
+        MakeOrderListAdapter adapter = new MakeOrderListAdapter(_mActivity,mViewModel.data);
         mBinding.rvGoodsSettlement.setAdapter(adapter);
     }
 
@@ -75,6 +81,10 @@ public class GoodsSettleMentFragment extends SwipeBackBaseFragment{
         startForResult(AddressManageFragment.newInstance(),1);
     }
 
+    public void clickSettleMent(View view){
+//        mViewModel.makeOrder();
+        start(OrderSettleMentFragment.newInstance("351"));
+    }
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);

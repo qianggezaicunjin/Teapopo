@@ -3,12 +3,12 @@ package com.teapopo.life.injection.module.fragment;
 import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
-import com.teapopo.life.model.articleinfo.ArticleInfoModel;
 import com.teapopo.life.model.welfare.AddressManageModel;
-import com.teapopo.life.model.welfare.GoodsSettleMentModel;
-import com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel;
+import com.teapopo.life.model.welfare.MakeOrderModel;
+import com.teapopo.life.model.welfare.OrderSettleMentModel;
 import com.teapopo.life.viewModel.welfare.AddressManageViewModel;
-import com.teapopo.life.viewModel.welfare.GoodsSettleMentViewModel;
+import com.teapopo.life.viewModel.welfare.MakeOrderViewModel;
+import com.teapopo.life.viewModel.welfare.OrderSettleMentViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -19,16 +19,16 @@ import dagger.Provides;
 @Module
 public class GoodsHandleFragmentModule {
 
-    //for GoodsSettleMentFragment
+    //for MakeOrderFragment
     @Provides
     @PerActivity
-    GoodsSettleMentViewModel provideGoodsSettleMentViewModel(GoodsSettleMentModel model){
-        return new GoodsSettleMentViewModel(model);
+    MakeOrderViewModel provideGoodsSettleMentViewModel(MakeOrderModel model){
+        return new MakeOrderViewModel(model);
     }
     @Provides
     @PerActivity
-    GoodsSettleMentModel provideGoodsSettleMentModel(Context context){
-        return new GoodsSettleMentModel(context);
+    MakeOrderModel provideGoodsSettleMentModel(Context context){
+        return new MakeOrderModel(context);
     }
 
     //for AddressManageFragment
@@ -42,5 +42,17 @@ public class GoodsHandleFragmentModule {
     @PerActivity
     AddressManageModel provideAddressManageModel(Context context){
         return new AddressManageModel(context);
+    }
+
+    //for OrderSettleMentFragment
+    @Provides
+    @PerActivity
+    OrderSettleMentViewModel provideOrderSettleMentViewModel(OrderSettleMentModel model){
+        return new OrderSettleMentViewModel(model);
+    }
+    @Provides
+    @PerActivity
+    OrderSettleMentModel provideOrderSettleMentModel(Context context){
+        return new OrderSettleMentModel(context);
     }
 }

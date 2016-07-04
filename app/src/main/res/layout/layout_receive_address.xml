@@ -4,7 +4,7 @@
     <data>
         <variable
             name="handler"
-            type="com.teapopo.life.view.fragment.welfare.GoodsSettleMentFragment"/>
+            type="com.teapopo.life.view.fragment.welfare.MakeOrderFragment"/>
         <variable
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.ReceiveAddressViewModel"/>

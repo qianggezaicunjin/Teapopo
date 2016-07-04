@@ -362,4 +362,26 @@ public class DataManager {
     public Observable<JsonObject> getAddressList(){
         return mNetWorkService.getAddressList();
     }
+
+
+    /**
+     *下单
+     * @param buy_info json格式  {活动商品ID：商品数，活动商品ID：商品数}
+     * @param address_id
+     * @param remark
+     * @return
+     */
+    public Observable<JsonObject> makeOrder(String buy_info,String address_id,String remark){
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM);
+        builder.addFormDataPart("buy_info",buy_info);
+        builder.addFormDataPart("address_id",address_id);
+        builder.addFormDataPart("message",remark);
+        builder.addFormDataPart("source", String.valueOf(2));
+        return mNetWorkService.makeOrder(builder.build());
+    }
+
+    public Observable<JsonObject> getOrderInfo(String orderId){
+        return mNetWorkService.getOrderInfo(orderId);
+    }
 }

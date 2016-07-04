@@ -52,5 +52,7 @@ public enum Action {
     //for EventGoodsListModel
     EventGoodsListModel_GetGoodsList,
     //for AddressManageModel
-    AddressManageModel_GetAddressLsit
+    AddressManageModel_GetAddressLsit,
+    //for MakeOrderModel
+    GoodsSettleMentModel_MakeOrder
 }
