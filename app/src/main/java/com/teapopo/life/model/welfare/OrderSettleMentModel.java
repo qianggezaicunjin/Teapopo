@@ -3,6 +3,8 @@ package com.teapopo.life.model.welfare;
 import android.content.Context;
 
 import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.Alipay.AliPay;
 import com.teapopo.life.model.BaseModel;
@@ -12,6 +14,8 @@ import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -58,12 +62,23 @@ public class OrderSettleMentModel extends BaseModel {
 
     private OrderInfo getOrderInfo(JsonObject jsonObject){
         JsonObject order = jsonObject.getAsJsonObject("order");
-
+        JsonObject address = jsonObject.getAsJsonObject("address");
+        JsonArray goodses = jsonObject.getAsJsonArray("goods");
         OrderInfo orderInfo = new OrderInfo();
         try {
             //添加订单总览
             OrderOverview orderOverview = LoganSquare.parse(order.toString(),OrderOverview.class);
             orderInfo.orderOverview = orderOverview;
+            //添加配送地址
+            Address address1 = LoganSquare.parse(address.toString(),Address.class);
+            orderInfo.address = address1;
+            //添加商品的总览信息
+            List<GoodsOverview> list = new ArrayList<>();
+            for(JsonElement element:goodses){
+                GoodsOverview goodsOverview = LoganSquare.parse(element.toString(),GoodsOverview.class);
+                list.add(goodsOverview);
+            }
+            orderInfo.goodsOverviewList = list;
         } catch (IOException e) {
             e.printStackTrace();
         }
