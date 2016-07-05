@@ -381,7 +381,25 @@ public class DataManager {
         return mNetWorkService.makeOrder(builder.build());
     }
 
+    /**
+     * 获取订单信息
+     * @param orderId
+     * @return
+     */
     public Observable<JsonObject> getOrderInfo(String orderId){
         return mNetWorkService.getOrderInfo(orderId);
+    }
+
+    /**
+     * 获取商品的收藏列表
+     * @param id 商品的原始id
+     * @return
+     */
+    public Observable<JsonObject> getCollectList(String id){
+        return mNetWorkService.getCollectList(id,"goods");
+    }
+
+    public Observable<JsonObject> getGoodsInfo(String id){
+        return mNetWorkService.getGoodsInfo(id);
     }
 }

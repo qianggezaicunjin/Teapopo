@@ -1,4 +1,4 @@
-package com.teapopo.life.model.welfare;
+package com.teapopo.life.model.welfare.MakeOrder;
 
 import android.content.Context;
 

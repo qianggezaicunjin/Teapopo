@@ -25,7 +25,8 @@ public class EventGoods extends BaseEntity implements Parcelable{
     }
     public String goods_id;
 
-    public String guide_content;
+//    public String guide_content;
+    public String content;
 
     public String id;
 
@@ -43,6 +44,9 @@ public class EventGoods extends BaseEntity implements Parcelable{
     }
     public int sale_num;
 
+    public String getPayAmount(){
+        return "￥"+price+"+"+points+"积分";
+    }
     public String getSale_num(){
         return sale_num+"件";
     }
@@ -66,7 +70,7 @@ public class EventGoods extends BaseEntity implements Parcelable{
         dest.writeString(comment_num);
         dest.writeString(coverImg);
         dest.writeString(goods_id);
-        dest.writeString(guide_content);
+        dest.writeString(content);
         dest.writeString(id);
         dest.writeString(name);
         dest.writeString(points);
@@ -82,7 +86,7 @@ public class EventGoods extends BaseEntity implements Parcelable{
         comment_num = in.readString();
         coverImg = in.readString();
         goods_id = in.readString();
-        guide_content = in.readString();
+        content = in.readString();
         id = in.readString();
         name = in.readString();
         points = in.readString();

@@ -2,7 +2,7 @@ package com.teapopo.life.viewModel.welfare;
 
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.welfare.EventGoods;
-import com.teapopo.life.model.welfare.MakeOrderModel;
+import com.teapopo.life.model.welfare.MakeOrder.MakeOrderModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;

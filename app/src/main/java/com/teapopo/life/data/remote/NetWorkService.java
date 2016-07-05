@@ -83,7 +83,6 @@ public interface NetWorkService {
 
     /**
      * 发送短信验证码
-     *
      * @param phonenumber
      * @param forwhat
      * @return
@@ -93,7 +92,6 @@ public interface NetWorkService {
 
     /**
      * 验证手机号
-     *
      * @param phonenum
      * @param vertifycode
      * @return
@@ -104,7 +102,6 @@ public interface NetWorkService {
 
     /**
      * 验证openid
-     *
      * @param openid
      * @param platform qq,weibo,weixin
      * @return
@@ -116,7 +113,6 @@ public interface NetWorkService {
     /**
      * 文章列表
      * 获取首页的推荐文章列表，以及新滋的文章列表
-     *
      * @param category 参数为: 发现/新滋
      * @return
      */
@@ -305,6 +301,24 @@ public interface NetWorkService {
      */
     @GET("orders/info")
     Observable<JsonObject> getOrderInfo(@Query("id")String orderId);
+
+    /**
+     * 收藏列表
+     * @param id
+     * @param type goods or posts
+     * @return
+     */
+    @GET("api/collects/list")
+    Observable<JsonObject> getCollectList(@Query("id")String id,@Query("type")String type);
+
+    /**
+     * 活动商品信息
+     * @param id 活动商品id
+     * @return
+     */
+    @GET("events/goods_info")
+    Observable<JsonObject> getGoodsInfo(@Query("id")String id);
+
     @GET("test")
     Call<JsonObject> test();
 }

@@ -1,33 +1,26 @@
 package com.teapopo.life.view.fragment.welfare;
 
-import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentEventgoodsListBinding;
-import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.model.welfare.EventGoods;
-import com.teapopo.life.model.welfare.EventGoodsListModel;
+import com.teapopo.life.model.welfare.EventGoodsList.EventGoodsListModel;
 import com.teapopo.life.view.adapter.recyclerview.EventGoodsListAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.welfare.EventGoodsListViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/28.
  */
-public class EventGoodsListFragment extends BaseFragment {
+public class EventGoodsListFragment extends BaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener {
 
     private String eventId;
     private int type;
@@ -81,6 +74,14 @@ public class EventGoodsListFragment extends BaseFragment {
     private void setUpEventGoodsList() {
         EventGoodsListAdapter adapter = new EventGoodsListAdapter(_mActivity,mViewModel.data);
         mBinding.rvEventgoodlist.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
         mViewModel.getGoodsList(eventId,type);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+
+        EventGoods eventGoods = (EventGoods) mViewModel.data.get(position);
+        ((SupportActivity)_mActivity).start(GoodsDetailFragment.newInstance(eventGoods.goods_id));
     }
 }

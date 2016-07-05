@@ -1,4 +1,4 @@
-package com.teapopo.life.model.welfare;
+package com.teapopo.life.model.welfare.EventGoodsList;
 
 import android.content.Context;
 import android.graphics.AvoidXfermode;
@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.sharedpreferences.EventGoodsSp;
 import com.teapopo.life.model.sharedpreferences.RxSpf_EventGoodsSp;
+import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;

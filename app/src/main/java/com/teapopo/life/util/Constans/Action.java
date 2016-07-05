@@ -56,5 +56,9 @@ public enum Action {
     //for MakeOrderModel
     GoodsSettleMentModel_MakeOrder,
     //for OrderSettleMentModel
-    OrderSettleMentModel_GetOrderInfo
+    OrderSettleMentModel_GetOrderInfo,
+    //for GoodsDetailModel
+    GoodsDetailModel_GetGoodsInfo,
+    GoodsDetailModel_GetCollectList,
+    GoodsDetailModel_GetCommentList
 }

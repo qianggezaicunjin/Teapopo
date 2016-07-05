@@ -28,7 +28,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/6/20.
  */
-public class RefreshArticleFragment {
+public class RefreshArticleInfoFragment {
 
     @BindingAdapter({"articleInfo"})
     public static void addArticleInfoComments(final SuperRecyclerView recyclerView, List<Comment> data) {
