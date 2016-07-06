@@ -6,7 +6,10 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.model.AuthorInfo;
+import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
+import com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 
@@ -42,5 +45,13 @@ public class RefreshGoodsDetailFragment {
         }
 
         viewPager.notifyDataSetChanged();
+    }
+
+    @BindingAdapter({"collectList"})
+    public static void addGoodsCollectList(FlexBoxWithAdapter flexboxLayout, List<AuthorInfo> member_like) {
+        Timber.d("addArticleInfoFans");
+        ArticleFansAdapter articleFansAdapter = (ArticleFansAdapter) flexboxLayout.getAdapter();
+        articleFansAdapter.setDataSource(member_like,true);
+        articleFansAdapter.notifyDataSetChanged();
     }
 }

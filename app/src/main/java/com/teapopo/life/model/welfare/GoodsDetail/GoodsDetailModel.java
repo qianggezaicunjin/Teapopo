@@ -6,10 +6,12 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.comment.Reply;
+import com.teapopo.life.model.welfare.Brand;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.model.welfare.EventGoodsInfo;
 import com.teapopo.life.model.welfare.Guide;
@@ -203,9 +205,13 @@ public class GoodsDetailModel extends BaseModel {
         EventGoodsInfo eventGoodsInfo = new EventGoodsInfo();
         JsonObject goods = jsonObject.getAsJsonObject("goods");
         JsonObject guide = null;
+        JsonObject brand = null;
         JsonArray wap_images = jsonObject.getAsJsonArray("wap_images");
         if(jsonObject.has("guide")){
             guide = jsonObject.getAsJsonObject("guide");
+        }
+        if(jsonObject.has("brand")){
+            brand = jsonObject.getAsJsonObject("brand");
         }
         try {
             //添加活动商品的基本信息
@@ -225,6 +231,13 @@ public class GoodsDetailModel extends BaseModel {
             List<String> images = new ArrayList<>();
             for(JsonElement jsonElement:wap_images){
                 images.add(jsonElement.getAsString());
+            }
+            //添加品牌信息
+            if(brand!=null){
+                Brand brand1 = LoganSquare.parse(brand.toString(),Brand.class);
+                brand1.logo = setWebImageSize(R.dimen.brand_logo_width,R.dimen.brand_logo_height,brand1.logo);
+                Timber.d("logo的图片为:%s",brand1.logo);
+                eventGoodsInfo.brand = brand1;
             }
             eventGoodsInfo.wap_images = images;
         } catch (IOException e) {

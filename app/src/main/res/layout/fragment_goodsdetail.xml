@@ -3,89 +3,179 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewmodel"
             type="com.teapopo.life.viewModel.welfare.GoodsDetailViewModel" />
 
     </data>
-<LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <!--@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}-->
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        >
-
-        <com.teapopo.life.view.customView.HackyViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:goodsInfo="@{viewmodel.goodsInfo.wap_images}"
-            />
-
-        <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator_viewpager"
-            android:padding="@dimen/padding_size"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@{viewmodel.goodsInfo.eventGoods.name}"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@{viewmodel.goodsInfo.eventGoods.getPayAmount()}"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="----------------------  导购寄语  ---------------------------"/>
-
-        <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:compoundDrawables="@{viewmodel.goodsInfo.guide.authorInfo.getAvatarUrl()}"
-            android:text="@{viewmodel.goodsInfo.guide.authorInfo.nickname}"/>
-
-        <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:goodsInfo="@{viewmodel.goodsInfo.guide.content}"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--商品图片部分-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                <com.teapopo.life.view.customView.HackyViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:goodsInfo="@{viewmodel.goodsInfo.wap_images}" />
+
+                <com.viewpagerindicator.CirclePageIndicator
+                    android:id="@+id/indicator_viewpager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/padding_size" />
+            </RelativeLayout>
+
+            <!--商品名称以及价钱积分部分-->
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@{viewmodel.goodsInfo.eventGoods.name}" />
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@{viewmodel.goodsInfo.eventGoods.getPayAmount()}" />
+            <!--导购寄语部分-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.goodsInfo.guide!=null?View.VISIBLE:View.GONE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="----------------------  导购寄语  ---------------------------" />
+
+                <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.goodsInfo.guide.authorInfo.nickname}"
+                    app:compoundDrawables="@{viewmodel.goodsInfo.guide.authorInfo.getAvatarUrl()}" />
+
+                <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:goodsInfo="@{viewmodel.goodsInfo.guide.content}" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+            <!--收藏商品的人-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@drawable/line" />
+
+                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                    android:id="@+id/flexbox_addcollect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flexWrap="wrap"
+                    app:collectList="@{viewmodel.collectList}"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ad_words" />
+            </LinearLayout>
+            <!--评论区-->
+            <!--品牌简介-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.goodsInfo.brand!=null?View.VISIBLE:View.GONE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="品牌简介" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@drawable/line"/>
+
+                <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.goodsInfo.brand.name}"
+                    app:compoundDrawables="@{viewmodel.goodsInfo.brand.logo}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewmodel.goodsInfo.brand.content}" />
+            </LinearLayout>
+            <!--商品描述-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商品描述" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/line_height"
+                    android:background="@drawable/line" />
+
+                <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:goodsInfo="@{viewmodel.goodsInfo.eventGoods.content}" />
+            </LinearLayout>
+            <!--也许喜欢-->
         </LinearLayout>
-    </LinearLayout>
-
-
-</LinearLayout>
-    </layout>
+    </ScrollView>
+</layout>

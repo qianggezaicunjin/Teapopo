@@ -26,7 +26,21 @@
     <dimen name="article_horizontal_margin">5dp</dimen>
 
     <!--分割线的高度-->
-    <dimen name="line_height">3dp</dimen>
+    <dimen name="line_height">@dimen/y3</dimen>
+
+    <!--用户头像的大小-->
+    <dimen name="avatar_width">@dimen/x50</dimen>
+    <dimen name="avatar_height">@dimen/y50</dimen>
+
+    <!--品牌logo的大小-->
+    <dimen name="brand_logo_width">@dimen/x50</dimen>
+    <dimen name="brand_logo_height">@dimen/y51</dimen>
+
+
+    <!--活动商品item的图片大小-->
+    <dimen name="eventgoods_coverImg_width">@dimen/x320</dimen>
+    <dimen name="eventgoods_coverImg_height">@dimen/y80</dimen>
+
 
     <dimen name="header_height">300dp</dimen>
 </resources>

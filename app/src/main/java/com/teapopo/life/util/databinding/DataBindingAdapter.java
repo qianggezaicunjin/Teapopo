@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,26 +54,53 @@ public class DataBindingAdapter {
     @BindingAdapter({"compoundDrawables"})
     public static void setTextViewDrawables(final TextView textView, String url) {
         Timber.d("setTextViewDrawables:%s",url);
-        Picasso.with(textView.getContext()).load(url).into(new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                Timber.d("加载图片成功");
-                Drawable drawable = new BitmapDrawable(null,bitmap);
-                drawable.setBounds(0, 0, 100, 100);
-                textView.setCompoundDrawables(drawable,null,null,null);
-
+        final int width;
+        final int heigth;
+        //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
+        if(url != null){
+            String tag = url.substring(0,4);
+            //提取出url里面_width x height的宽高
+            //为了设置正在加载图片和图片加载错误时候的占位图的大小
+            String[] part1= url.split("_");
+            String[] part2 = part1[1].split("x");
+             width = Integer.parseInt(part2[0]);
+            if(!tag.equals("http")){
+                url = NetWorkService.IMAGE_ENDPOINT+url+NetWorkService.IMAGE_EXT;
+                heigth = Integer.parseInt(part2[1]);
+            }else {
+                int size  = part2[1].length();
+                String tag1 = part2[1].substring(0,size-4);
+                Timber.d("tag1为:%s",tag1);
+                heigth = Integer.parseInt(tag1);
             }
+            Timber.d("要加载图片的大小为:%s %s",width,heigth);
+            //加载图片
+            Picasso.with(textView.getContext()).load(url).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(new Target() {
+                @Override
+                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                    Timber.d("加载图片成功");
+                    Drawable drawable = new BitmapDrawable(null,bitmap);
+                    drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                    textView.setCompoundDrawables(drawable,null,null,null);
 
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                Timber.d("加载图片失败");
-            }
+                }
 
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                Timber.d("准备加载图片");
-            }
-        });
+                @Override
+                public void onBitmapFailed(Drawable errorDrawable) {
+                    Timber.d("加载图片失败");
+                    errorDrawable.setBounds(0,0,width,heigth);
+                    textView.setCompoundDrawables(errorDrawable,null,null,null);
+                }
+
+                @Override
+                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    Timber.d("准备加载图片");
+                    placeHolderDrawable.setBounds(0,0,width,heigth);
+                    textView.setCompoundDrawables(placeHolderDrawable,null,null,null);
+                }
+            });
+        }
+
     }
 
     //ImageVie 设置网络图片
@@ -90,6 +118,7 @@ public class DataBindingAdapter {
         }else {
             Picasso.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(iv);
         }
+
     }
     //SwipeRefreshLayout 设置loading状态
     @BindingAdapter({"isLoading"})

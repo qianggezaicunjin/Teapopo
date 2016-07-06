@@ -308,7 +308,7 @@ public interface NetWorkService {
      * @param type goods or posts
      * @return
      */
-    @GET("api/collects/list")
+    @GET("collects/list")
     Observable<JsonObject> getCollectList(@Query("id")String id,@Query("type")String type);
 
     /**
