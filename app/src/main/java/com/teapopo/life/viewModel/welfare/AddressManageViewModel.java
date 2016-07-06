@@ -1,9 +1,8 @@
 package com.teapopo.life.viewModel.welfare;
 
 import com.teapopo.life.BR;
-import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.welfare.Address;
-import com.teapopo.life.model.welfare.AddressManageModel;
+import com.teapopo.life.model.welfare.AddressManage.AddressManageModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;

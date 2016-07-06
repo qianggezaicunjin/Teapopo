@@ -1,4 +1,4 @@
-package com.teapopo.life.view.customView;
+package com.teapopo.life.view.customView.TextView;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -6,30 +6,27 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+import com.teapopo.life.view.customView.Interface.DrawableClickListener;
+
 /**
  * Created by louiszgm on 2016/6/30.
  */
-public class ClickAbleTextView extends TextView {
+public class DrawableClickAbleTextView extends TextView {
     private DrawableClickListener mdrawableClickListener;
     public static final int LeftDrawAble = 1;
     public static final int RightDrawAble = 2;
-    public ClickAbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DrawableClickAbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
     }
-    public ClickAbleTextView(Context context,  AttributeSet attrs) {
+    public DrawableClickAbleTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     public void setDrawableClickListener(DrawableClickListener listener){
         mdrawableClickListener = listener;
     }
-    public static interface DrawableClickListener {
-        /**
-         * textview的drawable被点击了
-         * @param type LeftDrawAble  RightDrawAble
-         */
-        void drawableClick(int type);
-    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Drawable left = getCompoundDrawables()[0];
@@ -44,7 +41,7 @@ public class ClickAbleTextView extends TextView {
             mdrawableClickListener.drawableClick(RightDrawAble);
             return true;
         }
-        if(event.getX()<getWidth()-getPaddingLeft()-left.getIntrinsicWidth()){
+        if(event.getX()<left.getIntrinsicWidth()){
             mdrawableClickListener.drawableClick(LeftDrawAble);
             return true;
         }

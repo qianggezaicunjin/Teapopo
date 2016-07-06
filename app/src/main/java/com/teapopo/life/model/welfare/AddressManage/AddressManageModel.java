@@ -1,4 +1,4 @@
-package com.teapopo.life.model.welfare;
+package com.teapopo.life.model.welfare.AddressManage;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.welfare.Address;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.rx.RxResultHelper;

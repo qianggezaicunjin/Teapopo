@@ -6,6 +6,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.EditText;
 
+import com.teapopo.life.view.customView.Interface.DrawableClickListener;
+
 /**
  * Created by louiszgm on 2016/7/2.
  */
@@ -20,13 +22,7 @@ public class DrawableClickablEdT extends EditText {
     public void setDrawableClickListener(DrawableClickListener listener){
         mdrawableClickListener = listener;
     }
-    public static interface DrawableClickListener {
-        /**
-         * textview的drawable被点击了
-         * @param type LeftDrawAble  RightDrawAble
-         */
-        void drawableClick(int type);
-    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         Drawable left = getCompoundDrawables()[0];

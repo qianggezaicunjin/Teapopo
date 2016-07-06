@@ -1,16 +1,22 @@
 package com.teapopo.life.util.databinding;
 
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
@@ -37,21 +43,41 @@ public class DataBindingAdapter {
         }
 
     }
+
     @BindingAdapter({"adapter","data"})
     public static void setNineImageAdapter(NineGridImageView imageView, NineGridImageViewAdapter adapter,List data){
         imageView.setAdapter(adapter);
         imageView.setImagesData(data);
     }
 
-    @BindingAdapter({"onMenuItemClick"})
-    public static void onMenuItemClick(Toolbar toolbar, Toolbar.OnMenuItemClickListener listener) {
-        toolbar.setOnMenuItemClickListener(listener);
+    @BindingAdapter({"compoundDrawables"})
+    public static void setTextViewDrawables(final TextView textView, String url) {
+        Timber.d("setTextViewDrawables:%s",url);
+        Picasso.with(textView.getContext()).load(url).into(new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                Timber.d("加载图片成功");
+                Drawable drawable = new BitmapDrawable(null,bitmap);
+                drawable.setBounds(0, 0, 100, 100);
+                textView.setCompoundDrawables(drawable,null,null,null);
+
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                Timber.d("加载图片失败");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                Timber.d("准备加载图片");
+            }
+        });
     }
 
     //ImageVie 设置网络图片
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
-
         if(imageUrl!=null){
             //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
             String tag = imageUrl.substring(0,4);

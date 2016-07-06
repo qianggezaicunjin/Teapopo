@@ -1,18 +1,12 @@
 package com.teapopo.life.viewModel.welfare;
 
-import android.databinding.Bindable;
-
 import com.teapopo.life.BR;
-import com.teapopo.life.R;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.welfare.Event;
-import com.teapopo.life.model.welfare.EventListModel;
+import com.teapopo.life.model.welfare.EventList.EventListModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
-import com.teapopo.life.viewModel.BaseViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

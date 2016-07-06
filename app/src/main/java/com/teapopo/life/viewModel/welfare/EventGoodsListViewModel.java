@@ -2,8 +2,7 @@ package com.teapopo.life.viewModel.welfare;
 
 import com.teapopo.life.BR;
 import com.teapopo.life.model.BaseEntity;
-import com.teapopo.life.model.welfare.EventGoods;
-import com.teapopo.life.model.welfare.EventGoodsListModel;
+import com.teapopo.life.model.welfare.EventGoodsList.EventGoodsListModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;

@@ -140,7 +140,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     private int mCurrentlySelectedAdapterIndex;
 
     /**
-     * Callback interface to notify listener that the user has scrolled this view to the point that it is low on data.
+     * Callback Interface to notify listener that the user has scrolled this view to the point that it is low on data.
      */
     private RunningOutOfDataListener mRunningOutOfDataListener = null;
 
@@ -155,7 +155,7 @@ public class HorizontalListView extends AdapterView<ListAdapter> {
     private boolean mHasNotifiedRunningLowOnData = false;
 
     /**
-     * Callback interface to be invoked when the scroll state has changed.
+     * Callback Interface to be invoked when the scroll state has changed.
      */
     private OnScrollStateChangedListener mOnScrollStateChangedListener = null;
 

@@ -11,6 +11,7 @@ import com.teapopo.life.databinding.ItemRecyclerviewGoodsMakeorderBinding;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.customView.EditText.DrawableClickablEdT;
+import com.teapopo.life.view.customView.Interface.DrawableClickListener;
 import com.teapopo.life.viewModel.welfare.ItemMakeOrderGoodsViewModel;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class MakeOrderListAdapter extends BaseRecyclerViewAdapter<EventGoods,Mak
         final EventGoods goods = data.get(position);
         viewModel.goods = goods;
         ItemRecyclerviewGoodsMakeorderBinding binding = (ItemRecyclerviewGoodsMakeorderBinding) holder.itemView.getTag();
-        binding.buyNum.setDrawableClickListener(new DrawableClickablEdT.DrawableClickListener() {
+        binding.buyNum.setDrawableClickListener(new DrawableClickListener() {
             @Override
             public void drawableClick(int type) {
                 viewModel.changeBuyNum(type);
