@@ -23,7 +23,8 @@ public class MakeOrderViewModel extends BaseRecyclerViewModel {
     }
 
     public void makeOrder(){
-        String address_id = "220";
+        //id 220 for TPP
+        String address_id = "222";
         JsonObject buy_info = new JsonObject();
         buy_info.addProperty("2",1);
         mModel.makeOrder(buy_info.toString(),address_id,"测试订单");
