@@ -21,7 +21,7 @@ public class OrderSettlementAdapter extends BaseRecyclerViewAdapter<GoodsOvervie
     public OrderSettlementAdapter(Context context, List data) {
         super(context, data);
     }
-
+    public GoodsOverview goods;
     @Override
     public OrderSettlementViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return OrderSettlementViewHolder.createViewHolder(ItemRecyclerviewOrderSettlementBinding.inflate(layoutInflater));
@@ -30,10 +30,8 @@ public class OrderSettlementAdapter extends BaseRecyclerViewAdapter<GoodsOvervie
     @Override
     public void onBindViewHolder(OrderSettlementViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        final ItemSettlementViewModel viewModel = new ItemSettlementViewModel();
-        final GoodsOverview goods = data.get(position);
-        viewModel.goodsOverview = goods;
-        holder.setViewModel(viewModel);
+        goods = data.get(position);
+        holder.setGoodsOverview(goods);
     }
 
     public static class OrderSettlementViewHolder extends RecyclerView.ViewHolder {
@@ -45,9 +43,9 @@ public class OrderSettlementAdapter extends BaseRecyclerViewAdapter<GoodsOvervie
         public static OrderSettlementViewHolder createViewHolder(ViewDataBinding binding){
             return new OrderSettlementViewHolder(binding.getRoot(),binding);
         }
-        public void setViewModel(ItemSettlementViewModel viewModel){
+        public void setGoodsOverview(GoodsOverview goodsOverview){
             ItemRecyclerviewOrderSettlementBinding binding = (ItemRecyclerviewOrderSettlementBinding) itemView.getTag();
-            binding.setViewmodel(viewModel);
+            binding.setGoodsOverview(goodsOverview);
             binding.executePendingBindings();
         }
     }
