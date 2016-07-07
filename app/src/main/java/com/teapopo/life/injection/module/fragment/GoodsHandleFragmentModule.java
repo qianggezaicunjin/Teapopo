@@ -7,7 +7,9 @@ import com.teapopo.life.model.welfare.AddressManage.AddressManageModel;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;
 import com.teapopo.life.model.welfare.MakeOrder.MakeOrderModel;
 import com.teapopo.life.model.welfare.OrderSettleMentModel;
+import com.teapopo.life.model.welfare.ShoppingCart.CartListModel;
 import com.teapopo.life.viewModel.welfare.AddressManageViewModel;
+import com.teapopo.life.viewModel.welfare.CartListViewModel;
 import com.teapopo.life.viewModel.welfare.GoodsDetailViewModel;
 import com.teapopo.life.viewModel.welfare.MakeOrderViewModel;
 import com.teapopo.life.viewModel.welfare.OrderSettleMentViewModel;
@@ -67,5 +69,16 @@ public class GoodsHandleFragmentModule {
     @PerActivity
     GoodsDetailModel provideGoodsDetailModel(Context context){
         return new GoodsDetailModel(context);
+    }
+    //for ShoppingCartListFragment
+    @Provides
+    @PerActivity
+    CartListViewModel provideCartListViewModel(CartListModel model){
+        return new CartListViewModel(model);
+    }
+    @Provides
+    @PerActivity
+    CartListModel provideCartListModel(Context context){
+        return new CartListModel(context);
     }
 }

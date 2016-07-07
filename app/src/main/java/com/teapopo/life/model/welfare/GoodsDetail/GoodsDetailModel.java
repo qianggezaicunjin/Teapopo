@@ -75,9 +75,7 @@ public class GoodsDetailModel extends BaseModel {
     private List<Comment> handleCommentListJson(JsonObject jsonObject)  {
         List<Comment> commentList = new ArrayList<>();
         JsonObject data = jsonObject.getAsJsonObject("data");
-        JsonArray comments = data.getAsJsonArray("comments");
-        int count = jsonObject.get("count").getAsInt();
-        leftCommentCount = String.valueOf(count - comments.size());
+        JsonArray comments = null;
         JsonObject members = data.getAsJsonObject("members");
         JsonObject comment_likes = null;
         if(data.has("comment_likes")){
@@ -87,35 +85,40 @@ public class GoodsDetailModel extends BaseModel {
         if(data.has("replys")){
             replys = data.getAsJsonObject("replys");
         }
-        for (JsonElement object:comments){
-            try {
-                Comment comment = LoganSquare.parse(object.toString(),Comment.class);
-                //添加该条评论的用户基本信息
-                JsonObject member = members.getAsJsonObject(comment.member_id);
-                AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
-                comment.authorInfo = authorInfo;
-                //该条评论是否被喜欢
-                if(comment_likes!=null){
-                    if(comment_likes.has(comment.id)){
-                        comment.is_like = true;
-                    }
-                }
-                //添加该条评论的回复列表
-                if(replys!=null) {
-                    JsonArray reply = replys.getAsJsonArray(comment.id);
-                    if (reply != null) {
-                        for (JsonElement jsonElement1 : reply) {
-                            Reply reply1 = LoganSquare.parse(jsonElement1.toString(), Reply.class);
-                            JsonObject member_reply = members.getAsJsonObject(reply1.member_id);
-                            AuthorInfo reply_authorInfo = LoganSquare.parse(member_reply.toString(), AuthorInfo.class);
-                            reply1.authorInfo = reply_authorInfo;
-                            comment.replyList.add(reply1);
+        if(!data.get("comments").isJsonNull()){
+            comments = data.getAsJsonArray("comments");
+            int count = jsonObject.get("count").getAsInt();
+            leftCommentCount = String.valueOf(count - comments.size());
+            for (JsonElement object:comments){
+                try {
+                    Comment comment = LoganSquare.parse(object.toString(),Comment.class);
+                    //添加该条评论的用户基本信息
+                    JsonObject member = members.getAsJsonObject(comment.member_id);
+                    AuthorInfo authorInfo = LoganSquare.parse(member.toString(),AuthorInfo.class);
+                    comment.authorInfo = authorInfo;
+                    //该条评论是否被喜欢
+                    if(comment_likes!=null){
+                        if(comment_likes.has(comment.id)){
+                            comment.is_like = true;
                         }
                     }
+                    //添加该条评论的回复列表
+                    if(replys!=null) {
+                        JsonArray reply = replys.getAsJsonArray(comment.id);
+                        if (reply != null) {
+                            for (JsonElement jsonElement1 : reply) {
+                                Reply reply1 = LoganSquare.parse(jsonElement1.toString(), Reply.class);
+                                JsonObject member_reply = members.getAsJsonObject(reply1.member_id);
+                                AuthorInfo reply_authorInfo = LoganSquare.parse(member_reply.toString(), AuthorInfo.class);
+                                reply1.authorInfo = reply_authorInfo;
+                                comment.replyList.add(reply1);
+                            }
+                        }
+                    }
+                    commentList.add(comment);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                commentList.add(comment);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         return commentList;

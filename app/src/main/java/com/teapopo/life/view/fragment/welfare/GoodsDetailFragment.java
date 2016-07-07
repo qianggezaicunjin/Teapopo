@@ -11,6 +11,7 @@ import com.teapopo.life.databinding.FragmentGoodsdetailBinding;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
+import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.GoodsDetailViewModel;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 public class GoodsDetailFragment extends SwipeBackBaseFragment {
 
 
+    @Inject
     GoodsDetailViewModel mViewModel;
 
     private FragmentGoodsdetailBinding mBinding;
@@ -46,8 +48,7 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
     }
     @Override
     public void onCreateBinding() {
-//        ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
-        mViewModel = new GoodsDetailViewModel(new GoodsDetailModel(_mActivity));
+        ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
         goods_id = getArguments().getString("goods_id");
         id = getArguments().getString("id");
     }
@@ -63,6 +64,14 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         setUpGoodsInfo();
         setUpCollectList();
+        setUpCommentList();
+    }
+
+    private void setUpCommentList() {
+        CommentListAdapter adapter = new CommentListAdapter(_mActivity,mViewModel.data);
+        mBinding.rvGoodsdetailCommentlist.setAdapter(adapter);
+
+        mViewModel.getCommentList(id);
     }
 
     private void setUpCollectList() {

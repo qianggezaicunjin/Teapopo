@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable
+            name="viewModel"
+            type="com.teapopo.life.viewModel.welfare.ItemShoppingCartViewModel" />
+
+    </data>
+<LinearLayout
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/checkBox" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+        <ImageView
+            android:id="@+id/img_shoppingcart_goods"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_shoppingcart_goodsname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/img_shoppingcart_goods"
+            android:text="商品的标题"/>
+        <TextView
+            android:id="@+id/tv_shoppingcart_goodsprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_shoppingcart_goodsname"
+            android:text="价格"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_shoppingcart_goodsprice"
+            android:text="商品的积分"/>
+
+        <com.teapopo.life.view.customView.EditText.DrawableClickablEdT
+            android:id="@+id/buy_num"
+            android:layout_width="@dimen/x100"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/icon_minus_withstroke"
+            android:drawableRight="@drawable/icon_plus_withstroke"
+            android:text="1"
+            android:gravity="center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/background_transparent"/>
+
+    </RelativeLayout>
+</LinearLayout>
+    </layout>

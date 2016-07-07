@@ -1,6 +1,7 @@
 package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,14 @@ import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentEventgoodsListBinding;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.model.welfare.EventGoodsList.EventGoodsListModel;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.adapter.recyclerview.EventGoodsListAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.welfare.EventGoodsListViewModel;
+
+import java.util.ArrayList;
 
 import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
@@ -82,8 +87,9 @@ public class EventGoodsListFragment extends BaseFragment implements BaseRecycler
 
     @Override
     public void onItemClick(View view, int position) {
-
         EventGoods eventGoods = (EventGoods) mViewModel.data.get(position);
-        ((SupportActivity)_mActivity).start(GoodsDetailFragment.newInstance(eventGoods.goods_id,eventGoods.id));
+       ArrayList<Parcelable> datalist = new ArrayList<Parcelable>();
+        datalist.add(eventGoods);
+        Navigator.getInstance().start(_mActivity, GoodsHandleActivity.getStartIntent(_mActivity,datalist,GoodsHandleActivity.Navigate_TYPE_GoodsDetail));
     }
 }

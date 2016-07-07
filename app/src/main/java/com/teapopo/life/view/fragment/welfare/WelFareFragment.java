@@ -3,13 +3,18 @@ package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentWelfareBinding;
 
 import com.teapopo.life.model.welfare.Event;
+import com.teapopo.life.util.navigator.Navigator;
+import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.EventListAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
@@ -45,7 +50,19 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
 
     @Override
     public void setUpView() {
+        setUpToolBar();
         setUpEventList();
+    }
+
+    private void setUpToolBar() {
+        mBinding.welfareToolbar.inflateMenu(R.menu.menu_shoppingcart);
+        mBinding.welfareToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Navigator.getInstance().start(_mActivity, GoodsHandleActivity.getStartIntent(_mActivity,null,GoodsHandleActivity.Navigate_TYPE_ShoppingCart));
+                return true;
+            }
+        });
     }
 
     private void setUpEventList() {

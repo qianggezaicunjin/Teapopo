@@ -86,7 +86,7 @@ public class XinZiFragment extends BaseFragment implements BaseRecyclerViewAdapt
         textView.setText("新滋");
         textView.setTextColor(Color.BLACK);
         toolbar.addView(textView,params);
-        setUpToolBar(toolbar);
+//        setUpToolBar(toolbar);
     }
 
     private void setUpArticle() {

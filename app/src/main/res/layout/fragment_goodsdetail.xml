@@ -11,171 +11,252 @@
             type="com.teapopo.life.viewModel.welfare.GoodsDetailViewModel" />
 
     </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:erroInfo="@{viewmodel.erroInfo}">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!--商品图片部分-->
-            <RelativeLayout
+            android:orientation="vertical"
+            android:background="@color/background_base">
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin">
-
-                <com.teapopo.life.view.customView.HackyViewPager
-                    android:id="@+id/viewpager"
+                android:layout_height="wrap_content">
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:goodsInfo="@{viewmodel.goodsInfo.wap_images}" />
-
-                <com.viewpagerindicator.CirclePageIndicator
-                    android:id="@+id/indicator_viewpager"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:padding="@dimen/padding_size" />
-            </RelativeLayout>
+                    android:orientation="vertical">
+                    <!--商品图片部分-->
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <!--商品名称以及价钱积分部分-->
-            <TextView
-                android:layout_width="wrap_content"
+                        <com.teapopo.life.view.customView.HackyViewPager
+                            android:id="@+id/viewpager"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:goodsInfo="@{viewmodel.goodsInfo.wap_images}" />
+
+                        <com.viewpagerindicator.CirclePageIndicator
+                            android:id="@+id/indicator_viewpager"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:padding="@dimen/padding_size" />
+                    </RelativeLayout>
+
+                    <!--商品名称以及价钱积分部分-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="@{viewmodel.goodsInfo.eventGoods.name}" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.goodsInfo.eventGoods.getPayAmount()}" />
+                    <!--导购寄语部分-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="@{viewmodel.goodsInfo.guide!=null?View.VISIBLE:View.GONE}">
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="----------------------  导购寄语  ---------------------------" />
+
+                        <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{viewmodel.goodsInfo.guide.authorInfo.nickname}"
+                            app:compoundDrawables="@{viewmodel.goodsInfo.guide.authorInfo.getAvatarUrl()}" />
+
+                        <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:goodsInfo="@{viewmodel.goodsInfo.guide.content}" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <!--收藏商品的人-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="@{viewmodel.goodsInfo.eventGoods.name}" />
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收藏人数"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_height"
+                        android:background="@drawable/line" />
+
+                    <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                        android:id="@+id/flexbox_addcollect"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:flexWrap="wrap"
+                        app:collectList="@{viewmodel.collectList}"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ad_words" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!--评论区-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewmodel.goodsInfo.eventGoods.getPayAmount()}" />
-            <!--导购寄语部分-->
-            <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/article_verticle_margin">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="看小伙伴们怎么说"/>
+                    <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+                        android:id="@+id/rv_goodsdetail_commentlist"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:data="@{viewmodel.data}"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="还有X条评论,点击查看"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <!--品牌简介-->
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{viewmodel.goodsInfo.guide!=null?View.VISIBLE:View.GONE}">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="----------------------  导购寄语  ---------------------------" />
-
-                <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewmodel.goodsInfo.guide.authorInfo.nickname}"
-                    app:compoundDrawables="@{viewmodel.goodsInfo.guide.authorInfo.getAvatarUrl()}" />
-
-                <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:goodsInfo="@{viewmodel.goodsInfo.guide.content}" />
-
+                android:visibility="@{viewmodel.goodsInfo.brand!=null?View.VISIBLE:View.GONE}"
+                android:layout_marginTop="@dimen/article_verticle_margin">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                    android:orientation="vertical"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="品牌简介" />
 
-                    <ImageView
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_height"
+                        android:background="@drawable/line"/>
+
+                    <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.goodsInfo.brand.name}"
+                        app:compoundDrawables="@{viewmodel.goodsInfo.brand.logo}" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@{viewmodel.goodsInfo.brand.content}" />
                 </LinearLayout>
-            </LinearLayout>
-            <!--收藏商品的人-->
-            <LinearLayout
+            </android.support.v7.widget.CardView>
+
+            <!--商品描述-->
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_height"
-                    android:background="@drawable/line" />
-
-                <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
-                    android:id="@+id/flexbox_addcollect"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:flexWrap="wrap"
-                    app:collectList="@{viewmodel.collectList}"/>
-
-                <TextView
+                android:layout_marginTop="@dimen/article_verticle_margin">
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/ad_words" />
-            </LinearLayout>
-            <!--评论区-->
-            <!--品牌简介-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="@{viewmodel.goodsInfo.brand!=null?View.VISIBLE:View.GONE}">
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="品牌简介" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商品描述" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_height"
-                    android:background="@drawable/line"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/line_height"
+                        android:background="@drawable/line" />
 
-                <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewmodel.goodsInfo.brand.name}"
-                    app:compoundDrawables="@{viewmodel.goodsInfo.brand.logo}" />
+                    <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:goodsInfo="@{viewmodel.goodsInfo.eventGoods.content}" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewmodel.goodsInfo.brand.content}" />
-            </LinearLayout>
-            <!--商品描述-->
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="商品描述" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/line_height"
-                    android:background="@drawable/line" />
-
-                <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:goodsInfo="@{viewmodel.goodsInfo.eventGoods.content}" />
-            </LinearLayout>
             <!--也许喜欢-->
         </LinearLayout>
     </ScrollView>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="评论"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="加入购物车"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="立刻购买"/>
+</LinearLayout>
+</LinearLayout>
 </layout>

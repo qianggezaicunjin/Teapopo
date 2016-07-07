@@ -11,6 +11,7 @@ import com.teapopo.life.injection.component.DaggerDataManagerComponent;
 import com.teapopo.life.injection.component.DataManagerComponent;
 import com.teapopo.life.injection.module.DataManagerModule;
 import com.teapopo.life.model.PostKeyValue;
+import com.teapopo.life.model.welfare.CartGoods;
 
 
 import java.util.List;
@@ -399,7 +400,20 @@ public class DataManager {
         return mNetWorkService.getCollectList(id,"goods");
     }
 
+    /**
+     * 获取活动商品信息
+     * @param id
+     * @return
+     */
     public Observable<JsonObject> getGoodsInfo(String id){
         return mNetWorkService.getGoodsInfo(id);
+    }
+
+    /**
+     * 购物车列表
+     * @return
+     */
+    public Observable<List<CartGoods>> getCartList(){
+        return mNetWorkService.getCartList();
     }
 }

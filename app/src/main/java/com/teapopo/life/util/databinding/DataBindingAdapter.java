@@ -23,6 +23,7 @@ import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
+import com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class DataBindingAdapter {
     }
 
     @BindingAdapter({"compoundDrawables"})
-    public static void setTextViewDrawables(final TextView textView, String url) {
+    public static void setTextViewDrawables(DrawableClickAbleTextView textView, String url) {
         Timber.d("setTextViewDrawables:%s",url);
         final int width;
         final int heigth;
@@ -75,30 +76,7 @@ public class DataBindingAdapter {
             }
             Timber.d("要加载图片的大小为:%s %s",width,heigth);
             //加载图片
-            Picasso.with(textView.getContext()).load(url).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    Timber.d("加载图片成功");
-                    Drawable drawable = new BitmapDrawable(null,bitmap);
-                    drawable.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                    textView.setCompoundDrawables(drawable,null,null,null);
-
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-                    Timber.d("加载图片失败");
-                    errorDrawable.setBounds(0,0,width,heigth);
-                    textView.setCompoundDrawables(errorDrawable,null,null,null);
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                    Timber.d("准备加载图片");
-                    placeHolderDrawable.setBounds(0,0,width,heigth);
-                    textView.setCompoundDrawables(placeHolderDrawable,null,null,null);
-                }
-            });
+            Picasso.with(textView.getContext()).load(url).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(textView);
         }
 
     }

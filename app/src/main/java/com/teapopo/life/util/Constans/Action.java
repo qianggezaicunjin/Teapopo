@@ -60,5 +60,7 @@ public enum Action {
     //for GoodsDetailModel
     GoodsDetailModel_GetGoodsInfo,
     GoodsDetailModel_GetCollectList,
-    GoodsDetailModel_GetCommentList
+    GoodsDetailModel_GetCommentList,
+    //for CartListModel
+    CartListModel_GetCartList
 }
