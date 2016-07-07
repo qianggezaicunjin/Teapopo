@@ -7,6 +7,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.sharedpreferences.EventGoodsSp;
 import com.teapopo.life.model.sharedpreferences.RxSpf_EventGoodsSp;
@@ -25,6 +26,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/24.
@@ -89,11 +91,13 @@ public class EventGoodsListModel extends BaseModel {
         for (JsonElement o:goods){
             try {
                 EventGoods eventGoods = LoganSquare.parse(o.toString(),EventGoods.class);
-                    eventGoodsList.add(eventGoods);
+                eventGoods.coverImg = setWebImageSize(R.dimen.eventgoods_coverImg_width,R.dimen.eventgoods_coverImg_height,eventGoods.coverImg);
+                eventGoodsList.add(eventGoods);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         return eventGoodsList;
     }
+
 }

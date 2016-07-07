@@ -17,4 +17,6 @@ public class EventGoodsInfo extends BaseEntity {
     public boolean is_collect;
     //商品的图片
     public List<String> wap_images = new ArrayList<>();
+    //品牌简介
+    public Brand brand;
 }

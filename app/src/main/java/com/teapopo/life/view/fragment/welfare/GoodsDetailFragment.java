@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.teapopo.life.databinding.FragmentGoodsdetailBinding;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
+import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.viewpager.ArticleInfoImageAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.GoodsDetailViewModel;
@@ -27,22 +28,28 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
     private FragmentGoodsdetailBinding mBinding;
 
     String goods_id;
+
+    String id;
     /**
      *
-     * @param id 商品id
+     * @param goods_id 商品id
+     * @param id 活动商品id
      * @return
      */
-    public static GoodsDetailFragment newInstance(String id){
+    public static GoodsDetailFragment newInstance(String goods_id,String id ){
         GoodsDetailFragment fragment = new GoodsDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("goods_id",id);
+        bundle.putString("goods_id",goods_id);
+        bundle.putString("id",id);
         fragment.setArguments(bundle);
         return fragment;
     }
     @Override
     public void onCreateBinding() {
+//        ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
         mViewModel = new GoodsDetailViewModel(new GoodsDetailModel(_mActivity));
         goods_id = getArguments().getString("goods_id");
+        id = getArguments().getString("id");
     }
 
     @Override
@@ -55,6 +62,15 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
     @Override
     public void setUpView() {
         setUpGoodsInfo();
+        setUpCollectList();
+    }
+
+    private void setUpCollectList() {
+        ArticleFansAdapter adapter = new ArticleFansAdapter(_mActivity);
+        adapter.setDataSource(mViewModel.collectList);
+        mBinding.flexboxAddcollect.setAdapter(adapter);
+
+        mViewModel.getCollectList(goods_id);
     }
 
     private void setUpGoodsInfo() {
@@ -62,6 +78,6 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
         mBinding.viewpager.setAdapter(adapter);
         mBinding.indicatorViewpager.setViewPager(mBinding.viewpager);
         //获取数据
-        mViewModel.getGoodsInfo(goods_id);
+        mViewModel.getGoodsInfo(id);
     }
 }

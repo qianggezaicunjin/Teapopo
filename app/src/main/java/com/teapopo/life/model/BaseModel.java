@@ -1,6 +1,7 @@
 package com.teapopo.life.model;
 
 import android.content.Context;
+import android.support.annotation.DimenRes;
 
 import com.teapopo.life.MyApplication;
 import com.teapopo.life.data.DataManager;
@@ -31,5 +32,11 @@ public class BaseModel {
 
     public void setView(RequestView requestView) {
         this.mRequestView = requestView;
+    }
+
+    public String setWebImageSize(@DimenRes int width, @DimenRes int heigth, String imageUrl){
+        int width1 = (int) mContext.getResources().getDimension(width);
+        int height1 = (int) mContext.getResources().getDimension(heigth);
+        return imageUrl+"_"+width1+"x"+height1;
     }
 }

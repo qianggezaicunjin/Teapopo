@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentEventgoodsListBinding;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.model.welfare.EventGoodsList.EventGoodsListModel;
@@ -74,6 +75,7 @@ public class EventGoodsListFragment extends BaseFragment implements BaseRecycler
     private void setUpEventGoodsList() {
         EventGoodsListAdapter adapter = new EventGoodsListAdapter(_mActivity,mViewModel.data);
         mBinding.rvEventgoodlist.setAdapter(adapter);
+
         adapter.setOnItemClickListener(this);
         mViewModel.getGoodsList(eventId,type);
     }
@@ -82,6 +84,6 @@ public class EventGoodsListFragment extends BaseFragment implements BaseRecycler
     public void onItemClick(View view, int position) {
 
         EventGoods eventGoods = (EventGoods) mViewModel.data.get(position);
-        ((SupportActivity)_mActivity).start(GoodsDetailFragment.newInstance(eventGoods.goods_id));
+        ((SupportActivity)_mActivity).start(GoodsDetailFragment.newInstance(eventGoods.goods_id,eventGoods.id));
     }
 }
