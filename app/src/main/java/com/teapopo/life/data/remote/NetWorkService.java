@@ -267,11 +267,11 @@ public interface NetWorkService {
     /**
      * 获取评论列表
      * @param id
-     * @param classify 分类 goods 或者 posts
+     * @param type 分类 goods 或者 posts
      * @return
      */
     @GET("comments/list")
-    Observable<JsonObject> getCommentList(@Query("id")String id,@Query("classify")String classify,@Query("p")int page);
+    Observable<JsonObject> getCommentList(@Query("id")String id,@Query("type")String type,@Query("p")int page);
 
     /**
      * 活动商品列表
