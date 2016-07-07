@@ -86,7 +86,7 @@
                     android:id="@+id/tv_articleContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:text="@{viewmodel.article.getExcerpt()}"
                     android:layout_marginTop="@dimen/article_verticle_margin"/>
 

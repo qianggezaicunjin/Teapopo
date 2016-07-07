@@ -3,6 +3,7 @@ package com.teapopo.life.viewModel.welfare;
 import android.databinding.Bindable;
 
 import com.teapopo.life.model.welfare.EventGoods;
+import com.teapopo.life.model.welfare.GoodsOverview;
 import com.teapopo.life.viewModel.BaseViewModel;
 
 /**
