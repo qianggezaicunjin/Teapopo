@@ -16,6 +16,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:data="@{viewModel.data}"/>
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/y100"
+    android:text="@{viewModel.cardsGoodsOverView.goods_num}"/>
 </LinearLayout>
     </layout>
