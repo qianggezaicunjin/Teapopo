@@ -1,8 +1,10 @@
 package com.teapopo.life.viewModel.welfare;
 
+import android.databinding.Bindable;
 import android.os.Message;
 
 import com.alipay.sdk.app.PayTask;
+import com.android.databinding.library.baseAdapters.BR;
 import com.teapopo.life.model.Alipay.AliPay;
 import com.teapopo.life.model.welfare.OrderInfo;
 import com.teapopo.life.model.welfare.OrderOverview;
@@ -24,7 +26,9 @@ public class OrderSettleMentViewModel extends BaseRecyclerViewModel {
 
     private OrderSettleMentModel mModel;
 
-    private OrderOverview orderOverview;
+    @Bindable
+    public OrderOverview orderOverview;
+
     public OrderSettleMentViewModel(OrderSettleMentModel model){
         mModel = model;
         mModel.setView(this);
@@ -61,8 +65,12 @@ public class OrderSettleMentViewModel extends BaseRecyclerViewModel {
     public void onRequestSuccess(ModelAction data) {
         Action action = data.action;
         if (action ==  Action.OrderSettleMentModel_GetOrderInfo){
+
             OrderInfo orderInfo = (OrderInfo) data.t;
             orderOverview = orderInfo.orderOverview;
+            super.data.addAll(orderInfo.goodsOverviewList);
+            notifyPropertyChanged(BR.data);
+            notifyPropertyChanged(BR.orderOverview);
         }
     }
 }

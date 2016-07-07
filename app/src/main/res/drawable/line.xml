@@ -9,5 +9,5 @@
         android:color="@color/gray_light"
         />
 
-    <size android:height="3dp"/>
+    <size android:height="@dimen/line_height"/>
 </shape>

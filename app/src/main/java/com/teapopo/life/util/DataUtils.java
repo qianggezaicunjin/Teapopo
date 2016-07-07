@@ -80,6 +80,22 @@ public class DataUtils {
     }
 
     /**
+     * 时间戳转为年月日时分
+     * @param cc_time
+     * @return
+     */
+    public static String getTime(String cc_time) {
+        String re_StrTime = null;
+        //同理也可以转为其它样式的时间格式.例如："yyyy/MM/dd HH:mm"
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm");
+        // 例如：cc_time=1291778220
+        long lcc_time = Long.valueOf(cc_time);
+
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+
+        return re_StrTime;
+    }
+    /**
      * 根据布局文件返回属性集
      * @param context
      * @param xmlid
