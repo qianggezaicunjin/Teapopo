@@ -14,7 +14,10 @@ import com.teapopo.life.injection.component.fragment.GoodsHandleFragmentComponen
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.GoodsHandleActivityModule;
 import com.teapopo.life.injection.module.fragment.GoodsHandleFragmentModule;
+import com.teapopo.life.model.welfare.EventGoods;
+import com.teapopo.life.view.fragment.welfare.GoodsDetailFragment;
 import com.teapopo.life.view.fragment.welfare.MakeOrderFragment;
+import com.teapopo.life.view.fragment.welfare.ShoppingCartListFragment;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,9 @@ import java.util.ArrayList;
  * Created by louiszgm on 2016/6/30.
  */
 public class GoodsHandleActivity extends SwipeBackBaseActivity {
+    public static final int Navigate_TYPE_MakerOrder = 1;
+    public static final int Navigate_TYPE_ShoppingCart = 2;
+    public static final int Navigate_TYPE_GoodsDetail = 3;
     private GoodsHandleActivityComponent mComponent;
 
     private ArrayList<Parcelable> datalist;
@@ -63,12 +69,15 @@ public class GoodsHandleActivity extends SwipeBackBaseActivity {
 
     private void routeFragment(ArrayList<Parcelable> datalist, int type) {
         switch (type){
-            case 1:
+            case Navigate_TYPE_MakerOrder:
                 start(MakeOrderFragment.newInstance(datalist));
                 break;
-            case 2:
+            case Navigate_TYPE_ShoppingCart:
+                start(ShoppingCartListFragment.newInstance());
                 break;
-            case 3:
+            case Navigate_TYPE_GoodsDetail:
+                EventGoods eventGoods = (EventGoods) datalist.get(0);
+                start(GoodsDetailFragment.newInstance(eventGoods.goods_id,eventGoods.id));
                 break;
         }
     }

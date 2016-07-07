@@ -3,7 +3,10 @@ package com.teapopo.life.data.remote;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.teapopo.life.model.welfare.CartGoods;
 
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -318,6 +321,13 @@ public interface NetWorkService {
      */
     @GET("events/goods_info")
     Observable<JsonObject> getGoodsInfo(@Query("id")String id);
+
+    /**
+     * 购物车列表
+     * @return
+     */
+    @GET("cart/list")
+    Observable<List<CartGoods>> getCartList();
 
     @GET("test")
     Call<JsonObject> test();

@@ -49,9 +49,9 @@ public class RefreshGoodsDetailFragment {
 
     @BindingAdapter({"collectList"})
     public static void addGoodsCollectList(FlexBoxWithAdapter flexboxLayout, List<AuthorInfo> member_like) {
-        Timber.d("addArticleInfoFans");
+        Timber.d("addGoodsCollectList");
         ArticleFansAdapter articleFansAdapter = (ArticleFansAdapter) flexboxLayout.getAdapter();
-        articleFansAdapter.setDataSource(member_like,true);
+        articleFansAdapter.setDataSource(member_like,false);
         articleFansAdapter.notifyDataSetChanged();
     }
 }

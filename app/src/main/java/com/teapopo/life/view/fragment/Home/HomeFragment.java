@@ -57,7 +57,6 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void setUpView() {
         setupAppBar();
-        setUpToolBar(mToolbar);
     }
 
     /**

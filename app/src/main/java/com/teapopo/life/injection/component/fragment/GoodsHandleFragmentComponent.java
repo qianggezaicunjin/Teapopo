@@ -7,6 +7,7 @@ import com.teapopo.life.view.fragment.welfare.AddressManageFragment;
 import com.teapopo.life.view.fragment.welfare.GoodsDetailFragment;
 import com.teapopo.life.view.fragment.welfare.MakeOrderFragment;
 import com.teapopo.life.view.fragment.welfare.OrderSettleMentFragment;
+import com.teapopo.life.view.fragment.welfare.ShoppingCartListFragment;
 
 import dagger.Subcomponent;
 
@@ -20,4 +21,5 @@ public interface GoodsHandleFragmentComponent {
     void inject(AddressManageFragment fragment);
     void inject(OrderSettleMentFragment fragment);
     void inject(GoodsDetailFragment fragment);
+    void inject(ShoppingCartListFragment fragment);
 }

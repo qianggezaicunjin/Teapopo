@@ -66,25 +66,25 @@ public abstract class BaseFragment extends SupportFragment{
      */
     public abstract void setUpView();
 
-    public void setUpToolBar(final Toolbar toolBar){
-        toolBar.setNavigationIcon(R.drawable.icon_search);
-        //打开搜索界面
-        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        //打开新消息的界面
-        toolBar.inflateMenu(R.menu.menu_newmsg);
-        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                start(MsgListFragment.newInstance());
-                return true;
-            }
-        });
-
-    }
+//    public void setUpToolBar(final Toolbar toolBar){
+//        toolBar.setNavigationIcon(R.drawable.icon_search);
+//        //打开搜索界面
+//        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        //打开新消息的界面
+//        toolBar.inflateMenu(R.menu.menu_newmsg);
+//        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                start(MsgListFragment.newInstance());
+//                return true;
+//            }
+//        });
+//
+//    }
 
 }
