@@ -29,7 +29,9 @@ public class OrderOverview extends BaseEntity {
     public String order_points;
 
     public String order_sn;
-
+    public String getOrder_sn(){
+        return "订单号为："+order_sn;
+    }
     public String payment;
 
     public String shipping;

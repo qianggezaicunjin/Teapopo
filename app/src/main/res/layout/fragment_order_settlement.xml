@@ -69,26 +69,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/pay_order_settlement"
-                android:text=":"
-                android:textSize="16sp"
-                android:layout_centerInParent="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:layout_toLeftOf="@id/pay_order_settlement"
-                android:text="支付金额"/>
+                android:id="@+id/tv_order_sn"
+                android:textSize="14sp"
+                android:text="@{viewModel.orderOverview.order_sn}"
+                android:textColor="@color/gray_light"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tv_money"
                 android:text="@{viewModel.orderOverview.order_amount}"
-                android:layout_toRightOf="@id/pay_order_settlement"
+                android:layout_alignParentRight="true"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"
-                android:layout_alignBaseline="@id/pay_order_settlement"
-                android:textColor="@android:color/holo_orange_dark"/>
+                android:textColor="@android:color/holo_orange_dark"
+                android:layout_marginRight="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pay_order_settlement"
+                android:text=":"
+                android:textSize="16sp"
+                android:layout_toLeftOf="@id/tv_money"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_toLeftOf="@id/pay_order_settlement"
+                android:text="总金额"/>
         </RelativeLayout>
         <View
             android:layout_width="match_parent"

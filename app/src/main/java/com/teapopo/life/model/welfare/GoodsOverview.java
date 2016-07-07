@@ -17,10 +17,16 @@ public class GoodsOverview extends BaseEntity {
     public String goods_name;
 
     public String goods_num;
+    public String getGoods_num(){
+        return "×"+goods_num;
+    }
 
     public String goods_wap_cover;
 
     public String goods_price;
 
     public String goods_points;
+    public String getGoods_points(){
+        return  goods_points+"积分";
+    }
 }
