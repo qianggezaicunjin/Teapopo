@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemRecyclerviewOrderSettlementBinding;
 import com.teapopo.life.model.welfare.GoodsOverview;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
-import com.teapopo.life.viewModel.welfare.ItemSettlementViewModel;
 
 import java.util.List;
 
