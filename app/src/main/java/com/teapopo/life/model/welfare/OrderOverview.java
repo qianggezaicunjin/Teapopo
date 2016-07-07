@@ -25,6 +25,9 @@ public class OrderOverview extends BaseEntity {
     public String id;
 
     public String order_amount;
+    public String getOrder_amount(){
+        return "总金额："+order_amount+"元 +"+order_points+"积分";
+    }
 
     public String order_points;
 
