@@ -71,7 +71,7 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
         CommentListAdapter adapter = new CommentListAdapter(_mActivity,mViewModel.data);
         mBinding.rvGoodsdetailCommentlist.setAdapter(adapter);
 
-        mViewModel.getCommentList(id);
+        mViewModel.getCommentList(goods_id);
     }
 
     private void setUpCollectList() {
