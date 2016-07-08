@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:checked="@{viewModel.cartGoods.isSelected}"
         android:id="@+id/checkBox" />
 
     <RelativeLayout
@@ -37,12 +38,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_shoppingcart_goodsname"
-            android:text="价格"/>
+            android:text="@{viewModel.cartGoods.goods_price}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_shoppingcart_goodsprice"
-            android:text="商品的积分"/>
+            android:text="@{viewModel.cartGoods.goods_points}"/>
 
         <com.teapopo.life.view.customView.EditText.DrawableClickablEdT
             android:id="@+id/buy_num"
@@ -50,10 +51,11 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/icon_minus_withstroke"
             android:drawableRight="@drawable/icon_plus_withstroke"
-            android:text="1"
+            android:text="@{viewModel.cartGoods.goods_num}"
             android:gravity="center_horizontal"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:inputType="number"
             android:background="@drawable/background_transparent"/>
 
     </RelativeLayout>
