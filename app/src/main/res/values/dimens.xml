@@ -43,4 +43,14 @@
 
 
     <dimen name="header_height">300dp</dimen>
+
+    <!--福利社商品详情 标题大小-->
+    <dimen name="goodsdetail_title">20sp</dimen>
+    
+    <!--福利社品牌简介和商品描述页面的间距-->
+    <dimen name="brand_goods_margin">15dp</dimen>
+    <dimen name="brand_goods_contextmargin">@dimen/y10</dimen>
+    
+    <!--福利社商品详情底部按钮边框间距-->
+    <dimen name="bt_bottom_margin">10dp</dimen>
 </resources>

@@ -2,13 +2,17 @@ package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentGoodsdetailBinding;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;
+import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.adapter.flexbox.ArticleFansAdapter;
 import com.teapopo.life.view.adapter.recyclerview.CommentListAdapter;
@@ -65,6 +69,7 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
         setUpGoodsInfo();
         setUpCollectList();
         setUpCommentList();
+        setUpToolBar();
     }
 
     private void setUpCommentList() {
@@ -88,5 +93,24 @@ public class GoodsDetailFragment extends SwipeBackBaseFragment {
         mBinding.indicatorViewpager.setViewPager(mBinding.viewpager);
         //获取数据
         mViewModel.getGoodsInfo(id);
+    }
+    //设置标题栏按钮
+    public void setUpToolBar(){
+        Toolbar toolbar=mBinding.tbGoodsdetail;
+        toolbar.setNavigationIcon(R.drawable.icon_back);
+        toolbar.inflateMenu(R.menu.menu_shoppingcart);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Navigator.getInstance().start(_mActivity, GoodsHandleActivity.getStartIntent(_mActivity,null,GoodsHandleActivity.Navigate_TYPE_ShoppingCart));
+                return true;
+            }
+        });
     }
 }
