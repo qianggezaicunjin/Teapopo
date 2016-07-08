@@ -10,7 +10,8 @@
     </data>
 <LinearLayout
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:erroInfo="@{viewModel.erroInfo}">
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
             android:layout_below="@id/tv_shoppingcart_goodsprice"
             android:text="@{viewModel.cartGoods.goods_points}"/>
 
-        <com.teapopo.life.view.customView.EditText.DrawableClickablEdT
+        <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
             android:id="@+id/buy_num"
             android:layout_width="@dimen/x100"
             android:layout_height="wrap_content"
@@ -56,6 +57,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:inputType="number"
+            android:maxLines="1"
             android:background="@drawable/background_transparent"/>
 
     </RelativeLayout>

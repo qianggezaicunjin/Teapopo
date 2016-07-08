@@ -6,6 +6,7 @@ import com.teapopo.life.BR;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.welfare.CartGoods;
 import com.teapopo.life.view.customView.EditText.DrawableClickablEdT;
+import com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView;
 import com.teapopo.life.viewModel.BaseViewModel;
 
 import timber.log.Timber;
@@ -62,7 +63,7 @@ public class ItemShoppingCartViewModel extends BaseViewModel {
     //商品的数量改变
     public void changeBuyNum(int type){
         switch (type){
-            case DrawableClickablEdT.LeftDrawAble:
+            case DrawableClickAbleTextView.LeftDrawAble:
                 //商品数量减一
                 //如果该商品被选中，则通知总数量改变
                 if(cartGoods.goods_num == 1){
@@ -80,7 +81,7 @@ public class ItemShoppingCartViewModel extends BaseViewModel {
                     cartGoods.goods_points-=singleGoods.goods_points;
                 }
                 break;
-            case DrawableClickablEdT.RightDrawAble:
+            case DrawableClickAbleTextView.RightDrawAble:
                 //商品数量加一
                 //如果该商品被选中，则通知总数量改变
 
