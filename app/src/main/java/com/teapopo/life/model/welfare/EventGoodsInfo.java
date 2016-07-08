@@ -21,4 +21,7 @@ public class EventGoodsInfo extends BaseEntity {
     public Brand brand;
     //剩余的评论数
     public String leftComment;
+    public String getLeftComment(){
+        return "还有"+leftComment+"条评论，点击查看";
+    }
 }
