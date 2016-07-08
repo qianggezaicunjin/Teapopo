@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentShoppingcartBinding;
+import com.teapopo.life.model.event.SelectALLEvent;
 import com.teapopo.life.model.welfare.CartGoods;
 import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
@@ -15,11 +17,14 @@ import com.teapopo.life.view.adapter.recyclerview.ShoppingCartListAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.CartListViewModel;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/7/7.
@@ -32,6 +37,8 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     CartListViewModel mViewModel;
     @Inject
     RxBus mRxBus;
+    private ShoppingCartListAdapter adapter;
+
     public static ShoppingCartListFragment newInstance(){
         return new ShoppingCartListFragment();
     }
@@ -51,6 +58,19 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         setUpCartList();
         observerCartsGoods();
+        selectALLGoods();
+    }
+
+    private void selectALLGoods() {
+        mBinding.checkBoxSelectAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SelectALLEvent selectALLEvent = new SelectALLEvent();
+                selectALLEvent.isSelected = isChecked;
+                Timber.d("是否全选:%s",selectALLEvent.isSelected);
+                mRxBus.post(selectALLEvent);
+            }
+        });
     }
 
     private void observerCartsGoods() {
@@ -72,7 +92,7 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpCartList() {
-        ShoppingCartListAdapter adapter = new ShoppingCartListAdapter(_mActivity,mViewModel.data);
+        adapter = new ShoppingCartListAdapter(_mActivity,mViewModel.data);
         mBinding.rvShoppingcart.setAdapter(adapter);
 
         mViewModel.getCartList();
@@ -81,6 +101,7 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        adapter.compositeSubscription.unsubscribe();
         compositeSubscription.unsubscribe();
     }
 }

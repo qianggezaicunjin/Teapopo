@@ -7,11 +7,16 @@ import com.teapopo.life.model.BaseEntity;
  */
 public class CardsGoodsOverView extends BaseEntity {
     public int goods_num;
-
     public String getGoods_num(){
-        return "合计"+goods_num;
+        return "去结算("+goods_num+")";
     }
-    public float goods_price;
 
+    public float goods_price;
+    public String getGoods_price(){
+        return "合计:"+goods_price;
+    }
     public int goods_points;
+    public String getGoods_points(){
+        return "积分:"+goods_points;
+    }
 }

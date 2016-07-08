@@ -19,4 +19,6 @@ public class EventGoodsInfo extends BaseEntity {
     public List<String> wap_images = new ArrayList<>();
     //品牌简介
     public Brand brand;
+    //剩余的评论数
+    public String leftComment;
 }

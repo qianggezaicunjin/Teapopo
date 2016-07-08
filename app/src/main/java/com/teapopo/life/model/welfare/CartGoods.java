@@ -7,7 +7,10 @@ import com.teapopo.life.model.BaseEntity;
  * Created by louiszgm on 2016/7/7.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class CartGoods extends BaseEntity {
+public class CartGoods extends BaseEntity implements Cloneable{
+
+
+
     public String id;//购物车id
 
     public String evenets_goods_id;//活动商品id
@@ -37,4 +40,14 @@ public class CartGoods extends BaseEntity {
 
     //新增加的属性
     public boolean isSelected;
+
+    //用来识别是加商品还是减商品
+    //1为加   0为减
+    public int minusoradd;
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

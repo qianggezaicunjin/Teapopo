@@ -34,7 +34,7 @@ import timber.log.Timber;
  * Created by louiszgm on 2016/7/5.
  */
 public class GoodsDetailModel extends BaseModel {
-    String leftCommentCount;
+    public String leftCommentCount;
     public GoodsDetailModel(Context context) {
         super(context);
     }

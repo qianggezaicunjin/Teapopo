@@ -68,6 +68,9 @@ public class GoodsDetailViewModel extends BaseRecyclerViewModel {
         }else if(action == Action.GoodsDetailModel_GetCommentList){
             List<Comment> commentList = (List<Comment>) data.t;
             super.data.addAll(commentList);
+            //剩余的评论数
+            goodsInfo.leftComment = mModel.leftCommentCount;
+            notifyPropertyChanged(BR.goodsInfo);
             notifyPropertyChanged(BR.data);
         }
     }

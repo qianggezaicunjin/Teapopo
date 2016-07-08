@@ -16,6 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:checked="@{viewModel.cartGoods.isSelected}"
         android:id="@+id/checkBox" />
 
     <RelativeLayout
@@ -54,6 +55,7 @@
             android:gravity="center_horizontal"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:inputType="number"
             android:background="@drawable/background_transparent"/>
 
     </RelativeLayout>

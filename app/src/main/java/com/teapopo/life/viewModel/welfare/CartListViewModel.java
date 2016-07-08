@@ -32,17 +32,26 @@ public class CartListViewModel extends BaseRecyclerViewModel {
         mModel.getCartList();
     }
 
+    public void selectAll(boolean isSelected){
+        for(Object o:data){
+            CartGoods cartGoods = (CartGoods) o;
+            cartGoods.isSelected = isSelected;
+            notifyPropertyChanged(BR.cartGoods);
+        }
+    }
+    //计算结算总额
     public void calculateCartGoodsOverView(CartGoods cartGoods){
-        if(cartGoods.isSelected){
-            cardsGoodsOverView.goods_num+=cartGoods.goods_num;
-            cardsGoodsOverView.goods_price+=cartGoods.goods_price;
-            cardsGoodsOverView.goods_points+=cartGoods.goods_points;
-        }else {
+        //cartGoods.minusoradd 为0表示要减去该商品，1表示要加上
+        if(cartGoods.minusoradd == 0){
             cardsGoodsOverView.goods_num-=cartGoods.goods_num;
             cardsGoodsOverView.goods_price-=cartGoods.goods_price;
             cardsGoodsOverView.goods_points-=cartGoods.goods_points;
+        }else if(cartGoods.minusoradd == 1){
+            cardsGoodsOverView.goods_num+=cartGoods.goods_num;
+            cardsGoodsOverView.goods_price+=cartGoods.goods_price;
+            cardsGoodsOverView.goods_points+=cartGoods.goods_points;
         }
-        notifyPropertyChanged(BR.cardsGoodsOverView);
+            notifyPropertyChanged(BR.cardsGoodsOverView);
     }
     @Override
     public void onRequestSuccess(ModelAction data) {

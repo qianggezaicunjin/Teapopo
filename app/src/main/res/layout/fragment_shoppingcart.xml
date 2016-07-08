@@ -7,8 +7,8 @@
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.CartListViewModel" />
     </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
@@ -16,9 +16,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:data="@{viewModel.data}"/>
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="@dimen/y100"
-    android:text="@{viewModel.cardsGoodsOverView.goods_num}"/>
-</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+        <CheckBox
+            android:id="@+id/checkBox_selectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="全选"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.cardsGoodsOverView.goods_price}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.cardsGoodsOverView.goods_points}"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.cardsGoodsOverView.goods_num}"/>
+    </LinearLayout>
+</RelativeLayout>
     </layout>
