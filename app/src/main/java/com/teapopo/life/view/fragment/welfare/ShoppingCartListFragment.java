@@ -2,11 +2,14 @@ package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentShoppingcartBinding;
 import com.teapopo.life.model.event.SelectALLEvent;
@@ -56,9 +59,21 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
 
     @Override
     public void setUpView() {
+        setUpToolBar();
         setUpCartList();
         observerCartsGoods();
         selectALLGoods();
+    }
+
+    private void setUpToolBar() {
+        mBinding.toolbarShoppingcart.inflateMenu(R.menu.menu_edit);
+        mBinding.toolbarShoppingcart.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                return true;
+            }
+        });
     }
 
     private void selectALLGoods() {
@@ -94,7 +109,6 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     private void setUpCartList() {
         adapter = new ShoppingCartListAdapter(_mActivity,mViewModel.data);
         mBinding.rvShoppingcart.setAdapter(adapter);
-
         mViewModel.getCartList();
     }
 

@@ -62,24 +62,24 @@ public abstract class SwipeBackBaseFragment extends SwipeBackFragment {
     public abstract void setUpView();
 
 
-    public void setUpToolBar(Toolbar toolBar){
-        toolBar.setNavigationIcon(R.drawable.icon_search);
-        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        toolBar.inflateMenu(R.menu.menu_newmsg);
-        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                start(MsgListFragment.newInstance());
-                return true;
-            }
-        });
-
-    }
+//    public void setUpToolBar(Toolbar toolBar){
+//        toolBar.setNavigationIcon(R.drawable.icon_search);
+//        toolBar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        toolBar.inflateMenu(R.menu.menu_newmsg);
+//        toolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem item) {
+//                start(MsgListFragment.newInstance());
+//                return true;
+//            }
+//        });
+//
+//    }
 
     public void toastErroMsg(String msg){
         CustomToast.makeText(_mActivity,msg, Toast.LENGTH_SHORT).show();

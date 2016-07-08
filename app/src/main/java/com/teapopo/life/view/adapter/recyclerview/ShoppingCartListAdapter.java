@@ -3,6 +3,8 @@ package com.teapopo.life.view.adapter.recyclerview;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -72,6 +74,7 @@ public class ShoppingCartListAdapter extends BaseRecyclerViewAdapter<CartGoods,S
                 viewModel.changeBuyNum(type);
             }
         });
+
         holder.setviewmodel(viewModel);
     }
 

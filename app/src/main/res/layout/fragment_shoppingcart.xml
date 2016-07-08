@@ -10,11 +10,17 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar_shoppingcart"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
+</android.support.v7.widget.Toolbar>
     <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
         android:id="@+id/rv_shoppingcart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar_shoppingcart"
         app:data="@{viewModel.data}"/>
 
     <LinearLayout
@@ -42,6 +48,7 @@
                 android:text="@{viewModel.cardsGoodsOverView.goods_points}"/>
         </LinearLayout>
         <Button
+            android:id="@+id/btn_cart_settlement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{viewModel.cardsGoodsOverView.goods_num}"/>
