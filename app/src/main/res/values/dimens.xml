@@ -37,9 +37,13 @@
     <dimen name="brand_logo_height">@dimen/y51</dimen>
 
 
+    <!--新滋文章图片的大小-->
+    <dimen name="xinzi_articleimage_width">@dimen/x320</dimen>
+    <dimen name="xinzi_articleimage_height">@dimen/y130</dimen>
+
     <!--活动商品item的图片大小-->
     <dimen name="eventgoods_coverImg_width">@dimen/x320</dimen>
-    <dimen name="eventgoods_coverImg_height">@dimen/y80</dimen>
+    <dimen name="eventgoods_coverImg_height">@dimen/y100</dimen>
 
 
     <dimen name="header_height">300dp</dimen>

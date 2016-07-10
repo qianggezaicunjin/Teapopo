@@ -6,6 +6,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 
@@ -66,7 +67,14 @@ public class ArticleModel extends BaseModel {
                 JsonArray imageUrlsArray = images.getAsJsonArray(article.articleId);
                 if(imageUrlsArray!=null){
                     List<String> imageUrls = LoganSquare.parseList(imageUrlsArray.toString(),String.class);
-                    article.imageUrls = imageUrls;
+                    Timber.d("图片个数为:%d",imageUrls.size());
+                    for(String url:imageUrls){
+                        if(imageUrls.size() == 1){
+                            url = setWebImageSize(R.dimen.xinzi_articleimage_width,R.dimen.xinzi_articleimage_height,url);
+                        }
+                        Timber.d("图片url为:%s",url);
+                        article.imageUrls.add(url);
+                    }
                 }
             }
             //取得文章的标签信息
