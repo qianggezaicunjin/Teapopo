@@ -57,6 +57,7 @@ public class ArticleModel extends BaseModel {
         //解析json,将所有属性整合到一个CategoryArticle对象里面
         for(JsonElement post:posts){
             Article article = LoganSquare.parse(post.toString(),Article.class);
+            article.cover = setWebImageSize(R.dimen.xinzi_articleimage_width,R.dimen.xinzi_articleimage_height,article.cover);
             //取得文章的会员信息
             JsonObject memberInfo = members.getAsJsonObject(article.member_id);
             AuthorInfo authorInfo = LoganSquare.parse(memberInfo.toString(),AuthorInfo.class);
@@ -67,14 +68,7 @@ public class ArticleModel extends BaseModel {
                 JsonArray imageUrlsArray = images.getAsJsonArray(article.articleId);
                 if(imageUrlsArray!=null){
                     List<String> imageUrls = LoganSquare.parseList(imageUrlsArray.toString(),String.class);
-                    Timber.d("图片个数为:%d",imageUrls.size());
-                    for(String url:imageUrls){
-                        if(imageUrls.size() == 1){
-                            url = setWebImageSize(R.dimen.xinzi_articleimage_width,R.dimen.xinzi_articleimage_height,url);
-                        }
-                        Timber.d("图片url为:%s",url);
-                        article.imageUrls.add(url);
-                    }
+                    article.imageUrls = imageUrls;
                 }
             }
             //取得文章的标签信息
