@@ -5,28 +5,16 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.squareup.picasso.Picasso;
 import com.teapopo.life.R;
-import com.teapopo.life.injection.component.ComponentHolder;
-import com.teapopo.life.model.event.TellUpLoadDoneOrNot;
 import com.teapopo.life.util.BitmapUtils;
-import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.customView.Dynamicgrid.BaseDynamicGridAdapter;
 
 import java.util.List;
 
 import cn.finalteam.galleryfinal.model.PhotoInfo;
-import me.itangqi.waveloadingview.WaveLoadingView;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/8.

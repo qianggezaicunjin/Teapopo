@@ -3,179 +3,158 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.teapopo.life.viewModel.welfare.OrderSettleMentViewModel"/>
+            type="com.teapopo.life.viewModel.welfare.OrderSettleMentViewModel" />
+
         <variable
             name="handler"
-            type="com.teapopo.life.view.fragment.welfare.OrderSettleMentFragment"/>
+            type="com.teapopo.life.view.fragment.welfare.OrderSettleMentFragment" />
     </data>
+
     <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:erroInfo="@{viewModel.erroInfo}">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tb_order_settlement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="支付界面"
+            android:textSize="25sp" />
+        </android.support.v7.widget.Toolbar>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x3"
+            android:layout_marginBottom="@dimen/x10"
+            android:background="@drawable/line" />
+
+        <TextView
+            android:id="@+id/toptv_order_settlement"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:drawableLeft="@drawable/icon_correct"
+            android:text="订单提交成功"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="@{viewModel.orderOverview.getAdd_time()}"
+            android:textColor="@color/gray_light"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x3"
+            android:layout_marginTop="@dimen/x10"
+            android:background="@drawable/line" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.Toolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tb_order_settlement"/>
+            android:layout_height="0dip"
+            android:layout_weight="3">
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="支付界面"
-                android:textSize="25sp"
-                android:layout_centerInParent="true"/>
-        </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x3"
-            android:background="@drawable/line"
-            android:layout_marginBottom="@dimen/x10"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/toptv_order_settlement"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="订单提交成功"
-                android:textSize="20sp"
-                android:layout_centerInParent="true"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/toptv_order_settlement"
-                android:src="@drawable/icon_correct"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/x8"/>
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@{viewModel.orderOverview.getAdd_time()}"
-            android:textSize="16sp"
-            android:textColor="@color/gray_light"
-            android:gravity="center"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x3"
-            android:background="@drawable/line"
-            android:layout_marginTop="@dimen/x10"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/y40">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_order_sn"
-                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
                 android:text="@{viewModel.orderOverview.order_sn}"
                 android:textColor="@color/gray_light"
-                android:layout_centerHorizontal="true"/>
+                android:textSize="14sp" />
+
             <TextView
+                android:id="@+id/tv_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_money"
-                android:text="@{viewModel.orderOverview.order_amount}"
-                android:textSize="16sp"
-                android:textColor="@android:color/holo_orange_dark"
                 android:layout_below="@id/tv_order_sn"
-                android:layout_marginLeft="@dimen/x100"/>
+                android:layout_marginLeft="@dimen/x100"
+                android:text="@{viewModel.orderOverview.order_amount}"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="16sp" />
         </RelativeLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/x15"
-            android:background="#CCCCCC"/>
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:background="#CCCCCC" />
 
-
-
-            <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
-                android:id="@+id/rv_order_settlement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:data="@{viewModel.data}"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/x15"
-                android:background="#CCCCCC"
-                android:layout_below="@id/rv_order_settlement"
-                android:layout_marginTop="@dimen/x10"/>
-        </RelativeLayout>
+        <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+            android:id="@+id/rv_order_settlement"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="12"
+            app:data="@{viewModel.data}" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择支付方式"
-            android:layout_margin="10dp"/>
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            android:textSize="20sp"
+            android:text="选择支付方式" />
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/x3"
-            android:background="@drawable/line"
-            android:layout_marginBottom="3dp"/>
-
+            android:layout_height="@dimen/line_height"
+            android:layout_marginBottom="3dp"
+            android:background="@drawable/line" />
         <RadioGroup
+            android:id="@+id/rg_order_settlement"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
+            android:layout_height="0dip"
+            android:layout_weight="8"
             android:divider="@drawable/line"
-            android:showDividers="middle"
-            android:id="@+id/rg_order_settlement">
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="支付宝支付"
-                android:textColor="@drawable/rb_select_textcolor"
-                android:background="@color/white"
-                android:textSize="16sp"
-                android:drawableLeft="@drawable/icon_alipay"
-                android:drawableRight="@drawable/rb_selector_pay"
-                android:id="@+id/bt_select_alipay"
-                android:button="@null"
-                android:drawablePadding="30dp"
-                android:gravity="center_vertical"/>
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="微信支付"
-                android:textColor="@drawable/rb_select_textcolor"
-                android:background="@color/white"
-                android:textSize="16sp"
-                android:drawableLeft="@drawable/icon_wechatpay"
-                android:drawableRight="@drawable/rb_selector_pay"
-                android:id="@+id/bt_select_wx"
-                android:button="@null"
-                android:drawablePadding="32dp"
-                android:gravity="center_vertical"/>
+            android:orientation="vertical"
+            android:showDividers="middle">
 
-        </RadioGroup>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/x3"
-            android:background="@drawable/line"
-            android:layout_marginBottom="10dp"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <Button
+            <RadioButton
+                android:id="@+id/bt_select_alipay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/orange"
-                android:layout_margin="5dp"
-                android:text="确认支付"
-                android:textSize="16sp"
-                android:textColor="@color/white"
-                android:layout_alignParentBottom="true"
-                android:onClick="@{handler.clickPayByAlipay}"/>
-        </RelativeLayout>
+                android:button="@null"
+                android:drawableLeft="@drawable/icon_alipay"
+                android:drawableRight="@drawable/rb_selector_pay"
+                android:gravity="center_vertical"
+                android:text="支付宝支付"
+                android:textColor="@drawable/rb_select_textcolor"
+                android:textSize="16sp" />
+
+            <RadioButton
+                android:id="@+id/bt_select_wx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableLeft="@drawable/icon_wechatpay"
+                android:drawableRight="@drawable/rb_selector_pay"
+                android:gravity="center_vertical"
+                android:text="微信支付"
+                android:textColor="@drawable/rb_select_textcolor"
+                android:textSize="16sp" />
+
+        </RadioGroup>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="5dp"
+            android:layout_weight="4"
+            android:background="@color/orange"
+            android:onClick="@{handler.clickPayByAlipay}"
+            android:text="确认支付"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
 </layout>

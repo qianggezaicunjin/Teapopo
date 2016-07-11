@@ -1,11 +1,9 @@
 package com.teapopo.life.model.article.publisharticle;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
-import com.teapopo.life.model.event.TellUpLoadDoneOrNot;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
@@ -15,16 +13,12 @@ import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import cn.finalteam.galleryfinal.model.PhotoInfo;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;

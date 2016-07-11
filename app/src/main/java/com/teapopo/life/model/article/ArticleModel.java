@@ -6,6 +6,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.BaseModel;
 
@@ -56,6 +57,7 @@ public class ArticleModel extends BaseModel {
         //解析json,将所有属性整合到一个CategoryArticle对象里面
         for(JsonElement post:posts){
             Article article = LoganSquare.parse(post.toString(),Article.class);
+            article.cover = setWebImageSize(R.dimen.xinzi_articleimage_width,R.dimen.xinzi_articleimage_height,article.cover);
             //取得文章的会员信息
             JsonObject memberInfo = members.getAsJsonObject(article.member_id);
             AuthorInfo authorInfo = LoganSquare.parse(memberInfo.toString(),AuthorInfo.class);

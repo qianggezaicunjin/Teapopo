@@ -1,7 +1,6 @@
 package com.teapopo.life.model.welfare.EventGoodsList;
 
 import android.content.Context;
-import android.graphics.AvoidXfermode;
 
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
@@ -9,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.R;
 import com.teapopo.life.model.BaseModel;
-import com.teapopo.life.model.sharedpreferences.EventGoodsSp;
 import com.teapopo.life.model.sharedpreferences.RxSpf_EventGoodsSp;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.util.Constans.Action;
@@ -19,14 +17,12 @@ import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/24.
@@ -91,7 +87,9 @@ public class EventGoodsListModel extends BaseModel {
         for (JsonElement o:goods){
             try {
                 EventGoods eventGoods = LoganSquare.parse(o.toString(),EventGoods.class);
+                eventGoods.cover_ImgforOrderList = eventGoods.coverImg;
                 eventGoods.coverImg = setWebImageSize(R.dimen.eventgoods_coverImg_width,R.dimen.eventgoods_coverImg_height,eventGoods.coverImg);
+                eventGoods.cover_ImgforOrderList = setWebImageSize(R.dimen.orderList_coverImg_width,R.dimen.orderList_coverImg_height,eventGoods.cover_ImgforOrderList);
                 eventGoodsList.add(eventGoods);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -1,8 +1,10 @@
 package com.teapopo.life.viewModel.welfare;
 
 import android.databinding.Bindable;
+import android.os.Parcelable;
 
 import com.teapopo.life.BR;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.welfare.CartGoods;
 import com.teapopo.life.model.welfare.ShoppingCart.CardsGoodsOverView;
 import com.teapopo.life.model.welfare.ShoppingCart.CartListModel;
@@ -12,6 +14,8 @@ import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
 
 /**
  * Created by louiszgm on 2016/7/7.
@@ -32,13 +36,18 @@ public class CartListViewModel extends BaseRecyclerViewModel {
         mModel.getCartList();
     }
 
-    public void selectAll(boolean isSelected){
+    //返回被选中的商品
+    public ArrayList<Parcelable> getSelectedCartGoods(){
+        ArrayList<Parcelable> result = new ArrayList<>();
         for(Object o:data){
             CartGoods cartGoods = (CartGoods) o;
-            cartGoods.isSelected = isSelected;
-            notifyPropertyChanged(BR.cartGoods);
+            if(cartGoods.isSelected){
+                result.add(cartGoods);
+            }
         }
+        return result;
     }
+
     //计算结算总额
     public void calculateCartGoodsOverView(CartGoods cartGoods){
         //cartGoods.minusoradd 为0表示要减去该商品，1表示要加上
