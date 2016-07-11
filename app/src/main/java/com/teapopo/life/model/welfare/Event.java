@@ -34,6 +34,9 @@ public class  Event extends BaseEntity implements Parcelable{
 
     public String min_price;
 
+    public String getMin_price(){
+        return "￥"+min_price+"起";
+    }
 
     //以下是增加的属性
     public ArrayList<EventGoods> goods = new ArrayList<>();
