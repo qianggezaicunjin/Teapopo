@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 
 import com.teapopo.life.databinding.ItemRecyclerviewGoodsMakeorderBinding;
+import com.teapopo.life.model.Goods;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.customView.EditText.DrawableClickablEdT;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * Created by louiszgm on 2016/7/1.
  */
-public class MakeOrderListAdapter extends BaseRecyclerViewAdapter<EventGoods,MakeOrderListAdapter.SettleMentGoodsListViewHolder> {
+public class MakeOrderListAdapter extends BaseRecyclerViewAdapter<Goods,MakeOrderListAdapter.SettleMentGoodsListViewHolder> {
     public MakeOrderListAdapter(Context context, List data) {
         super(context, data);
     }
@@ -33,7 +34,7 @@ public class MakeOrderListAdapter extends BaseRecyclerViewAdapter<EventGoods,Mak
     public void onBindViewHolder(SettleMentGoodsListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         final ItemMakeOrderGoodsViewModel viewModel = new ItemMakeOrderGoodsViewModel();
-        final EventGoods goods = data.get(position);
+        final Goods goods = data.get(position);
         viewModel.goods = goods;
         ItemRecyclerviewGoodsMakeorderBinding binding = (ItemRecyclerviewGoodsMakeorderBinding) holder.itemView.getTag();
         binding.buyNum.setDrawableClickListener(new DrawableClickListener() {

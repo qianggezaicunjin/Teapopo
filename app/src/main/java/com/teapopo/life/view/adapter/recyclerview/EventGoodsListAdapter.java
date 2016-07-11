@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.teapopo.life.databinding.ItemRecyclerviewEventgoodsBinding;
+import com.teapopo.life.model.Goods;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
@@ -16,6 +17,8 @@ import com.teapopo.life.viewModel.welfare.ItemEventGoodsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/28.
@@ -47,6 +50,7 @@ public class EventGoodsListAdapter extends BaseRecyclerViewAdapter<EventGoods,Ev
             }
         });
     }
+
 
 
     public static  class EventGoodsViewHolder extends RecyclerView.ViewHolder{

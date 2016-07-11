@@ -1,6 +1,7 @@
 package com.teapopo.life.view.fragment.welfare;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.welfare.CartListViewModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -48,12 +51,15 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     @Override
     public void onCreateBinding() {
         ((GoodsHandleActivity)_mActivity).getFragmentComponent().inject(this);
+
+        observerCartsGoods();
     }
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentShoppingcartBinding.inflate(inflater);
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -61,7 +67,6 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         setUpToolBar();
         setUpCartList();
-        observerCartsGoods();
         selectALLGoods();
     }
 
@@ -112,6 +117,9 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
         mViewModel.getCartList();
     }
 
+    public void clickSettleShoppingCart(View view){
+        start(MakeOrderFragment.newInstance(mViewModel.getSelectedCartGoods()));
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

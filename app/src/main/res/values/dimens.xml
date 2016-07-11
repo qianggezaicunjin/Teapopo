@@ -45,6 +45,12 @@
     <dimen name="eventgoods_coverImg_width">@dimen/x320</dimen>
     <dimen name="eventgoods_coverImg_height">@dimen/y100</dimen>
 
+    <!--下订单界面的商品图片的大小-->
+    <dimen name="orderList_coverImg_width">@dimen/x100</dimen>
+    <dimen name="orderList_coverImg_height">@dimen/y80</dimen>
+    <!--购物车的商品图片的大小-->
+    <dimen name="cart_coverImg_width">@dimen/x80</dimen>
+    <dimen name="cart_coverImg_height">@dimen/x80</dimen>
 
     <dimen name="header_height">300dp</dimen>
 

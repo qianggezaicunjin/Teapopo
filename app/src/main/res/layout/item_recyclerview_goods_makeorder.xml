@@ -23,26 +23,40 @@
         android:background="@color/white"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_margin="10dp">
-        <ImageView
+        <com.teapopo.life.view.customView.RecyclableImageView
             android:id="@+id/img_goodscover"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:background="@drawable/splash"/>
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/img_goodscover"
-            android:text="商品简介"
-            android:textSize="16dp"
-            android:layout_marginLeft="20dp"
-            android:ems="10"/>
+            app:imageUrl="@{viewModel.goods.cover_Img}"/>
         <TextView
+            android:layout_width="@dimen/x140"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/img_goodscover"
+            android:text="@{viewModel.goods.name}"
+            android:textSize="16dp"
+            android:layout_marginLeft="@dimen/x10"
+           />
+        <LinearLayout
             android:id="@+id/integralNum_right_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:orientation="vertical"
             android:text="积分和数量"
-            android:textSize="16dp"/>
+            android:textSize="16sp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.goods.price}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.goods.points}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{viewModel.goods.buy_num+""}'/>
+            </LinearLayout>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -54,28 +68,23 @@
         android:background="@color/white"
         android:layout_margin="8dp">
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="购买数量:"
             android:layout_centerVertical="true"
             android:textSize="16dp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true">
             <com.teapopo.life.view.customView.EditText.DrawableClickablEdT
                 android:id="@+id/buy_num"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_minus_withstroke"
                 android:drawableRight="@drawable/icon_plus_withstroke"
+                android:layout_alignParentRight="true"
                 android:text='@{viewModel.goods.buy_num+""}'
                 android:gravity="center_horizontal"
                 android:background="@drawable/background_transparent"/>
-        </LinearLayout>
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -89,15 +98,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="快递运费"
-            android:textSize="16dp"/>
+            android:text="快递运费:"
+            android:textSize="16sp"/>
 
         <TextView
             android:id="@+id/tv_goodsfee"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="运费"/>
+            android:text="@{viewModel.goods.freight}"
+            android:hint="包邮"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -112,14 +122,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="合计"
-            android:textSize="16dp"/>
+            android:textSize="16sp"/>
         <TextView
             android:id="@+id/integral_right_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="积分"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
 </LinearLayout>
