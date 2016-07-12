@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 import timber.log.Timber;
 
-public class FileUtil {
+public class FileUtils {
 
     public static StringBuilder readFile(String filePath, String charsetName) {
         File file = new File(filePath);

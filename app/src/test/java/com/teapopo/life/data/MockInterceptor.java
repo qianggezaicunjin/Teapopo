@@ -1,6 +1,6 @@
 package com.teapopo.life.data;
 
-import com.teapopo.life.util.FileUtil;
+import com.teapopo.life.util.FileUtils;
 
 import java.io.IOException;
 
@@ -76,7 +76,7 @@ public class MockInterceptor implements Interceptor {
 
     private String getResponseString(String fileName) {
 
-        StringBuilder stringBuilder = FileUtil.readFile(responeJsonPath + fileName, "UTF-8");
+        StringBuilder stringBuilder = FileUtils.readFile(responeJsonPath + fileName, "UTF-8");
         return stringBuilder.toString();
     }
 

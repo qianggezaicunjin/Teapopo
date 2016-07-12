@@ -29,7 +29,10 @@ public class AddressManageListAdapter extends BaseRecyclerViewAdapter<Address,Ad
     @Override
     public void onBindViewHolder(AddressManageListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-
+        Address address = data.get(position);
+        ItemAddressManageViewModel viewModel = new ItemAddressManageViewModel();
+        viewModel.address = address;
+        holder.setViewModel(viewModel);
     }
 
     public static class AddressManageListViewHolder extends RecyclerView.ViewHolder{

@@ -27,4 +27,13 @@ public class Address extends BaseEntity {
     public String truename;
 
     public String zipcode;
+
+    //新增的属性
+    public boolean isSelected;
+
+    public String getBaseInfo(){
+        return truename+" "+phone;
+    }
+
+
 }
