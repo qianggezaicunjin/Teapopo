@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
-    <item android:id="@+id/action_edit"
-        android:title="编辑"
-        android:icon="@drawable/icon_edit_text"
+    <item android:id="@+id/action_add"
+        android:title="添加"
+        android:icon="@drawable/icon_plus"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
 </menu>

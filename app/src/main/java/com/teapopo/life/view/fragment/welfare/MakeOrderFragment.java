@@ -130,6 +130,9 @@ public class MakeOrderFragment extends SwipeBackBaseFragment{
     @Override
     protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
         super.onFragmentResult(requestCode, resultCode, data);
+        Timber.d("收到选择的地址");
+        binding_addressinfo.setBaseinfo(data.getString("BaseInfo"));
+        binding_addressinfo.setAddress(data.getString("address"));
     }
 
     //设置返回按钮监听
@@ -140,7 +143,6 @@ public class MakeOrderFragment extends SwipeBackBaseFragment{
             @Override
             public void onClick(View v) {
                 pop();
-                Toast.makeText(_mActivity,"111",0).show();
             }
         });
     }

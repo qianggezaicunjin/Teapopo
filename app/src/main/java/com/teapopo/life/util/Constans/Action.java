@@ -62,5 +62,7 @@ public enum Action {
     GoodsDetailModel_GetCollectList,
     GoodsDetailModel_GetCommentList,
     //for CartListModel
-    CartListModel_GetCartList
+    CartListModel_GetCartList,
+    //for EditAddressModel
+    EditAddressModel_GetDistrictPickerData
 }

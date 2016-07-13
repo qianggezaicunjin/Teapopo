@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.ItemAddressManageViewModel"/>
     </data>
-<LinearLayout
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        android:padding="@dimen/padding_size"
+        android:layout_marginTop="@dimen/cardMarginVertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_size">
+                <com.teapopo.life.view.customView.RecyclableImageView
+                    android:id="@+id/img_default_address"
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/x30"
+                    android:background="@drawable/icon_correct"
+                    android:layout_centerVertical="true"/>
 
-</LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/x5"
+                    android:layout_toRightOf="@id/img_default_address"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/tv_adress_baseinfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.address.getBaseInfo()}"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{viewModel.address.area_info}"
+                        />
+                </LinearLayout>
+
+                <com.teapopo.life.view.customView.RecyclableImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_edit"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    </RelativeLayout>
     </layout>
