@@ -6,6 +6,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.Alipay.AliPay;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.util.Constans.Action;
@@ -76,6 +77,7 @@ public class OrderSettleMentModel extends BaseModel {
             List<GoodsOverview> list = new ArrayList<>();
             for(JsonElement element:goodses){
                 GoodsOverview goodsOverview = LoganSquare.parse(element.toString(),GoodsOverview.class);
+                goodsOverview.goods_wap_cover = setWebImageSize(R.dimen.orderList_coverImg_width,R.dimen.orderList_coverImg_height,goodsOverview.goods_wap_cover);
                 list.add(goodsOverview);
             }
             orderInfo.goodsOverviewList = list;

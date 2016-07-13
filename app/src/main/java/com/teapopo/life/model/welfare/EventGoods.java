@@ -32,12 +32,12 @@ public class EventGoods extends BaseEntity implements Parcelable{
 
     public String name;
 
-    public String points;
+    public int points;
 
     public String getPoints(){
         return points+"积分";
     }
-    public String price;
+    public float price;
 
     public String getPrice(){
         return "￥"+price;
@@ -60,6 +60,8 @@ public class EventGoods extends BaseEntity implements Parcelable{
 
     //新增加的属性
     public int buy_num = 1;
+
+    public String cover_ImgforOrderList;
     @Override
     public int describeContents() {
         return 0;
@@ -74,12 +76,13 @@ public class EventGoods extends BaseEntity implements Parcelable{
         dest.writeString(content);
         dest.writeString(id);
         dest.writeString(name);
-        dest.writeString(points);
-        dest.writeString(price);
+        dest.writeInt(points);
+        dest.writeFloat(price);
         dest.writeInt(sale_num);
         dest.writeString(storage);
         dest.writeInt(is_commend);
         dest.writeInt(buy_num);
+        dest.writeString(cover_ImgforOrderList);
     }
 
     protected EventGoods(Parcel in) {
@@ -90,12 +93,13 @@ public class EventGoods extends BaseEntity implements Parcelable{
         content = in.readString();
         id = in.readString();
         name = in.readString();
-        points = in.readString();
-        price = in.readString();
+        points = in.readInt();
+        price = in.readFloat();
         sale_num = in.readInt();
         storage = in.readString();
         is_commend = in.readInt();
         buy_num = in.readInt();
+        cover_ImgforOrderList = in.readString();
     }
     public EventGoods(){
 

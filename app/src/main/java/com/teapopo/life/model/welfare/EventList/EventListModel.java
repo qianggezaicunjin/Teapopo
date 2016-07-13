@@ -6,6 +6,7 @@ import com.bluelinelabs.logansquare.LoganSquare;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.teapopo.life.R;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.util.Constans.Action;
@@ -77,6 +78,8 @@ public class EventListModel extends BaseModel {
         for(JsonElement event:events){
             try {
                 Event eventObject = LoganSquare.parse(event.toString(),Event.class);
+                eventObject.coverImg = setWebImageSize(R.dimen.eventgoods_coverImg_width,R.dimen.eventgoods_coverImg_height,eventObject.coverImg);
+                eventObject.bannerImg = setWebImageSize(R.dimen.eventgoods_coverImg_width,R.dimen.eventgoods_coverImg_height,eventObject.bannerImg);
                 eventList.add(eventObject);
             } catch (IOException e) {
                 e.printStackTrace();

@@ -6,12 +6,16 @@
             name="handler"
             type="com.teapopo.life.view.fragment.welfare.MakeOrderFragment"/>
         <variable
-            name="viewModel"
-            type="com.teapopo.life.viewModel.welfare.ReceiveAddressViewModel"/>
+            name="baseinfo"
+            type="String"/>
+        <variable
+            name="address"
+            type="String"/>
     </data>
     <LinearLayout
         android:orientation="vertical" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <Button
             android:layout_width="match_parent"
@@ -34,10 +38,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="收件人姓名和电话号码"/>
+            android:text="@{baseinfo}"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="收件人地址"/>
+            android:text="@{address}"/>
     </LinearLayout>
 </layout>

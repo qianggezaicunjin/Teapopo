@@ -34,7 +34,9 @@ public class MakeOrderModel extends BaseModel {
                     public void _onNext(JsonObject jsonObject) {
                         ModelAction modelAction = new ModelAction();
                         modelAction.action = Action.GoodsSettleMentModel_MakeOrder;
-
+                        String id = jsonObject.get("id").getAsString();
+                        modelAction.t = id;
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override

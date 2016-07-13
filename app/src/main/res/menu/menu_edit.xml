@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools" >
     <item android:id="@+id/action_edit"
         android:title="编辑"
-        android:icon="@drawable/icon_edit"
+        android:icon="@drawable/icon_edit_text"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
 </menu>

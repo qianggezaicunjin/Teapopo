@@ -15,6 +15,7 @@ import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.util.DataUtils;
 import com.teapopo.life.util.ViewUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,7 +53,7 @@ public class Article extends BaseEntity {
         public String title;
 
         //下面是增加的属性
-        public List<String> imageUrls;//文章的图片url
+        public List<String> imageUrls = new ArrayList<>();//文章的图片url
 
         public AuthorInfo authorInfo;//文章作者的基本信息
 

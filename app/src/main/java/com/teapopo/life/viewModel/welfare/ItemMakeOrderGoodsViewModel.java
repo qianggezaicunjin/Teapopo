@@ -3,6 +3,7 @@ package com.teapopo.life.viewModel.welfare;
 import android.databinding.Bindable;
 
 import com.android.databinding.library.baseAdapters.BR;
+import com.teapopo.life.model.Goods;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.view.customView.EditText.DrawableClickablEdT;
 import com.teapopo.life.viewModel.BaseViewModel;
@@ -15,7 +16,7 @@ import timber.log.Timber;
 public class ItemMakeOrderGoodsViewModel extends BaseViewModel {
 
     @Bindable
-   public  EventGoods goods = new EventGoods();
+   public Goods goods = new Goods();
 
     public ItemMakeOrderGoodsViewModel(){
 
