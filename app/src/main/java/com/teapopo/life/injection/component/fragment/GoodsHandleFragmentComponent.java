@@ -2,8 +2,10 @@ package com.teapopo.life.injection.component.fragment;
 
 import com.teapopo.life.injection.module.fragment.GoodsHandleFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.model.address.editAddress.EditAddressModel;
 import com.teapopo.life.model.welfare.OrderSettleMentModel;
 import com.teapopo.life.view.fragment.welfare.AddressManageFragment;
+import com.teapopo.life.view.fragment.welfare.EditAddressFragment;
 import com.teapopo.life.view.fragment.welfare.GoodsDetailFragment;
 import com.teapopo.life.view.fragment.welfare.MakeOrderFragment;
 import com.teapopo.life.view.fragment.welfare.OrderSettleMentFragment;
@@ -22,4 +24,5 @@ public interface GoodsHandleFragmentComponent {
     void inject(OrderSettleMentFragment fragment);
     void inject(GoodsDetailFragment fragment);
     void inject(ShoppingCartListFragment fragment);
+    void inject(EditAddressFragment fragment);
 }

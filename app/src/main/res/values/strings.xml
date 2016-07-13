@@ -50,4 +50,8 @@
     <string name="dialog_neutral_button_text">Later</string>
     <string name="dialog_negative_button_text">No, thanks</string>
     <string name="dialog_positive_button_text">Rate</string>
+
+
+    <string name="pickerview_cancel">取消</string>
+    <string name="pickerview_submit">确定</string>
 </resources>

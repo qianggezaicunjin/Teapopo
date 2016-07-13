@@ -64,5 +64,6 @@ public enum Action {
     //for CartListModel
     CartListModel_GetCartList,
     //for EditAddressModel
-    EditAddressModel_GetDistrictPickerData
+    EditAddressModel_GetDistrictPickerData,
+    EditAddressModel_AddAdress
 }

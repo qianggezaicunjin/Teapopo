@@ -4,11 +4,13 @@ import android.content.Context;
 
 import com.teapopo.life.injection.scope.PerActivity;
 import com.teapopo.life.model.address.addressManager.AddressManageModel;
+import com.teapopo.life.model.address.editAddress.EditAddressModel;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;
 import com.teapopo.life.model.welfare.MakeOrder.MakeOrderModel;
 import com.teapopo.life.model.welfare.OrderSettleMentModel;
 import com.teapopo.life.model.welfare.ShoppingCart.CartListModel;
 import com.teapopo.life.viewModel.address.AddressManageViewModel;
+import com.teapopo.life.viewModel.address.EditAddressViewModel;
 import com.teapopo.life.viewModel.welfare.CartListViewModel;
 import com.teapopo.life.viewModel.welfare.GoodsDetailViewModel;
 import com.teapopo.life.viewModel.welfare.MakeOrderViewModel;
@@ -80,5 +82,17 @@ public class GoodsHandleFragmentModule {
     @PerActivity
     CartListModel provideCartListModel(Context context){
         return new CartListModel(context);
+    }
+
+    //for EditAddressFragment
+    @Provides
+    @PerActivity
+    EditAddressViewModel provideEditAddressViewModel(EditAddressModel model){
+        return new EditAddressViewModel(model);
+    }
+    @Provides
+    @PerActivity
+    EditAddressModel provideEditAddressModel(Context context){
+        return new EditAddressModel(context);
     }
 }
