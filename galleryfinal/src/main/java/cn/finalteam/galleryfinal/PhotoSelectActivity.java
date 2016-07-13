@@ -407,7 +407,23 @@ public class PhotoSelectActivity extends PhotoBaseActivity implements View.OnCli
         if ( parentId == R.id.lv_folder_list ) {
             folderItemClick(position);
         } else {
-            photoItemClick(view, position);
+            //如果位置是第一个表示的是拍照
+            if(position == 0){
+                //判断是否达到多选最大数量
+                if (GalleryFinal.getFunctionConfig().isMutiSelect() && mSelectPhotoList.size() == GalleryFinal.getFunctionConfig().getMaxSize()) {
+                    toast(getString(R.string.select_max_tips));
+                    return;
+                }
+
+                if (!DeviceUtils.existSDCard()) {
+                    toast(getString(R.string.empty_sdcard));
+                    return;
+                }
+
+                takePhotoAction();
+            }else {
+                photoItemClick(view, position-1);
+            }
         }
     }
     private void folderItemClick(int position) {
@@ -439,54 +455,54 @@ public class PhotoSelectActivity extends PhotoBaseActivity implements View.OnCli
     }
 
     private void photoItemClick(View view, int position) {
-        PhotoInfo info = mCurPhotoList.get(position);
-        if (!GalleryFinal.getFunctionConfig().isMutiSelect()) {
-            mSelectPhotoList.clear();
-            mSelectPhotoList.add(info);
-            String ext = FilenameUtils.getExtension(info.getPhotoPath());
-            if (GalleryFinal.getFunctionConfig().isEditPhoto() && (ext.equalsIgnoreCase("png")
-                    || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("jpeg"))) {
-                toPhotoEdit();
-            } else {
-                ArrayList<PhotoInfo> list = new ArrayList<>();
-                list.add(info);
-                resultData(list);
-            }
-            return;
-        }
-        boolean checked = false;
-        if (!mSelectPhotoList.contains(info)) {
-            if (GalleryFinal.getFunctionConfig().isMutiSelect() && mSelectPhotoList.size() == GalleryFinal.getFunctionConfig().getMaxSize()) {
-                toast(getString(R.string.select_max_tips));
-                return;
-            } else {
+            PhotoInfo info = mCurPhotoList.get(position);
+            if (!GalleryFinal.getFunctionConfig().isMutiSelect()) {
+                mSelectPhotoList.clear();
                 mSelectPhotoList.add(info);
-                checked = true;
-            }
-        } else {
-            try {
-                for(Iterator<PhotoInfo> iterator = mSelectPhotoList.iterator();iterator.hasNext();){
-                    PhotoInfo pi = iterator.next();
-                    if (pi != null && TextUtils.equals(pi.getPhotoPath(), info.getPhotoPath())) {
-                        iterator.remove();
-                        break;
-                    }
+                String ext = FilenameUtils.getExtension(info.getPhotoPath());
+                if (GalleryFinal.getFunctionConfig().isEditPhoto() && (ext.equalsIgnoreCase("png")
+                        || ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("jpeg"))) {
+                    toPhotoEdit();
+                } else {
+                    ArrayList<PhotoInfo> list = new ArrayList<>();
+                    list.add(info);
+                    resultData(list);
                 }
-            } catch (Exception e){}
-            checked = false;
-        }
-        refreshSelectCount();
-
-        PhotoListAdapter.PhotoViewHolder holder = (PhotoListAdapter.PhotoViewHolder) view.getTag();
-        if (holder != null) {
-            if (checked) {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
-            } else {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+                return;
             }
-        } else {
-            mPhotoListAdapter.notifyDataSetChanged();
-        }
+            boolean checked = false;
+            if (!mSelectPhotoList.contains(info)) {
+                if (GalleryFinal.getFunctionConfig().isMutiSelect() && mSelectPhotoList.size() == GalleryFinal.getFunctionConfig().getMaxSize()) {
+                    toast(getString(R.string.select_max_tips));
+                    return;
+                } else {
+                    mSelectPhotoList.add(info);
+                    checked = true;
+                }
+            } else {
+                try {
+                    for(Iterator<PhotoInfo> iterator = mSelectPhotoList.iterator();iterator.hasNext();){
+                        PhotoInfo pi = iterator.next();
+                        if (pi != null && TextUtils.equals(pi.getPhotoPath(), info.getPhotoPath())) {
+                            iterator.remove();
+                            break;
+                        }
+                    }
+                } catch (Exception e){}
+                checked = false;
+            }
+            refreshSelectCount();
+
+            PhotoListAdapter.PhotoViewHolder holder = (PhotoListAdapter.PhotoViewHolder) view.getTag();
+            if (holder != null) {
+                if (checked) {
+                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+                } else {
+                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+                }
+            } else {
+                mPhotoListAdapter.notifyDataSetChanged();
+            }
     }
 
     public void refreshSelectCount() {
