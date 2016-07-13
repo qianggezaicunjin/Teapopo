@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.teapopo.life.viewModel.welfare.CartListViewModel" />
+        <variable
+            name="handler"
+            type="com.teapopo.life.view.fragment.welfare.ShoppingCartListFragment" />
     </data>
 <RelativeLayout
     android:layout_width="match_parent"
@@ -64,7 +67,8 @@
             android:layout_height="wrap_content"
             android:text="@{viewModel.cardsGoodsOverView.goods_num}"
             android:background="@color/orange"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:onClick="@{handler.clickSettleShoppingCart}"/>
     </LinearLayout>
 </RelativeLayout>
     </layout>
