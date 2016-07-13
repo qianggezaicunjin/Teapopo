@@ -13,8 +13,14 @@
 <android.support.v7.widget.Toolbar
     android:id="@+id/toolbar_shoppingcart"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="购物车"
+        android:textSize="@dimen/goodsdetail_title"
+        android:gravity="center"/>
 </android.support.v7.widget.Toolbar>
     <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
         android:id="@+id/rv_shoppingcart"
@@ -27,31 +33,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_btn_homecomment">
         <CheckBox
             android:id="@+id/checkBox_selectAll"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:checked="true"
-            android:text="全选"/>
+            android:text="全选"
+            android:layout_weight="3"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginRight="@dimen/x5">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.cardsGoodsOverView.goods_price}"/>
+                android:text="@{viewModel.cardsGoodsOverView.goods_price}"
+                android:textColor="@color/orange"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.cardsGoodsOverView.goods_points}"/>
+                android:text="@{viewModel.cardsGoodsOverView.goods_points}"
+                android:textColor="@color/orange"/>
         </LinearLayout>
         <Button
             android:id="@+id/btn_cart_settlement"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.cardsGoodsOverView.goods_num}"/>
+            android:text="@{viewModel.cardsGoodsOverView.goods_num}"
+            android:background="@color/orange"
+            android:textColor="@color/white"/>
     </LinearLayout>
 </RelativeLayout>
     </layout>

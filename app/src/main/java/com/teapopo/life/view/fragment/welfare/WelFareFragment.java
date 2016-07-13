@@ -56,6 +56,7 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
 
     private void setUpToolBar() {
         mBinding.welfareToolbar.inflateMenu(R.menu.menu_shoppingcart);
+        mBinding.welfareToolbar.setNavigationIcon(R.drawable.icon_search);
         mBinding.welfareToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
