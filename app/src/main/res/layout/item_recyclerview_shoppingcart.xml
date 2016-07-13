@@ -11,7 +11,8 @@
 <LinearLayout
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:erroInfo="@{viewModel.erroInfo}">
+    app:erroInfo="@{viewModel.erroInfo}"
+    android:background="@color/white">
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -23,29 +24,36 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin">
-        <ImageView
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_margin="@dimen/x5">
+        <com.teapopo.life.view.customView.RecyclableImageView
             android:id="@+id/img_shoppingcart_goods"
+            android:layout_width="@dimen/x56"
+            android:layout_height="@dimen/y56"
+            app:imageUrl="@{viewModel.cartGoods.goods_wap_cover}"/>
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/img_shoppingcart_goods"
+            android:layout_marginLeft="@dimen/x5"
+            android:orientation="vertical">
         <TextView
             android:id="@+id/tv_shoppingcart_goodsname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/img_shoppingcart_goods"
-            android:text="商品的标题"/>
+            android:text="@{viewModel.cartGoods.goods_name}"/>
         <TextView
             android:id="@+id/tv_shoppingcart_goodsprice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_shoppingcart_goodsname"
+            android:textColor="@color/orange"
             android:text="@{viewModel.cartGoods.goods_price}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_shoppingcart_goodsprice"
+            android:textColor="@color/orange"
             android:text="@{viewModel.cartGoods.goods_points}"/>
-
+        </LinearLayout>
         <com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView
             android:id="@+id/buy_num"
             android:layout_width="@dimen/x100"

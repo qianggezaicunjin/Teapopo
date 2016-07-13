@@ -164,7 +164,8 @@
                         android:textSize="13sp"
                         android:layout_alignParentBottom="true"
                         android:text="@{viewmodel.article.browse_num}"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginTop="@dimen/y10"
+                        android:layout_marginLeft="@dimen/x8"/>
                 </RelativeLayout>
             </LinearLayout>
 
