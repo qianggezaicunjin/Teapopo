@@ -329,6 +329,8 @@ public interface NetWorkService {
     @GET("cart/list")
     Observable<List<CartGoods>> getCartList();
 
+    @POST("address/add")
+    Observable<JsonObject> addAddress(@Body RequestBody requestBody);
     @GET("test")
     Call<JsonObject> test();
 }

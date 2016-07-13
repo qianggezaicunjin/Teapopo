@@ -27,6 +27,7 @@ public class AddressManageFragment extends SwipeBackBaseFragment implements Base
     private FragmentAddressManageBinding mBinding;
     @Inject
     AddressManageViewModel mViewModel;
+    private AddressManageListAdapter adapter;
 
 
     public static AddressManageFragment newInstance(){
@@ -55,20 +56,27 @@ public class AddressManageFragment extends SwipeBackBaseFragment implements Base
         mBinding.toobarAddress.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                start(EditAddressFragment.newInstance());
+                startForResult(EditAddressFragment.newInstance(),1);
                 return true;
             }
         });
     }
 
     private void setUpAddressList() {
-        AddressManageListAdapter adapter = new AddressManageListAdapter(_mActivity,mViewModel.data);
+        adapter = new AddressManageListAdapter(_mActivity,mViewModel.data);
         mBinding.rvAddressmanage.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         //获取地址
         mViewModel.getAddressList();
     }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        Address address = data.getParcelable("address");
+        mViewModel.data.add(address);
+        adapter.notifyItemInserted(mViewModel.data.size());
+    }
 
     @Override
     public void onItemClick(View view, int position) {

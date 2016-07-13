@@ -3,14 +3,18 @@ package com.teapopo.life.model.address.editAddress;
 import android.content.Context;
 
 import com.bluelinelabs.logansquare.LoganSquare;
+import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
 import com.teapopo.life.model.address.DistrictPickerData;
+import com.teapopo.life.model.address.SelectedAddress;
 import com.teapopo.life.model.address.district.Area;
 import com.teapopo.life.model.address.district.City;
 import com.teapopo.life.model.address.district.Province;
+import com.teapopo.life.model.welfare.Address;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.FileUtils;
+import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
 import java.io.IOException;
@@ -20,6 +24,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/7/12.
@@ -30,6 +35,53 @@ public class EditAddressModel extends BaseModel {
         super(context);
     }
 
+    /**
+     * 添加收货地址
+     * @param trueName
+     * @param phone
+     * @param selectedAddress
+     * @param detailAddress
+     * @param zipcode
+     */
+    public void addAddress(String trueName, String phone, SelectedAddress selectedAddress, final String detailAddress, String zipcode){
+        Observable<JsonObject> observable = mDataManager.addAddress(trueName,phone,selectedAddress,detailAddress,zipcode);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(mDataManager.getScheduler())
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .flatMap(new Func1<JsonObject, Observable<Address>>() {
+                    @Override
+                    public Observable<Address> call(JsonObject jsonObject) {
+                        JsonObject data = jsonObject.getAsJsonObject("data");
+                        Address address = new Address();
+                        try {
+                            address = LoganSquare.parse(data.toString(),Address.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return Observable.just(address);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<Address>() {
+                    @Override
+                    public void _onNext(Address address) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.EditAddressModel_AddAdress;
+                        modelAction.t = address;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+    }
+
+
+    /**
+     * 获取地区的数据
+     */
     public void getDistrictPickerData(){
          Observable.just(getDistrictData())
                  .subscribeOn(Schedulers.io())
