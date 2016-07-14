@@ -27,7 +27,7 @@
                     android:id="@+id/img_default_address"
                     android:layout_width="@dimen/x30"
                     android:layout_height="@dimen/x30"
-                    android:background="@drawable/icon_correct"
+                    android:background="@drawable/rb_selector_pay"
                     android:layout_centerVertical="true"/>
 
                 <LinearLayout

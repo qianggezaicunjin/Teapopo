@@ -60,6 +60,13 @@ public class AddressManageFragment extends SwipeBackBaseFragment implements Base
                 return true;
             }
         });
+        mBinding.toobarAddress.setNavigationIcon(R.drawable.icon_back);
+        mBinding.toobarAddress.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
     }
 
     private void setUpAddressList() {

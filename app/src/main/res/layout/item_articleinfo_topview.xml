@@ -109,16 +109,9 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="@dimen/y200"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:visibility="@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}">
-
-                    <com.teapopo.life.view.customView.HackyViewPager
-                        android:id="@+id/viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
-                        />
 
                     <com.viewpagerindicator.CirclePageIndicator
                         android:id="@+id/indicator_viewpager"
@@ -127,6 +120,15 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true" />
+
+                    <com.teapopo.life.view.customView.HackyViewPager
+                        android:id="@+id/viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
                 </RelativeLayout>
 
                 <com.teapopo.life.view.customView.HtmlTextView.HtmlTextView

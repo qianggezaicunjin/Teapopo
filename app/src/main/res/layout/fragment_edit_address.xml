@@ -17,7 +17,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:erroInfo="@{viewmodel.erroInfo}">
+        app:erroInfo="@{viewmodel.erroInfo}"
+        android:background="@color/white">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tb_editaddress">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="新建收货地址"
+                android:textSize="@dimen/goodsdetail_title"
+                android:textColor="@android:color/black"/>
+        </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/et_truename"
@@ -29,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="收货人姓名:"
+                android:hint="请输入收货人姓名:"
                 android:maxLines="1"
                 android:textColorHint="@color/gray_light" />
         </android.support.design.widget.TextInputLayout>
@@ -50,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="收货人电话号码:"
+                android:hint="请输入收货人电话号码:"
                 android:maxLines="1"
                 android:textColorHint="@color/gray_light" />
         </android.support.design.widget.TextInputLayout>
@@ -71,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="邮政编码:"
+                android:hint="请输入邮政编码:"
                 android:maxLines="1"
                 android:textColorHint="@color/gray_light" />
         </android.support.design.widget.TextInputLayout>
@@ -84,9 +96,12 @@
             android:id="@+id/tv_district"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="所选区域"
+            android:hint="请选择所在地区"
             android:onClick="@{handler.clickDistrict}"
-            android:textSize="20sp"/>
+            android:drawableRight="@drawable/icon_forward"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textSize="18sp"
+            android:layout_marginTop="@dimen/x10"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_height"
@@ -101,14 +116,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="详细地址:"
+                android:hint="请输入您的详细地址:"
                 android:maxLines="1"
                 android:textColorHint="@color/gray_light" />
         </android.support.design.widget.TextInputLayout>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="添加地址"
-            android:onClick="@{handler.clickAddAddress}"/>
+            android:onClick="@{handler.clickAddAddress}"
+            android:id="@+id/button2"
+            android:background="@color/green"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:layout_margin="@dimen/x5"/>
     </LinearLayout>
 </layout>

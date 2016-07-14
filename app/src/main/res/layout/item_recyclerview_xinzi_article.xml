@@ -71,12 +71,13 @@
                         android:id="@+id/btn_focus"
                         android:layout_width="70dp"
                         android:layout_height="30dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:text="@{viewmodel.article.authorInfo.isSubscribe}"
                         android:textSize="14sp"
                         android:textColor="@color/green"
-                        android:background="@drawable/background_txt_verificationcode" />
+                        android:background="@drawable/background_txt_verificationcode"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
 
                 </RelativeLayout>
 
@@ -165,7 +166,8 @@
                         android:layout_alignParentBottom="true"
                         android:text="@{viewmodel.article.browse_num}"
                         android:layout_marginTop="@dimen/y10"
-                        android:layout_marginLeft="@dimen/x8"/>
+                        android:layout_marginLeft="@dimen/x8"
+                        android:layout_alignBaseline="@id/img_eye"/>
                 </RelativeLayout>
             </LinearLayout>
 

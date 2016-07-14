@@ -82,6 +82,7 @@ public class EditAddressFragment extends SwipeBackBaseFragment implements Option
     @Override
     public void setUpView() {
         setUpAddressPicker();
+        setToolBarUp();
     }
 
     private void setUpAddressPicker() {
@@ -121,5 +122,15 @@ public class EditAddressFragment extends SwipeBackBaseFragment implements Option
     public void onDestroy() {
         super.onDestroy();
         compositeSubscription.unsubscribe();
+    }
+
+    public void setToolBarUp(){
+        mBinding.tbEditaddress.setNavigationIcon(R.drawable.icon_back);
+        mBinding.tbEditaddress.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
     }
 }

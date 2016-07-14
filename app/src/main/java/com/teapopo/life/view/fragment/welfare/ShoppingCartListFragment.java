@@ -79,6 +79,13 @@ public class ShoppingCartListFragment extends SwipeBackBaseFragment {
                 return true;
             }
         });
+        mBinding.toolbarShoppingcart.setNavigationIcon(R.drawable.icon_back);
+        mBinding.toolbarShoppingcart.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pop();
+            }
+        });
     }
 
     private void selectALLGoods() {
