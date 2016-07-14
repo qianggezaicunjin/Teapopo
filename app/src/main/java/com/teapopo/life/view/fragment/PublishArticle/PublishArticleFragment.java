@@ -18,7 +18,9 @@ import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
 import com.teapopo.life.util.BitmapUtils;
 import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.view.activity.PublishArticleActivity;
+import com.teapopo.life.view.customView.Dynamicgrid.listener.PicassoPauseOnScrollListener;
 import com.teapopo.life.view.customView.Dynamicgrid.listener.UILPauseOnScrollListener;
+import com.teapopo.life.view.customView.Dynamicgrid.loader.PicassoImageLoader;
 import com.teapopo.life.view.customView.Dynamicgrid.loader.UILImageLoader;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel;
@@ -157,8 +159,8 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         //设置ImagerLoader
         cn.finalteam.galleryfinal.ImageLoader imageLoader;
         PauseOnScrollListener pauseOnScrollListener = null;
-        imageLoader = new UILImageLoader();
-        pauseOnScrollListener = new UILPauseOnScrollListener(false, true);
+        imageLoader = new PicassoImageLoader();
+        pauseOnScrollListener = new PicassoPauseOnScrollListener(false, true);
 
         CoreConfig coreConfig = new CoreConfig.Builder(_mActivity.getApplicationContext(), imageLoader, themeConfig)
                 .setFunctionConfig(functionConfig)

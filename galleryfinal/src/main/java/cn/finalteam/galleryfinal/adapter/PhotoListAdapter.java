@@ -30,6 +30,7 @@ import cn.finalteam.galleryfinal.widget.GFImageView;
 import cn.finalteam.toolsfinal.adapter.ViewHolderAdapter;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
 /**
  * Desction:
@@ -45,6 +46,7 @@ public class PhotoListAdapter extends ViewHolderAdapter<PhotoListAdapter.PhotoVi
     private Activity mActivity;
 
     public PhotoListAdapter(Activity activity, List<PhotoInfo> list, List<PhotoInfo> selectList, int screenWidth) {
+
         super(activity, list);
         this.mSelectList = selectList;
         this.mScreenWidth = screenWidth;
@@ -54,38 +56,63 @@ public class PhotoListAdapter extends ViewHolderAdapter<PhotoListAdapter.PhotoVi
 
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View view = inflate(R.layout.gf_adapter_photo_list_item, parent);
+        View view;
+        if(position == 0){
+            view = inflate(R.layout.gf_adapter_photo_list_item_takephoto,parent);
+        }else {
+            view = inflate(R.layout.gf_adapter_photo_list_item, parent);
+        }
         setHeight(view);
         return new PhotoViewHolder(view);
     }
 
     @Override
+    public int getCount() {
+        int size = getDatas().size()+1;
+        return size;
+    }
+
+    @Override
+    public PhotoInfo getItem(int position) {
+        return super.getItem(position-1);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position-1;
+    }
+    @Override
     public void onBindViewHolder(PhotoViewHolder holder, int position) {
-        PhotoInfo photoInfo = getDatas().get(position);
+        if (position==0){
 
-        String path = "";
-        if (photoInfo != null) {
-            path = photoInfo.getPhotoPath();
-        }
+        }else {
+            PhotoInfo photoInfo = getDatas().get(position-1);
 
-        holder.mIvThumb.setImageResource(R.drawable.ic_gf_default_photo);
-        Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
-        GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvThumb, defaultDrawable, mRowWidth, mRowWidth);
-        holder.mView.setAnimation(null);
-        if (GalleryFinal.getCoreConfig().getAnimation() > 0) {
-            holder.mView.setAnimation(AnimationUtils.loadAnimation(mActivity, GalleryFinal.getCoreConfig().getAnimation()));
-        }
-        holder.mIvCheck.setImageResource(GalleryFinal.getGalleryTheme().getIconCheck());
-        if ( GalleryFinal.getFunctionConfig().isMutiSelect() ) {
-            holder.mIvCheck.setVisibility(View.VISIBLE);
-            if (mSelectList.contains(photoInfo)) {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
-            } else {
-                holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+            String path = "";
+            if (photoInfo != null) {
+                path = photoInfo.getPhotoPath();
             }
-        } else {
-            holder.mIvCheck.setVisibility(View.GONE);
+
+            holder.mIvThumb.setImageResource(R.drawable.ic_gf_default_photo);
+            Drawable defaultDrawable = mActivity.getResources().getDrawable(R.drawable.ic_gf_default_photo);
+            GalleryFinal.getCoreConfig().getImageLoader().displayImage(mActivity, path, holder.mIvThumb, defaultDrawable, mRowWidth, mRowWidth);
+            holder.mView.setAnimation(null);
+            if (GalleryFinal.getCoreConfig().getAnimation() > 0) {
+                holder.mView.setAnimation(AnimationUtils.loadAnimation(mActivity, GalleryFinal.getCoreConfig().getAnimation()));
+            }
+            holder.mIvCheck.setImageResource(GalleryFinal.getGalleryTheme().getIconCheck());
+            if ( GalleryFinal.getFunctionConfig().isMutiSelect() ) {
+                holder.mIvCheck.setVisibility(View.VISIBLE);
+                if (mSelectList.contains(photoInfo)) {
+                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckSelectedColor());
+                } else {
+                    holder.mIvCheck.setBackgroundColor(GalleryFinal.getGalleryTheme().getCheckNornalColor());
+                }
+            } else {
+                holder.mIvCheck.setVisibility(View.GONE);
+            }
         }
+
     }
 
     private void setHeight(final View convertView) {
