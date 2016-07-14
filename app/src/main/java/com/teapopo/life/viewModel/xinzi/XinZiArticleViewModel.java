@@ -65,5 +65,4 @@ public class XinZiArticleViewModel extends BaseRecyclerViewModel<BaseEntity> imp
         }
     }
 
-
 }

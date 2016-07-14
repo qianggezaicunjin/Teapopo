@@ -12,15 +12,19 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toobar_address"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="地址管理"/>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="地址管理"
+            android:gravity="center"
+            android:textSize="@dimen/goodsdetail_title"
+            android:textColor="@color/white"/>
     </android.support.v7.widget.Toolbar>
 <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
     android:id="@+id/rv_addressmanage"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:data="@{viewmodel.data}"/>
 
