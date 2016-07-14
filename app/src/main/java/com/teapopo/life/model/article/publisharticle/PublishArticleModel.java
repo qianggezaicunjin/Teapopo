@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.finalteam.galleryfinal.model.PhotoInfo;
+
 import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,27 +41,27 @@ public class PublishArticleModel extends BaseModel {
      * @param content
      * @param photoInfos  发布的图片
      */
-    public void publishArticle(String title, String content, List<PhotoInfo> photoInfos,String tags){
-        String coverImage = "";
-        String[] imagesArray = new String[]{};
-        List<String> imagePaths = new ArrayList<>();
-        if(photoInfos!=null){
-            //第一张图片就是该篇文章的封面
-             coverImage = photoInfos.get(0).getImageName();
-            //图片名字
-            List<String> images = new ArrayList<>();
-            for (PhotoInfo photoInfo:photoInfos){
-                String imageName = photoInfo.getImageName();
-                String path = photoInfo.getPhotoPath();
-                images.add(imageName);
-                imagePaths.add(path);
-            }
-            //转换成String数组
-            images.toArray(imagesArray);
-        }
-        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,imagesArray ,tags);
-        subcribePublish(observable,imagePaths);
-    }
+//    public void publishArticle(String title, String content, List<PhotoInfo> photoInfos,String tags){
+//        String coverImage = "";
+//        String[] imagesArray = new String[]{};
+//        List<String> imagePaths = new ArrayList<>();
+//        if(photoInfos!=null){
+//            //第一张图片就是该篇文章的封面
+//             coverImage = photoInfos.get(0).getImageName();
+//            //图片名字
+//            List<String> images = new ArrayList<>();
+//            for (PhotoInfo photoInfo:photoInfos){
+//                String imageName = photoInfo.getImageName();
+//                String path = photoInfo.getPhotoPath();
+//                images.add(imageName);
+//                imagePaths.add(path);
+//            }
+//            //转换成String数组
+//            images.toArray(imagesArray);
+//        }
+//        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,imagesArray ,tags);
+//        subcribePublish(observable,imagePaths);
+//    }
 
     private void subcribePublish(Observable<JsonObject> observable, final List<String> imagePaths) {
         mCompositeSubscription.add(observable.subscribeOn(Schedulers.io())

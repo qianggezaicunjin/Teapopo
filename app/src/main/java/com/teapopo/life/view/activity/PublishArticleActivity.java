@@ -12,6 +12,12 @@ import com.teapopo.life.injection.component.activity.PublishArticleActivityCompo
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.PublishAriticleActivityModule;
 import com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment;
+import com.yancy.imageselector.ImageConfig;
+import com.yancy.imageselector.ImageSelector;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * Created by louiszgm on 2016/6/8.
@@ -20,6 +26,12 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
 
     PublishArticleActivityComponent mComponent;
 
+    //打开图片选择器的请求码
+    private static final int REQUEST_CODE = 1000;
+    @Inject
+    ImageConfig.Builder builder;
+
+    ArrayList<String> pathList = new ArrayList<>();
     public static Intent getStartIntent(Context context) {
         return new Intent(context, PublishArticleActivity.class);
     }
@@ -38,7 +50,25 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_article);
-        start(PublishArticleFragment.newInstance());
+        openGallery();
+    }
+
+    private void openGallery() {
+        ImageSelector.open(this,getGalleryConfig());
+    }
+
+    private ImageConfig getGalleryConfig() {
+       return builder.pathList(pathList)
+                .requestCode(REQUEST_CODE)
+                .build();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE&&resultCode==RESULT_OK&&pathList.size()>0){
+            start(PublishArticleFragment.newInstance());
+        }
     }
 
     @Override

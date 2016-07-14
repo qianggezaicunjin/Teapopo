@@ -9,14 +9,12 @@
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/welfare_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:background="@color/white"/>
+             android:background="@color/white">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,30 +22,8 @@
                 android:textSize="@dimen/goodsdetail_title"
                 android:layout_centerInParent="true"
                 android:textColor="@android:color/black"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/y200"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:visibility="@{viewmodel.articleInfo.articleImageUrls.size()>0?View.VISIBLE:View.GONE}">
+        </android.support.v7.widget.Toolbar>
 
-            <com.viewpagerindicator.CirclePageIndicator
-                android:id="@+id/indicator_viewpager_welfare"
-                android:padding="@dimen/padding_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
-
-            <com.teapopo.life.view.customView.HackyViewPager
-                android:id="@+id/viewpager_welfare"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:articleInfo="@{viewmodel.articleInfo.articleImageUrls}"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-        </RelativeLayout>
         <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
             android:id="@+id/rv_eventlist"
             android:layout_width="match_parent"
