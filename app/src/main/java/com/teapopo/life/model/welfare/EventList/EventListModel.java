@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.R;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.toparticle.TopArticle;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
@@ -24,6 +25,7 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/22.
@@ -33,6 +35,35 @@ public class EventListModel extends BaseModel {
     private int mPages = 1;
     public EventListModel(Context context) {
         super(context);
+    }
+
+    //获取头部滚动文章
+    public void getTopArticle(String classify){
+        Observable<JsonArray> observable = mDataManager.getTopArticle(classify);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxResultHelper.<JsonArray>handleResult())
+                .subscribe(new RxSubscriber<JsonArray>() {
+                    @Override
+                    public void _onNext(JsonArray jsonArray) {
+                        try {
+                            List<TopArticle> topArticleList = LoganSquare.parseList(jsonArray.toString(),TopArticle.class);
+                            ModelAction<List<TopArticle>> action = new ModelAction<List<TopArticle>>();
+                            action.action = Action.EventListModel_GetTopAriticle;
+                            action.t = topArticleList;
+                            mRequestView.onRequestSuccess(action);
+                        } catch (IOException e) {
+                            Timber.e(e.toString());
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
     }
 
     public void getEventList(){

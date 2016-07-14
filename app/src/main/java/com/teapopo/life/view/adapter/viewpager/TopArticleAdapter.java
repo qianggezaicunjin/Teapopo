@@ -14,6 +14,7 @@ import com.teapopo.life.model.toparticle.TopArticle;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
@@ -29,6 +30,8 @@ public class TopArticleAdapter extends PagerAdapter {
         this.articles = topArticles;
         this.mContext = context;
     }
+
+
     @Override
     public int getCount() {
         if(articles!=null){
