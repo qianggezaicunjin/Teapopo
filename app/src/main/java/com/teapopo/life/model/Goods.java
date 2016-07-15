@@ -23,7 +23,7 @@ public class Goods extends BaseEntity implements Parcelable{
     }
     public int buy_num;
     public String getBuy_num(){
-        return "购买数量:"+buy_num;
+        return "数量:"+buy_num;
     }
     public String freight;
 

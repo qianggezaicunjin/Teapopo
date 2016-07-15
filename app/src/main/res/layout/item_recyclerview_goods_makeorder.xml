@@ -11,12 +11,12 @@
 <LinearLayout
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
     <View
         android:layout_width="match_parent"
         android:layout_height="16dp"
-        android:background="#FBFBFB"
-        android:alpha="100"/>
+        android:background="@color/gray_light"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{viewModel.goods.buy_num+""}'/>
+                android:text="@{viewModel.goods.buy_num}"/>
             </LinearLayout>
     </RelativeLayout>
     <View
@@ -81,7 +81,7 @@
                 android:drawableLeft="@drawable/icon_minus_withstroke"
                 android:drawableRight="@drawable/icon_plus_withstroke"
                 android:layout_alignParentRight="true"
-                android:text='@{viewModel.goods.buy_num+""}'
+                android:text="@{viewModel.goods.buy_num}"
                 android:gravity="center_horizontal"
                 android:background="@drawable/background_transparent"/>
 
