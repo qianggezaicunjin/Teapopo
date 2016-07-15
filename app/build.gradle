@@ -151,6 +151,6 @@ dependencies {
     compile files('libs/ShareSDK-Yixin-Core-2.7.1.jar')
     compile files('libs/ShareSDK-Yixin-Moments-2.7.1.jar')
     compile files('libs/ShareSDK-YouDao-2.7.1.jar')
-    compile project(path: ':galleryfinal')
+    compile project(path: ':imageselector')
     compile files('libs/alipaySdk-20160516.jar')
 }

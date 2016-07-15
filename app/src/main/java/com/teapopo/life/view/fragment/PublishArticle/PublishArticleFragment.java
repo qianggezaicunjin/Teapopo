@@ -1,29 +1,25 @@
 package com.teapopo.life.view.fragment.PublishArticle;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.google.android.flexbox.FlexboxLayout;
+
+
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentPublisharticleBinding;
 import com.teapopo.life.injection.component.fragment.PublishArticleFragmentComponent;
 import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
-import com.teapopo.life.util.BitmapUtils;
 import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.view.activity.PublishArticleActivity;
-import com.teapopo.life.view.customView.Dynamicgrid.listener.PicassoPauseOnScrollListener;
-import com.teapopo.life.view.customView.Dynamicgrid.listener.UILPauseOnScrollListener;
-import com.teapopo.life.view.customView.Dynamicgrid.loader.PicassoImageLoader;
-import com.teapopo.life.view.customView.Dynamicgrid.loader.UILImageLoader;
+import com.teapopo.life.view.customView.PicassoLoader;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel;
+import com.yancy.imageselector.ImageConfig;
+import com.yancy.imageselector.ImageSelector;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -31,12 +27,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import cn.finalteam.galleryfinal.CoreConfig;
-import cn.finalteam.galleryfinal.FunctionConfig;
-import cn.finalteam.galleryfinal.GalleryFinal;
-import cn.finalteam.galleryfinal.PauseOnScrollListener;
-import cn.finalteam.galleryfinal.ThemeConfig;
-import cn.finalteam.galleryfinal.model.PhotoInfo;
+
 import me.gujun.android.taggroup.TagGroup;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -46,10 +37,11 @@ import timber.log.Timber;
  */
 public class PublishArticleFragment extends SwipeBackBaseFragment {
 
+    public static final int REQUEST_CODE = 1000;//图片选择器的请求码
+    private ArrayList<String> path = new ArrayList<>();
     private FragmentPublisharticleBinding mBinding;
     private PublishArticleFragmentComponent mComponent;
     private CompositeSubscription mCompositeSubscription = new CompositeSubscription();
-    private List<PhotoInfo> mPhotoInfoList = new ArrayList<>();
 
     @Inject
     PublishArticleViewModel mViewModel;
@@ -74,8 +66,6 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
     @Override
     public void setUpView() {
-        //设置图片选择器
-        setUpGallery();
         //设置热门标签
         setUpHotTags();
         //
@@ -92,7 +82,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
                         openGallery();
                         break;
                     case R.id.btn_publishArticle:
-                        publishArticle();
+//                        publishArticle();
                         break;
                 }
             }
@@ -111,105 +101,57 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         //获取要上传的图片
         //获取该文章的标签
         String[] tags = mBinding.tagGroup.getTags();
-        mViewModel.publishArticle(title,content,mPhotoInfoList,tags);
+//        mViewModel.publishArticle(title,content,mPhotoInfoList,tags);
     }
     //打开图片选择器
     private void openGallery() {
-        GalleryFinal.OnHanlderResultCallback callback = new GalleryFinal.OnHanlderResultCallback() {
-            @Override
-            public void onHanlderSuccess(int reqeustCode, List<PhotoInfo> resultList) {
-                Timber.d("选择了图片");
-                mPhotoInfoList = resultList;
-                refreshPublishImage(resultList);
-            }
-            @Override
-            public void onHanlderFailure(int requestCode, String errorMsg) {
-                Timber.e(errorMsg);
-            }
-        };
-        GalleryFinal.openGalleryMuti(1, getUpFuntionConfig(),callback);
+        ImageSelector.open(_mActivity,setUpGalleryConfig());
+    }
+
+    private ImageConfig setUpGalleryConfig() {
+        ImageConfig imageConfig
+                = new ImageConfig.Builder(
+                // GlideLoader 可用自己用的缓存库
+                new PicassoLoader())
+                // 如果在 4.4 以上，则修改状态栏颜色 （默认黑色）
+                .steepToolBarColor(getResources().getColor(R.color.blue))
+                // 标题的背景颜色 （默认黑色）
+                .titleBgColor(getResources().getColor(R.color.blue))
+                // 提交按钮字体的颜色  （默认白色）
+                .titleSubmitTextColor(getResources().getColor(R.color.white))
+                // 标题颜色 （默认白色）
+                .titleTextColor(getResources().getColor(R.color.white))
+                // 开启多选   （默认为多选）  (单选 为 singleSelect)
+//                        .singleSelect()
+                .crop()
+                // 多选时的最大数量   （默认 9 张）
+                .mutiSelectMaxSize(9)
+                // 已选择的图片路径
+                .pathList(path)
+                // 拍照后存放的图片路径（默认 /temp/picture）
+                .filePath("/ImageSelector/Pictures")
+                // 开启拍照功能 （默认开启）
+                .showCamera()
+                .requestCode(REQUEST_CODE)
+                .build();
+
+        return imageConfig;
     }
 
     //发布成功时，通知视图更新
     public void refreshPublishDone(){
         mBinding.btnPublishArticle.setProgress(100);
     }
-    //刷新要发布图片的视图
-    private void refreshPublishImage(List<PhotoInfo> resultList) {
-        Timber.d("选择图片,更新界面");
-        for(PhotoInfo photoInfo:resultList){
-            ImageView imageView = new ImageView(_mActivity);
-            FlexboxLayout.LayoutParams params = new FlexboxLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.leftMargin = 10;
-            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromFd(photoInfo.getPhotoPath(),100,100);
-            imageView.setImageBitmap(bitmap);
-            mBinding.viewgroupAddImage.addView(imageView,0,params);
-        }
-    }
+
 
     private void setUpHotTags() {
         TagGroup tagGroup = mBinding.hottagGroup;
         tagGroup.setTags(new String[]{"评测"});
     }
-    //初始化图片选择器
-    private void setUpGallery() {
-
-        FunctionConfig functionConfig = getUpFuntionConfig();
-        ThemeConfig themeConfig = getThemeConfig();
-        //设置ImagerLoader
-        cn.finalteam.galleryfinal.ImageLoader imageLoader;
-        PauseOnScrollListener pauseOnScrollListener = null;
-        imageLoader = new PicassoImageLoader();
-        pauseOnScrollListener = new PicassoPauseOnScrollListener(false, true);
-
-        CoreConfig coreConfig = new CoreConfig.Builder(_mActivity.getApplicationContext(), imageLoader, themeConfig)
-                .setFunctionConfig(functionConfig)
-                .setPauseOnScrollListener(pauseOnScrollListener)
-                .setNoAnimcation(false)
-                .build();
-        GalleryFinal.init(coreConfig);
-    }
-
-    //设置主题
-    private ThemeConfig getThemeConfig() {
-        ThemeConfig theme = new ThemeConfig.Builder()
-                .setEditPhotoBgTexture(_mActivity.getResources().getDrawable(R.color.white))
-                .setPreviewBg(_mActivity.getResources().getDrawable(R.color.white))
-                .build();
-
-        return theme;
-    }
-
-    //设置功能
-    private FunctionConfig getUpFuntionConfig() {
-        FunctionConfig.Builder functionConfigBuilder = new FunctionConfig.Builder();
-        //设置多选的图片个数
-        functionConfigBuilder.setMutiSelectMaxSize(10);
-        //是否可以编辑
-        functionConfigBuilder.setEnableEdit(true);
-        //旋转
-        functionConfigBuilder.setEnableRotate(true);
-        //旋转覆盖原图
-        functionConfigBuilder.setRotateReplaceSource(false);
-        //裁剪
-        functionConfigBuilder.setEnableCrop(true);
-        //裁剪覆盖原图
-        functionConfigBuilder.setCropReplaceSource(false);
-        functionConfigBuilder.setCropSquare(true);
-        //显示照相机
-        functionConfigBuilder.setEnableCamera(true);
-        //启动预览
-        functionConfigBuilder.setEnablePreview(true);
-
-        functionConfigBuilder.setSelected(mPhotoInfoList);
-        return functionConfigBuilder.build();
-    }
-
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         RxUtils.unsubscribeIfNotNull(mCompositeSubscription);
-        GalleryFinal.mCallback = null;
     }
 }
