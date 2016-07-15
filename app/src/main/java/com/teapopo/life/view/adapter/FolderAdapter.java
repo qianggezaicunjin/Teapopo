@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.teapopo.life.model.imageselect.Folder;
 import com.teapopo.life.model.imageselect.ImageConfig;
-import com.teapopo.life.view.customView.RecyclableImageView;
+import com.teapopo.life.view.customView.ImageView.RecyclableImageView;
 import com.yancy.imageselector.R;
 
 

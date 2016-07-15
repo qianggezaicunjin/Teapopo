@@ -80,10 +80,10 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
         V viewHolder = null;
         if (convertView == null) {
             viewHolder = createViewHolder(position, parent);
-            if (viewHolder == null || viewHolder.getRootView() == null) {
+            if (viewHolder == null || viewHolder.itemView == null) {
                 throw new NullPointerException("createViewHolder不能返回null或view为null的实例");
             }
-            convertView = viewHolder.getRootView();
+            convertView = viewHolder.itemView;
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (V) convertView.getTag();
@@ -91,7 +91,7 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
         //给当前复用的holder一个正确的position
         viewHolder.setPosition(position);
         bindViewHolder(viewHolder,position,getItem(position));
-        return viewHolder.getRootView();
+        return viewHolder.itemView;
     }
 
     protected abstract V createViewHolder(int position, ViewGroup parent);
@@ -99,13 +99,10 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
     protected abstract void bindViewHolder(V holder,int position, E data);
 
     public static class BaseViewHolder {
-        private View rootView;
+        public final View itemView;
         private SparseArray<View> viewCache = new SparseArray<>();
         private int position = -1;
 
-        public View getRootView() {
-            return rootView;
-        }
 
         void setPosition(int position) {
             this.position = position;
@@ -115,14 +112,14 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
             return position;
         }
 
-        public BaseViewHolder(View rootView) {
-            this.rootView = rootView;
+        public BaseViewHolder(View itemView) {
+            this.itemView = itemView;
         }
 
         public <R> R getView(@IdRes int viewID) {
             View cachedView = viewCache.get(viewID);
             if(null == cachedView) {
-                cachedView = rootView.findViewById(viewID);
+                cachedView = itemView.findViewById(viewID);
                 viewCache.put(viewID, cachedView);
             }
             return (R) cachedView;

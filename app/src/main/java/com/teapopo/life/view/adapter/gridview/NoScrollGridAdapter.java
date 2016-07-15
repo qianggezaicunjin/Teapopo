@@ -1,27 +1,15 @@
 package com.teapopo.life.view.adapter.gridview;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.imageaware.ImageAware;
-import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
-import com.teapopo.life.util.DataUtils;
-import com.teapopo.life.util.ViewUtils;
-import com.teapopo.life.view.customView.RecyclableImageView;
 
 import java.util.List;
-
-import timber.log.Timber;
 
 public class NoScrollGridAdapter extends BaseAdapter {
 

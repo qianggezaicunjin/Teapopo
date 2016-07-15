@@ -82,7 +82,7 @@
                 </RelativeLayout>
 
 
-                <com.teapopo.life.view.customView.RecyclableImageView
+                <com.teapopo.life.view.customView.ImageView.RecyclableImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/article_verticle_margin"

@@ -9,24 +9,33 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jaeger.ninegridimageview.NineGridImageView;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.imageselect.Image;
+import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
+import com.teapopo.life.view.customView.ImageView.ImageSelectorImageView;
 import com.teapopo.life.view.customView.TextView.DrawableClickAbleTextView;
+import com.yancy.imageselector.utils.DeviceUtils;
 
+import java.io.File;
 import java.util.List;
 
+import me.yokeyword.fragmentation.SupportActivity;
 import timber.log.Timber;
 
 /**
@@ -84,19 +93,27 @@ public class DataBindingAdapter {
     //ImageVie 设置网络图片
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
-        if(imageUrl!=null){
-            //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
-            String tag = imageUrl.substring(0,4);
-            if(tag.equals("http")){
-                Picasso.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(iv);
-            }else {
-                String imagurl = NetWorkService.IMAGE_ENDPOINT+imageUrl+NetWorkService.IMAGE_EXT;
-                Picasso.with(iv.getContext()).load(imagurl).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(iv);
-            }
+        if(iv instanceof ImageSelectorImageView){
+            DisplayMetrics dm = DeviceUtils.getScreenPix((SupportActivity)iv.getContext());
+            int mScreenWidth = dm.widthPixels;
+            Picasso.with(iv.getContext())
+                    .load(new File(imageUrl))
+                    .placeholder(R.drawable.default_picture)
+                    .config(Bitmap.Config.RGB_565)
+                    .resize(300, 300)
+                    .centerInside()
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .into(iv);
         }else {
+            if(imageUrl!=null){
+                //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
+                String tag = imageUrl.substring(0,4);
+                if(!tag.equals("http")){
+                    imageUrl = NetWorkService.IMAGE_ENDPOINT+imageUrl+NetWorkService.IMAGE_EXT;
+                }
+            }
             Picasso.with(iv.getContext()).load(imageUrl).placeholder(R.drawable.default_picture).error(R.drawable.default_picture).into(iv);
         }
-
     }
     //SwipeRefreshLayout 设置loading状态
     @BindingAdapter({"isLoading"})
@@ -112,6 +129,11 @@ public class DataBindingAdapter {
         viewPager.notifyDataSetChanged();
     }
 
+    @BindingAdapter({"imageList"})
+    public static void setGridViewData(GridView gridView,List<Image> data){
+        ImageAdapter adapter = (ImageAdapter) gridView.getAdapter();
+        adapter.notifyDataSetChanged();
+    }
     @BindingAdapter({"position"})
     public static void setPage(HackyViewPager viewPager,int position){
         viewPager.setCurrentItem(position);

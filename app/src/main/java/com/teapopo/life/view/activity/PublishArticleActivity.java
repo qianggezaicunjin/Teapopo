@@ -11,9 +11,10 @@ import com.teapopo.life.injection.component.activity.DaggerPublishArticleActivit
 import com.teapopo.life.injection.component.activity.PublishArticleActivityComponent;
 import com.teapopo.life.injection.module.ActivityModule;
 import com.teapopo.life.injection.module.activity.PublishAriticleActivityModule;
+import com.teapopo.life.model.imageselect.ImageConfig;
+import com.teapopo.life.view.fragment.PublishArticle.ImageSelectorFragment;
 import com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment;
-import com.yancy.imageselector.ImageConfig;
-import com.yancy.imageselector.ImageSelector;
+
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
 
     //打开图片选择器的请求码
     private static final int REQUEST_CODE = 1000;
+
     @Inject
     ImageConfig.Builder builder;
 
@@ -50,17 +52,7 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_article);
-        openGallery();
-    }
-
-    private void openGallery() {
-        ImageSelector.open(this,getGalleryConfig());
-    }
-
-    private ImageConfig getGalleryConfig() {
-       return builder.pathList(pathList)
-                .requestCode(REQUEST_CODE)
-                .build();
+        start(ImageSelectorFragment.newInstance(builder));
     }
 
     @Override

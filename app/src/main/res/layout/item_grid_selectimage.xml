@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="viewModel"
+            type="com.teapopo.life.viewModel.publisharticle.ItemSelectImageViewModel" />
+
+    </data>
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <com.teapopo.life.view.customView.RecyclableImageView
+    <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
         android:id="@+id/photo_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@null"
         android:scaleType="centerInside"
-        android:src="@mipmap/imageselector_photo" />
+        app:imageUrl="@{viewModel.image.path}" />
 
-    <com.teapopo.life.view.customView.RecyclableImageView
+    <com.teapopo.life.view.customView.ImageView.RecyclableImageView
         android:id="@+id/photo_mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/photo_mask"
-        android:visibility="gone" />
+        android:visibility="@{viewModel.image.isSelected?View.VISIBLE:View.GONE}" />
 
-    <com.teapopo.life.view.customView.RecyclableImageView
+    <com.teapopo.life.view.customView.ImageView.RecyclableImageView
         android:id="@+id/photo_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,3 +38,4 @@
         android:src="@mipmap/imageselector_select_uncheck" />
 
 </FrameLayout>
+    </layout>

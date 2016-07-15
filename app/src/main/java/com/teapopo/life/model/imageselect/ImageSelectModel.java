@@ -8,16 +8,27 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
+import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.BitmapUtils;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.util.rx.RxSubscriber;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/7/14.
@@ -35,6 +46,54 @@ public class ImageSelectModel extends BaseModel {
         super(context);
     }
 
+
+    /**
+     * 上传图片
+     * @param articleId 文章id
+     * @param imagePaths 图片的路径
+     */
+    private void upLoadImage(final String articleId, String imagePaths) {
+        Timber.d("上传图片");
+        Observable.just(imagePaths)
+                .observeOn(Schedulers.io())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Timber.d("开始压缩图片");
+                        String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
+                        try {
+                            Timber.d("开始上传图片");
+                            Response<JsonObject> response = mDataManager.uploadImage(articleId,base64).execute();
+                            Timber.d("上传图片返回的结果:%s",response.body().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        Timber.d("上传图片成功");
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.ImageSelectModel_UploadImage;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+                });
+
+
+    }
     public void getPhoneImageData(){
         ((SupportActivity)mContext).getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
     }

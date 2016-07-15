@@ -1,15 +1,19 @@
 package com.teapopo.life.model.imageselect;
 
+
+
+import com.teapopo.life.model.BaseEntity;
+
 /**
  * Image bean
  * Created by Yancy on 2015/12/2.
  */
-public class Image {
+public class Image extends BaseEntity{
 
     public String path;
     public String name;
     public long time;
-
+    public boolean isSelected = false;
     public Image(String path, String name, long time) {
         this.path = path;
         this.name = name;
