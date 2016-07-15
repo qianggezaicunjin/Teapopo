@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentWelfareBinding;
 
+import com.teapopo.life.databinding.ItemRecyclerviewWelfareToparticleBinding;
 import com.teapopo.life.model.welfare.Event;
 import com.teapopo.life.util.navigator.Navigator;
 import com.teapopo.life.view.activity.GoodsHandleActivity;
 import com.teapopo.life.view.activity.MainActivity;
 import com.teapopo.life.view.adapter.recyclerview.EventListAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.adapter.viewpager.TopArticleAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
 import com.teapopo.life.viewModel.welfare.EventListViewModel;
 
@@ -33,6 +35,8 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
     EventListViewModel mViewModel;
 
     private FragmentWelfareBinding mBinding;
+
+    private ItemRecyclerviewWelfareToparticleBinding mTopBingding;
     public static WelFareFragment newInstance(){
         return new WelFareFragment();
     }
@@ -45,6 +49,8 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentWelfareBinding.inflate(inflater);
         mBinding.setViewModel(mViewModel);
+        mTopBingding = ItemRecyclerviewWelfareToparticleBinding.inflate(LayoutInflater.from(_mActivity));
+        mTopBingding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
 
@@ -52,6 +58,7 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
     public void setUpView() {
         setUpToolBar();
         setUpEventList();
+        setUpTopArticle();
     }
 
     private void setUpToolBar() {
@@ -73,6 +80,12 @@ public class WelFareFragment extends BaseFragment implements BaseRecyclerViewAda
         mViewModel.getEventList();
     }
 
+    public void setUpTopArticle(){
+        TopArticleAdapter topArticleAdapter=new TopArticleAdapter(_mActivity,mViewModel.welfare_topArticleList);
+        mTopBingding.viewpagerWelfare.setAdapter(topArticleAdapter);
+        mBinding.rvEventlist.addHeader(mTopBingding.getRoot());
+        mViewModel.getTopArticle();
+    }
     @Override
     public void onItemClick(View view, int position) {
         start(EventDetailFragment.newInstance((Event) mViewModel.data.get(position)));
