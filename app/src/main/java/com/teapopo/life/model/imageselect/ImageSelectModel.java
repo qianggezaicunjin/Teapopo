@@ -8,16 +8,28 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 
+import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.util.BitmapUtils;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.util.rx.RxSubscriber;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import retrofit2.Response;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/7/14.
@@ -35,32 +47,103 @@ public class ImageSelectModel extends BaseModel {
         super(context);
     }
 
+
+    /**
+     * 上传图片
+     * @param articleId 文章id
+     * @param imagePaths 图片的路径
+     */
+    private void upLoadImage(final String articleId, String imagePaths) {
+        Timber.d("上传图片");
+        Observable.just(imagePaths)
+                .observeOn(Schedulers.io())
+                .doOnNext(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        Timber.d("开始压缩图片");
+                        String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
+                        try {
+                            Timber.d("开始上传图片");
+                            Response<JsonObject> response = mDataManager.uploadImage(articleId,base64).execute();
+                            Timber.d("上传图片返回的结果:%s",response.body().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<String>() {
+                    @Override
+                    public void _onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        Timber.d("上传图片成功");
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.ImageSelectModel_UploadImage;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
+                });
+
+
+    }
     public void getPhoneImageData(){
         ((SupportActivity)mContext).getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
     }
 
-    private List<Folder> getFolderList(){
-        for(Image image:imageList){
-            String path = image.path;
-            if (!hasFolderGened) {
-                File imageFile = new File(path);
-                File folderFile = imageFile.getParentFile();
-                Folder folder = new Folder();
-                folder.name = folderFile.getName();
-                folder.path = folderFile.getAbsolutePath();
-                folder.cover = image;
-                if (!folderList.contains(folder)) {
-                    List<Image> imageList = new ArrayList<>();
-                    imageList.add(image);
-                    folder.images = imageList;
-                    folderList.add(folder);
-                } else {
-                    Folder f = folderList.get(folderList.indexOf(folder));
-                    f.images.add(image);
-                }
-            }
-        }
-        return folderList;
+    public void getFolderList(){
+        Observable<Image> observable = Observable.from(imageList);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<Image, Observable<Folder>>() {
+                    @Override
+                    public Observable<Folder> call(Image image) {
+                        String path = image.path;
+                        File imageFile = new File(path);
+                        File folderFile = imageFile.getParentFile();
+                        Folder folder = new Folder();
+                        folder.name = folderFile.getName();
+                        folder.path = folderFile.getAbsolutePath();
+                        folder.coverPath = image.path;
+                        if (!folderList.contains(folder)) {
+                            List<Image> imageList = new ArrayList<>();
+                            imageList.add(image);
+                            folder.images =  imageList;
+                        } else {
+                            Folder f = folderList.get(folderList.indexOf(folder));
+                            f.images.add(image);
+                        }
+                        return Observable.just(folder);
+                    }
+                })
+                .subscribe(new RxSubscriber<Folder>() {
+                    @Override
+                    public void onCompleted() {
+                        ModelAction action = new ModelAction();
+                        action.action = Action.ImageSelectModel_GetFolderList;
+                        action.t = folderList;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onNext(Folder folder) {
+                        folderList.add(folder);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+
     }
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 

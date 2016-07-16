@@ -1,100 +1,62 @@
 package com.teapopo.life.view.adapter.gridview;
 
 import android.content.Context;
+import android.databinding.ViewDataBinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 
 import com.teapopo.life.R;
+import com.teapopo.life.databinding.ItemGridSelectimageBinding;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
-import com.teapopo.life.view.customView.RecyclableImageView;
+import com.teapopo.life.view.adapter.LBaseAdapter;
+import com.teapopo.life.viewModel.publisharticle.ItemSelectImageViewModel;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
- * 图片适配器
- * Created by Yancy on 2015/12/2.
+ *
  */
 public class ImageAdapter extends BaseAdapter {
 
-    private Context context;
     private LayoutInflater mLayoutInflater;
     private List<Image> imageList;
+    private Context mContext;
     private final static String TAG = "ImageAdapter";
 
     private static final int TYPE_CAMERA = 0;
     private static final int TYPE_NORMAL = 1;
 
-    private int mScreenWidth;
-    private int mRowWidth;
-
-    private boolean showCamera = true;
-    private boolean showSelectIndicator = true;
-
-    private List<Image> selectedImageList = new ArrayList<>();
-
+    private ImageConfig mImageConfig;
     private int mItemSize;
-    private GridView.LayoutParams mItemLayoutParams;
-    private ImageConfig imageConfig;
+    private AbsListView.LayoutParams mItemLayoutParams;
 
-
-    public ImageAdapter(Context context, List<Image> imageList, ImageConfig imageConfig, int screenWidth) {
-        mLayoutInflater = LayoutInflater.from(context);
-        this.context = context;
+    public ImageAdapter(Context context,ImageConfig imageConfig,List<Image> imageList) {
+        mContext = context;
+        mImageConfig = imageConfig;
         this.imageList = imageList;
-        this.imageConfig = imageConfig;
-        this.mScreenWidth = screenWidth;
-        this.mRowWidth = mScreenWidth/3;
+        mLayoutInflater = LayoutInflater.from(mContext);
         mItemLayoutParams = new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT, GridView.LayoutParams.MATCH_PARENT);
     }
 
 
-    public void setDefaultSelected(ArrayList<String> resultList) {
-        for (String filePath : resultList) {
-            Image image = getImageByPath(filePath);
-            if (image != null) {
-                selectedImageList.add(image);
-            }
-        }
-        if (selectedImageList.size() > 0) {
-            notifyDataSetChanged();
-        }
-    }
-
-    private Image getImageByPath(String filePath) {
-        if (imageList != null && imageList.size() > 0) {
-            for (Image image : imageList) {
-                if (image.path.equalsIgnoreCase(filePath)) {
-                    return image;
-                }
-            }
-        }
-        return null;
-    }
-
-    public void setItemSize(int columnWidth) {
-        if (mItemSize == columnWidth) {
-            return;
-        }
-        mItemSize = columnWidth;
-        mItemLayoutParams = new GridView.LayoutParams(mItemSize, mItemSize);
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount() {
-        return showCamera ? imageList.size() + 1 : imageList.size();
+        return mImageConfig.isShowCamera() ? imageList.size() + 1 : imageList.size();
     }
 
     @Override
     public Image getItem(int position) {
-        if (showCamera) {
+        if (mImageConfig.isShowCamera()) {
             if (position == 0) {
                 return null;
             }
@@ -111,97 +73,65 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        int type = getItemViewType(position);
-
-        if (type == TYPE_CAMERA) {
-            convertView = mLayoutInflater.inflate(R.layout.item_camera, parent, false);
+        if(getItemViewType(position)==TYPE_CAMERA){
+            convertView = mLayoutInflater.inflate(R.layout.item_camera,parent,false);
             convertView.setTag(null);
-        } else if (type == TYPE_NORMAL) {
-            ViewHolder holder;
+        }else if(getItemViewType(position)==TYPE_NORMAL){
+            ItemGridSelectimageBinding binding = ItemGridSelectimageBinding.inflate(mLayoutInflater,parent,false);
+             GridSelectViewHolder holder;
             if (convertView == null) {
-                convertView = mLayoutInflater.inflate(R.layout.item_grid_selectimage, parent, false);
-                holder = new ViewHolder(convertView);
+                convertView = binding.getRoot();
+                holder = new GridSelectViewHolder(convertView,binding);
             } else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (GridSelectViewHolder) convertView.getTag();
                 if (holder == null) {
-                    convertView = mLayoutInflater.inflate(R.layout.item_grid_selectimage, parent, false);
-                    holder = new ViewHolder(convertView);
+                    convertView = binding.getRoot();
+                    holder = new GridSelectViewHolder(convertView,binding);
                 }
-            }
-
-            if (showSelectIndicator) {
-                holder.photo_check.setVisibility(View.VISIBLE);
-                if (selectedImageList.contains(getItem(position))) {
-                    holder.photo_check.setImageResource(R.mipmap.imageselector_select_checked);
-                    holder.photo_mask.setVisibility(View.VISIBLE);
-                } else {
-                    holder.photo_check.setImageResource(R.mipmap.imageselector_select_uncheck);
-                    holder.photo_mask.setVisibility(View.GONE);
-                }
-            } else {
-                holder.photo_check.setVisibility(View.GONE);
-            }
-
-            if (mItemSize > 0) {
-
-                imageConfig.getImageLoader().displayImage(context, getItem(position).path, holder.photo_image,mRowWidth,mRowWidth);
-
-            }
         }
+            if (mItemSize > 0) {
+                ItemSelectImageViewModel viewModel = new ItemSelectImageViewModel();
+                viewModel.image = getItem(position);
+                holder.setViewModel(viewModel);
+            }
 
+     }
         GridView.LayoutParams layoutParams = (GridView.LayoutParams) convertView.getLayoutParams();
         if (layoutParams.height != mItemSize) {
             convertView.setLayoutParams(mItemLayoutParams);
         }
-
         return convertView;
     }
 
-    public static class ViewHolder {
-        RecyclableImageView photo_image;
-        View photo_mask;
-       public RecyclableImageView photo_check;
-
-        ViewHolder(View itemView) {
-            photo_image = (RecyclableImageView) itemView.findViewById(R.id.photo_image);
-            photo_mask = itemView.findViewById(R.id.photo_mask);
-            photo_check = (RecyclableImageView) itemView.findViewById(R.id.photo_check);
-            itemView.setTag(this);
+    public void setItemSize(int columnWidth) {
+        if (mItemSize == columnWidth) {
+            return;
         }
-
+        mItemSize = columnWidth;
+        mItemLayoutParams = new GridView.LayoutParams(mItemSize, mItemSize);
+        notifyDataSetChanged();
     }
-
-
     @Override
     public int getItemViewType(int position) {
-        if (showCamera && position == 0) {
+        if (mImageConfig.isShowCamera() && position == 0) {
             return TYPE_CAMERA;
         }
         return TYPE_NORMAL;
     }
 
-    public void setShowSelectIndicator(boolean showSelectIndicator) {
-        this.showSelectIndicator = showSelectIndicator;
-    }
 
-    public void setShowCamera(boolean showCamera) {
-        if (this.showCamera == showCamera)
-            return;
-        this.showCamera = showCamera;
-        notifyDataSetChanged();
-    }
+     class GridSelectViewHolder {
+        private ItemGridSelectimageBinding binding;
 
-    public void select(Image image) {
-        if (selectedImageList.contains(image)) {
-            selectedImageList.remove(image);
-        } else {
-            selectedImageList.add(image);
+        public GridSelectViewHolder(View rootView,ViewDataBinding binding) {
+            this.binding = (ItemGridSelectimageBinding) binding;
+            rootView.setTag(this);
+        }
+        public void setViewModel(ItemSelectImageViewModel viewModel){
+            binding.setViewModel(viewModel);
+            binding.executePendingBindings();
         }
     }
 
-    public boolean isShowCamera() {
-        return showCamera;
-    }
 
 }

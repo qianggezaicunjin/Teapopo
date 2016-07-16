@@ -97,7 +97,9 @@ public class ImageConfig extends BaseEntity{
         public Builder(ImageLoader imageLoader) {
             this.imageLoader = imageLoader;
         }
+        public Builder(){
 
+        }
         public Builder mutiSelect() {
             this.mutiSelect = true;
             return this;

@@ -23,7 +23,7 @@
         android:background="@color/white"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_margin="10dp">
-        <com.teapopo.life.view.customView.RecyclableImageView
+        <com.teapopo.life.view.customView.ImageView.RecyclableImageView
             android:id="@+id/img_goodscover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

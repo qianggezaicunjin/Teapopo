@@ -16,6 +16,9 @@
     <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
     <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
     <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+
+    <color name="text_gray">#FF999999</color>
+    <color name="text_black">#FF333333</color>
     <!--覆盖颜色-->
     <color name="bgColor_overlay">#60000000</color>
 </resources>

@@ -69,5 +69,6 @@ public enum Action {
     EditAddressModel_AddAdress,
     //for ImageSelectModel
     ImageSelectModel_GetImageData,
-    ImageSelectModel_GetFolderList
+    ImageSelectModel_GetFolderList,
+    ImageSelectModel_UploadImage
 }

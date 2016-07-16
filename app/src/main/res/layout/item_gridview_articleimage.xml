@@ -2,7 +2,7 @@
 
 
 
-<com.teapopo.life.view.customView.RecyclableImageView
+<com.teapopo.life.view.customView.ImageView.RecyclableImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/recyclableIv_articleimage"
     android:layout_width="50dp"

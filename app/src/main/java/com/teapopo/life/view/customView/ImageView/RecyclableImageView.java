@@ -1,4 +1,4 @@
-package com.teapopo.life.view.customView;
+package com.teapopo.life.view.customView.ImageView;
 
 import android.content.Context;
 import android.util.AttributeSet;

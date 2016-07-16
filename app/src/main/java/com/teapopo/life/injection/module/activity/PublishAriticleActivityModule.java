@@ -2,8 +2,9 @@ package com.teapopo.life.injection.module.activity;
 
 import com.teapopo.life.R;
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.view.customView.PicassoLoader;
-import com.yancy.imageselector.ImageConfig;
+
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,9 +19,7 @@ public class PublishAriticleActivityModule {
     @PerActivity
     ImageConfig.Builder provideImageConfigBuilder(){
         ImageConfig.Builder build
-                = new ImageConfig.Builder(
-                // GlideLoader 可用自己用的缓存库
-                new PicassoLoader())
+                = new ImageConfig.Builder()
                 // 如果在 4.4 以上，则修改状态栏颜色 （默认黑色）
 //                .steepToolBarColor(getResources().getColor(R.color.blue))
                 // 标题的背景颜色 （默认黑色）

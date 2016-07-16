@@ -24,7 +24,7 @@ public class ArticleTagsAdapter extends LBaseAdapter<String,LBaseAdapter.BaseVie
 
     @Override
     protected void bindViewHolder(BaseViewHolder holder, int position, String data) {
-        TextView tv_tag = (TextView) holder.getRootView();
+        TextView tv_tag = (TextView) holder.itemView;
         tv_tag.setText(data);
     }
 }

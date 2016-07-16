@@ -3,7 +3,7 @@ package com.teapopo.life.model.imageselect;
 import android.content.Context;
 
 
-import com.teapopo.life.view.customView.RecyclableImageView;
+import com.teapopo.life.view.customView.ImageView.RecyclableImageView;
 
 import java.io.Serializable;
 
