@@ -1,10 +1,15 @@
 package com.teapopo.life.viewModel.publisharticle;
 
+import android.app.Activity;
 import android.databinding.Bindable;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Toast;
 
 import com.teapopo.life.BR;
+import com.teapopo.life.injection.component.ComponentHolder;
+import com.teapopo.life.model.event.OpenCameraEvent;
+import com.teapopo.life.model.imageselect.Folder;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.model.imageselect.ImageSelectModel;
@@ -12,9 +17,12 @@ import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.fragment.PublishArticle.FolderListFragment;
+import com.teapopo.life.view.fragment.PublishArticle.ImageSelectorFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 import com.teapopo.life.viewModel.BaseViewModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +41,8 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
     public void setImageList(List<Image> imageList){
         this.imageList = imageList;
     }
-    public List<Image> imageSelectList = new ArrayList<>();
+    @Bindable
+    public String leftSelectImage = data.size()+" / 9";
     public ImageSelectViewModel(ImageSelectModel model){
         mModel = model;
         mModel.setView(this);
@@ -43,13 +52,22 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
         mModel.getPhoneImageData();
     }
 
-    public void selectImageFromGrid(Image image, ImageConfig config) {
-        if (image != null) {
-            if (config.isMutiSelect()) {
-                doImageMultiSelect(image,config.getMaxSize());
+    public void getFolderList() {
+        mModel.getFolderList();
+    }
+
+    public void selectImageFromGrid(int position, ImageConfig config) {
+        if (config.isShowCamera()) {
+            if (position == 0) {
+                ComponentHolder.getAppComponent().rxbus().post(new OpenCameraEvent());
             } else {
-                doImageSingleSelect();
+                Image image = imageList.get(position-1);
+                doImageMultiSelect(image,config.getMaxSize());
             }
+        } else {
+            // 正常操作
+            Image image = imageList.get(position);
+            doImageMultiSelect(image,config.getMaxSize());
         }
     }
 
@@ -63,6 +81,8 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
             }
             data.add(image);
         }
+        leftSelectImage = data.size()+" / 9";
+        notifyPropertyChanged(BR.leftSelectImage);
         notifyPropertyChanged(BR.data);
     }
 
@@ -79,7 +99,26 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
             Timber.d("图片有%d",imageList.size());
             notifyPropertyChanged(BR.imageList);
         }else if(action == Action.ImageSelectModel_GetFolderList){
-
+            ArrayList<Parcelable> folderArrayList = (ArrayList<Parcelable>) data.t;
+            Timber.d("图片文件夹有%d",folderArrayList.size());
+            navToFragment(FolderListFragment.newInstance(folderArrayList));
         }
     }
+
+
+    public void handleTakePhotoDone(int requestCode, int resultCode, File tempFile) {
+        if (requestCode == ImageSelectorFragment.REQUEST_CAMERA) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (tempFile != null) {
+
+                }
+            } else {
+                if (tempFile != null && tempFile.exists()) {
+                    tempFile.delete();
+                }
+            }
+        }
+    }
+
+
 }

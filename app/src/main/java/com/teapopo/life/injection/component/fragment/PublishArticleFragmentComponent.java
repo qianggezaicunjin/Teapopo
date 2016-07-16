@@ -2,6 +2,7 @@ package com.teapopo.life.injection.component.fragment;
 
 import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
 import com.teapopo.life.injection.scope.PerActivity;
+import com.teapopo.life.view.fragment.PublishArticle.ImageSelectorFragment;
 import com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment;
 
 import dagger.Subcomponent;
@@ -14,4 +15,5 @@ import dagger.Subcomponent;
 public interface PublishArticleFragmentComponent {
 
     void inject(PublishArticleFragment fragment);
+    void inject(ImageSelectorFragment fragment);
 }

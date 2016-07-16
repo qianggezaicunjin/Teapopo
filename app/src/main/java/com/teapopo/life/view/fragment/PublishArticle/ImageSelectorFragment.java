@@ -5,71 +5,69 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
-import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.teapopo.life.R;
+import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentSelectImageBinding;
-import com.teapopo.life.model.imageselect.Folder;
+import com.teapopo.life.model.event.OpenCameraEvent;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.model.imageselect.ImageSelectModel;
-import com.teapopo.life.view.adapter.FolderAdapter;
+import com.teapopo.life.util.RxUtils;
+import com.teapopo.life.util.Utils;
+import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.adapter.recyclerview.SelectedImageAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.ImageSelectViewModel;
-import com.yancy.imageselector.ImageSelector;
 
-
-import com.yancy.imageselector.utils.DeviceUtils;
 import com.yancy.imageselector.utils.FileUtils;
-import com.yancy.imageselector.utils.TimeUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Observable;
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * ImageSelectorFragment
  * Created by Yancy on 2015/12/2.
  */
 public class ImageSelectorFragment extends SwipeBackBaseFragment {
+    private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-    private static final int REQUEST_CAMERA = 100;
-
+    public static final int REQUEST_CAMERA = 100;
+    public static final int IMAGE_CROP_CODE = 200;
     private FragmentSelectImageBinding mBinding;
     private ImageAdapter imageAdapter;
-    private FolderAdapter folderAdapter;
+
 
     private File tempFile;
 
     private Context context;
 
     private ImageConfig imageConfig;
-
-
     ImageSelectViewModel mViewModel;
+    @Inject
+    RxBus mRxBus;
     public static ImageSelectorFragment newInstance(ImageConfig.Builder builder){
         ImageSelectorFragment fragment = new ImageSelectorFragment();
         Bundle bundle = new Bundle();
@@ -79,8 +77,21 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
     @Override
     public void onCreateBinding() {
+        ((PublishArticleActivity)_mActivity).getFragmentComponent().inject(this);
         ImageConfig.Builder builder = (ImageConfig.Builder) getArguments().getSerializable("builder");
         imageConfig = builder.build();
+
+        ObserverRxBusEvent();
+    }
+
+    private void ObserverRxBusEvent() {
+        Observable<OpenCameraEvent>  observable = mRxBus.toObserverable(OpenCameraEvent.class);
+        compositeSubscription.add(observable.doOnNext(new Action1<OpenCameraEvent>() {
+            @Override
+            public void call(OpenCameraEvent openCameraEvent) {
+                showCameraAction();
+            }
+        }).subscribe());
     }
 
     @Override
@@ -94,10 +105,22 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     @Override
     public void setUpView() {
         context = getActivity();
+        setUpToolBar();
         setUpGridImage(imageConfig);
         setUpSelectedImage();
 //        setUpFolder(imageConfig);
 //        time_text.setVisibility(View.GONE);
+    }
+
+    private void setUpToolBar() {
+        mBinding.toolbarImageSelector.inflateMenu(R.menu.menu_edit);
+        mBinding.toolbarImageSelector.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mViewModel.getFolderList();
+                return true;
+            }
+        });
     }
 
     private void setUpSelectedImage() {
@@ -189,19 +212,8 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
         mBinding.gridImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (imageConfig.isShowCamera()) {
-                    if (i == 0) {
-                        showCameraAction();
-                    } else {
-                        Image image = (Image) adapterView.getAdapter().getItem(i);
-                        mViewModel.selectImageFromGrid(image, imageConfig);
-                    }
-                } else {
-                    // 正常操作
-                    Image image = (Image) adapterView.getAdapter().getItem(i);
-                    mViewModel.selectImageFromGrid(image, imageConfig);
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mViewModel.selectImageFromGrid(position,imageConfig);
             }
         });
 
@@ -268,11 +280,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-//        if (folderPopupWindow != null) {
-//            if (folderPopupWindow.isShowing()) {
-//                folderPopupWindow.dismiss();
-//            }
-//        }
         super.onConfigurationChanged(newConfig);
     }
 
@@ -296,30 +303,34 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_CAMERA) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                if (tempFile != null) {
-//                    if (callback != null) {
-//                        callback.onCameraShot(tempFile);
-//                    }
-//                }
-//            } else {
-//                if (tempFile != null && tempFile.exists()) {
-//                    tempFile.delete();
-//                }
-//            }
-//        }
+        mViewModel.handleTakePhotoDone(requestCode,resultCode,tempFile);
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public interface Callback {
-        void onSingleImageSelected(String path);
-
-        void onImageSelected(String path);
-
-        void onImageUnselected(String path);
-
-        void onCameraShot(File imageFile);
+//    private void crop(String imagePath, int aspectX, int aspectY, int outputX, int outputY) {
+//        File file;
+//        if (Utils.existSDCard()) {
+//            file = new File(Environment.getExternalStorageDirectory() + imageConfig.getFilePath(), Utils.getImageName());
+//        } else {
+//            file = new File(_mActivity.getCacheDir(), Utils.getImageName());
+//        }
+//
+//
+//        cropImagePath = file.getAbsolutePath();
+//        Intent intent = new Intent("com.android.camera.action.CROP");
+//        intent.setDataAndType(Uri.fromFile(new File(imagePath)), "image/*");
+//        intent.putExtra("crop", "true");
+//        intent.putExtra("aspectX", aspectX);
+//        intent.putExtra("aspectY", aspectY);
+//        intent.putExtra("outputX", outputX);
+//        intent.putExtra("outputY", outputY);
+//        intent.putExtra("return-data", false);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+//        startActivityForResult(intent, IMAGE_CROP_CODE);
+//    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RxUtils.unsubscribeIfNotNull(compositeSubscription);
     }
-
 }

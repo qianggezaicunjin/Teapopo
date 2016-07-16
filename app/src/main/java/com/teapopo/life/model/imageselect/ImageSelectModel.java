@@ -27,6 +27,7 @@ import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
@@ -98,28 +99,51 @@ public class ImageSelectModel extends BaseModel {
         ((SupportActivity)mContext).getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
     }
 
-    private List<Folder> getFolderList(){
-        for(Image image:imageList){
-            String path = image.path;
-            if (!hasFolderGened) {
-                File imageFile = new File(path);
-                File folderFile = imageFile.getParentFile();
-                Folder folder = new Folder();
-                folder.name = folderFile.getName();
-                folder.path = folderFile.getAbsolutePath();
-                folder.cover = image;
-                if (!folderList.contains(folder)) {
-                    List<Image> imageList = new ArrayList<>();
-                    imageList.add(image);
-                    folder.images = imageList;
-                    folderList.add(folder);
-                } else {
-                    Folder f = folderList.get(folderList.indexOf(folder));
-                    f.images.add(image);
-                }
-            }
-        }
-        return folderList;
+    public void getFolderList(){
+        Observable<Image> observable = Observable.from(imageList);
+        observable.subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<Image, Observable<Folder>>() {
+                    @Override
+                    public Observable<Folder> call(Image image) {
+                        String path = image.path;
+                        File imageFile = new File(path);
+                        File folderFile = imageFile.getParentFile();
+                        Folder folder = new Folder();
+                        folder.name = folderFile.getName();
+                        folder.path = folderFile.getAbsolutePath();
+                        folder.coverPath = image.path;
+                        if (!folderList.contains(folder)) {
+                            List<Image> imageList = new ArrayList<>();
+                            imageList.add(image);
+                            folder.images =  imageList;
+                        } else {
+                            Folder f = folderList.get(folderList.indexOf(folder));
+                            f.images.add(image);
+                        }
+                        return Observable.just(folder);
+                    }
+                })
+                .subscribe(new RxSubscriber<Folder>() {
+                    @Override
+                    public void onCompleted() {
+                        ModelAction action = new ModelAction();
+                        action.action = Action.ImageSelectModel_GetFolderList;
+                        action.t = folderList;
+                        mRequestView.onRequestSuccess(action);
+                    }
+
+                    @Override
+                    public void _onNext(Folder folder) {
+                        folderList.add(folder);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
+                    }
+                });
+
     }
     private LoaderManager.LoaderCallbacks<Cursor> mLoaderCallback = new LoaderManager.LoaderCallbacks<Cursor>() {
 

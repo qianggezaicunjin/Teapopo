@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
         android:contentDescription="@null"
-        android:src="@mipmap/imageselector_select_uncheck" />
+        android:src="@{viewModel.image.isSelected?@drawable/imageselector_select_checked:@drawable/imageselector_select_uncheck}" />
 
 </FrameLayout>
     </layout>
