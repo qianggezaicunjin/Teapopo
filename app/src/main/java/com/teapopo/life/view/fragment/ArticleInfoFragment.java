@@ -114,16 +114,16 @@ public class ArticleInfoFragment extends SwipeBackBaseFragment {
         mBinding.rvArticleinfoComment.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 //当收起键盘时，回到发表评论的状态，setSoftInputStateWhenCommentOrReply(null)
                 //只有当键盘显示时才关闭软键盘
                 if(mBinding.etInputcomment.isFocused()){
                     mViewModel.setSoftInputStateWhenCommentOrReply(false,false,null);
                 }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
             }
         });
         //加入头布局
