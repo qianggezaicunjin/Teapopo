@@ -1,5 +1,6 @@
 package com.teapopo.life.model.imageselect;
 
+import android.databinding.ObservableField;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -20,7 +21,10 @@ public class Folder extends BaseEntity implements Parcelable{
     public String name;
     public String path;
     public String coverPath;
-    public List<Image> images;
+    public ArrayList<Image> images;
+    //新增的属性
+    public boolean isSelected = false;
+
     @Override
     public int describeContents() {
         return 0;
@@ -33,6 +37,7 @@ public class Folder extends BaseEntity implements Parcelable{
         dest.writeString(coverPath);
         Image[] imagesArray = (Image[]) images.toArray();
         dest.writeParcelableArray(imagesArray,flags);
+        dest.writeByte((byte)(isSelected ?1:0));
     }
 
     protected Folder(Parcel in) {
@@ -45,6 +50,7 @@ public class Folder extends BaseEntity implements Parcelable{
             array = Arrays.copyOf(parcelables, parcelables.length, Image[].class);
         }
         Collections.addAll(images,array);
+        isSelected =in.readByte()!=0;
     }
     public Folder(){
 

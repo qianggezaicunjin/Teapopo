@@ -26,6 +26,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -101,7 +102,20 @@ public class ImageSelectModel extends BaseModel {
 
     public void getFolderList(){
         Observable<Image> observable = Observable.from(imageList);
-        observable.subscribeOn(Schedulers.io())
+        observable
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        Folder folder = new Folder();
+                        folder.name = "全部照片";
+                        folder.path = "";
+                        folder.coverPath = imageList.get(0).path;
+                        folder.images = (ArrayList<Image>) imageList;
+                        folder.isSelected = true;
+                        folderList.add(folder);
+                    }
+                })
+                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .flatMap(new Func1<Image, Observable<Folder>>() {
                     @Override
@@ -116,12 +130,18 @@ public class ImageSelectModel extends BaseModel {
                         if (!folderList.contains(folder)) {
                             List<Image> imageList = new ArrayList<>();
                             imageList.add(image);
-                            folder.images =  imageList;
+                            folder.images = (ArrayList<Image>) imageList;
                         } else {
                             Folder f = folderList.get(folderList.indexOf(folder));
                             f.images.add(image);
                         }
                         return Observable.just(folder);
+                    }
+                })
+                .filter(new Func1<Folder, Boolean>() {
+                    @Override
+                    public Boolean call(Folder folder) {
+                        return !folderList.contains(folder);
                     }
                 })
                 .subscribe(new RxSubscriber<Folder>() {

@@ -14,7 +14,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/background_base"
-        app:navFragment="@{viewModel.navFragment}">
+        app:navFragment="@{viewModel.navFragment}"
+        app:mode="@{viewModel.startFragmentMode}">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_image_selector"
@@ -26,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="相册名称" />
+                android:text="@{viewModel.currentFolderName}" />
         </android.support.v7.widget.Toolbar>
 
         <GridView

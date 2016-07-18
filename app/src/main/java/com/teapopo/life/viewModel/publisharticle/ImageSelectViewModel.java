@@ -2,6 +2,7 @@ package com.teapopo.life.viewModel.publisharticle;
 
 import android.app.Activity;
 import android.databinding.Bindable;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.Toast;
@@ -38,6 +39,8 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
 
     @Bindable
     public List<Image> imageList = new ArrayList<>();
+    @Bindable
+    public String currentFolderName = "全部照片";
     public void setImageList(List<Image> imageList){
         this.imageList = imageList;
     }
@@ -106,7 +109,7 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
         }else if(action == Action.ImageSelectModel_GetFolderList){
             ArrayList<Parcelable> folderArrayList = (ArrayList<Parcelable>) data.t;
             Timber.d("图片文件夹有%d",folderArrayList.size());
-            navToFragment(FolderListFragment.newInstance(folderArrayList));
+            navToFragmentForResult(FolderListFragment.newInstance(folderArrayList));
         }
     }
 
@@ -126,4 +129,15 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
     }
 
 
+    public void handleFolderListResult(Bundle data) {
+        String foldername = data.getString("folderName");
+        if(!foldername.equals(currentFolderName)){
+            currentFolderName = foldername;
+            ArrayList<Image> images = data.getParcelableArrayList("images");
+            imageList.clear();
+            imageList.addAll(images);
+            notifyPropertyChanged(BR.imageList);
+        }
+        notifyPropertyChanged(BR.currentFolderName);
+    }
 }

@@ -46,6 +46,7 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 /**
  * ImageSelectorFragment
@@ -129,27 +130,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         mBinding.rvSelectedImage.setOrientation(RecyclerView.HORIZONTAL);
     }
 
-//    private void setUpFolder(ImageConfig imageConfig) {
-//        folderAdapter = new FolderAdapter(context, imageConfig);
-//        category_button.setText(com.yancy.imageselector.R.string.all_folder);
-//        category_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (folderPopupWindow == null) {
-//                    createPopupFolderList(gridWidth, gridHeight);
-//                }
-//
-//                if (folderPopupWindow.isShowing()) {
-//                    folderPopupWindow.dismiss();
-//                } else {
-//                    folderPopupWindow.show();
-//                    int index = folderAdapter.getSelectIndex();
-//                    index = index == 0 ? index : index - 1;
-//                    folderPopupWindow.getListView().setSelection(index);
-//                }
-//            }
-//        });
-//    }
 
     private void setUpGridImage(ImageConfig imageConfig) {
         //设置选中的图片
@@ -186,27 +166,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
                 }
             }
         });
-//        grid_image.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                if (scrollState == SCROLL_STATE_IDLE) {
-//                    time_text.setVisibility(View.GONE);
-//                } else if (scrollState == SCROLL_STATE_FLING) {
-//                    time_text.setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                if (time_text.getVisibility() == View.VISIBLE) {
-//                    int index = firstVisibleItem + 1 == view.getAdapter().getCount() ? view.getAdapter().getCount() - 1 : firstVisibleItem + 1;
-//                    Image image = (Image) view.getAdapter().getItem(index);
-//                    if (image != null) {
-//                        time_text.setText(TimeUtils.formatPhotoDate(image.path));
-//                    }
-//                }
-//            }
-//        });
 
 
 
@@ -220,63 +179,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     }
 
-//    /**
-//     * 创建弹出的ListView
-//     */
-//    private void createPopupFolderList(int width, int height) {
-//        folderPopupWindow = new ListPopupWindow(getActivity());
-//        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        folderPopupWindow.setAdapter(folderAdapter);
-//        folderPopupWindow.setContentWidth(width);
-//        folderPopupWindow.setWidth(width);
-//        folderPopupWindow.setHeight(height * 5 / 8);
-//        folderPopupWindow.setAnchorView(popupAnchorView);
-//        folderPopupWindow.setModal(true);
-//        folderPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                folderAdapter.setSelectIndex(i);
-//
-//                final int index = i;
-//                final AdapterView v = adapterView;
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        folderPopupWindow.dismiss();
-//
-//                        if (index == 0) {
-//                            category_button.setText(com.yancy.imageselector.R.string.all_folder);
-//                            if (imageConfig.isShowCamera()) {
-//                                imageAdapter.setShowCamera(true);
-//                            } else {
-//                                imageAdapter.setShowCamera(false);
-//                            }
-//                        } else {
-//                            Folder folder = (Folder) v.getAdapter().getItem(index);
-//                            if (null != folder) {
-//                                imageList.clear();
-//                                imageList.addAll(folder.images);
-//                                imageAdapter.notifyDataSetChanged();
-//
-//                                category_button.setText(folder.name);
-//                                // 设定默认选择
-//                                if (resultList != null && resultList.size() > 0) {
-//                                    imageAdapter.setDefaultSelected(resultList);
-//                                }
-//                            }
-//                            imageAdapter.setShowCamera(false);
-//                        }
-//
-//                        // 滑动到最初始位置
-//                        grid_image.smoothScrollToPosition(0);
-//                    }
-//                }, 100);
-//
-//            }
-//        });
-//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -300,6 +202,12 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         }
     }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        Timber.d("onFragmentResult");
+        mViewModel.handleFolderListResult(data);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
