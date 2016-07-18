@@ -74,14 +74,19 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
     private void doImageMultiSelect(Image image,int maxsize) {
         if (data.contains(image)) {
             data.remove(image);
+            image.isSelected = false;
+            ComponentHolder.getAppComponent().rxbus().post(image);
         } else {
             if (maxsize == data.size()) {
                 setErroInfo("选择图片已超过上限!");
                 return;
             }
             data.add(image);
+            image.isSelected = true;
+            ComponentHolder.getAppComponent().rxbus().post(image);
         }
         leftSelectImage = data.size()+" / 9";
+
         notifyPropertyChanged(BR.leftSelectImage);
         notifyPropertyChanged(BR.data);
     }

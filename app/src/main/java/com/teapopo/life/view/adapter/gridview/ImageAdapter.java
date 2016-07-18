@@ -12,6 +12,7 @@ import android.widget.GridView;
 
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.ItemGridSelectimageBinding;
+import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.view.adapter.LBaseAdapter;
@@ -21,6 +22,8 @@ import com.teapopo.life.viewModel.publisharticle.ItemSelectImageViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.functions.Action1;
+import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
 /**
@@ -39,7 +42,7 @@ public class ImageAdapter extends BaseAdapter {
     private ImageConfig mImageConfig;
     private int mItemSize;
     private AbsListView.LayoutParams mItemLayoutParams;
-
+    public CompositeSubscription compositeSubscription = new CompositeSubscription();
     public ImageAdapter(Context context,ImageConfig imageConfig,List<Image> imageList) {
         mContext = context;
         mImageConfig = imageConfig;
@@ -93,6 +96,7 @@ public class ImageAdapter extends BaseAdapter {
                 ItemSelectImageViewModel viewModel = new ItemSelectImageViewModel();
                 viewModel.image = getItem(position);
                 holder.setViewModel(viewModel);
+                ObserveClickImage(viewModel,getItem(position));
             }
 
      }
@@ -101,6 +105,19 @@ public class ImageAdapter extends BaseAdapter {
             convertView.setLayoutParams(mItemLayoutParams);
         }
         return convertView;
+    }
+
+    private void ObserveClickImage(final ItemSelectImageViewModel viewModel,Image image) {
+        compositeSubscription.add(ComponentHolder.getAppComponent().rxbus().toObserverable(Image.class)
+                .doOnNext(new Action1<Image>() {
+
+                    @Override
+                    public void call(Image image) {
+                        viewModel.changeImageState(image);
+                    }
+                })
+                .subscribe());
+
     }
 
     public void setItemSize(int columnWidth) {

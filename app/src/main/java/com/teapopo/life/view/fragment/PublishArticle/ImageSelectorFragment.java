@@ -331,6 +331,7 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        compositeSubscription.add(imageAdapter.compositeSubscription);
         RxUtils.unsubscribeIfNotNull(compositeSubscription);
     }
 }

@@ -1,5 +1,8 @@
 package com.teapopo.life.viewModel.publisharticle;
 
+import android.databinding.Bindable;
+
+import com.teapopo.life.BR;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.viewModel.BaseViewModel;
 
@@ -8,5 +11,14 @@ import com.teapopo.life.viewModel.BaseViewModel;
  */
 public class ItemSelectImageViewModel extends BaseViewModel {
 
+    @Bindable
     public Image image;
+
+    public void changeImageState(Image clickImage){
+        if(image.path.equals(clickImage.path)){
+            image.isSelected = clickImage.isSelected;
+            notifyPropertyChanged(BR.image);
+        }
+
+    }
 }
