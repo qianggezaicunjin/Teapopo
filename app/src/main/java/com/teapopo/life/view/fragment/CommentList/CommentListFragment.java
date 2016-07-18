@@ -71,14 +71,14 @@ public class CommentListFragment extends SwipeBackBaseFragment implements OnPage
         mBinding.rvCommentlist.setOnScrollListener(new LinearRecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-
+                if(mBinding.etInputcomment.isFocused()){
+                    mViewModel.setSoftInputStateWhenCommentOrReply(false,false,null);
+                }
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if(mBinding.etInputcomment.isFocused()){
-                    mViewModel.setSoftInputStateWhenCommentOrReply(false,false,null);
-                }
+
             }
         });
         //请求网络数据

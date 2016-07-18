@@ -14,80 +14,76 @@
             type="com.teapopo.life.viewModel.CommentItemViewModel" />
     </data>
 
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:erroInfo="@{viewmodel.erroInfo}"
+        android:padding="@dimen/padding_size">
+        <ImageView
+            android:id="@+id/img_replycomment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_comment"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+        <ImageView
+            android:id="@+id/img_comment_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:imageUrl="@{viewmodel.comment.authorInfo.getAvatarUrl()}" />
+
+        <TextView
+            android:id="@+id/tv_comment_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/img_comment_avatar"
+            android:hint="用户名"
+            android:text="@{viewmodel.comment.authorInfo.nickname}"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_comment_publishtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/img_comment_avatar"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_toRightOf="@id/img_comment_avatar"
+            android:hint="发布时间"
+            android:text="@{viewmodel.comment.add_time}" />
+
+        <TextView
+            android:id="@+id/img_comment_zan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_toLeftOf="@id/img_replycomment"
+            android:drawableLeft="@{viewmodel.comment.is_like?@drawable/icon_zan_full:@drawable/icon_zan}"
+            android:text="@{viewmodel.comment.like_num}" />
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_comment_publishtime"
+            android:layout_below="@id/tv_comment_publishtime"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:hint="评论内容"
+            android:text="@{viewmodel.comment.content}"
+            android:textColor="@android:color/black" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_reply_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:erroInfo="@{viewmodel.erroInfo}"
-            android:padding="@dimen/padding_size">
-
-            <ImageView
-                android:id="@+id/img_comment_avatar"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:imageUrl="@{viewmodel.comment.authorInfo.getAvatarUrl()}" />
-
-            <TextView
-                android:id="@+id/tv_comment_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/img_comment_avatar"
-                android:hint="用户名"
-                android:text="@{viewmodel.comment.authorInfo.nickname}"
-                android:textColor="@android:color/black" />
-
-            <TextView
-                android:id="@+id/tv_comment_publishtime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/img_comment_avatar"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@+id/img_comment_avatar"
-                android:hint="发布时间"
-                android:text="@{viewmodel.comment.add_time}" />
-
-            <ImageView
-                android:id="@+id/img_replycomment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/icon_comment"
-
-                 />
-
-            <TextView
-                android:id="@+id/img_comment_zan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_toLeftOf="@id/img_replycomment"
-                android:drawableLeft="@{viewmodel.comment.is_like?@drawable/icon_zan_full:@drawable/icon_zan}"
-                android:text="@{viewmodel.comment.like_num}" />
-
-
-
-            <TextView
-                android:id="@+id/tv_comment_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/tv_comment_publishtime"
-                android:layout_below="@+id/tv_comment_publishtime"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:hint="评论内容"
-                android:text="@{viewmodel.comment.content}"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:id="@+id/linearlayout_reply_comment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_comment_content"
-                android:layout_alignLeft="@+id/tv_comment_content"
-                android:visibility="@{viewmodel.comment.replyList.size()==0?View.GONE:View.VISIBLE}"
-                android:background="@drawable/background_replycomment"
-                android:orientation="vertical" />
+            android:layout_below="@id/tv_comment_content"
+            android:layout_alignLeft="@id/tv_comment_content"
+            android:visibility="@{viewmodel.comment.replyList.size()==0?View.GONE:View.VISIBLE}"
+            android:background="@drawable/background_replycomment"
+            android:orientation="vertical" />
 
         <View
             android:layout_width="match_parent"
@@ -96,5 +92,5 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@drawable/line" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 </layout>

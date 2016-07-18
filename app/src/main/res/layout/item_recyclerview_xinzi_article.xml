@@ -117,7 +117,7 @@
                         android:id="@+id/img_likeornot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/icon_like"
+                        android:background="@{viewmodel.article.isLike?@drawable/icon_like:@drawable/icon_no_like}"
                         android:layout_alignParentBottom="true" />
 
                     <TextView

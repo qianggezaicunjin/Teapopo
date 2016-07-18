@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 
 import com.teapopo.life.MyApplication;
@@ -104,6 +106,9 @@ public class EditAddressFragment extends SwipeBackBaseFragment implements Option
 
     public void clickDistrict(View view){
         showAddressPicker();
+        InputMethodManager imm = (InputMethodManager) _mActivity.getSystemService(_mActivity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏键盘
+
     }
     public void clickAddAddress(View view){
         String truename = mBinding.etTruename.getEditText().getText().toString();
@@ -132,5 +137,12 @@ public class EditAddressFragment extends SwipeBackBaseFragment implements Option
                 pop();
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressedSupport() {
+        optionsPickerView.dismiss();
+        return super.onBackPressedSupport();
+
     }
 }

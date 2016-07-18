@@ -10,7 +10,7 @@
     <dimen name="icTag_size">15dp</dimen>
     <dimen name="icon_margintop">8dp</dimen>
 
-    <dimen name="padding_size">10dp</dimen>
+    <dimen name="padding_size">12dp</dimen>
     
     <!--用户信息模块相关-->
     <dimen name="userinfo_firstpart">200dp</dimen>
