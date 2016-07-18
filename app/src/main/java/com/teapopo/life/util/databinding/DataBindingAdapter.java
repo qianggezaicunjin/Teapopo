@@ -94,16 +94,19 @@ public class DataBindingAdapter {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
         if(iv instanceof ImageSelectorImageView){
-            DisplayMetrics dm = DeviceUtils.getScreenPix((SupportActivity)iv.getContext());
-            int mScreenWidth = dm.widthPixels;
-            Picasso.with(iv.getContext())
-                    .load(new File(imageUrl))
-                    .placeholder(R.drawable.default_picture)
-                    .config(Bitmap.Config.RGB_565)
-                    .resize(300, 300)
-                    .centerInside()
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .into(iv);
+            if(iv.getDrawable()==null){
+                DisplayMetrics dm = DeviceUtils.getScreenPix((SupportActivity)iv.getContext());
+                int mScreenWidth = dm.widthPixels;
+                Picasso.with(iv.getContext())
+                        .load(new File(imageUrl))
+                        .placeholder(R.drawable.default_picture)
+                        .config(Bitmap.Config.RGB_565)
+                        .resize(mScreenWidth/3, mScreenWidth/3)
+                        .centerInside()
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .into(iv);
+            }
+
         }else {
             if(imageUrl!=null){
                 //如果传过来的参数时拼接好的图片地址，则直接使用，如果不是，则自行拼凑
