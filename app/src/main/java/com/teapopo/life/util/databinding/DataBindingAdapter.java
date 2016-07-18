@@ -94,15 +94,13 @@ public class DataBindingAdapter {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
         if(iv instanceof ImageSelectorImageView){
-                DisplayMetrics dm = DeviceUtils.getScreenPix((SupportActivity)iv.getContext());
-                int mScreenWidth = dm.widthPixels;
+            Timber.d("加载的图片路径为:%s",imageUrl);
                 Picasso.with(iv.getContext())
                         .load(new File(imageUrl))
                         .placeholder(R.drawable.default_picture)
                         .config(Bitmap.Config.RGB_565)
-                        .resize(mScreenWidth/3, mScreenWidth/3)
-                        .centerInside()
-                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .resize(300,300)
+//                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .into(iv);
         }else {
             if(imageUrl!=null){

@@ -2,7 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
 
         <import type="android.view.View"/>
@@ -12,7 +11,6 @@
 
     </data>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +19,8 @@
 
         <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
             android:id="@+id/folder_image"
-            android:layout_width="@dimen/x86"
-            android:layout_height="@dimen/y86"
+            android:layout_width="@dimen/x60"
+            android:layout_height="@dimen/y60"
             android:contentDescription="@null"
             app:imageUrl="@{folder.coverPath}" />
 

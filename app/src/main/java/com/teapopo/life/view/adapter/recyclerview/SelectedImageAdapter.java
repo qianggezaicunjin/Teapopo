@@ -21,6 +21,7 @@ public class SelectedImageAdapter extends BaseRecyclerViewAdapter<Image,Selected
         super(context, data);
     }
 
+
     @Override
     public SelectedImageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return  SelectedImageViewHolder.createViewHolder(ItemRecyclerviewSelectedImageBinding.inflate(layoutInflater));

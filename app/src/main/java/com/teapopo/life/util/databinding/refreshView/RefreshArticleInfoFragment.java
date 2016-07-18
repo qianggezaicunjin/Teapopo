@@ -34,6 +34,8 @@ public class RefreshArticleInfoFragment {
     public static void addArticleInfoComments(final SuperRecyclerView recyclerView, List<Comment> data) {
         Timber.d("addArticleInfoComments");
         final CommentListAdapter commentListAdapter = (CommentListAdapter) recyclerView.getBookendsAdapter().getWrappedAdapter();
+        Timber.d("commentListAdapter.data大小为%d",commentListAdapter.data.size());
+        Timber.d("data大小为：%d",data.size());
         if(commentListAdapter.data.size()==0){
             commentListAdapter.data.addAll(data);
             recyclerView.notifyDataSetChanged();
@@ -62,6 +64,7 @@ public class RefreshArticleInfoFragment {
                         @Override
                         public void call(Comment comment) {
                             //添加评论
+                            Timber.d("添加评论");
                             commentListAdapter.data.add(0,comment);
                             recyclerView.notifyItemInserted(0);
                         }

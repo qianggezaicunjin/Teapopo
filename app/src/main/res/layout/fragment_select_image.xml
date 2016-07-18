@@ -15,7 +15,8 @@
         android:orientation="vertical"
         android:background="@color/background_base"
         app:navFragment="@{viewModel.navFragment}"
-        app:mode="@{viewModel.startFragmentMode}">
+        app:mode="@{viewModel.startFragmentMode}"
+        app:erroInfo="@{viewModel.erroInfo}">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_image_selector"
@@ -44,6 +45,12 @@
             app:imageList="@{viewModel.imageList}" />
 
 
+        <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+            android:id="@+id/rv_selectedImage"
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_weight="2"
+            app:data="@{viewModel.data}" />
         <LinearLayout
             android:id="@+id/footer_layout"
             android:layout_width="match_parent"
@@ -53,19 +60,15 @@
             android:clickable="true"
             android:orientation="horizontal">
 
-            <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
-                android:id="@+id/rv_selectedImage"
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="3"
-                app:data="@{viewModel.data}" />
-
             <Button
-                android:layout_width="0dip"
+                android:layout_width="@dimen/x30"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@{viewModel.leftSelectImage}" />
-
+            <Button
+                android:id="@+id/btn_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="被选中图片个数"/>
 
         </LinearLayout>
 

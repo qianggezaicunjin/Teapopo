@@ -100,7 +100,11 @@ public class ImageSelectModel extends BaseModel {
         ((SupportActivity)mContext).getSupportLoaderManager().initLoader(LOADER_ALL, null, mLoaderCallback);
     }
 
-    public void getFolderList(){
+    /**
+     *
+     * @param currentFolderName 当前的文件夹名称
+     */
+    public void getFolderList(final String currentFolderName){
         Observable<Image> observable = Observable.from(imageList);
         observable
                 .doOnSubscribe(new Action0() {
@@ -108,11 +112,16 @@ public class ImageSelectModel extends BaseModel {
                     public void call() {
                         Folder folder = new Folder();
                         folder.name = "全部照片";
-                        folder.path = "";
+                        folder.path = "all";
                         folder.coverPath = imageList.get(0).path;
                         folder.images = (ArrayList<Image>) imageList;
-                        folder.isSelected = true;
-                        folderList.add(folder);
+                        if(currentFolderName.equals(folder.name)){
+                            Timber.d("当前选中的文件夹为:%s",currentFolderName);
+                            folder.isSelected = true;
+                        }
+                        if(!folderList.contains(folder)){
+                            folderList.add(folder);
+                        }
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -122,18 +131,25 @@ public class ImageSelectModel extends BaseModel {
                     public Observable<Folder> call(Image image) {
                         String path = image.path;
                         File imageFile = new File(path);
+                        Timber.d("图片路径为:%s",imageFile.getAbsolutePath());
                         File folderFile = imageFile.getParentFile();
                         Folder folder = new Folder();
                         folder.name = folderFile.getName();
                         folder.path = folderFile.getAbsolutePath();
                         folder.coverPath = image.path;
+                        if(currentFolderName.equals(folder.name)){
+                            Timber.d("当前选中的文件夹为:%s",currentFolderName);
+                            folder.isSelected = true;
+                        }
                         if (!folderList.contains(folder)) {
                             List<Image> imageList = new ArrayList<>();
                             imageList.add(image);
                             folder.images = (ArrayList<Image>) imageList;
                         } else {
                             Folder f = folderList.get(folderList.indexOf(folder));
-                            f.images.add(image);
+                            if(!f.images.contains(image)){
+                                f.images.add(image);
+                            }
                         }
                         return Observable.just(folder);
                     }

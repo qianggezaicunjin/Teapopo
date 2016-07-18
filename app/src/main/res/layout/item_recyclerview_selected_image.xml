@@ -8,21 +8,20 @@
             name="image"
             type="com.teapopo.life.model.imageselect.Image" />
     </data>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="被选中的图片啊"/>
         <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:imageUrl="@{image.path}" />
 
-        <com.teapopo.life.view.customView.ImageView.RecyclableImageView
-            android:layout_width="@dimen/x20"
-            android:layout_height="@dimen/y20"
-            android:layout_gravity="top|right"
-            android:src="@drawable/icon_delete"/>
+</LinearLayout>
 
-    </FrameLayout>
 </layout>

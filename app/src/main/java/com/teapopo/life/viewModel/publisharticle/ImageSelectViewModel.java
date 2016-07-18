@@ -56,7 +56,7 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
     }
 
     public void getFolderList() {
-        mModel.getFolderList();
+        mModel.getFolderList(currentFolderName);
     }
 
     public void selectImageFromGrid(int position, ImageConfig config) {
@@ -76,6 +76,7 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
 
     private void doImageMultiSelect(Image image,int maxsize) {
         if (data.contains(image)) {
+            Timber.d("移除图片");
             data.remove(image);
             image.isSelected = false;
             ComponentHolder.getAppComponent().rxbus().post(image);
@@ -84,6 +85,7 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
                 setErroInfo("选择图片已超过上限!");
                 return;
             }
+            Timber.d("添加图片");
             data.add(image);
             image.isSelected = true;
             ComponentHolder.getAppComponent().rxbus().post(image);
@@ -131,6 +133,8 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
 
     public void handleFolderListResult(Bundle data) {
         String foldername = data.getString("folderName");
+        //判断选择的文件夹是否是之前的
+        //如果是就不用重新刷新
         if(!foldername.equals(currentFolderName)){
             currentFolderName = foldername;
             ArrayList<Image> images = data.getParcelableArrayList("images");

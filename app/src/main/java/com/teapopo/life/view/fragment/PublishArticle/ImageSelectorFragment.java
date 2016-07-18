@@ -69,6 +69,8 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     ImageSelectViewModel mViewModel;
     @Inject
     RxBus mRxBus;
+    private SelectedImageAdapter selectedImageAdapter;
+
     public static ImageSelectorFragment newInstance(ImageConfig.Builder builder){
         ImageSelectorFragment fragment = new ImageSelectorFragment();
         Bundle bundle = new Bundle();
@@ -109,6 +111,12 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         setUpToolBar();
         setUpGridImage(imageConfig);
         setUpSelectedImage();
+        mBinding.btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.d("被选中的图片个数为:%d  %d",selectedImageAdapter.data.size(),mViewModel.data.size());
+            }
+        });
 //        setUpFolder(imageConfig);
 //        time_text.setVisibility(View.GONE);
     }
@@ -125,14 +133,16 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpSelectedImage() {
-        SelectedImageAdapter adapter = new SelectedImageAdapter(_mActivity,mViewModel.data);
-        mBinding.rvSelectedImage.setAdapter(adapter);
         mBinding.rvSelectedImage.setOrientation(RecyclerView.HORIZONTAL);
+        //设置选中的图片
+        selectedImageAdapter = new SelectedImageAdapter(_mActivity,mViewModel.data);
+        mBinding.rvSelectedImage.setAdapter(selectedImageAdapter);
+
     }
 
 
     private void setUpGridImage(ImageConfig imageConfig) {
-        //设置选中的图片
+
         imageAdapter = new ImageAdapter(context,imageConfig,mViewModel.imageList);
         mBinding.gridImage.setAdapter(imageAdapter);
         attachGridImageListener();
