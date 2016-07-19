@@ -23,7 +23,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/30.
  */
-public class HomeLikeArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
+public class HomeLikeArticleViewModel extends BaseRecyclerViewModel  {
 
     private HomeLikeArticleModel mModel;
 

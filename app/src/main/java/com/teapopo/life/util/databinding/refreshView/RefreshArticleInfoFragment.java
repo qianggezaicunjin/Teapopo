@@ -31,7 +31,7 @@ import timber.log.Timber;
 public class RefreshArticleInfoFragment {
 
     @BindingAdapter({"articleInfo"})
-    public static void addArticleInfoComments(final SuperRecyclerView recyclerView, List<Comment> data) {
+    public static void addArticleInfoComments(final SuperRecyclerView recyclerView, List<BaseEntity> data) {
         Timber.d("addArticleInfoComments");
         final CommentListAdapter commentListAdapter = (CommentListAdapter) recyclerView.getBookendsAdapter().getWrappedAdapter();
         Timber.d("commentListAdapter.data大小为%d",commentListAdapter.data.size());
@@ -41,28 +41,28 @@ public class RefreshArticleInfoFragment {
             recyclerView.notifyDataSetChanged();
         }else {
             Observable.from(data)
-                    .filter(new Func1<Comment, Boolean>() {
+                    .filter(new Func1<BaseEntity, Boolean>() {
                         @Override
-                        public Boolean call(Comment comment) {
+                        public Boolean call(BaseEntity comment) {
                             //如果包含此评论，则有可能是回复评论
                             //如果不包含，则是添加评论
                             if(!commentListAdapter.data.contains(comment)){
                                 return true;
                             } else {
                                 //通过comment的replyPosition参数来判断回复的评论列表的位置
-                                if(comment.replyPosition!=null){
-                                    Timber.d("添加回复的评论的位置是:%s",comment.replyPosition);
-                                    recyclerView.notifyItemChanged(Integer.parseInt(comment.replyPosition)+1);
-                                    comment.replyPosition = null;
+                                if(((Comment)comment).replyPosition!=null){
+                                    Timber.d("添加回复的评论的位置是:%s",((Comment)comment).replyPosition);
+                                    recyclerView.notifyItemChanged(Integer.parseInt(((Comment)comment).replyPosition)+1);
+                                    ((Comment)comment).replyPosition = null;
                                 }
                                 return false;
                             }
 
                         }
                     })
-                    .subscribe(new Action1<Comment>() {
+                    .subscribe(new Action1<BaseEntity>() {
                         @Override
-                        public void call(Comment comment) {
+                        public void call(BaseEntity comment) {
                             //添加评论
                             Timber.d("添加评论");
                             commentListAdapter.data.add(0,comment);

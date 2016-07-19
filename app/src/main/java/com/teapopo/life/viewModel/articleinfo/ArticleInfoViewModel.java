@@ -84,7 +84,7 @@ public class ArticleInfoViewModel extends BaseViewModel  {
             Reply reply = (Reply) data.t;
             //将回复的内容添加至对应的Comment,并标识回复的位置
             for(int i = 0;i<articleInfo.commentList.size();i++){
-                Comment comment = articleInfo.commentList.get(i);
+                Comment comment = (Comment) articleInfo.commentList.get(i);
                 if(comment.id.equals(reply.commentId)){
                     comment.replyPosition = String.valueOf(i);
                     comment.replyList.add(reply);

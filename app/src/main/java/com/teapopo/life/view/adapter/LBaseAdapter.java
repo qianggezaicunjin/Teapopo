@@ -26,11 +26,15 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
         return context;
     }
 
+    public OnItemClickListener onItemClickListener;
     //替换原有数据源
     public void setDataSource(List<E> dataSource) {
         setDataSource(dataSource,true);
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
     //如果isClear==true,则替换原有数据源，否则加到数据源后面
     public void setDataSource(List<E> dataSource, boolean isClear) {
         if (isClear) this.dataSource.clear();
@@ -57,6 +61,7 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
     }
 
 
+
     @Override
     public int getCount() {
         return this.dataSource.size();
@@ -76,7 +81,7 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         V viewHolder = null;
         if (convertView == null) {
             viewHolder = createViewHolder(position, parent);
@@ -90,6 +95,15 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
         }
         //给当前复用的holder一个正确的position
         viewHolder.setPosition(position);
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(onItemClickListener!=null){
+                    onItemClickListener.onItemClick(v,position);
+                }
+            }
+        });
         bindViewHolder(viewHolder,position,getItem(position));
         return viewHolder.itemView;
     }
@@ -124,5 +138,11 @@ public abstract class LBaseAdapter<E, V extends LBaseAdapter.BaseViewHolder> ext
             }
             return (R) cachedView;
         }
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(View view, int position);
+
     }
 }

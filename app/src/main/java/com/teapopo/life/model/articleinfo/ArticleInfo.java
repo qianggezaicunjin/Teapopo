@@ -50,5 +50,5 @@ public class ArticleInfo extends BaseEntity {
 
     public List<AuthorInfo> fans = new ArrayList<>();//喜欢这篇文章的会员信息
 
-    public List<Comment> commentList = new ArrayList<>();//评论列表
+    public List<BaseEntity> commentList = new ArrayList<>();//评论列表
 }

@@ -29,7 +29,7 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/5/31.
  */
-public class XinZiArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
+public class XinZiArticleViewModel extends BaseRecyclerViewModel{
 
     private XinZiArticleModel mModel;
 

@@ -34,9 +34,10 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/6/3.
  */
-public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentListAdapter.CommentListViewHolder> {
+public class CommentListAdapter extends BaseRecyclerViewAdapter<BaseEntity,CommentListAdapter.CommentListViewHolder> {
 
-    public CommentListAdapter(Context context, List<Comment> data) {
+
+    public CommentListAdapter(Context context, List<BaseEntity> data) {
         super(context, data);
     }
 
@@ -58,7 +59,7 @@ public class CommentListAdapter extends BaseRecyclerViewAdapter<Comment,CommentL
     public void onBindViewHolder(CommentListViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Timber.d("onBindViewHolder");
-        Comment comment = data.get(position);
+        Comment comment = (Comment) data.get(position);
         final CommentItemViewModel viewModel = new CommentItemViewModel(new CommentModel(mContext));
         ItemCommentListBinding binding = (ItemCommentListBinding) holder.itemView.getTag();
         binding.imgReplycomment.setOnClickListener(new View.OnClickListener() {

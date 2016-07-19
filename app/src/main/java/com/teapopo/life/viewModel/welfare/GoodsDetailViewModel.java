@@ -5,6 +5,7 @@ import android.databinding.BindingConversion;
 
 import com.teapopo.life.BR;
 import com.teapopo.life.model.AuthorInfo;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.comment.Comment;
 import com.teapopo.life.model.welfare.EventGoodsInfo;
 import com.teapopo.life.model.welfare.GoodsDetail.GoodsDetailModel;

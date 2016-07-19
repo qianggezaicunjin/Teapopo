@@ -16,6 +16,7 @@ import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.model.imageselect.ImageSelectModel;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
+import com.teapopo.life.view.adapter.LBaseAdapter;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.PublishArticle.FolderListFragment;
@@ -33,19 +34,22 @@ import timber.log.Timber;
 /**
  * Created by louiszgm on 2016/7/14.
  */
-public class ImageSelectViewModel extends BaseRecyclerViewModel {
+public class ImageSelectViewModel extends BaseViewModel {
 
     ImageSelectModel mModel;
 
     @Bindable
     public List<Image> imageList = new ArrayList<>();
+
     @Bindable
     public String currentFolderName = "全部照片";
+    @Bindable
+    public String leftSelectImage = data.size()+" / 9";
+
     public void setImageList(List<Image> imageList){
         this.imageList = imageList;
     }
-    @Bindable
-    public String leftSelectImage = data.size()+" / 9";
+
     public ImageSelectViewModel(ImageSelectModel model){
         mModel = model;
         mModel.setView(this);
@@ -59,6 +63,11 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
         mModel.getFolderList(currentFolderName);
     }
 
+    /**
+     * 点击相册选择图片
+     * @param position
+     * @param config
+     */
     public void selectImageFromGrid(int position, ImageConfig config) {
         if (config.isShowCamera()) {
             if (position == 0) {
@@ -74,6 +83,13 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
         }
     }
 
+    /**
+     * 取消底部已经选择的图片
+     * @param image
+     */
+    public void disSelectImageFromFlexBoxContainer(Image image){
+        doImageMultiSelect(image,9);
+    }
     private void doImageMultiSelect(Image image,int maxsize) {
         if (data.contains(image)) {
             Timber.d("移除图片");
@@ -87,7 +103,6 @@ public class ImageSelectViewModel extends BaseRecyclerViewModel {
             }
             Timber.d("添加图片");
             data.add(image);
-            image.isSelected = true;
             ComponentHolder.getAppComponent().rxbus().post(image);
         }
         leftSelectImage = data.size()+" / 9";

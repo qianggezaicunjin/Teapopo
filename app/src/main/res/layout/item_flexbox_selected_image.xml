@@ -8,20 +8,24 @@
             name="image"
             type="com.teapopo.life.model.imageselect.Image" />
     </data>
-<LinearLayout
+<FrameLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <Button
+        <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
+            android:id="@+id/img_selected"
+            android:layout_width="@dimen/x90"
+            android:layout_height="@dimen/y90"
+            app:imageUrl="@{image.path}"
+             />
+
+    <ImageView
+        android:id="@+id/img_delete_selectedimage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="被选中的图片啊"/>
-        <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:imageUrl="@{image.path}" />
-
-</LinearLayout>
+        android:background="@drawable/icon_delete"
+        android:layout_gravity="top|left"/>
+</FrameLayout>
 
 </layout>

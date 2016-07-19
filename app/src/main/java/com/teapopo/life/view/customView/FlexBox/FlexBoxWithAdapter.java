@@ -73,6 +73,8 @@ public class FlexBoxWithAdapter extends FlexboxLayout {
                     addView(view);
                 }
             }
+        }else {
+            removeAllViews();
         }
     }
 }

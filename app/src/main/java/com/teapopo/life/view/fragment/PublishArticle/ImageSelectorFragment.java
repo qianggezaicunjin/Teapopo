@@ -33,13 +33,14 @@ import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.util.Utils;
 import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
-import com.teapopo.life.view.adapter.recyclerview.SelectedImageAdapter;
+import com.teapopo.life.view.adapter.flexbox.SelectedImageAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.ImageSelectViewModel;
 
 import com.yancy.imageselector.utils.FileUtils;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -89,12 +90,24 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     private void ObserverRxBusEvent() {
         Observable<OpenCameraEvent>  observable = mRxBus.toObserverable(OpenCameraEvent.class);
+        Observable<Image> imageObservable = mRxBus.toObserverable(Image.class);
+        //打开照相机
         compositeSubscription.add(observable.doOnNext(new Action1<OpenCameraEvent>() {
             @Override
             public void call(OpenCameraEvent openCameraEvent) {
                 showCameraAction();
             }
         }).subscribe());
+        //取消选择的图片
+        compositeSubscription.add(imageObservable.doOnNext(new Action1<Image>() {
+            @Override
+            public void call(Image image) {
+                if(image.isSelected==true){
+                    mViewModel.disSelectImageFromFlexBoxContainer(image);
+                }
+            }
+        })
+        .subscribe());
     }
 
     @Override
@@ -102,6 +115,7 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         mBinding = FragmentSelectImageBinding.inflate(inflater);
         mViewModel = new ImageSelectViewModel(new ImageSelectModel(_mActivity));
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -111,14 +125,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         setUpToolBar();
         setUpGridImage(imageConfig);
         setUpSelectedImage();
-        mBinding.btnTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Timber.d("被选中的图片个数为:%d  %d",selectedImageAdapter.data.size(),mViewModel.data.size());
-            }
-        });
-//        setUpFolder(imageConfig);
-//        time_text.setVisibility(View.GONE);
     }
 
     private void setUpToolBar() {
@@ -133,16 +139,13 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpSelectedImage() {
-        mBinding.rvSelectedImage.setOrientation(RecyclerView.HORIZONTAL);
-        //设置选中的图片
-        selectedImageAdapter = new SelectedImageAdapter(_mActivity,mViewModel.data);
-        mBinding.rvSelectedImage.setAdapter(selectedImageAdapter);
-
+        selectedImageAdapter = new SelectedImageAdapter(_mActivity);
+        selectedImageAdapter.setDataSource(mViewModel.data);
+        mBinding.flexboxSelectedImage.setAdapter(selectedImageAdapter);
     }
 
 
     private void setUpGridImage(ImageConfig imageConfig) {
-
         imageAdapter = new ImageAdapter(context,imageConfig,mViewModel.imageList);
         mBinding.gridImage.setAdapter(imageAdapter);
         attachGridImageListener();
@@ -189,11 +192,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     }
 
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     /**
      * 选择相机
@@ -251,5 +249,9 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         super.onDestroy();
         compositeSubscription.add(imageAdapter.compositeSubscription);
         RxUtils.unsubscribeIfNotNull(compositeSubscription);
+    }
+
+    public void clickNextStep(View view){
+        Timber.d("被选中的图片有:%d",selectedImageAdapter.getCount());
     }
 }

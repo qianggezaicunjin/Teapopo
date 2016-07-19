@@ -25,7 +25,9 @@ import com.teapopo.life.R;
 import com.teapopo.life.data.remote.NetWorkService;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.imageselect.Image;
+import com.teapopo.life.view.adapter.LBaseAdapter;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
+import com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter;
 import com.teapopo.life.view.customView.HackyViewPager;
 import com.teapopo.life.view.customView.HtmlTextView.HtmlTextView;
 import com.teapopo.life.view.customView.ImageView.ImageSelectorImageView;
@@ -54,13 +56,12 @@ public class DataBindingAdapter {
         }
 
     }
-
-    @BindingAdapter({"adapter","data"})
-    public static void setNineImageAdapter(NineGridImageView imageView, NineGridImageViewAdapter adapter,List data){
-        imageView.setAdapter(adapter);
-        imageView.setImagesData(data);
+    @BindingAdapter({"data"})
+    public static void setFlexBoxWithAdapterData(FlexBoxWithAdapter flexBoxWithAdapter, List<BaseEntity> data){
+        Timber.d("setFlexBoxWithAdapterData  data大小为:%d",data.size());
+        LBaseAdapter adapter = (LBaseAdapter) flexBoxWithAdapter.getAdapter();
+        adapter.notifyDataSetChanged();
     }
-
     @BindingAdapter({"compoundDrawables"})
     public static void setTextViewDrawables(DrawableClickAbleTextView textView, String url) {
         Timber.d("setTextViewDrawables:%s",url);
@@ -93,6 +94,7 @@ public class DataBindingAdapter {
     //ImageVie 设置网络图片
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView iv, String imageUrl) {
+        Timber.d("imageUrl:%s",imageUrl);
         if(iv instanceof ImageSelectorImageView){
             Timber.d("加载的图片路径为:%s",imageUrl);
                 Picasso.with(iv.getContext())
@@ -100,6 +102,7 @@ public class DataBindingAdapter {
                         .placeholder(R.drawable.default_picture)
                         .config(Bitmap.Config.RGB_565)
                         .resize(300,300)
+                        .centerCrop()
 //                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                         .into(iv);
         }else {
