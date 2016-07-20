@@ -137,13 +137,16 @@ public class ImageAdapter extends BaseAdapter {
     }
 
 
-     class GridSelectViewHolder {
+     public class GridSelectViewHolder {
         private ItemGridSelectimageBinding binding;
 
         public GridSelectViewHolder(View rootView,ViewDataBinding binding) {
             this.binding = (ItemGridSelectimageBinding) binding;
             rootView.setTag(this);
         }
+         public ItemGridSelectimageBinding getBinding(){
+             return binding;
+         }
         public void setViewModel(ItemSelectImageViewModel viewModel){
             binding.setViewModel(viewModel);
             binding.executePendingBindings();

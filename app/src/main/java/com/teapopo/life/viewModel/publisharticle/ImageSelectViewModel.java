@@ -93,8 +93,6 @@ public class ImageSelectViewModel extends BaseViewModel {
         if (data.contains(image)) {
             Timber.d("移除图片");
             data.remove(image);
-//            image.isSelected = false;
-            ComponentHolder.getAppComponent().rxbus().post(image);
         } else {
             if (maxsize == data.size()) {
                 setErroInfo("选择图片已超过上限!");
@@ -102,7 +100,6 @@ public class ImageSelectViewModel extends BaseViewModel {
             }
             Timber.d("添加图片");
             data.add(image);
-            ComponentHolder.getAppComponent().rxbus().post(image);
         }
         countTheLeftCount();
         notifyPropertyChanged(BR.data);

@@ -40,8 +40,10 @@ public class SelectedImageAdapter extends LBaseAdapter<BaseEntity,BaseViewHolder
             @Override
             public void onClick(View v) {
                 Timber.d("post a  image");
-                ComponentHolder.getAppComponent().rxbus().post(new CountLeftSelectedImageEvent());
                 removeData(image);
+                //发出通知 更改gridview里面的图片选中状态
+                ComponentHolder.getAppComponent().rxbus().post(image);
+                ComponentHolder.getAppComponent().rxbus().post(new CountLeftSelectedImageEvent());
             }
         });
         selectedImageViewHolder.setImage(image);

@@ -19,7 +19,7 @@ public class ItemSelectImageViewModel extends BaseViewModel {
     public void changeImageState(Image clickImage){
         Timber.d("changeImageState");
         if(image.path.equals(clickImage.path)){
-            image.isSelected = !image.isSelected;
+            image.isSelected = false;
             notifyPropertyChanged(BR.image);
         }
     }
