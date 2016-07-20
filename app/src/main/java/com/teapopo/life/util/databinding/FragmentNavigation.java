@@ -17,12 +17,13 @@ public class FragmentNavigation {
 
     @BindingAdapter({"navFragment","mode"})
     public static void navigateToFragment(View view, SupportFragment fragment,int startFragMode) {
-        SupportActivity activity = (SupportActivity) view.getContext();
-        if(startFragMode==100){
-            activity.startForResult(fragment,1);
-        }else {
-            activity.start(fragment,startFragMode);
+        if(fragment!=null){
+            SupportActivity activity = (SupportActivity) view.getContext();
+            if(startFragMode==100){
+                activity.startForResult(fragment,1);
+            }else {
+                activity.start(fragment,startFragMode);
+            }
         }
-
     }
 }

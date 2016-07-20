@@ -113,9 +113,7 @@ public class ImageAdapter extends BaseAdapter {
 
                     @Override
                     public void call(Image image) {
-                        if(image.isSelected!=true){
                             viewModel.changeImageState(image);
-                        }
                     }
                 })
                 .subscribe());

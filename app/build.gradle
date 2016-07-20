@@ -79,8 +79,8 @@ dependencies {
     //圆角imageview
     compile 'de.hdodenhof:circleimageview:2.0.0'
     //fragment
-    compile 'me.yokeyword:fragmentation:0.5.7'
-    compile 'me.yokeyword:fragmentation-swipeback:0.3.0'
+    compile 'me.yokeyword:fragmentation:0.7.8'
+    compile 'me.yokeyword:fragmentation-swipeback:0.3.2'
     //进度条button
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
     //Rx版本的SharpedPerference

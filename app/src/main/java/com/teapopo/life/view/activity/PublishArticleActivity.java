@@ -54,7 +54,8 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_article);
-        start(ImageSelectorFragment.newInstance(builder));
+        loadRootFragment(R.id.framelayout_publish_article,ImageSelectorFragment.newInstance(builder));
+
     }
 
     @Override
@@ -65,10 +66,7 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
         }
     }
 
-    @Override
-    protected int setContainerId() {
-        return R.id.framelayout_publish_article;
-    }
+
 
     public PublishArticleActivityComponent getComponent(){
         return mComponent;

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.teapopo.life.databinding.ItemFlexboxSelectedImageBinding;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.event.CountLeftSelectedImageEvent;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.view.adapter.LBaseAdapter;
 import com.teapopo.life.view.adapter.LBaseAdapter.BaseViewHolder;
@@ -39,8 +40,7 @@ public class SelectedImageAdapter extends LBaseAdapter<BaseEntity,BaseViewHolder
             @Override
             public void onClick(View v) {
                 Timber.d("post a  image");
-                image.isSelected = true;
-                ComponentHolder.getAppComponent().rxbus().post(image);
+                ComponentHolder.getAppComponent().rxbus().post(new CountLeftSelectedImageEvent());
                 removeData(image);
             }
         });

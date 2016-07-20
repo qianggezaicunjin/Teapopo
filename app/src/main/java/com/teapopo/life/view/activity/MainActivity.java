@@ -92,14 +92,10 @@ public class MainActivity extends SwipeBackBaseActivity implements View.OnClickL
         ButterKnife.bind(this);
         setUpBottomTab();
         //设置首次进入的页面是首页
-        start(HomeFragment.newInstance());
+        loadRootFragment(R.id.tab_content,HomeFragment.newInstance());
         setImageSrc(0);
     }
 
-    @Override
-    protected int setContainerId() {
-        return R.id.tab_content;
-    }
 
     @Override
     public void onCreateBinding() {

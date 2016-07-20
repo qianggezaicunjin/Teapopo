@@ -1,19 +1,11 @@
-package com.teapopo.life.model.article.categoryarticle;
-
-
+package com.teapopo.life.model.article.memberArticle;
 
 import com.bluelinelabs.logansquare.annotation.JsonObject;
-import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.article.Article;
 
-import java.util.List;
-
-
 /**
- * Created by louiszgm on 2016/5/26.
+ * Created by louiszgm on 2016/7/20.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class CategoryArticle extends Article {
-
-
+public class MemberArticle extends Article {
 }

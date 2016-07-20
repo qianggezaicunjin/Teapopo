@@ -83,18 +83,17 @@ public class ImageSelectViewModel extends BaseViewModel {
         }
     }
 
-    /**
-     * 取消底部已经选择的图片
-     * @param image
-     */
-    public void disSelectImageFromFlexBoxContainer(Image image){
-        doImageMultiSelect(image,9);
+
+
+    public void countTheLeftCount(){
+        leftSelectImage = data.size()+" / 9";
+        notifyPropertyChanged(BR.leftSelectImage);
     }
     private void doImageMultiSelect(Image image,int maxsize) {
         if (data.contains(image)) {
             Timber.d("移除图片");
             data.remove(image);
-            image.isSelected = false;
+//            image.isSelected = false;
             ComponentHolder.getAppComponent().rxbus().post(image);
         } else {
             if (maxsize == data.size()) {
@@ -105,9 +104,7 @@ public class ImageSelectViewModel extends BaseViewModel {
             data.add(image);
             ComponentHolder.getAppComponent().rxbus().post(image);
         }
-        leftSelectImage = data.size()+" / 9";
-
-        notifyPropertyChanged(BR.leftSelectImage);
+        countTheLeftCount();
         notifyPropertyChanged(BR.data);
     }
 
