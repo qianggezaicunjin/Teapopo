@@ -102,7 +102,7 @@ public class ImageSelectViewModel extends BaseViewModel {
             }
             Timber.d("添加图片");
             data.add(image);
-            uploadImage();
+            uploadImage(image.path);
         }
         countTheLeftCount();
         notifyPropertyChanged(BR.data);
@@ -124,6 +124,8 @@ public class ImageSelectViewModel extends BaseViewModel {
             ArrayList<Parcelable> folderArrayList = (ArrayList<Parcelable>) data.t;
             Timber.d("图片文件夹有%d",folderArrayList.size());
             navToFragmentForResult(FolderListFragment.newInstance(folderArrayList));
+        }else if (action == Action.ImageSelectModel_UploadImage){
+            showMaskingView(false);
         }
     }
 
@@ -157,8 +159,9 @@ public class ImageSelectViewModel extends BaseViewModel {
         notifyPropertyChanged(BR.currentFolderName);
     }
 
-    private void uploadImage(){
-        navToFragment(MaskLoadingFragment.newInstance());
+    private void uploadImage(String path){
+        showMaskingView(true);
+        mModel.upLoadImage(path);
     }
     public String[] getSelectedImageArray() {
         List<String> imagePaths = new ArrayList<>();

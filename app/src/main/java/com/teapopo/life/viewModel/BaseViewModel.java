@@ -22,9 +22,15 @@ public class BaseViewModel extends BaseObservable implements RequestView<ModelAc
     @Bindable
     public String erroInfo;
     @Bindable
+    public boolean isShowMasking = false;
+    @Bindable
     public SupportFragment navFragment;//要启动的fragment
     @Bindable
     public int startFragmentMode = SupportFragment.STANDARD;//启动模式
+
+    public void setShowMasking(boolean isShow){
+        isShowMasking = isShow;
+    }
     public void setData(List<BaseEntity> data){
         this.data = data;
     }
@@ -43,8 +49,10 @@ public class BaseViewModel extends BaseObservable implements RequestView<ModelAc
         erroInfo = s;
         notifyPropertyChanged(BR.erroInfo);
     }
-
-
+    public void showMaskingView(boolean isShowMasking){
+        this.isShowMasking = isShowMasking;
+        notifyPropertyChanged(BR.isShowMasking);
+    }
     public void navToFragmentForResult(SupportFragment fragment){
         navFragment = fragment;
         startFragmentMode = 100;

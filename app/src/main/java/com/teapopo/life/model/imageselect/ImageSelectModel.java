@@ -51,10 +51,9 @@ public class ImageSelectModel extends BaseModel {
 
     /**
      * 上传图片
-     * @param articleId 文章id
      * @param imagePaths 图片的路径
      */
-    private void upLoadImage(final String articleId, String imagePaths) {
+    public void upLoadImage(String imagePaths) {
         Timber.d("上传图片");
         Observable.just(imagePaths)
                 .observeOn(Schedulers.io())
@@ -65,7 +64,7 @@ public class ImageSelectModel extends BaseModel {
                         String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
                         try {
                             Timber.d("开始上传图片");
-                            Response<JsonObject> response = mDataManager.uploadImage(articleId,base64).execute();
+                            Response<JsonObject> response = mDataManager.uploadImage("0",base64).execute();
                             Timber.d("上传图片返回的结果:%s",response.body().toString());
                         } catch (IOException e) {
                             e.printStackTrace();
