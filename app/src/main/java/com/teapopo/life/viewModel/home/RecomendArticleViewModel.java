@@ -50,7 +50,7 @@ import timber.log.Timber;
 /**
  * Created by Administrator on 2016/4/8 0008.
  */
-public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> implements RequestView<ModelAction> {
+public class RecomendArticleViewModel extends BaseRecyclerViewModel  {
 
     private RecommendArticleModel mRecommendArticleModel;
 
@@ -74,14 +74,14 @@ public class RecomendArticleViewModel extends BaseRecyclerViewModel<BaseEntity> 
     }
 
     private void startTopArticleTimer() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                position++;
-                notifyPropertyChanged(BR.position);
-            }
-        }, 1000, 3000);
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                position++;
+//                notifyPropertyChanged(BR.position);
+//            }
+//        }, 1000, 3000);
     }
 
 

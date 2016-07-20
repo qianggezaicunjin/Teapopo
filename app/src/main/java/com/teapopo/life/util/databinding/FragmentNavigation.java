@@ -15,9 +15,14 @@ import me.yokeyword.fragmentation.SupportFragment;
  */
 public class FragmentNavigation {
 
-    @BindingAdapter({"navFragment"})
-    public static void navigateToFragment(View view, SupportFragment fragment) {
+    @BindingAdapter({"navFragment","mode"})
+    public static void navigateToFragment(View view, SupportFragment fragment,int startFragMode) {
         SupportActivity activity = (SupportActivity) view.getContext();
-        activity.start(fragment);
+        if(startFragMode==100){
+            activity.startForResult(fragment,1);
+        }else {
+            activity.start(fragment,startFragMode);
+        }
+
     }
 }

@@ -33,19 +33,21 @@ import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.util.Utils;
 import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
-import com.teapopo.life.view.adapter.recyclerview.SelectedImageAdapter;
+import com.teapopo.life.view.adapter.flexbox.SelectedImageAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.ImageSelectViewModel;
 
 import com.yancy.imageselector.utils.FileUtils;
 
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
+import timber.log.Timber;
 
 /**
  * ImageSelectorFragment
@@ -68,6 +70,8 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     ImageSelectViewModel mViewModel;
     @Inject
     RxBus mRxBus;
+    private SelectedImageAdapter selectedImageAdapter;
+
     public static ImageSelectorFragment newInstance(ImageConfig.Builder builder){
         ImageSelectorFragment fragment = new ImageSelectorFragment();
         Bundle bundle = new Bundle();
@@ -86,12 +90,24 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     private void ObserverRxBusEvent() {
         Observable<OpenCameraEvent>  observable = mRxBus.toObserverable(OpenCameraEvent.class);
+        Observable<Image> imageObservable = mRxBus.toObserverable(Image.class);
+        //打开照相机
         compositeSubscription.add(observable.doOnNext(new Action1<OpenCameraEvent>() {
             @Override
             public void call(OpenCameraEvent openCameraEvent) {
                 showCameraAction();
             }
         }).subscribe());
+        //取消选择的图片
+        compositeSubscription.add(imageObservable.doOnNext(new Action1<Image>() {
+            @Override
+            public void call(Image image) {
+                if(image.isSelected==true){
+                    mViewModel.disSelectImageFromFlexBoxContainer(image);
+                }
+            }
+        })
+        .subscribe());
     }
 
     @Override
@@ -99,6 +115,7 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         mBinding = FragmentSelectImageBinding.inflate(inflater);
         mViewModel = new ImageSelectViewModel(new ImageSelectModel(_mActivity));
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -108,8 +125,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         setUpToolBar();
         setUpGridImage(imageConfig);
         setUpSelectedImage();
-//        setUpFolder(imageConfig);
-//        time_text.setVisibility(View.GONE);
     }
 
     private void setUpToolBar() {
@@ -124,35 +139,13 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     private void setUpSelectedImage() {
-        SelectedImageAdapter adapter = new SelectedImageAdapter(_mActivity,mViewModel.data);
-        mBinding.rvSelectedImage.setAdapter(adapter);
-        mBinding.rvSelectedImage.setOrientation(RecyclerView.HORIZONTAL);
+        selectedImageAdapter = new SelectedImageAdapter(_mActivity);
+        selectedImageAdapter.setDataSource(mViewModel.data);
+        mBinding.flexboxSelectedImage.setAdapter(selectedImageAdapter);
     }
 
-//    private void setUpFolder(ImageConfig imageConfig) {
-//        folderAdapter = new FolderAdapter(context, imageConfig);
-//        category_button.setText(com.yancy.imageselector.R.string.all_folder);
-//        category_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (folderPopupWindow == null) {
-//                    createPopupFolderList(gridWidth, gridHeight);
-//                }
-//
-//                if (folderPopupWindow.isShowing()) {
-//                    folderPopupWindow.dismiss();
-//                } else {
-//                    folderPopupWindow.show();
-//                    int index = folderAdapter.getSelectIndex();
-//                    index = index == 0 ? index : index - 1;
-//                    folderPopupWindow.getListView().setSelection(index);
-//                }
-//            }
-//        });
-//    }
 
     private void setUpGridImage(ImageConfig imageConfig) {
-        //设置选中的图片
         imageAdapter = new ImageAdapter(context,imageConfig,mViewModel.imageList);
         mBinding.gridImage.setAdapter(imageAdapter);
         attachGridImageListener();
@@ -186,27 +179,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
                 }
             }
         });
-//        grid_image.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                if (scrollState == SCROLL_STATE_IDLE) {
-//                    time_text.setVisibility(View.GONE);
-//                } else if (scrollState == SCROLL_STATE_FLING) {
-//                    time_text.setVisibility(View.VISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                if (time_text.getVisibility() == View.VISIBLE) {
-//                    int index = firstVisibleItem + 1 == view.getAdapter().getCount() ? view.getAdapter().getCount() - 1 : firstVisibleItem + 1;
-//                    Image image = (Image) view.getAdapter().getItem(index);
-//                    if (image != null) {
-//                        time_text.setText(TimeUtils.formatPhotoDate(image.path));
-//                    }
-//                }
-//            }
-//        });
 
 
 
@@ -220,68 +192,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     }
 
-//    /**
-//     * 创建弹出的ListView
-//     */
-//    private void createPopupFolderList(int width, int height) {
-//        folderPopupWindow = new ListPopupWindow(getActivity());
-//        folderPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//        folderPopupWindow.setAdapter(folderAdapter);
-//        folderPopupWindow.setContentWidth(width);
-//        folderPopupWindow.setWidth(width);
-//        folderPopupWindow.setHeight(height * 5 / 8);
-//        folderPopupWindow.setAnchorView(popupAnchorView);
-//        folderPopupWindow.setModal(true);
-//        folderPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//                folderAdapter.setSelectIndex(i);
-//
-//                final int index = i;
-//                final AdapterView v = adapterView;
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        folderPopupWindow.dismiss();
-//
-//                        if (index == 0) {
-//                            category_button.setText(com.yancy.imageselector.R.string.all_folder);
-//                            if (imageConfig.isShowCamera()) {
-//                                imageAdapter.setShowCamera(true);
-//                            } else {
-//                                imageAdapter.setShowCamera(false);
-//                            }
-//                        } else {
-//                            Folder folder = (Folder) v.getAdapter().getItem(index);
-//                            if (null != folder) {
-//                                imageList.clear();
-//                                imageList.addAll(folder.images);
-//                                imageAdapter.notifyDataSetChanged();
-//
-//                                category_button.setText(folder.name);
-//                                // 设定默认选择
-//                                if (resultList != null && resultList.size() > 0) {
-//                                    imageAdapter.setDefaultSelected(resultList);
-//                                }
-//                            }
-//                            imageAdapter.setShowCamera(false);
-//                        }
-//
-//                        // 滑动到最初始位置
-//                        grid_image.smoothScrollToPosition(0);
-//                    }
-//                }, 100);
-//
-//            }
-//        });
-//    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
 
     /**
      * 选择相机
@@ -300,6 +210,12 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         }
     }
 
+    @Override
+    protected void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        Timber.d("onFragmentResult");
+        mViewModel.handleFolderListResult(data);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -333,5 +249,9 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         super.onDestroy();
         compositeSubscription.add(imageAdapter.compositeSubscription);
         RxUtils.unsubscribeIfNotNull(compositeSubscription);
+    }
+
+    public void clickNextStep(View view){
+        Timber.d("被选中的图片有:%d",selectedImageAdapter.getCount());
     }
 }

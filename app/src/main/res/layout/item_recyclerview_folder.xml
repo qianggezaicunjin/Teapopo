@@ -2,36 +2,30 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="folder"
             type="com.teapopo.life.model.imageselect.Folder" />
 
     </data>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
         android:padding="10dp">
 
         <com.teapopo.life.view.customView.ImageView.ImageSelectorImageView
             android:id="@+id/folder_image"
-            android:layout_width="@dimen/x86"
-            android:layout_height="@dimen/y86"
+            android:layout_width="@dimen/x60"
+            android:layout_height="@dimen/y60"
             android:contentDescription="@null"
             app:imageUrl="@{folder.coverPath}" />
 
         <LinearLayout
+            android:layout_toRightOf="@id/folder_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -61,27 +55,19 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right">
-
             <com.teapopo.life.view.customView.ImageView.RecyclableImageView
                 android:id="@+id/indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/icon_correct" />
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
+                android:layout_alignParentRight="true"
+                android:src="@drawable/icon_correct"
+                android:visibility="@{folder.isSelected?View.VISIBLE:View.GONE}"/>
+        <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/line_height"
-        android:background="@drawable/line" />
+        android:background="@drawable/line"
+            android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
 
-</LinearLayout>
     </layout>

@@ -20,6 +20,7 @@ public class ImageFolderAdapter extends BaseRecyclerViewAdapter<Folder,ImageFold
         super(context, data);
     }
 
+
     @Override
     public ImageFolderAdapter.FolderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return FolderViewHolder.createViewHolder(ItemRecyclerviewFolderBinding.inflate(layoutInflater));

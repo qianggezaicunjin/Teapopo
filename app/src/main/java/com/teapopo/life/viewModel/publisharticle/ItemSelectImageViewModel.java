@@ -16,9 +16,8 @@ public class ItemSelectImageViewModel extends BaseViewModel {
 
     public void changeImageState(Image clickImage){
         if(image.path.equals(clickImage.path)){
-            image.isSelected = clickImage.isSelected;
+            image.isSelected = !image.isSelected;
             notifyPropertyChanged(BR.image);
         }
-
     }
 }

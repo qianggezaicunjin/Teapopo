@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 
 import com.teapopo.life.R;
 import com.teapopo.life.model.imageselect.Folder;
+import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.view.adapter.recyclerview.ImageFolderAdapter;
+import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 
@@ -23,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by louiszgm on 2016/7/16.
  */
-public class FolderListFragment extends SwipeBackBaseFragment {
+public class FolderListFragment extends SwipeBackBaseFragment implements BaseRecyclerViewAdapter.OnItemClickListener {
 
     @Bind(R.id.rv_folderlist)
     SuperRecyclerView mRecyclerView;
@@ -57,5 +59,16 @@ public class FolderListFragment extends SwipeBackBaseFragment {
     private void setUpFolderList() {
         ImageFolderAdapter adapter = new ImageFolderAdapter(_mActivity,folderArrayList);
         mRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Folder folder = folderArrayList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("images",folder.images);
+        bundle.putString("folderName",folder.name);
+        setFramgentResult(1,bundle);
+        pop();
     }
 }
