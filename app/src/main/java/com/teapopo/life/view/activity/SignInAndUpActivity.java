@@ -33,7 +33,7 @@ public class SignInAndUpActivity extends SwipeBackBaseActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_out);
         ButterKnife.bind(this);
-        start(SignInFragment.newInstances());
+        loadRootFragment(R.id.framelayout_sign_in_out,SignInFragment.newInstances());
     }
 
     @Override
@@ -50,10 +50,7 @@ public class SignInAndUpActivity extends SwipeBackBaseActivity  {
         return mComponent;
     }
 
-    @Override
-    protected int setContainerId() {
-        return R.id.framelayout_sign_in_out;
-    }
+
 
 
     @Override

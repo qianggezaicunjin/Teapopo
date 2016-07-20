@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentSelectImageBinding;
+import com.teapopo.life.model.event.CountLeftSelectedImageEvent;
 import com.teapopo.life.model.event.OpenCameraEvent;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
@@ -90,7 +91,7 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     private void ObserverRxBusEvent() {
         Observable<OpenCameraEvent>  observable = mRxBus.toObserverable(OpenCameraEvent.class);
-        Observable<Image> imageObservable = mRxBus.toObserverable(Image.class);
+        Observable<CountLeftSelectedImageEvent> imageObservable = mRxBus.toObserverable(CountLeftSelectedImageEvent.class);
         //打开照相机
         compositeSubscription.add(observable.doOnNext(new Action1<OpenCameraEvent>() {
             @Override
@@ -99,12 +100,10 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
             }
         }).subscribe());
         //取消选择的图片
-        compositeSubscription.add(imageObservable.doOnNext(new Action1<Image>() {
+        compositeSubscription.add(imageObservable.doOnNext(new Action1<CountLeftSelectedImageEvent>() {
             @Override
-            public void call(Image image) {
-                if(image.isSelected==true){
-                    mViewModel.disSelectImageFromFlexBoxContainer(image);
-                }
+            public void call(CountLeftSelectedImageEvent countLeftSelectedImageEvent) {
+                mViewModel.countTheLeftCount();
             }
         })
         .subscribe());

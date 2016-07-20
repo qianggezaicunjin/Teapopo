@@ -198,6 +198,20 @@ public class DataManager {
         return mNetWorkService.getCategoryArticle(category, page);
     }
 
+    /**
+     * 获取会员的文章
+     * @param member
+     * @param page
+     * @return
+     */
+    public Observable<JsonObject> getMemberArticle(String member,int page){
+        return mNetWorkService.getMemberArticle(member,page);
+    }
+    /**
+     * 文章详情
+     * @param id
+     * @return
+     */
     public Observable<JsonObject> getArticleInfo(String id) {
         return mNetWorkService.getArticleInfo(id);
     }

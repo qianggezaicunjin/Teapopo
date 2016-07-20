@@ -21,6 +21,8 @@ import com.teapopo.life.view.fragment.welfare.ShoppingCartListFragment;
 
 import java.util.ArrayList;
 
+import me.yokeyword.fragmentation.SupportFragment;
+
 /**
  * Created by louiszgm on 2016/6/30.
  */
@@ -70,20 +72,19 @@ public class GoodsHandleActivity extends SwipeBackBaseActivity {
     private void routeFragment(ArrayList<Parcelable> datalist, int type) {
         switch (type){
             case Navigate_TYPE_MakerOrder:
-                start(MakeOrderFragment.newInstance(datalist));
+                startRootFragment(MakeOrderFragment.newInstance(datalist));
                 break;
             case Navigate_TYPE_ShoppingCart:
-                start(ShoppingCartListFragment.newInstance());
+                startRootFragment(ShoppingCartListFragment.newInstance());
                 break;
             case Navigate_TYPE_GoodsDetail:
                 EventGoods eventGoods = (EventGoods) datalist.get(0);
-                start(GoodsDetailFragment.newInstance(eventGoods.goods_id,eventGoods.id));
+                startRootFragment(GoodsDetailFragment.newInstance(eventGoods.goods_id,eventGoods.id));
                 break;
         }
     }
 
-    @Override
-    protected int setContainerId() {
-        return R.id.framelayout_goods_settlement;
+    private void startRootFragment(SupportFragment fragment){
+        loadRootFragment(R.id.framelayout_goods_settlement,fragment);
     }
 }

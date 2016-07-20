@@ -144,14 +144,13 @@ public interface NetWorkService {
 
     /**
      * 文章列表
-     * 获取个人发布的文章
+     * 获取会员的文章列表
      *
-     * @param memberId
+     * @param member_id
      * @return
      */
     @GET("posts/list?all=1")
-    Observable<JsonObject> getUserPublishArticle(@Query("member_id") String memberId);
-
+    Observable<JsonObject> getMemberArticle(@Query("member_id") String member_id, @Query("p") int page);
     /**
      * 文章信息
      *
