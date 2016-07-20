@@ -8,18 +8,18 @@ import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.customView.RequestView;
 import com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment;
+import com.teapopo.life.viewModel.BaseViewModel;
 
 /**
  * Created by louiszgm on 2016/6/8.
  */
-public class PublishArticleViewModel extends BaseObservable implements RequestView<ModelAction> {
+public class PublishArticleViewModel extends BaseViewModel {
 
     private PublishArticleModel mModel;
 
-    private PublishArticleFragment mView;
 
-    public PublishArticleViewModel(Fragment view,PublishArticleModel model){
-        mView = (PublishArticleFragment) view;
+
+    public PublishArticleViewModel(PublishArticleModel model){
         mModel = model;
         mModel.setView(this);
     }
@@ -35,15 +35,10 @@ public class PublishArticleViewModel extends BaseObservable implements RequestVi
         int countUpload = 0;
         Action action = data.action;
         if(action == Action.PublishArticleModel_PublishWithoutImage){
-            mView.refreshPublishDone();
-        }else if(action == Action.PublishArticleModel_PublishWithImage){
-            mView.refreshPublishDone();
-        }
-    }
 
-    @Override
-    public void onRequestErroInfo(String erroinfo) {
-        mView.toastErroMsg(erroinfo);
+        }else if(action == Action.PublishArticleModel_PublishWithImage){
+
+        }
     }
 
     //发布文章

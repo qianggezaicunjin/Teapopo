@@ -17,10 +17,6 @@ import dagger.Provides;
 @Module
 public class PublishArticleFragmentModule {
 
-    private Fragment mView;
-    public PublishArticleFragmentModule(Fragment view){
-        mView = view;
-    }
 
     public PublishArticleFragmentModule(){
 
@@ -29,7 +25,7 @@ public class PublishArticleFragmentModule {
     @PerActivity
     @Provides
     PublishArticleViewModel providePublishArticleViewModel(PublishArticleModel model){
-        return new PublishArticleViewModel(mView,model);
+        return new PublishArticleViewModel(model);
     }
     @PerActivity
     @Provides

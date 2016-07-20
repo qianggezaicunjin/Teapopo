@@ -61,9 +61,6 @@ public class PublishArticleActivity extends SwipeBackBaseActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_CODE&&resultCode==RESULT_OK&&pathList.size()>0){
-            start(PublishArticleFragment.newInstance());
-        }
     }
 
 

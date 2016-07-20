@@ -39,38 +39,22 @@ public class PublishArticleModel extends BaseModel {
      * 发布文章
      * @param title
      * @param content
-     * @param photoInfos  发布的图片
+     * @param imagesPaths 图片路径的数组
      */
-//    public void publishArticle(String title, String content, List<PhotoInfo> photoInfos,String tags){
-//        String coverImage = "";
-//        String[] imagesArray = new String[]{};
-//        List<String> imagePaths = new ArrayList<>();
-//        if(photoInfos!=null){
-//            //第一张图片就是该篇文章的封面
-//             coverImage = photoInfos.get(0).getImageName();
-//            //图片名字
-//            List<String> images = new ArrayList<>();
-//            for (PhotoInfo photoInfo:photoInfos){
-//                String imageName = photoInfo.getImageName();
-//                String path = photoInfo.getPhotoPath();
-//                images.add(imageName);
-//                imagePaths.add(path);
-//            }
-//            //转换成String数组
-//            images.toArray(imagesArray);
-//        }
-//        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,imagesArray ,tags);
-//        subcribePublish(observable,imagePaths);
-//    }
-
-    private void subcribePublish(Observable<JsonObject> observable, final List<String> imagePaths) {
+    public void publishArticle(String title, String content, String[] imagesPaths,String tags){
+        String coverImage = "";
+        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,imagesPaths ,tags);
+        subcribePublish(observable,imagesPaths);
+    }
+    private void subcribePublish(Observable<JsonObject> observable, final String[] imagePaths) {
         mCompositeSubscription.add(observable.subscribeOn(Schedulers.io())
                 .observeOn(mDataManager.getScheduler())
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .filter(new Func1<JsonObject, Boolean>() {
                     @Override
                     public Boolean call(JsonObject jsonObject) {
-                        if (imagePaths.size()>0){
+
+                        if (imagePaths.length>0){
                             //上传图片
                             //发布文章成功,取得文章ID ，将文章图片上传至服务器
                             String articleId = jsonObject.get("id").getAsString();
@@ -103,8 +87,8 @@ public class PublishArticleModel extends BaseModel {
      * @param articleId 文章id
      * @param imagePaths 图片的路径
      */
-    private void upLoadImage(final String articleId, List<String> imagePaths) {
-        Timber.d("上传图片的个数:%d",imagePaths.size());
+    private void upLoadImage(final String articleId, String[] imagePaths) {
+        Timber.d("上传图片的个数:%d",imagePaths.length);
         Observable.from(imagePaths)
                 .observeOn(Schedulers.io())
                 .doOnNext(new Action1<String>() {

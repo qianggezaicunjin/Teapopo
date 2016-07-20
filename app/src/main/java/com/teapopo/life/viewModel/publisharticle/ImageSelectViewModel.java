@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.teapopo.life.BR;
 import com.teapopo.life.injection.component.ComponentHolder;
+import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.event.OpenCameraEvent;
 import com.teapopo.life.model.imageselect.Folder;
 import com.teapopo.life.model.imageselect.Image;
@@ -19,6 +20,7 @@ import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.adapter.LBaseAdapter;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
+import com.teapopo.life.view.fragment.MaskLoadingFragment;
 import com.teapopo.life.view.fragment.PublishArticle.FolderListFragment;
 import com.teapopo.life.view.fragment.PublishArticle.ImageSelectorFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
@@ -100,6 +102,7 @@ public class ImageSelectViewModel extends BaseViewModel {
             }
             Timber.d("添加图片");
             data.add(image);
+            uploadImage();
         }
         countTheLeftCount();
         notifyPropertyChanged(BR.data);
@@ -152,5 +155,21 @@ public class ImageSelectViewModel extends BaseViewModel {
             notifyPropertyChanged(BR.imageList);
         }
         notifyPropertyChanged(BR.currentFolderName);
+    }
+
+    private void uploadImage(){
+        navToFragment(MaskLoadingFragment.newInstance());
+    }
+    public String[] getSelectedImageArray() {
+        List<String> imagePaths = new ArrayList<>();
+        if(data.size()==0){
+            return null;
+        }else {
+            for(BaseEntity baseEntity:data){
+                Image image = (Image) baseEntity;
+                imagePaths.add(image.path);
+            }
+            return (String[]) imagePaths.toArray();
+        }
     }
 }

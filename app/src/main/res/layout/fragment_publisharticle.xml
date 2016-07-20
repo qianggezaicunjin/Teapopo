@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/icon_tag2"
                 android:layout_marginLeft="@dimen/article_horizontal_margin"
-                android:text="添加标签" />
+                android:text="标签" />
 
             <View
                 android:id="@+id/publisharticle_line"
@@ -108,22 +108,9 @@
                 android:layout_below="@id/publisharticle_line"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginLeft="@dimen/article_horizontal_margin"
-                app:atg_isAppendMode="true" />
+                 />
 
-            <View
-                android:id="@+id/gapline"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_below="@+id/tag_group"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:background="@drawable/gapline" />
 
-            <me.gujun.android.taggroup.TagGroup
-                android:id="@+id/hottag_group"
-                style="@style/TagGroup"
-                android:layout_below="@id/gapline"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginLeft="@dimen/article_horizontal_margin"/>
         </RelativeLayout>
 
 

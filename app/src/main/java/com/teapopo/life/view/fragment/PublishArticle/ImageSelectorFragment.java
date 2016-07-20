@@ -27,6 +27,7 @@ import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentSelectImageBinding;
+import com.teapopo.life.model.article.publisharticle.PublishArticleData;
 import com.teapopo.life.model.event.CountLeftSelectedImageEvent;
 import com.teapopo.life.model.event.OpenCameraEvent;
 import com.teapopo.life.model.imageselect.Image;
@@ -267,6 +268,8 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     public void clickNextStep(View view){
-        Timber.d("被选中的图片有:%d",selectedImageAdapter.getCount());
+        PublishArticleData data = new PublishArticleData();
+        data.images = mViewModel.getSelectedImageArray();
+        start(TagSelectorFragment.newInstance(data));
     }
 }
