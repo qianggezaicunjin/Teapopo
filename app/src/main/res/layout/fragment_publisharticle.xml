@@ -4,7 +4,9 @@
     xmlns:custom="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="handler"
+            type="com.teapopo.life.view.fragment.PublishArticle.PublishArticleFragment"/>
         <variable
             name="viewModel"
             type="com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel" />
@@ -114,7 +116,7 @@
         </RelativeLayout>
 
 
-        <com.dd.processbutton.iml.ActionProcessButton
+        <Button
             android:id="@+id/btn_publishArticle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -123,7 +125,7 @@
             android:background="@drawable/background_btn_login"
             android:text="发布帖子"
             android:textColor="@android:color/white"
-            custom:pb_textComplete="Success"
-            custom:pb_textProgress="正在发布....." />
+            android:onClick="@{handler.clickPublishArticle}"
+           />
     </LinearLayout>
 </layout>

@@ -131,7 +131,7 @@ public class ImageSelectViewModel extends BaseViewModel {
             imageId.add((String) data.t);
         }else if(action == Action.ImageSelectModel_UploadMutiImage){
             PublishArticleData publishArticleData = new PublishArticleData();
-            publishArticleData.images =  imageId.toArray(new String[imageId.size()]);
+            publishArticleData.images =  imageId;
             navToFragment(TagSelectorFragment.newInstance(publishArticleData));
             showMaskingView(false);
         }

@@ -63,6 +63,7 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mBinding = FragmentPublisharticleBinding.inflate(LayoutInflater.from(_mActivity));
         mBinding.setViewModel(mViewModel);
+        mBinding.setHandler(this);
         return mBinding.getRoot();
     }
 
@@ -75,16 +76,10 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
 
 
     //发布文章
-    private void publishArticle() {
-        mBinding.btnPublishArticle.setProgress(50);
-        //获取文章标题
-        String title = mBinding.etPublishtitle.getText().toString();
-        //获取文章内容
-        String content = mBinding.etPublishcontent.getText().toString();
-        //获取要上传的图片
-        //获取该文章的标签
-        String[] tags = mBinding.tagGroup.getTags();
-//        mViewModel.publishArticle(title,content,mPhotoInfoList,tags);
+    public void clickPublishArticle(View view) {
+        publishArticleData.content = mBinding.etPublishcontent.getText().toString();
+        publishArticleData.title = mBinding.etPublishtitle.getText().toString();
+        mViewModel.publishArticle(publishArticleData);
     }
 
 
