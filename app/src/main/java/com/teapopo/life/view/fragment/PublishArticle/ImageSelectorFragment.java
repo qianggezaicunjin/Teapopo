@@ -268,8 +268,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     public void clickNextStep(View view){
-        PublishArticleData data = new PublishArticleData();
-        data.images = mViewModel.getSelectedImageArray();
-        start(TagSelectorFragment.newInstance(data));
+        mViewModel.uploadImage();
     }
 }

@@ -40,7 +40,6 @@ public class ArticleDetailActivity extends SwipeBackBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_detail);
 
-
         loadRootFragment(R.id.framelayout_article_detail,ArticleInfoFragment.newInstance(getIntent().getStringExtra("articleId")));
     }
 

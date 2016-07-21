@@ -10,7 +10,9 @@ import android.widget.Toast;
 import com.teapopo.life.BR;
 import com.teapopo.life.injection.component.ComponentHolder;
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.article.publisharticle.PublishArticleData;
 import com.teapopo.life.model.event.OpenCameraEvent;
+import com.teapopo.life.model.event.UploadImageEvent;
 import com.teapopo.life.model.imageselect.Folder;
 import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.model.imageselect.ImageConfig;
@@ -23,6 +25,7 @@ import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.MaskLoadingFragment;
 import com.teapopo.life.view.fragment.PublishArticle.FolderListFragment;
 import com.teapopo.life.view.fragment.PublishArticle.ImageSelectorFragment;
+import com.teapopo.life.view.fragment.PublishArticle.TagSelectorFragment;
 import com.teapopo.life.viewModel.BaseRecyclerViewModel;
 import com.teapopo.life.viewModel.BaseViewModel;
 
@@ -48,6 +51,8 @@ public class ImageSelectViewModel extends BaseViewModel {
     @Bindable
     public String leftSelectImage = data.size()+" / 9";
 
+    //用来保存上传成功的图片id,图片id来自服务器
+    private ArrayList<String> imageId = new ArrayList<>();
     public void setImageList(List<Image> imageList){
         this.imageList = imageList;
     }
@@ -102,7 +107,6 @@ public class ImageSelectViewModel extends BaseViewModel {
             }
             Timber.d("添加图片");
             data.add(image);
-            uploadImage(image.path);
         }
         countTheLeftCount();
         notifyPropertyChanged(BR.data);
@@ -118,13 +122,17 @@ public class ImageSelectViewModel extends BaseViewModel {
         if(action == Action.ImageSelectModel_GetImageData){
             List<Image> list = (List<Image>) data.t;
             imageList.addAll(list);
-            Timber.d("图片有%d",imageList.size());
             notifyPropertyChanged(BR.imageList);
         }else if(action == Action.ImageSelectModel_GetFolderList){
             ArrayList<Parcelable> folderArrayList = (ArrayList<Parcelable>) data.t;
-            Timber.d("图片文件夹有%d",folderArrayList.size());
             navToFragmentForResult(FolderListFragment.newInstance(folderArrayList));
         }else if (action == Action.ImageSelectModel_UploadImage){
+            Timber.d("上传单个图片成功");
+            imageId.add((String) data.t);
+        }else if(action == Action.ImageSelectModel_UploadMutiImage){
+            PublishArticleData publishArticleData = new PublishArticleData();
+            publishArticleData.images =  imageId.toArray(new String[imageId.size()]);
+            navToFragment(TagSelectorFragment.newInstance(publishArticleData));
             showMaskingView(false);
         }
     }
@@ -159,11 +167,11 @@ public class ImageSelectViewModel extends BaseViewModel {
         notifyPropertyChanged(BR.currentFolderName);
     }
 
-    private void uploadImage(String path){
+    public void uploadImage(){
+        mModel.upLoadMutiImage(getSelectedImagePaths());
         showMaskingView(true);
-        mModel.upLoadImage(path);
     }
-    public String[] getSelectedImageArray() {
+    private List<String> getSelectedImagePaths() {
         List<String> imagePaths = new ArrayList<>();
         if(data.size()==0){
             return null;
@@ -172,7 +180,7 @@ public class ImageSelectViewModel extends BaseViewModel {
                 Image image = (Image) baseEntity;
                 imagePaths.add(image.path);
             }
-            return (String[]) imagePaths.toArray();
+            return imagePaths;
         }
     }
 }

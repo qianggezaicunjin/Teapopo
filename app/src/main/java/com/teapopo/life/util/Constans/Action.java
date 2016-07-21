@@ -72,5 +72,6 @@ public enum Action {
     //for ImageSelectModel
     ImageSelectModel_GetImageData,
     ImageSelectModel_GetFolderList,
-    ImageSelectModel_UploadImage
+    ImageSelectModel_UploadImage,
+    ImageSelectModel_UploadMutiImage
 }
