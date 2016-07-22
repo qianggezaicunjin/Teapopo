@@ -44,17 +44,9 @@ public class SelectedImageAdapter extends LBaseAdapter<BaseEntity,BaseViewHolder
         SelectedImageViewHolder selectedImageViewHolder = (SelectedImageViewHolder)holder;
         final ItemFlexboxSelectedImageBinding binding = (ItemFlexboxSelectedImageBinding) selectedImageViewHolder.getBinding();
         final Image image = (Image) data;
-        ViewGroup rootView = (ViewGroup) binding.getRoot();
-//        if(rootView.getTag()==null){
-//            ViewGroup loadingView = (ViewGroup) LayoutInflater.from(getContext()).inflate(R.layout.fragment_mask_loading, rootView, false);
-//            rootView.addView(loadingView);
-//            rootView.setTag(loadingView);
-//            observeUploadImage(image,rootView);
-//        }
         binding.imgDeleteSelectedimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Timber.d("post a  image");
                 removeData(image);
                 //发出通知 更改gridview里面的图片选中状态

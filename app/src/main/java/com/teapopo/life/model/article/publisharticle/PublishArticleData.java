@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.teapopo.life.model.BaseEntity;
+import com.teapopo.life.model.imageselect.Image;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class PublishArticleData extends BaseEntity implements Parcelable{
     public String coverImg;
     public String content;
     public String[] tags;
-    public List<String> images = new ArrayList<>();
+    public List<Image> images = new ArrayList<>();
     @Override
     public int describeContents() {
         return 0;
@@ -29,7 +30,7 @@ public class PublishArticleData extends BaseEntity implements Parcelable{
         dest.writeString(coverImg);
         dest.writeString(content);
         dest.writeStringArray(tags);
-        dest.writeStringArray(images.toArray(new String[images.size()]));
+        dest.writeParcelableArray(images.toArray(new Image[images.size()]),flags);
     }
 
     protected PublishArticleData(Parcel in) {
@@ -37,8 +38,8 @@ public class PublishArticleData extends BaseEntity implements Parcelable{
         coverImg = in.readString();
         content = in.readString();
          in.readStringArray(tags);
-        String[] array = new String[images.size()];
-        in.readStringArray(array);
+        Image[] array = new Image[images.size()];
+        in.readParcelableArray(ClassLoader.getSystemClassLoader());
         Collections.addAll(images,array);
     }
     public PublishArticleData(){

@@ -216,12 +216,12 @@ public interface NetWorkService {
      * @param title      文章标题
      * @param content    文章内容
      * @param coverImage 文章封面
-     * @param images     文章图片
+     * @param imagesId     文章图片的id
      * @return
      */
     @POST("posts/add")
     @FormUrlEncoded
-    Observable<JsonObject> publishArticle(@Field("no_verify")int no_vertify,@Field("title") String title, @Field("content") String content, @Field("cover") String coverImage, @Field("images") String[] images,@Field("tags")String tags);
+    Observable<JsonObject> publishArticle(@Field("no_verify")int no_vertify,@Field("title") String title, @Field("content") String content, @Field("cover") String coverImage,@Field("tags")String tags,@Field("images[]") String...imagesId);
 
     /**
      * 上传图片
@@ -328,8 +328,20 @@ public interface NetWorkService {
     @GET("cart/list")
     Observable<List<CartGoods>> getCartList();
 
+    /**
+     * 添加地址
+     * @param requestBody
+     * @return
+     */
     @POST("address/add")
     Observable<JsonObject> addAddress(@Body RequestBody requestBody);
+
+    /**
+     * 个人点赞
+     * @return
+     */
+    @GET("likes/view")
+    Observable<JsonObject> memberLikes(@Query("member_id")String member_id);
     @GET("test")
     Call<JsonObject> test();
 }

@@ -128,10 +128,15 @@ public class ImageSelectViewModel extends BaseViewModel {
             navToFragmentForResult(FolderListFragment.newInstance(folderArrayList));
         }else if (action == Action.ImageSelectModel_UploadImage){
             Timber.d("上传单个图片成功");
-            imageId.add((String) data.t);
+            Image uploadResultImage = (Image) data.t;
+            int nativeImagePosition = super.data.indexOf(uploadResultImage);
+            Image nativeImage = (Image) super.data.get(nativeImagePosition);
+            nativeImage.imageId = uploadResultImage.imageId;
         }else if(action == Action.ImageSelectModel_UploadMutiImage){
             PublishArticleData publishArticleData = new PublishArticleData();
-            publishArticleData.images =  imageId;
+            for(BaseEntity baseEntity:super.data){
+                publishArticleData.images.add((Image) baseEntity);
+            }
             navToFragment(TagSelectorFragment.newInstance(publishArticleData));
             showMaskingView(false);
         }

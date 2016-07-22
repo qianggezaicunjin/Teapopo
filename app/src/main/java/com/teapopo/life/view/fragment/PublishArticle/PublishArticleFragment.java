@@ -7,31 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
-import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentPublisharticleBinding;
-import com.teapopo.life.injection.component.fragment.PublishArticleFragmentComponent;
-import com.teapopo.life.injection.module.fragment.PublishArticleFragmentModule;
 import com.teapopo.life.model.article.publisharticle.PublishArticleData;
 import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.view.activity.PublishArticleActivity;
-import com.teapopo.life.view.customView.PicassoLoader;
+import com.teapopo.life.view.adapter.flexbox.SelectedImageForPublishAdapter;
 import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
 import com.teapopo.life.viewModel.publisharticle.PublishArticleViewModel;
-import com.yancy.imageselector.ImageConfig;
-import com.yancy.imageselector.ImageSelector;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 
-import me.gujun.android.taggroup.TagGroup;
 import rx.subscriptions.CompositeSubscription;
-import timber.log.Timber;
 
 /**
  * Created by louiszgm on 2016/6/8.
@@ -71,8 +59,15 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
     public void setUpView() {
         //设置热门标签
         setUpHotTags();
+        //设置已选择的图片
+        setUpSelectedImage();
     }
 
+    private void setUpSelectedImage() {
+        SelectedImageForPublishAdapter adapter = new SelectedImageForPublishAdapter(_mActivity);
+        adapter.setDataSource(publishArticleData.images);
+        mBinding.flexboxSelectedImage.setAdapter(adapter);
+    }
 
 
     //发布文章
@@ -82,7 +77,9 @@ public class PublishArticleFragment extends SwipeBackBaseFragment {
         mViewModel.publishArticle(publishArticleData);
     }
 
+    public void clickAddPublishImage(View view){
 
+    }
 
     private void setUpHotTags() {
         mBinding.tagGroup.setTags(publishArticleData.tags);

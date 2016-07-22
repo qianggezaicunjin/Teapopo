@@ -301,12 +301,12 @@ public class DataManager {
      * @param title
      * @param content
      * @param coverImage
-     * @param images
+     * @param imagesID
      * @param tags
      * @return
      */
-    public Observable<JsonObject> publishArticle(String title, String content, String coverImage, String[] images, String tags) {
-        return mNetWorkService.publishArticle(1, title, content, coverImage, images, tags);
+    public Observable<JsonObject> publishArticle(String title, String content, String coverImage, String tags, String[] imagesID) {
+        return mNetWorkService.publishArticle(1, title, content, coverImage, tags, imagesID);
     }
 
     /**
@@ -481,5 +481,14 @@ public class DataManager {
         builder.addFormDataPart("address", detailAddress);
         builder.addFormDataPart("zipcode", zipcode);
         return mNetWorkService.addAddress(builder.build());
+    }
+
+    /**
+     * 个人点赞
+     * @param memberId
+     * @return
+     */
+    public Observable<JsonObject> getMemberLikes(String memberId){
+        return mNetWorkService.memberLikes(memberId);
     }
 }

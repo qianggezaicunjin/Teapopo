@@ -15,6 +15,7 @@ public class Image extends BaseEntity implements Parcelable{
 
     public String path;
     public String name;
+    public String imageId;//图片上传成功后返回的id
     public long time;
     public boolean isSelected = false;
     public Image(String path, String name, long time) {
@@ -62,5 +63,10 @@ public class Image extends BaseEntity implements Parcelable{
             e.printStackTrace();
         }
         return super.equals(o);
+    }
+
+    @Override
+    public String toString() {
+        return imageId;
     }
 }

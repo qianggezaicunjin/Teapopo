@@ -73,6 +73,7 @@ public class ImageSelectModel extends BaseModel {
 
                             e.printStackTrace();
                         }
+                        response.body().addProperty("imageNativePath",s);
                         return Observable.just(response.body());
                     }
                 })
@@ -91,7 +92,12 @@ public class ImageSelectModel extends BaseModel {
                     public void _onNext(JsonObject jsonObject) {
                         ModelAction modelAction = new ModelAction();
                         modelAction.action = Action.ImageSelectModel_UploadImage;
-                        modelAction.t = jsonObject.get("id").getAsString();
+                        String imageServerId = jsonObject.get("id").getAsString();
+                        String imageNativePath = jsonObject.get("imageNativePath").getAsString();
+                        Image  image = new Image();
+                        image.path = imageNativePath;
+                        image.imageId = imageServerId;
+                        modelAction.t = image;
                         mRequestView.onRequestSuccess(modelAction);
                     }
 

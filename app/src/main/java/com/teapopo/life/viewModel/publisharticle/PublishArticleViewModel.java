@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.teapopo.life.model.article.publisharticle.PublishArticleData;
 import com.teapopo.life.model.article.publisharticle.PublishArticleModel;
+import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.view.customView.RequestView;
@@ -49,12 +50,9 @@ public class PublishArticleViewModel extends BaseViewModel {
         if (TextUtils.isEmpty(publishArticleData.content)) {
             setErroInfo("输入的文章内容不为空");
         }
-        mModel.publishArticle(publishArticleData.title, publishArticleData.content, castImagesListToArray(publishArticleData.images), getTagStringDivideByDot(publishArticleData.tags));
+        mModel.publishArticle(publishArticleData.title, publishArticleData.content, publishArticleData.images, getTagStringDivideByDot(publishArticleData.tags));
     }
 
-    private String[] castImagesListToArray(List<String> imageIds){
-        return imageIds.toArray(new String[imageIds.size()]);
-    }
     /**
      * 将标签用  , 分隔开
      * @param tagArray

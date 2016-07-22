@@ -6,9 +6,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.teapopo.life.BuildConfig;
 import com.teapopo.life.data.remote.NetWorkService;
+import com.teapopo.life.model.memberLikes.MemberLike;
+import com.teapopo.life.model.memberLikes.MemberLikeDataOverView;
 import com.teapopo.life.model.welfare.EventGoods;
 import com.teapopo.life.model.welfare.EventGoodsComparator;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,8 +24,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -66,7 +72,31 @@ public class DataManagerTest {
     }
     @Test
     public void getEventGoodsListTest()throws Exception{
-
+        JsonObject jsonObject = mockNetWorkService.test().execute().body();
+        for(MemberLike memberLike:handleMemberLikesJson(jsonObject)){
+            Timber.d("data为:%s",memberLike.date);
+            for(MemberLikeDataOverView memberLikeDataOverView:memberLike.dataOverViewList){
+                Timber.d("文章的ID:%s",memberLikeDataOverView.id);
+            }
+        }
     }
 
+    public List<MemberLike> handleMemberLikesJson(JsonObject jsonObject){
+        List<MemberLike> memberLikeList = new ArrayList<>();
+        JsonObject data = jsonObject.getAsJsonObject("data");
+        JsonObject likes = data.getAsJsonObject("likes");
+        JsonObject like_count = data.getAsJsonObject("like_count");
+        for(Map.Entry entry:likes.entrySet()){
+            MemberLike memberLike = new MemberLike();
+            memberLike.date = entry.getKey().toString();
+            try {
+                memberLike.dataOverViewList = LoganSquare.parseList(entry.getValue().toString(),MemberLikeDataOverView.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            memberLike.likeCounts = like_count.get(memberLike.date).getAsString();
+            memberLikeList.add(memberLike);
+        }
+        return memberLikeList;
+    }
 }
