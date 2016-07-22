@@ -1,6 +1,8 @@
 package com.teapopo.life.model;
 
 import android.databinding.BindingConversion;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
@@ -11,7 +13,7 @@ import com.teapopo.life.util.DataUtils;
  * Created by louiszgm on 2016/6/2.
  */
 @JsonObject(fieldDetectionPolicy = JsonObject.FieldDetectionPolicy.NONPRIVATE_FIELDS_AND_ACCESSORS)
-public class AuthorInfo extends BaseEntity {
+public class AuthorInfo extends BaseEntity implements Parcelable{
     public String avatar;
 
     public String getAvatarUrl(){
@@ -35,4 +37,38 @@ public class AuthorInfo extends BaseEntity {
             return "关注";
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(avatar);
+        dest.writeString(nickname);
+        dest.writeString(fans_num);
+        dest.writeString(signature);
+        dest.writeByte((byte)(isSubscribe ?1:0));
+    }
+
+    protected AuthorInfo(Parcel in) {
+        avatar = in.readString();
+        nickname = in.readString();
+        fans_num = in.readString();
+        signature = in.readString();
+        isSubscribe =in.readByte()!=0;
+    }
+    public AuthorInfo(){
+
+    }
+    public static final Parcelable.Creator<AuthorInfo> CREATOR = new Parcelable.Creator<AuthorInfo>() {
+        public AuthorInfo createFromParcel(Parcel source) {
+            return new AuthorInfo(source);
+        }
+
+        public AuthorInfo[] newArray(int size) {
+            return new AuthorInfo[size];
+        }
+    };
 }
