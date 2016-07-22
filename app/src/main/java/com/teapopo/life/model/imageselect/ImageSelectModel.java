@@ -10,10 +10,12 @@ import android.support.v4.content.Loader;
 
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.event.UploadImageEvent;
 import com.teapopo.life.util.BitmapUtils;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
+import com.teapopo.life.util.rx.RxResultHelper;
 import com.teapopo.life.util.rx.RxSubscriber;
 
 
@@ -50,47 +52,99 @@ public class ImageSelectModel extends BaseModel {
 
 
     /**
-     * 上传图片
-     * @param articleId 文章id
-     * @param imagePaths 图片的路径
+     * 上传多张图片
+     * @param imagePaths
      */
-    private void upLoadImage(final String articleId, String imagePaths) {
+    public void upLoadMutiImage(List<String> imagePaths) {
         Timber.d("上传图片");
-        Observable.just(imagePaths)
+        Observable.from(imagePaths)
                 .observeOn(Schedulers.io())
-                .doOnNext(new Action1<String>() {
+                .flatMap(new Func1<String, Observable<JsonObject>>() {
                     @Override
-                    public void call(String s) {
+                    public Observable<JsonObject> call(String s) {
                         Timber.d("开始压缩图片");
                         String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
+                        Response<JsonObject> response = null;
                         try {
                             Timber.d("开始上传图片");
-                            Response<JsonObject> response = mDataManager.uploadImage(articleId,base64).execute();
+                            response = mDataManager.uploadImage("0",base64).execute();
                             Timber.d("上传图片返回的结果:%s",response.body().toString());
                         } catch (IOException e) {
+
                             e.printStackTrace();
                         }
+                        return Observable.just(response.body());
                     }
                 })
+                .compose(RxResultHelper.<JsonObject>handleResult())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new RxSubscriber<String>() {
+                .subscribe(new RxSubscriber<JsonObject>() {
                     @Override
-                    public void _onNext(String s) {
+                    public void onCompleted() {
+                        super.onCompleted();
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.ImageSelectModel_UploadMutiImage;
+                        mRequestView.onRequestSuccess(modelAction);
+                    }
 
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
+                        ModelAction modelAction = new ModelAction();
+                        modelAction.action = Action.ImageSelectModel_UploadImage;
+                        modelAction.t = jsonObject.get("id").getAsString();
+                        mRequestView.onRequestSuccess(modelAction);
                     }
 
                     @Override
                     public void _onError(String s) {
                         mRequestView.onRequestErroInfo(s);
                     }
+                });
 
+
+    }
+    /**
+     * 上传图片
+     * @param imagePaths 图片的路径
+     */
+    public void upLoadImage(final String imagePaths) {
+        Timber.d("上传图片");
+        Observable.just(imagePaths)
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<String, Observable<JsonObject>>() {
                     @Override
-                    public void onCompleted() {
-                        super.onCompleted();
-                        Timber.d("上传图片成功");
+                    public Observable<JsonObject> call(String s) {
+                        Timber.d("开始压缩图片");
+                        String base64 = DataUtils.imgToBase64(BitmapUtils.comp(s));
+                        Response<JsonObject> response = null;
+                        try {
+                            Timber.d("开始上传图片");
+                             response = mDataManager.uploadImage("0",base64).execute();
+                            Timber.d("上传图片返回的结果:%s",response.body().toString());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return Observable.just(response.body());
+                    }
+                })
+                .compose(RxResultHelper.<JsonObject>handleResult())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new RxSubscriber<JsonObject>() {
+                    @Override
+                    public void _onNext(JsonObject jsonObject) {
                         ModelAction modelAction = new ModelAction();
                         modelAction.action = Action.ImageSelectModel_UploadImage;
+                        UploadImageEvent uploadImage = new UploadImageEvent();
+                        uploadImage.imageIdFromServer = jsonObject.get("id").getAsString();
+                        uploadImage.iamgePath = imagePaths;
+                        uploadImage.isUploadSuccess = true;
+                        modelAction.t = uploadImage;
                         mRequestView.onRequestSuccess(modelAction);
+                    }
+
+                    @Override
+                    public void _onError(String s) {
+                        mRequestView.onRequestErroInfo(s);
                     }
                 });
 

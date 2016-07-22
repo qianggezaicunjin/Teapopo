@@ -20,11 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
+import com.teapopo.life.BR;
 import com.teapopo.life.R;
 import com.teapopo.life.data.rx.RxBus;
 import com.teapopo.life.databinding.FragmentSelectImageBinding;
+import com.teapopo.life.model.article.publisharticle.PublishArticleData;
 import com.teapopo.life.model.event.CountLeftSelectedImageEvent;
 import com.teapopo.life.model.event.OpenCameraEvent;
 import com.teapopo.life.model.imageselect.Image;
@@ -32,6 +35,7 @@ import com.teapopo.life.model.imageselect.ImageConfig;
 import com.teapopo.life.model.imageselect.ImageSelectModel;
 import com.teapopo.life.util.RxUtils;
 import com.teapopo.life.util.Utils;
+import com.teapopo.life.util.rx.RxSubscriber;
 import com.teapopo.life.view.activity.PublishArticleActivity;
 import com.teapopo.life.view.adapter.gridview.ImageAdapter;
 import com.teapopo.life.view.adapter.flexbox.SelectedImageAdapter;
@@ -46,7 +50,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
 
@@ -91,7 +99,7 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
 
     private void ObserverRxBusEvent() {
         Observable<OpenCameraEvent>  observable = mRxBus.toObserverable(OpenCameraEvent.class);
-        Observable<CountLeftSelectedImageEvent> imageObservable = mRxBus.toObserverable(CountLeftSelectedImageEvent.class);
+        Observable<CountLeftSelectedImageEvent> countLeftSelectedImageEventObservable = mRxBus.toObserverable(CountLeftSelectedImageEvent.class);
         //打开照相机
         compositeSubscription.add(observable.doOnNext(new Action1<OpenCameraEvent>() {
             @Override
@@ -100,13 +108,16 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
             }
         }).subscribe());
         //取消选择的图片
-        compositeSubscription.add(imageObservable.doOnNext(new Action1<CountLeftSelectedImageEvent>() {
-            @Override
-            public void call(CountLeftSelectedImageEvent countLeftSelectedImageEvent) {
-                mViewModel.countTheLeftCount();
-            }
-        })
-        .subscribe());
+        compositeSubscription.add(
+                countLeftSelectedImageEventObservable
+                .doOnNext(new Action1<CountLeftSelectedImageEvent>() {
+                    @Override
+                    public void call(CountLeftSelectedImageEvent countLeftSelectedImageEvent) {
+                        mViewModel.countTheLeftCount();
+                    }
+                })
+                    .subscribe());
+
     }
 
     @Override
@@ -184,7 +195,13 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
         mBinding.gridImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Timber.d("点击的位置为:%d",position);
                 mViewModel.selectImageFromGrid(position,imageConfig);
+                ImageAdapter.GridSelectViewHolder viewHolder = (ImageAdapter.GridSelectViewHolder) view.getTag();
+                //刷新gridview里面的图片选中状态
+                Image image =  viewHolder.getBinding().getViewModel().image;
+                image.isSelected = !image.isSelected;
+                viewHolder.getBinding().getViewModel().notifyPropertyChanged(BR.image);
             }
         });
 
@@ -251,6 +268,6 @@ public class ImageSelectorFragment extends SwipeBackBaseFragment {
     }
 
     public void clickNextStep(View view){
-        Timber.d("被选中的图片有:%d",selectedImageAdapter.getCount());
+        mViewModel.uploadImage();
     }
 }

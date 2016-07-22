@@ -1,4 +1,4 @@
-package com.teapopo.life.view.fragment.PublishArticle;
+package com.teapopo.life.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,12 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.view.fragment.SwipeBackBaseFragment;
+import com.teapopo.life.R;
 
 /**
- * Created by louiszgm on 2016/7/14.
+ * Created by louiszgm on 2016/7/20.
  */
-public class TagSelectFragment extends SwipeBackBaseFragment {
+public class MaskLoadingFragment extends BaseFragment {
+
+    public static MaskLoadingFragment newInstance(){
+        return new MaskLoadingFragment();
+    }
     @Override
     public void onCreateBinding() {
 
@@ -19,7 +23,8 @@ public class TagSelectFragment extends SwipeBackBaseFragment {
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return null;
+        View view = inflater.inflate(R.layout.fragment_mask_loading,null);
+        return view;
     }
 
     @Override

@@ -17,6 +17,7 @@
         android:orientation="vertical"
         android:background="@color/background_base"
         app:navFragment="@{viewModel.navFragment}"
+        app:mask="@{viewModel.isShowMasking}"
         app:mode="@{viewModel.startFragmentMode}"
         app:erroInfo="@{viewModel.erroInfo}">
 
@@ -79,6 +80,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.leftSelectImage}"
+                android:drawableBottom="@drawable/icon_next_step"
                 android:onClick="@{handler.clickNextStep}"/>
 
         </LinearLayout>

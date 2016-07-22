@@ -36,8 +36,7 @@ public enum Action {
     CommentModel_ReplyComment,
     CommentModel_ClickLikeComment,
     //for PublishArticleModel
-    PublishArticleModel_PublishWithoutImage,
-    PublishArticleModel_PublishWithImage,
+    PublishArticleModel_PublishArticle,
     //for XinZiArticleModel
     XinZiArticleModel_GetTopArticle,
     //for MemberArticleModel
@@ -72,5 +71,6 @@ public enum Action {
     //for ImageSelectModel
     ImageSelectModel_GetImageData,
     ImageSelectModel_GetFolderList,
-    ImageSelectModel_UploadImage
+    ImageSelectModel_UploadImage,
+    ImageSelectModel_UploadMutiImage
 }
