@@ -1,9 +1,12 @@
 package com.teapopo.life.model.article.publisharticle;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.teapopo.life.model.BaseModel;
+import com.teapopo.life.model.imageselect.Image;
 import com.teapopo.life.util.Constans.Action;
 import com.teapopo.life.util.Constans.ModelAction;
 import com.teapopo.life.util.DataUtils;
@@ -39,13 +42,12 @@ public class PublishArticleModel extends BaseModel {
      * 发布文章
      * @param title
      * @param content
-     * @param imagesIds 图片id
+     * @param images 图片List
      *
      */
-    public void publishArticle(String title, String content, String[] imagesIds,String tags){
-        String coverImage = imagesIds[0];
-        Timber.d("上传的图片id的数组为:%s",imagesIds.toString());
-        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,imagesIds ,tags);
+    public void publishArticle(String title, String content, List<Image> images, String tags){
+        String coverImage = images.get(0).imageId;
+        Observable<JsonObject> observable = mDataManager.publishArticle(title,content,coverImage,tags,castListToJsonArrayString(images));
         observable.subscribeOn(Schedulers.io())
                 .compose(RxResultHelper.<JsonObject>handleResult())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -62,6 +64,15 @@ public class PublishArticleModel extends BaseModel {
                         mRequestView.onRequestErroInfo(s);
                     }
                 });
+    }
+
+    private String[] castListToJsonArrayString(List<Image> images) {
+        String[] array = new String[images.size()];
+        for(int i = 0;i<images.size();i++){
+            array[i] = images.get(i).imageId;
+        }
+        Timber.d("上传的图片id的数组为:%s",array.toString());
+        return array;
     }
 
 

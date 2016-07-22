@@ -27,10 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="3dp" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           >
 
             <EditText
                 android:id="@+id/et_publishcontent"
@@ -42,46 +38,44 @@
                 android:layout_marginLeft="@dimen/article_horizontal_margin"
                 android:inputType="textMultiLine" />
 
-           <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/viewgroup_addImage"
-                android:layout_width="wrap_content"
+           <com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter
+                android:id="@+id/flexbox_selectedImage"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/et_publishcontent"
                android:layout_marginLeft="@dimen/article_horizontal_margin"
                android:layout_marginTop="@dimen/activity_vertical_margin"
                 app:flexWrap="wrap">
+           </com.teapopo.life.view.customView.FlexBox.FlexBoxWithAdapter>
 
-                <LinearLayout
-                    android:id="@+id/linearlayout_addpublishphoto"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/background_btn_addpicture"
-                    android:gravity="center"
-                    android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/linearlayout_addpublishphoto"
+            android:layout_width="@dimen/x50"
+            android:layout_height="@dimen/y50"
+            android:background="@drawable/background_btn_addpicture"
+            android:gravity="center"
+            android:layout_gravity="right"
+            android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/icon_plus_gray" />
+            <TextView
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y30"
+                android:background="@drawable/icon_plus_gray" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:hint="添加图片"
-                        android:textColor="@color/gray_light"
-                        android:textSize="8sp" />
-                </LinearLayout>
-           </com.google.android.flexbox.FlexboxLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:hint="添加图片"
+                android:textColor="@color/gray_light"
+                android:textSize="8sp" />
+        </LinearLayout>
             <View
                 android:id="@+id/line_publishcontent"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
-                android:layout_below="@id/viewgroup_addImage"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@drawable/line" />
-       </RelativeLayout>
+
 
         <RelativeLayout
             android:layout_width="match_parent"
