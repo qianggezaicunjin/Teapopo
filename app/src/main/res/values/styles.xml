@@ -41,4 +41,7 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="CollapsingToolbarLayout_TextAppearance_Transparent">
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
 </resources>

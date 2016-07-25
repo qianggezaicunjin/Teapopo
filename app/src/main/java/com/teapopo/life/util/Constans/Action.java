@@ -28,6 +28,7 @@ public enum Action {
     //for ArticleItemModel
     ArticleItemModel_likeArticleOrNot,
     ArticleItemModel_focusMember,
+    ArticleItemModel_GetMemberInfo,
     //for ArticleInfoModel
     ArticleInfoModel_GetInfo,
     ArticleInfoModel_AddComment,

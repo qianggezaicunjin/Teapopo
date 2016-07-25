@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.jaeger.ninegridimageview.NineGridImageViewAdapter;
 import com.teapopo.life.BR;
 import com.teapopo.life.R;
+import com.teapopo.life.model.AuthorInfo;
 import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.ArticleItemModel;
 import com.teapopo.life.model.article.likearticle.HomeLikeArticle;
@@ -20,17 +21,21 @@ import com.teapopo.life.util.CustomToast;
 import com.teapopo.life.util.ViewUtils;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.customView.RequestView;
+import com.teapopo.life.view.fragment.Member.MemberFragment;
 
 import timber.log.Timber;
+
 
 /**
  * Created by louiszgm on 2016/5/27.
  */
 public class ArticleItemViewModel extends BaseViewModel {
     private ArticleItemModel mModel;
+
     @Bindable
     public Article article;
 
+    public AuthorInfo authorInfo;
 
     public ArticleItemViewModel(ArticleItemModel model){
         mModel = model;
@@ -52,6 +57,9 @@ public class ArticleItemViewModel extends BaseViewModel {
     public void showTagArticle(String tagname) {
     }
 
+    public void getMemberInfo(){
+        mModel.getMemberInfo(article.member_id);
+    }
 
     @Override
     public void onRequestSuccess(ModelAction data) {
@@ -70,6 +78,11 @@ public class ArticleItemViewModel extends BaseViewModel {
         }else if(action == Action.ArticleItemModel_focusMember){
             article.authorInfo.isSubscribe = !article.authorInfo.isSubscribe;
             notifyPropertyChanged(BR.article);
+        }else if(action == Action.ArticleItemModel_GetMemberInfo){
+            authorInfo= (AuthorInfo) data.t;
+            Timber.d("会员数据");
+            navToFragment(MemberFragment.newInstance(authorInfo));
+
         }
     }
 

@@ -77,4 +77,11 @@
     <dimen name="pickerview_topbar_title_textsize">21sp</dimen>
     <!-- 选项文字大小 需要配合 bools.xml 的 pickerview_customTextSize 为 true 才有效果-->
     <dimen name="pickerview_textsize">20sp</dimen>
+
+    <!--个人主页点赞和评论图标与字符间距-->
+    <dimen name="member_icon_margin">6dp</dimen>
+    <!--个人主页文章字体大小-->
+    <dimen name="member_content_size">18sp</dimen>
+    <!--个人主页头像与用户名上下间隔-->
+    <dimen name="member_margin">16dp</dimen>
 </resources>

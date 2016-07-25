@@ -207,6 +207,16 @@ public class DataManager {
     public Observable<JsonObject> getMemberArticle(String member,int page){
         return mNetWorkService.getMemberArticle(member,page);
     }
+
+    /**
+     * 获取会员的信息
+     * @param member_id
+     * @return
+     */
+    public Observable<JsonObject> getMemberInfo(String member_id){
+        return mNetWorkService.getMemberInfo(member_id);
+    }
+
     /**
      * 文章详情
      * @param id

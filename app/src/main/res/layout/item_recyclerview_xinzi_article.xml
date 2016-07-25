@@ -128,7 +128,8 @@
                         android:layout_marginLeft="8dp"
                         android:text="@{viewmodel.article.like_num}"
                         android:textSize="13sp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="@dimen/y11"
+                        android:layout_alignBaseline="@id/img_likeornot"/>
 
                     <ImageView
                         android:id="@+id/img_comment"
@@ -147,7 +148,8 @@
                         android:layout_marginLeft="8dp"
                         android:text="@{viewmodel.article.comment_num}"
                         android:textSize="13sp"
-                        android:layout_marginTop="10dp"/>
+                        android:layout_marginTop="@dimen/y11"
+                        android:layout_alignBaseline="@id/img_comment"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -155,19 +157,18 @@
                         android:layout_toRightOf="@id/tv_commentcount"
                         android:src="@drawable/icon_browse"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginBottom="10dp"/>
+                        android:layout_marginLeft="15dp"/>
                     <TextView
                         android:id="@+id/tv_eye"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/img_eye"
                         android:textSize="13sp"
-                        android:layout_alignParentBottom="true"
                         android:text="@{viewmodel.article.browse_num}"
                         android:layout_marginTop="@dimen/y10"
                         android:layout_marginLeft="@dimen/x8"
-                        android:layout_alignBaseline="@id/img_eye"/>
+                        android:layout_alignBaseline="@id/img_eye"
+                        android:layout_marginBottom="@dimen/y2"/>
                 </RelativeLayout>
             </LinearLayout>
 

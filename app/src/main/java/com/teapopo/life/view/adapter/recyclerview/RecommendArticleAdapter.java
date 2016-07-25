@@ -22,6 +22,7 @@ import com.teapopo.life.view.activity.ImagePagerActivity;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
 import com.teapopo.life.view.fragment.CommentList.CommentListFragment;
+import com.teapopo.life.view.fragment.Member.MemberFragment;
 import com.teapopo.life.viewModel.ArticleItemViewModel;
 
 import java.util.ArrayList;
@@ -96,6 +97,10 @@ public class RecommendArticleAdapter extends BaseRecyclerViewAdapter<BaseEntity,
                     Timber.d("评论");
                     ((SupportActivity)mContext).start(CommentListFragment.newInstance(mViewModel.article.articleId,mViewModel.article.title,"posts"));
                     break;
+                case R.id.img_user:
+                    Timber.d("个人主页");
+                    mViewModel.getMemberInfo();
+
             }
         }
     }

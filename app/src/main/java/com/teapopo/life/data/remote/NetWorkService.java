@@ -143,6 +143,16 @@ public interface NetWorkService {
     Observable<JsonObject> getUserLikeArticle(@Query("likes") boolean like, @Query("p") int page);
 
     /**
+     * 会员信息
+     * 获取会员信息
+     *
+     * @param id 通过会员id获得会员信息
+     * @return
+     */
+    @GET("members/info/id/1")
+    Observable<JsonObject> getMemberInfo(@Query("id") String member_id);
+
+    /**
      * 文章列表
      * 获取会员的文章列表
      *
