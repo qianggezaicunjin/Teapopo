@@ -1,4 +1,4 @@
-package com.teapopo.life.view.fragment.Home;
+package com.teapopo.life.view.fragment.Member;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
