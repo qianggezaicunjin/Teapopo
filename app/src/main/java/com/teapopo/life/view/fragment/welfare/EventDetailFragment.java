@@ -62,6 +62,5 @@ public class EventDetailFragment extends SwipeBackBaseFragment {
         EventGoodsListTypeAdapter tabAdapter=new EventGoodsListTypeAdapter(getChildFragmentManager(),event.id,titles);
         mBinding.ucvp.setAdapter(tabAdapter);
         mBinding.tabs.setupWithViewPager(mBinding.ucvp);
-
     }
 }
