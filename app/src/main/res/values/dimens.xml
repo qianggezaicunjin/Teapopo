@@ -83,5 +83,5 @@
     <!--个人主页文章字体大小-->
     <dimen name="member_content_size">18sp</dimen>
     <!--个人主页头像与用户名上下间隔-->
-    <dimen name="member_margin">16dp</dimen>
+    <dimen name="member_margin">8dp</dimen>
 </resources>

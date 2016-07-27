@@ -18,12 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="exitUntilCollapsed|scroll|snap"
-                app:title="             会 员 中 心"
-                app:collapsedTitleGravity="left"
-                app:expandedTitleGravity="top|left"
-                app:titleEnabled="true"
-                app:expandedTitleTextAppearance="@style/CollapsingToolbarLayout_TextAppearance_Transparent">
+                app:layout_scrollFlags="exitUntilCollapsed|scroll|snap">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -40,14 +35,15 @@
                     app:layout_collapseParallaxMultiplier="0.7">
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/circleiv_personal_icon"
-                        android:layout_width="@dimen/x96"
-                        android:layout_height="@dimen/y96"
+                        android:layout_width="@dimen/x65"
+                        android:layout_height="@dimen/y65"
                         app:civ_border_color="@color/gray_light"
                         app:civ_border_width="@dimen/x2"
                         android:layout_below="@+id/toolbar"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/member_margin"
-                        android:layout_marginBottom="@dimen/member_margin"/>
+                        android:layout_marginTop="@dimen/y80"
+                        android:layout_marginBottom="@dimen/member_margin"
+                        app:imageUrl="@{view.memberInfo.avatar}" />
                     <TextView
                         android:id="@+id/tv_personal_name"
                         android:layout_width="match_parent"
@@ -65,9 +61,11 @@
                         android:layout_below="@id/tv_personal_name"
                         android:gravity="center"
                         android:hint="关注数和粉丝数"
+                        android:text="@{view.memberInfo.getSubscribe_num}"
                         android:layout_marginTop="@dimen/member_margin"
                         android:layout_marginBottom="@dimen/member_margin"/>
                     <Button
+                        android:id="@+id/member_bt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="关注"
@@ -84,7 +82,15 @@
                     android:id="@+id/toolbar_personal"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"/>
+                    app:layout_collapseMode="pin">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="会员中心"
+                        android:gravity="center_horizontal"
+                        android:textSize="@dimen/goodsdetail_title"
+                        android:layout_marginRight="@dimen/x20"/>
+                </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
 

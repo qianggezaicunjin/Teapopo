@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import com.teapopo.life.R;
 import com.teapopo.life.databinding.FragmentMemberBinding;
 import com.teapopo.life.model.AuthorInfo;
+import com.teapopo.life.model.Member.MemberModel;
 import com.teapopo.life.view.adapter.viewpager.HomeTabFragmentAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
+import com.teapopo.life.viewModel.Member.MemberViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +28,22 @@ public class MemberFragment extends BaseFragment {
 
     private FragmentMemberBinding mBinding;
 
-    public static AuthorInfo memberInfo;
+    public  AuthorInfo memberInfo;
 
-    public static MemberFragment newInstance(AuthorInfo authorInfo){
-        memberInfo=authorInfo;
-        return new MemberFragment();
+    public  String member_id;
+
+    public static MemberFragment newInstance(AuthorInfo authorInfo,String member_id){
+        MemberFragment fragment = new MemberFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("authorInfo",authorInfo);
+        bundle.putString("member_id",member_id);
+        fragment.setArguments(bundle);
+        return fragment;
     }
     @Override
     public void onCreateBinding() {
-
+        memberInfo = getArguments().getParcelable("authorInfo");
+        member_id = getArguments().getString("member_id");
     }
 
     @Override
@@ -48,6 +57,7 @@ public class MemberFragment extends BaseFragment {
     public void setUpView() {
         setAppBar();
         setUpToolbar();
+        setUpOnclick();
     }
 
     public void setAppBar(){
@@ -62,7 +72,7 @@ public class MemberFragment extends BaseFragment {
 
         List<Fragment> fragmentList = new ArrayList<>();
         MemberPostFragment memberPostFragment = MemberPostFragment.newInstance();
-        final MemberLikeFragment memberLikeFragment = MemberLikeFragment.newInstance();
+        final MemberLikeFragment memberLikeFragment = MemberLikeFragment.newInstance(member_id);
         fragmentList.add(memberPostFragment);
         fragmentList.add(memberLikeFragment);
 
@@ -78,6 +88,23 @@ public class MemberFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 pop();
+            }
+        });
+    }
+
+    //设置关注按钮的点击事件
+    public void setUpOnclick(){
+        mBinding.memberBt.setOnClickListener(new View.OnClickListener() {
+            MemberViewModel viewModel=new MemberViewModel(new MemberModel(_mActivity));
+            @Override
+            public void onClick(View v) {
+                if (memberInfo.isSubscribe){
+                    mBinding.memberBt.setText("关注");
+                }else {
+                    viewModel.doFocus(member_id);
+                    mBinding.memberBt.setText("已关注");
+                }
+                memberInfo.isSubscribe=!memberInfo.isSubscribe;
             }
         });
     }

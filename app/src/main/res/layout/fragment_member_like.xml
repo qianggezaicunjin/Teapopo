@@ -6,17 +6,16 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.teapopo.life.viewModel.articleinfo.ArticleInfoViewModel" />
+            type="com.teapopo.life.viewModel.Member.LikeMemberViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#0f0">
-        <TextView
+        android:layout_height="match_parent">
+        <com.teapopo.life.view.customView.RecyclerView.SuperRecyclerView
+            android:id="@+id/rv_like_member"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="我是喜欢页面1111111111111111111111111111111111111"/>
-
+            android:layout_height="match_parent"
+            app:data="@{viewmodel.memberLikes}"/>
     </RelativeLayout>
 
 </layout>

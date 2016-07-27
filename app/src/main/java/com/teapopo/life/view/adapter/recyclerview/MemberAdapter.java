@@ -6,13 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.teapopo.life.databinding.ItemRecyclerviewPersonalHomepageBinding;
+import com.teapopo.life.databinding.ItemRecyclerviewMemberpostBinding;
 import com.teapopo.life.model.BaseEntity;
 import com.teapopo.life.model.article.Article;
 import com.teapopo.life.model.article.memberArticle.MemberArticleModel;
 import com.teapopo.life.view.adapter.gridview.NineImageGridAdapter;
 import com.teapopo.life.view.adapter.recyclerview.base.BaseRecyclerViewAdapter;
-import com.teapopo.life.viewModel.Member.MemberItemViewModel;
+import com.teapopo.life.viewModel.Member.MemberPostItemViewModel;
 
 import java.util.List;
 
@@ -28,14 +28,14 @@ public class MemberAdapter extends BaseRecyclerViewAdapter<BaseEntity,MemberAdap
 
     @Override
     public HomePageViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return HomePageViewHolder.CreateHomepagerViewHolder(ItemRecyclerviewPersonalHomepageBinding.inflate(layoutInflater));
+        return HomePageViewHolder.CreateHomepagerViewHolder(ItemRecyclerviewMemberpostBinding.inflate(layoutInflater));
     }
 
     @Override
     public void onBindViewHolder(HomePageViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        ItemRecyclerviewPersonalHomepageBinding binding=(ItemRecyclerviewPersonalHomepageBinding) holder.itemView.getTag();
-        MemberItemViewModel viewModel=new MemberItemViewModel(new MemberArticleModel(mContext));
+        ItemRecyclerviewMemberpostBinding binding=(ItemRecyclerviewMemberpostBinding) holder.itemView.getTag();
+        MemberPostItemViewModel viewModel=new MemberPostItemViewModel(new MemberArticleModel(mContext));
         Article article= (Article) data.get(position);
         viewModel.memberArticle= article;
         holder.setViewModel(viewModel);
@@ -55,8 +55,8 @@ public class MemberAdapter extends BaseRecyclerViewAdapter<BaseEntity,MemberAdap
             super(view);
             itemView.setTag(binding);
         }
-        public void setViewModel(MemberItemViewModel viewModel){
-            ItemRecyclerviewPersonalHomepageBinding binding=(ItemRecyclerviewPersonalHomepageBinding) itemView.getTag();
+        public void setViewModel(MemberPostItemViewModel viewModel){
+            ItemRecyclerviewMemberpostBinding binding=(ItemRecyclerviewMemberpostBinding) itemView.getTag();
             binding.setViewModel(viewModel);
             binding.executePendingBindings();
         }

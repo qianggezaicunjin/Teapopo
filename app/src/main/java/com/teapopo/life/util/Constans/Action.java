@@ -75,5 +75,7 @@ public enum Action {
     ImageSelectModel_UploadImage,
     ImageSelectModel_UploadMutiImage,
     //for MemberLikesModel
-    MemberLikesModel_GetMemberLikes
+    MemberLikesModel_GetMemberLikes,
+    //for MemberModel
+    MemberModel_focusMember
 }

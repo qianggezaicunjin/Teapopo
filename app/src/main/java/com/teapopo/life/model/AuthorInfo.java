@@ -25,6 +25,13 @@ public class AuthorInfo extends BaseEntity implements Parcelable{
     public String getFans_num(){
         return "粉丝数:"+fans_num;
     }
+
+    public String subscribe_num;
+    public String getSubscribe_num(){
+        return "关注数:"+subscribe_num+"   "+"粉丝数:"+fans_num;
+    }
+
+
     public String signature;
     @JsonField(name = "subscribe")
     public boolean isSubscribe;
@@ -49,6 +56,7 @@ public class AuthorInfo extends BaseEntity implements Parcelable{
         dest.writeString(nickname);
         dest.writeString(fans_num);
         dest.writeString(signature);
+        dest.writeString(subscribe_num);
         dest.writeByte((byte)(isSubscribe ?1:0));
     }
 
@@ -57,6 +65,7 @@ public class AuthorInfo extends BaseEntity implements Parcelable{
         nickname = in.readString();
         fans_num = in.readString();
         signature = in.readString();
+        subscribe_num=in.readString();
         isSubscribe =in.readByte()!=0;
     }
     public AuthorInfo(){

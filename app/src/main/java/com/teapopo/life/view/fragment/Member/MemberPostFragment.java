@@ -10,7 +10,7 @@ import com.teapopo.life.databinding.FragmentMemberPostBinding;
 import com.teapopo.life.model.article.memberArticle.MemberArticleModel;
 import com.teapopo.life.view.adapter.recyclerview.MemberAdapter;
 import com.teapopo.life.view.fragment.BaseFragment;
-import com.teapopo.life.viewModel.Member.PostViewModel;
+import com.teapopo.life.viewModel.Member.PostMemberViewModel;
 
 /**
  * Created by lhq on 2016/7/18.
@@ -20,7 +20,7 @@ public class MemberPostFragment extends BaseFragment {
 
     private FragmentMemberPostBinding mBinding;
 
-    PostViewModel viewModel;
+    PostMemberViewModel viewModel;
 
     public static MemberPostFragment newInstance(){
         return new MemberPostFragment();
@@ -32,7 +32,7 @@ public class MemberPostFragment extends BaseFragment {
 
     @Override
     public View getContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewModel=new PostViewModel(new MemberArticleModel(_mActivity));
+        viewModel=new PostMemberViewModel(new MemberArticleModel(_mActivity));
         mBinding=FragmentMemberPostBinding.inflate(inflater);
         mBinding.setViewModel(viewModel);
         return mBinding.getRoot();

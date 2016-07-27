@@ -81,7 +81,7 @@ public class ArticleItemViewModel extends BaseViewModel {
         }else if(action == Action.ArticleItemModel_GetMemberInfo){
             authorInfo= (AuthorInfo) data.t;
             Timber.d("会员数据");
-            navToFragment(MemberFragment.newInstance(authorInfo));
+            navToFragment(MemberFragment.newInstance(authorInfo,article.member_id));
 
         }
     }

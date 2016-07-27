@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.teapopo.life.viewModel.Member.PostViewModel" />
+            type="com.teapopo.life.viewModel.Member.PostMemberViewModel" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
