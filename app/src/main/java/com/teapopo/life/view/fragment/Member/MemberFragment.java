@@ -1,6 +1,5 @@
 package com.teapopo.life.view.fragment.Member;
 
-import android.databinding.Bindable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
